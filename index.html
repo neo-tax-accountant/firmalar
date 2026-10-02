@@ -239,6 +239,9 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .steps a{color:var(--accent);font-weight:600}
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:10px 16px;font-size:13.5px;background:var(--work-soft);border-bottom:1px solid var(--line)}
+.note-box{background:var(--accent-soft);border-radius:var(--r);padding:14px 16px;font-size:14px;line-height:1.55;max-width:80ch}
+#printArea .pageblock{break-after:page;page-break-after:always}
+#printArea .pageblock:last-child{break-after:auto;page-break-after:auto}
 #printArea{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -599,7 +602,7 @@ const V = { view:"home", firmId:null, tab:"orders", filter:"all", orderId:null, 
 function go(patch){ Object.assign(V, {confirm:false}, patch); render(); window.scrollTo(0,0); }
 const firm = id => S.firms.find(f=>f.id===id);
 const firmOrders = id => S.orders.filter(o=>o.firmId===id).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-const liveViews = new Set(["home","firm","tpl"]);
+const liveViews = new Set(["home","firm","tpl","export"]);
 
 /* ---------- rail ---------- */
 function renderRail(){
@@ -640,7 +643,7 @@ function vFirm(){
       ${FIRM_FIELDS.map(g=>`<div class="card"><div style="padding:12px 16px 0" class="label">${g.g}</div><div class="reqs">${g.f.map(([k,l,,x])=>{const v=k==="regDate"?fmtDate(f[k]):f[k];return `<div class="req"><div class="k">${l}</div><div class="v ${x==="mono"?"mono":""} ${v?"":"none"}">${v?esc(v):"киритилмаган"}</div></div>`;}).join("")}</div></div>`).join("")}
       <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px"><span class="label">Реквизитлар ўзгаришлар тарихи</span>${histList(f)}</div>`;
   }
-  return `<div class="head"><div><h1>${esc(f.name||"Номсиз фирма")}</h1><div class="sub">СТИР <span class="num">${esc(f.inn||"—")}</span> · ${esc(f.director||"")}</div></div></div>${tabs}${body}`;
+  return `<div class="head"><div><h1>${esc(f.name||"Номсиз фирма")}</h1><div class="sub">СТИР <span class="num">${esc(f.inn||"—")}</span> · ${esc(f.director||"")}</div></div><button type="button" class="btn" data-act="export">${DL_ICON}Маълумотларни юклаб олиш</button></div>${tabs}${body}`;
 }
 
 function vFirmForm(){
@@ -652,6 +655,48 @@ function vFirmForm(){
     ${FIRM_FIELDS.map(g=>`<fieldset><legend>${g.g}</legend>${g.f.map(([k,l,ph,x])=>`<div class="field ${x===1?"wide":""}"><label for="ff_${k}">${l}${k==="name"?" *":""}</label><input id="ff_${k}" name="${k}" ${x==="date"?'type="date"':'type="text"'} ${x==="mono"?'inputmode="numeric"':""} placeholder="${esc(ph||"")}" value="${esc(f[k]||"")}"></div>`).join("")}</fieldset>`).join("")}
     <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="${isNew?"home":"toFirm"}">Бекор қилиш</button><span class="hint" id="firmErr"></span></div>
   </form>`;
+}
+
+function vExport(){
+  const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
+  const os=firmOrders(f.id); const signed=os.filter(o=>o.status==="signed").length;
+  const opt=(act,title,desc)=>`<button type="button" class="tpl" data-act="${act}"><span class="t">${title}</span><span class="d">${desc}</span></button>`;
+  return `<button type="button" class="back" data-act="toFirm">← ${esc(f.name||"")}</button>
+  <div class="head"><div><h1>Маълумотларни юклаб олиш</h1><div class="sub">${esc(f.name||"")} · ${os.length} та буйруқ, шундан ${signed} таси имзоланган</div></div></div>
+  <div class="tpls">
+    ${opt("expXlsx","Excel файл","Учта варақ: фирма реквизитлари, буйруқлар рўйхати (ҳолати, ким ва қачон ўзгартиргани билан) ва ўзгаришлар тарихи.")}
+    ${opt("expPrint","Барча буйруқлар — чоп этиш / PDF","Ҳар бир буйруқ алоҳида A4 варағида. Чоп этиш ойнасида «Сохранить как PDF» ни танласангиз, битта PDF файл бўлади.")}
+    ${opt("expJson","Тўлиқ нусха (JSON)","Барча маълумотнинг техник нусхаси. Кейин бошқа дастурга ёки шу дастурга қайта киритиш учун архивда сақланг.")}
+  </div>
+  <div class="note-box"><b>Фирма кетаётган бўлса, тартиб:</b> аввал Excel ва PDF'ни юклаб олиб, мижозга топширинг. JSON нусхани ўзингизда архивда сақланг. Кейин «Реквизитлар» бўлимидаги «Ўчириш» тугмаси билан фирмани дастурдан олиб ташланг. Ўчирилган фирма дастурда кўринмайди, лекин база жадвалида «ўчирилган» белгиси билан тарих учун сақланиб қолади.</div>`;
+}
+function fileStamp(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function safeName(n){ return String(n||"firma").replace(/[«»"\\/:*?<>|]+/g,"").replace(/\s+/g,"_").slice(0,60); }
+function firmLog(f){ const ids=new Set([f.id, ...firmOrders(f.id).map(o=>o.id)]); return LOG.filter(l=>ids.has(l.id)).sort((a,b)=>a.at-b.at); }
+function orderFieldsText(o){ const tpl=TEMPLATES.find(t=>t.id===o.tplId); if(!tpl) return ""; return tpl.fields.map(([k,l,type])=>{ let v=o.values?.[k]||""; if(type==="date") v=fmtDate(v); return v?l+": "+v:""; }).filter(Boolean).join("; "); }
+function saveBlob(blob, name){ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1000); }
+async function exportXlsx(f){
+  if(!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
+  const req=[["Реквизит","Қиймати"]];
+  FIRM_FIELDS.forEach(g=>g.f.forEach(([k,l])=>req.push([l, k==="regDate"?fmtDate(f[k]):(f[k]||"")])));
+  const ord=[["№","Сана","Буйруқ номи","Ҳолати","Тўлдирилган реквизитлар","Охирги ўзгартирган","Охирги ўзгариш","Имзоланган вақт"]];
+  firmOrders(f.id).slice().reverse().forEach(o=>ord.push([o.values?.number||"", fmtDate(o.values?.date), o.title, STATUS[o.status]?.t||o.status, orderFieldsText(o), nameOf(o.updatedBy), fmtStamp(o.updatedAt), o.signedAt?fmtStamp(o.signedAt):""]));
+  const hist=[["Вақт","Ким","Почта","Ҳужжат","Нима қилинди"]];
+  firmLog(f).forEach(l=>{ const o=S.orders.find(x=>x.id===l.id); hist.push([fmtStamp(l.at), l.name||nameOf(l.email), l.email, l.kind==="firms"?"Фирма реквизитлари":(o?("Буйруқ № "+(o.values?.number||"")+" — "+o.title):"Буйруқ"), l.note]); });
+  const wb=XLSX.utils.book_new();
+  const add=(rows,name,cols)=>{ const ws=XLSX.utils.aoa_to_sheet(rows); ws["!cols"]=cols.map(w=>({wch:w})); XLSX.utils.book_append_sheet(wb,ws,name); };
+  add(req,"Реквизитлар",[34,60]); add(ord,"Буйруқлар",[6,12,42,20,70,24,18,18]); add(hist,"Тарих",[18,24,28,50,40]);
+  XLSX.writeFile(wb, safeName(f.name)+"_"+fileStamp()+".xlsx");
+}
+function exportJson(f){
+  const data={ dastur:"Фирмалар ва буйруқлар", exportedAt:new Date().toISOString(), exportedBy:ME.email, firm:f, orders:firmOrders(f.id), log:firmLog(f) };
+  saveBlob(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}), safeName(f.name)+"_"+fileStamp()+".json");
+}
+function exportPrint(f){
+  const os=firmOrders(f.id).slice().reverse();
+  if(!os.length){ toast("Бу фирмада буйруқ йўқ"); return false; }
+  $("#printArea").innerHTML=os.map(o=>`<div class="pageblock">${sheetHTML(o,true)}</div>`).join("");
+  window.print(); return true;
 }
 
 function vTpl(){
@@ -717,11 +762,12 @@ function vOrder(){
 }
 
 
+const DL_ICON='<svg viewBox="0 0 16 16" fill="none"><path d="M8 2.5v8M4.5 7.5 8 11l3.5-3.5M3 13.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const PRINT_ICON='<svg viewBox="0 0 16 16" fill="none"><path d="M4 6V2h8v4M4 12H2.5V6.5h11V12H12M4 9.5h8V14H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
 function render(){
   if(!$("#gate").hidden) return;
   renderRail();
-  const views={home:vHome,firm:vFirm,firmForm:vFirmForm,tpl:vTpl,order:vOrder};
+  const views={home:vHome,firm:vFirm,export:vExport,firmForm:vFirmForm,tpl:vTpl,order:vOrder};
   $("#main").innerHTML=(views[V.view]||vHome)();
 }
 /* ---------- events ---------- */
@@ -775,6 +821,19 @@ document.addEventListener("click", async e=>{
   if(a==="delOrder"){
     try{ await delItem("orders", V.draft.id, "Буйруқ ўчирилди"); }catch(err){ toast(explain(err)); return; }
     toast("Буйруқ ўчирилди"); return go({view:"firm",tab:"orders"});
+  }
+  if(a==="export") return go({view:"export"});
+  if(a==="expXlsx"||a==="expJson"||a==="expPrint"){
+    const f=firm(V.firmId); if(!f) return;
+    try{
+      if(a==="expXlsx"){ toast("Excel тайёрланмоқда…"); await exportXlsx(f); }
+      if(a==="expJson") exportJson(f);
+      if(a==="expPrint" && !exportPrint(f)) return;
+      const what=a==="expXlsx"?"Excel":a==="expJson"?"JSON нусха":"PDF/чоп этиш";
+      addLog("firms", f.id, "Маълумотлар юклаб олинди ("+what+")", Date.now()).catch(()=>{});
+      if(a!=="expPrint") toast("Файл юклаб олинди: «Загрузки» папкасини текширинг");
+    }catch(err){ toast("Юклаб бўлмади: "+(err?.message||"хато")); }
+    return;
   }
   if(a==="print"){ $("#printArea").innerHTML=sheetHTML(V.draft,true); window.print(); return; }
 });
