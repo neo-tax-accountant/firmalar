@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f6e5c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Фирмалар ва буйруқлар</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f6e5c'/%3E%3Cpath d='M20 16h18l8 8v24H20z' fill='%23fff'/%3E%3Cpath d='M26 32h14M26 38h14M26 44h8' stroke='%230f6e5c' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+[hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+
+/* Layout: firm rail on the left (top on phones), working area on the right; order editor = form beside a paper sheet */
+:root{
+  --bg:#eef1f0; --panel:#ffffff; --ink:#15211f; --muted:#5b6b67; --line:#d5dcda;
+  --accent:#0f6e5c; --accent-ink:#ffffff; --accent-soft:#dcefe9;
+  --paper:#fffdf8; --paper-ink:#1d1d1b;
+  --draft:#6b7280; --draft-soft:#eceef1;
+  --work:#e8750c; --work-soft:#fdebd8;
+  --ok:#1a9a4b; --ok-soft:#dcf3e4;
+  --danger:#b3261e;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-doc:"PT Serif",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1514; --panel:#172120; --ink:#e6ecea; --muted:#9aaaa6; --line:#2a3735;
+  --accent:#3cc3a4; --accent-ink:#06201a; --accent-soft:#16372f;
+  --paper:#f7f4ec; --paper-ink:#1d1d1b;
+  --draft:#a4acb8; --draft-soft:#262d33;
+  --work:#ff9a3d; --work-soft:#3a2513;
+  --ok:#44d07a; --ok-soft:#153323;
+  --danger:#ff8a80; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1514; --panel:#172120; --ink:#e6ecea; --muted:#9aaaa6; --line:#2a3735;
+  --accent:#3cc3a4; --accent-ink:#06201a; --accent-soft:#16372f;
+  --paper:#f7f4ec; --paper-ink:#1d1d1b;
+  --draft:#a4acb8; --draft-soft:#262d33;
+  --work:#ff9a3d; --work-soft:#3a2513;
+  --ok:#44d07a; --ok-soft:#153323;
+  --danger:#ff8a80; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100%}
+.rail{background:var(--panel);border-right:1px solid var(--line);padding:20px 16px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.brand{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.2}
+.brand small{display:block;font-family:var(--f-body);font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.02em;margin-top:4px}
+.firmlist{display:flex;flex-direction:column;gap:4px;list-style:none;margin:0;padding:0}
+.firmlist button{width:100%;text-align:left;border:0;background:transparent;border-radius:8px;padding:9px 10px;display:flex;flex-direction:column;gap:1px}
+.firmlist button:hover{background:var(--bg)}
+.firmlist button[aria-current="true"]{background:var(--accent-soft)}
+.firmlist .fn{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.firmlist .fi{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.main{padding:24px clamp(16px,3vw,36px);min-width:0;display:flex;flex-direction:column;gap:20px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:9px 14px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.work{background:var(--work);border-color:var(--work);color:#fff}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px;flex:none}
+
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.head h1{font-family:var(--f-display);font-weight:700;font-size:clamp(20px,2.6vw,26px);margin:0;letter-spacing:-.015em;text-wrap:balance;line-height:1.2}
+.head .sub{color:var(--muted);font-size:13.5px;margin-top:4px}
+.back{border:0;background:none;color:var(--muted);padding:0;font-size:13.5px;display:inline-flex;align-items:center;gap:6px}
+.back:hover{color:var(--ink)}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+
+/* firms overview */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.fcard{padding:16px;display:flex;flex-direction:column;gap:10px;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:var(--r)}
+.fcard:hover{border-color:var(--accent)}
+.fcard .t{font-weight:700;font-size:15.5px}
+.fcard .m{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.counts{display:flex;gap:6px;flex-wrap:wrap}
+
+/* status pills */
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px 3px 6px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.pill svg{width:18px;height:18px;flex:none}
+.pill.draft{background:var(--draft-soft);color:var(--draft)}
+.pill.signing{background:var(--work-soft);color:var(--work)}
+.pill.signed{background:var(--ok-soft);color:var(--ok)}
+.spin{animation:spin 2.4s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.spin{animation:none}}
+
+/* registry */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--bg)}
+tbody tr:last-child td{border-bottom:0}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:13px;white-space:nowrap}
+.empty{padding:36px 20px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+
+/* requisites */
+.reqs{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0}
+.req{padding:12px 16px;border-bottom:1px solid var(--line);min-width:0}
+.req .k{font-size:12px;color:var(--muted)}
+.req .v{font-weight:500;overflow-wrap:anywhere}
+.req .v.mono{font-family:var(--f-mono);font-size:13.5px}
+.req .v.none{color:var(--muted);font-weight:400;font-style:italic}
+
+/* forms */
+.form{display:flex;flex-direction:column;gap:22px}
+fieldset{border:0;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom:12px;padding:0}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:13px;font-weight:500;color:var(--muted)}
+.field input,.field select,.field textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+.field input:focus,.field select:focus{border-color:var(--accent);outline:none}
+.field input:disabled,.field select:disabled{opacity:.7}
+.field.wide{grid-column:1/-1}
+.hint{font-size:12px;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.actions .sp{flex:1}
+
+/* template picker */
+.tpls{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.tpl{text-align:left;padding:18px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:var(--r)}
+.tpl:hover{border-color:var(--accent)}
+.tpl .t{font-weight:700}
+.tpl .d{font-size:13.5px;color:var(--muted)}
+.tpl .tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+
+/* editor */
+.editor{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:20px;align-items:start}
+.editor .side{padding:18px;display:flex;flex-direction:column;gap:16px}
+.editor .side fieldset{grid-template-columns:1fr;gap:12px}
+.auto{background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:13px;display:flex;flex-direction:column;gap:3px}
+.auto b{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.statusbar{display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid var(--line)}
+.statusbar .row{display:flex;flex-wrap:wrap;gap:8px}
+
+.sheetwrap{overflow-x:auto;min-width:0}
+.sheet{background:var(--paper);color:var(--paper-ink);font-family:var(--f-doc);font-size:15px;line-height:1.6;padding:clamp(22px,5vw,56px) clamp(20px,5vw,60px);border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.08);max-width:760px;min-width:0}
+.sheet .org{text-align:center;font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.02em}
+.sheet .orgm{text-align:center;font-size:12.5px;color:#555;border-bottom:1.5px solid #1d1d1b;padding-bottom:10px;margin-bottom:22px}
+.sheet h2{text-align:center;font-size:20px;letter-spacing:.2em;margin:0}
+.sheet .meta{display:flex;justify-content:space-between;gap:12px;font-size:14px;margin:10px 0 18px}
+.sheet .subj{text-align:center;font-weight:700;margin-bottom:18px;text-wrap:balance}
+.sheet p{margin:0 0 10px;text-align:justify}
+.sheet .order{text-align:center;font-weight:700;letter-spacing:.25em;margin:16px 0 12px}
+.sheet ol{margin:0 0 10px;padding-left:22px}
+.sheet ol li{margin-bottom:8px;text-align:justify}
+.sheet .sign{display:grid;grid-template-columns:1fr auto 1fr;gap:8px 16px;margin-top:40px;align-items:end;font-size:14.5px}
+.sheet .sign .ln{border-bottom:1px solid #1d1d1b;width:110px;height:1px}
+.sheet .sign .nm{text-align:right;font-weight:700}
+.sheet .fill{background:#fff2b8;border-radius:3px;padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.sheet .fill.fa{background:#d9efe7}
+.sheet .fill.miss{background:#ffd9d4;color:#8a1c12;font-style:italic}
+.sheet.clean .fill{background:none;padding:0;color:inherit;font-style:normal}
+.stamp{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ok);color:var(--ok);border-radius:6px;padding:4px 10px;font-family:var(--f-body);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;transform:rotate(-3deg);margin-top:18px}
+
+.who{font-weight:600}
+.lastmod{display:flex;flex-direction:column;gap:1px;font-size:13px;line-height:1.35}
+.lastmod .num{font-size:12px;color:var(--muted)}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hist li{display:grid;grid-template-columns:10px 1fr;gap:10px;font-size:13px;line-height:1.4}
+.hist li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px}
+.hist .num{color:var(--muted);font-size:12px}
+.me{font-size:12.5px;color:var(--muted)}
+.me b{color:var(--ink);font-weight:600}
+.banner{background:var(--work-soft);color:var(--ink);border-radius:8px;padding:10px 14px;font-size:13.5px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;font-weight:500;z-index:10;max-width:calc(100% - 32px)}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--danger);border-radius:8px;padding:10px 12px;font-size:13.5px}
+
+@media (max-width:860px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .rail{border-right:0;border-bottom:1px solid var(--line);padding:14px 16px;gap:10px}
+  .firmlist{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .firmlist li{flex:none;max-width:220px}
+  .firmlist button{border:1px solid var(--line)}
+  .railtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .rail .label{display:none}
+  .editor{grid-template-columns:1fr}
+  .main{padding-block:18px}
+  .sheet .sign{grid-template-columns:1fr auto;}
+  .sheet .sign .nm{grid-column:1/-1;text-align:left}
+}
+@media (min-width:861px){.railtop{display:flex;flex-direction:column;gap:14px}}
+
+.who{font-weight:600}
+.lastmod{display:flex;flex-direction:column;gap:1px;font-size:13px;line-height:1.35}
+.lastmod .num{font-size:12px;color:var(--muted)}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hist li{display:grid;grid-template-columns:10px 1fr;gap:10px;font-size:13px;line-height:1.4}
+.hist li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px}
+.hist .num{color:var(--muted);font-size:12px}
+.me{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.me b{color:var(--ink);font-weight:600}
+.me a,.linkbtn{color:var(--accent);font-size:12.5px;text-decoration:none;background:none;border:0;padding:0;font-weight:500}
+.me a:hover,.linkbtn:hover{text-decoration:underline}
+.gate{min-height:100%;display:grid;place-items:center;padding:32px 16px}
+.gatecard{max-width:560px;width:100%;padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:14px}
+.gatecard h1{font-family:var(--f-display);font-size:22px;margin:6px 0 0;letter-spacing:-.01em}
+.gatecard p{margin:0}
+.gbrand{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--accent)}
+.gbrand small{display:block;font-family:var(--f-body);font-weight:500;font-size:12px;color:var(--muted)}
+.gerr{background:var(--work-soft);border-radius:8px;padding:10px 12px;font-size:13.5px}
+.btn.big{padding:12px 18px;font-size:15px;align-self:flex-start}
+.gopts{display:grid;gap:10px}
+.gopt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.gopt:hover{border-color:var(--accent)}
+.gopt span{font-size:13.5px;color:var(--muted)}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.steps a{color:var(--accent);font-weight:600}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:10px 16px;font-size:13.5px;background:var(--work-soft);border-bottom:1px solid var(--line)}
+#printArea{display:none}
+@media print{
+  html,body{background:#fff!important}
+  :root{padding:0!important}
+  body > *:not(#printArea){display:none!important}
+  #printArea{display:block}
+  #printArea .sheet{box-shadow:none;max-width:none;padding:0;border-radius:0;background:#fff}
+  @page{size:A4;margin:18mm 15mm 18mm 25mm}
+}
+</style>
+</head>
+<body>
+<div class="topbar" id="demoBar" hidden>Демо режим: Google созламалари ҳали киритилмаган, маълумотлар фақат шу браузерда сақланади.</div>
+<div class="topbar" id="authBar" hidden>Сессия муддати тугади. Давом этиш учун қайта киринг. <button type="button" class="btn primary" data-g="reauth">Қайта кириш</button></div>
+<div id="gate" class="gate" hidden></div>
+<div class="app" hidden>
+  <aside class="rail">
+    <div class="railtop">
+      <div class="brand">Фирмалар<small>Реквизитлар ва буйруқлар</small></div>
+      <button class="btn primary" id="addFirmBtn" type="button"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Фирма қўшиш</button>
+    </div>
+    <div class="me" id="meLine" hidden></div>
+    <div class="label">Фирмалар рўйхати</div>
+    <ul class="firmlist" id="firmList"></ul>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="toast" id="toast" hidden></div>
+<div id="printArea"></div>
+<script>
+"use strict";
+/* ---------- constants ---------- */
+const FIRM_FIELDS = [
+  {g:"Асосий маълумотлар", f:[
+    ["name","Фирма номи","МЧЖ «...»",1],
+    ["form","Ташкилий-ҳуқуқий шакли","Масъулияти чекланган жамият"],
+    ["inn","СТИР (ИНН)","9 рақам","mono"],
+    ["oked","ИФУТ (ОКЭД)","","mono"],
+    ["vat","ҚҚС тўловчи рўйхат коди","","mono"],
+    ["regDate","Давлат рўйхатидан ўтган сана","","date"],
+  ]},
+  {g:"Манзил ва алоқа", f:[
+    ["city","Шаҳар / туман","Тошкент ш."],
+    ["address","Юридик манзил","",1],
+    ["phone","Телефон","+998 ..."],
+    ["email","Электрон почта",""],
+  ]},
+  {g:"Банк реквизитлари", f:[
+    ["bank","Банк номи",""],
+    ["account","Ҳисоб рақами","20 рақам","mono"],
+    ["mfo","МФО","5 рақам","mono"],
+  ]},
+  {g:"Масъул шахслар", f:[
+    ["directorTitle","Раҳбар лавозими","Директор"],
+    ["director","Раҳбар Ф.И.О.",""],
+    ["chiefAccountant","Бош бухгалтер Ф.И.О.",""],
+  ]},
+];
+const STATUS = {
+  draft:{t:"Черновик",cls:"draft"},
+  signing:{t:"Имзолаш жараёнида",cls:"signing"},
+  signed:{t:"Имзоланган",cls:"signed"},
+};
+const ICON = {
+  draft:'<svg viewBox="0 0 20 20" fill="none"><rect x="4.5" y="2.5" width="11" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 7h5M7.5 10h5M7.5 13h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  signing:'<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" fill="currentColor"/><g class="spin"><path d="M10 10V5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></g><path d="M10 10l3 1.8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="10" r="1.2" fill="#fff"/></svg>',
+  signed:'<svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" fill="currentColor"/><path d="M6.2 10.3l2.5 2.5 5-5.2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+
+/* Order templates. {{key}} = order field, {{firm.key}} = firm requisite (filled automatically). */
+const TEMPLATES = [
+  {
+    id:"hisob-siyosati",
+    tag:"Ҳисоб сиёсати",
+    title:"Ҳисоб сиёсатини тасдиқлаш тўғрисида",
+    desc:"Йил бошида ҳисоб сиёсатини, амортизация ва ТМЗ баҳолаш усулларини белгилаш.",
+    fields:[
+      ["number","Буйруқ рақами","text"],
+      ["date","Буйруқ санаси","date"],
+      ["startDate","Амал қилиш бошланиш санаси","date"],
+      ["amort","Амортизация усули","select",["тўғри чизиқли (текис) усул","бажарилган иш ҳажмига мутаносиб усул","камаювчи қолдиқ усули"]],
+      ["tmz","ТМЗни баҳолаш усули","select",["ўртача тортилган таннарх","ФИФО"]],
+      ["form","Ҳисоб юритиш шакли","select",["автоматлаштирилган (1С дастури)","журнал-ордер"]],
+      ["responsible","Назорат учун масъул шахс","text","@chiefAccountant"],
+    ],
+    body:`<p>Ўзбекистон Республикасининг «Бухгалтерия ҳисоби тўғрисида»ги Қонуни ҳамда 1-сон БҲМС «Ҳисоб сиёсати ва молиявий ҳисобот» талабларига мувофиқ,</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{firm.name}} (СТИР {{firm.inn}}) нинг {{startDate}} дан бошлаб амал қиладиган ҳисоб сиёсати иловага мувофиқ тасдиқлансин.</li>
+<li>Асосий воситалар ва номоддий активлар бўйича амортизация {{amort}} бўйича ҳисоблансин.</li>
+<li>Товар-моддий заҳиралар ҳисобдан чиқарилганда {{tmz}} усулида баҳолансин.</li>
+<li>Бухгалтерия ҳисоби {{form}} шаклида юритилсин.</li>
+<li>Мазкур буйруқ ижросини назорат қилиш {{responsible}} зиммасига юклансин.</li>
+</ol>`
+  },
+  {
+    id:"inventarizatsiya",
+    tag:"Инвентаризация",
+    title:"Йиллик инвентаризация ўтказиш тўғрисида",
+    desc:"Йил якунида мол-мулк ва мажбуриятларни инвентаризация қилиш, комиссия таркибини тасдиқлаш.",
+    fields:[
+      ["number","Буйруқ рақами","text"],
+      ["date","Буйруқ санаси","date"],
+      ["invDate","Инвентаризация ҳолат санаси","date"],
+      ["chair","Комиссия раиси","text"],
+      ["member1","Комиссия аъзоси","text","@chiefAccountant"],
+      ["member2","Комиссия аъзоси","text"],
+      ["deadline","Натижаларни топшириш муддати","date"],
+    ],
+    body:`<p>Йиллик молиявий ҳисоботнинг ишончлилигини таъминлаш мақсадида, 19-сон БҲМС «Инвентаризацияни ташкил этиш ва ўтказиш» талабларига мувофиқ,</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{firm.name}} да {{invDate}} ҳолатига асосий воситалар, товар-моддий заҳиралар, пул маблағлари ва ҳисоб-китобларнинг инвентаризацияси ўтказилсин.</li>
+<li>Инвентаризация комиссияси қуйидаги таркибда тасдиқлансин: раис — {{chair}}; аъзолар — {{member1}}, {{member2}}.</li>
+<li>Инвентаризация натижалари {{deadline}} га қадар бухгалтерияга топширилсин.</li>
+<li>Мазкур буйруқ ижросини назорат қилишни ўз зиммамда қолдираман.</li>
+</ol>`
+  },
+];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2)).replace(/-/g,"").slice(0,16);
+const today = () => new Date().toISOString().slice(0,10);
+const fmtDate = iso => { if(!iso) return ""; const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso); return m?`${m[3]}.${m[2]}.${m[1]}`:iso; };
+const fmtStamp = ms => { if(!ms) return ""; const d=new Date(ms); return fmtDate(d.toISOString())+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); };
+const pill = st => `<span class="pill ${STATUS[st].cls}">${ICON[st]}${STATUS[st].t}</span>`;
+/* ================================================================
+   СОЗЛАМАЛАР — Google Cloud'дан олинган 3 та қиймат шу ерга ёзилади.
+   Бўш қолса, дастур «Демо режим»да ишлайди (маълумот фақат шу браузерда).
+   ================================================================ */
+const CONFIG = {
+  CLIENT_ID: "",   // OAuth Client ID  (…apps.googleusercontent.com)
+  API_KEY:   "",   // API key          (AIza…)
+  APP_ID:    "",   // Project number   (фақат рақамлар)
+};
+
+const DEMO = !CONFIG.CLIENT_ID;
+const SCOPES = "https://www.googleapis.com/auth/drive.file openid email profile";
+const SHEETS = "https://sheets.googleapis.com/v4/spreadsheets";
+const HEAD = {
+  firms:["id","data","updatedAt","updatedBy","deleted"],
+  orders:["id","data","updatedAt","updatedBy","deleted"],
+  log:["at","email","name","kind","id","note"],
+};
+const LSK = { db:"fb-db-id", tok:"fb-token", demo:"fb-demo" };
+const store = k => ({
+  get(n){ try{ return window[k].getItem(n); }catch(e){ return null; } },
+  set(n,v){ try{ window[k].setItem(n,v); }catch(e){} },
+  del(n){ try{ window[k].removeItem(n); }catch(e){} },
+});
+const ls = store("localStorage"), ss = store("sessionStorage");
+
+/* ---------- people ---------- */
+const ME = { email:"", name:"" };
+const NAMES = {};
+const nameOf = e => NAMES[e] || e || "—";
+const who = e => e ? `<span class="who" title="${esc(e)}">${esc(nameOf(e))}${e===ME.email?" (сиз)":""}</span>` : `<span class="who">—</span>`;
+const lastMod = x => `<span class="lastmod">${x.updatedBy?who(x.updatedBy):""}<span class="num">${fmtStamp(x.updatedAt)}</span></span>`;
+const histList = x => {
+  const h = LOG.filter(l=>l.id===x.id).sort((a,b)=>b.at-a.at);
+  return h.length ? `<ul class="hist">${h.map(e=>`<li><span>${who(e.email)} — ${esc(e.note)}<br><span class="num">${fmtStamp(e.at)}</span></span></li>`).join("")}</ul>`
+                  : `<span class="hint">Ҳали ўзгариш қайд этилмаган.</span>`;
+};
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,3200); }
+
+/* ---------- data in memory ---------- */
+const S = { firms:[], orders:[], ready:false };
+const ROWS = { firms:{}, orders:{} };   // id -> {row, obj, updatedAt, updatedBy, deleted}
+let LOG = [];                           // {at,email,name,kind,id,note}
+let DB_ID = null;
+let LAST_SYNC = 0;
+
+function rebuild(){
+  S.firms = Object.values(ROWS.firms).filter(r=>!r.deleted).map(r=>r.obj);
+  const liveFirm = id => ROWS.firms[id] && !ROWS.firms[id].deleted;
+  S.orders = Object.values(ROWS.orders).filter(r=>!r.deleted && liveFirm(r.obj.firmId)).map(r=>r.obj);
+  LOG.forEach(l=>{ if(l.email && l.name) NAMES[l.email]=l.name; });
+  if(ME.email) NAMES[ME.email]=ME.name||ME.email;
+}
+function parseRows(rows){
+  const out={};
+  rows.forEach((x,i)=>{
+    if(!x || !x[0]) return;
+    let obj; try{ obj=JSON.parse(x[1]); }catch(e){ return; }
+    out[x[0]]={ row:i+2, obj, updatedAt:+x[2]||0, updatedBy:x[3]||"", deleted:!!x[4] };
+  });
+  return out;
+}
+
+/* ---------- Google sign-in ---------- */
+class AuthErr extends Error{}
+class ConflictErr extends Error{}
+let TOKEN=null, TOKEN_EXP=0;
+function loadScript(src){
+  return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.async=true; s.onload=res; s.onerror=()=>rej(new Error("Скрипт юкланмади: "+src)); document.head.appendChild(s); });
+}
+/* must be called synchronously from a click, or the browser blocks Google's popup */
+function requestToken(prompt){
+  return new Promise((res,rej)=>{
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: CONFIG.CLIENT_ID, scope: SCOPES,
+      callback: r=>{
+        if(r.error){ rej(new Error(r.error_description||r.error)); return; }
+        TOKEN=r.access_token; TOKEN_EXP=Date.now()+(Number(r.expires_in||3600)-120)*1000;
+        ss.set(LSK.tok, JSON.stringify({t:TOKEN,e:TOKEN_EXP}));
+        $("#authBar").hidden=true; scheduleExpiry(); res();
+      },
+      error_callback: e=>rej(new Error(e?.type==="popup_closed"?"Кириш ойнаси ёпилди":"Кириш ойнаси очилмади. Браузерда pop-up ойналарга рухсат беринг.")),
+    });
+    client.requestAccessToken({ prompt: prompt||"", login_hint: ME.email||undefined });
+  });
+}
+let expTimer=null;
+function scheduleExpiry(){ clearTimeout(expTimer); expTimer=setTimeout(needAuth, Math.max(0,TOKEN_EXP-Date.now())); }
+function needAuth(){ if(!DEMO && !$("#gate").hidden) return; $("#authBar").hidden=false; }
+
+async function api(method, url, body){
+  if(!TOKEN || Date.now()>TOKEN_EXP){ needAuth(); throw new AuthErr("Сессия тугаган"); }
+  let r;
+  try{
+    r = await fetch(url,{ method, headers:{ Authorization:"Bearer "+TOKEN, ...(body?{"Content-Type":"application/json"}:{}) }, body: body?JSON.stringify(body):undefined });
+  }catch(e){ throw new Error("Интернет алоқаси йўқ"); }
+  if(r.status===401){ TOKEN=null; ss.del(LSK.tok); needAuth(); throw new AuthErr("Сессия тугаган"); }
+  if(!r.ok){
+    let m=""; try{ m=(await r.json()).error?.message||""; }catch(e){}
+    const err=new Error(r.status===403||r.status===404?"Жадвалга кириш ҳуқуқи йўқ ёки у ўчирилган":(m||"Хато "+r.status)); err.status=r.status; throw err;
+  }
+  return r.status===204 ? null : r.json();
+}
+
+/* ---------- Google Sheets store ---------- */
+const GS = {
+  async create(){
+    const r = await api("POST", SHEETS, {
+      properties:{ title:"Фирмалар базаси (дастур)", locale:"ru_RU", timeZone:"Asia/Tashkent" },
+      sheets:["firms","orders","log"].map(t=>({properties:{title:t, gridProperties:{frozenRowCount:1}}})),
+    });
+    const id = r.spreadsheetId;
+    await api("POST", `${SHEETS}/${id}/values:batchUpdate`, { valueInputOption:"RAW",
+      data:Object.entries(HEAD).map(([k,h])=>({range:`${k}!A1`, values:[h]})) });
+    return id;
+  },
+  async check(id){
+    const r = await api("GET", `${SHEETS}/${id}?fields=sheets.properties.title`);
+    const names = (r.sheets||[]).map(s=>s.properties.title);
+    return ["firms","orders","log"].every(n=>names.includes(n));
+  },
+  async load(){
+    const q = ["firms!A2:E","orders!A2:E","log!A2:F"].map(x=>"ranges="+encodeURIComponent(x)).join("&");
+    const r = await api("GET", `${SHEETS}/${DB_ID}/values:batchGet?${q}&valueRenderOption=UNFORMATTED_VALUE`);
+    const [f,o,l] = r.valueRanges.map(v=>v.values||[]);
+    return { firms:parseRows(f), orders:parseRows(o),
+      log:l.filter(x=>x&&x[0]).map(x=>({at:+x[0]||0,email:x[1]||"",name:x[2]||"",kind:x[3]||"",id:x[4]||"",note:x[5]||""})) };
+  },
+  async readRow(kind,row){
+    const r = await api("GET", `${SHEETS}/${DB_ID}/values/${encodeURIComponent(`${kind}!A${row}:E${row}`)}?valueRenderOption=UNFORMATTED_VALUE`);
+    return (r.values||[])[0]||[];
+  },
+  async writeRow(kind,row,vals){
+    await api("PUT", `${SHEETS}/${DB_ID}/values/${encodeURIComponent(`${kind}!A${row}:E${row}`)}?valueInputOption=RAW`, {values:[vals]});
+  },
+  async appendRow(kind,vals){
+    const r = await api("POST", `${SHEETS}/${DB_ID}/values/${encodeURIComponent(`${kind}!A:${kind==="log"?"F":"E"}`)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {values:[vals]});
+    const m = /![A-Z]+(\d+)/.exec(r?.updates?.updatedRange||""); return m?+m[1]:null;
+  },
+};
+
+/* ---------- Demo store (this browser only) ---------- */
+let DEMO_MEM=null;
+const DS = {
+  data(){ const s=ls.get(LSK.demo); if(s){ try{ return JSON.parse(s); }catch(e){} } return DEMO_MEM ? JSON.parse(JSON.stringify(DEMO_MEM)) : null; },
+  save(d){ DEMO_MEM=d; ls.set(LSK.demo, JSON.stringify(d)); },
+  async load(){ let d=this.data(); if(!d){ d=demoSeed(); this.save(d); } return d; },
+  async readRow(kind,row){ const d=this.data(); const r=Object.values(d[kind]).find(x=>x.row===row); return r?[r.obj.id,"",r.updatedAt,r.updatedBy,r.deleted?1:""]:[]; },
+  async writeRow(kind,row,vals){ const d=this.data(); d[kind][vals[0]]={row,obj:JSON.parse(vals[1]),updatedAt:vals[2],updatedBy:vals[3],deleted:!!vals[4]}; this.save(d); },
+  async appendRow(kind,vals){
+    const d=this.data();
+    if(kind==="log"){ d.log.push({at:vals[0],email:vals[1],name:vals[2],kind:vals[3],id:vals[4],note:vals[5]}); this.save(d); return d.log.length+1; }
+    const row=Object.keys(d[kind]).length+2;
+    d[kind][vals[0]]={row,obj:JSON.parse(vals[1]),updatedAt:vals[2],updatedBy:vals[3],deleted:!!vals[4]}; this.save(d); return row;
+  },
+};
+function demoSeed(){
+  const t=Date.now()-86400000, e="namuna@example.com", n="Намуна ходим";
+  const firm={id:"namuna01",name:"«Намуна Савдо» (намуна)",form:"МЧЖ",inn:"300000001",oked:"47190",vat:"326000000001",regDate:"2019-03-12",city:"Тошкент ш.",address:"Тошкент ш., Юнусобод т., Намуна кўчаси, 1-уй",phone:"+998 90 000 00 00",email:"info@example.uz",bank:"Намуна банк",account:"20208000000000000001",mfo:"00000",directorTitle:"Директор",director:"Каримов А.Б.",chiefAccountant:"Юсупова Д.Р.",createdAt:t,updatedAt:t,updatedBy:e};
+  const o1={id:"namunaord1",firmId:"namuna01",tplId:"hisob-siyosati",title:"Ҳисоб сиёсатини тасдиқлаш тўғрисида",status:"signed",values:{number:"1",date:"2026-01-05",startDate:"2026-01-01",amort:"тўғри чизиқли (текис) усул",tmz:"ўртача тортилган таннарх",form:"автоматлаштирилган (1С дастури)",responsible:"Юсупова Д.Р."},createdAt:t+1,updatedAt:t+1000,updatedBy:e,signedAt:t+1000};
+  const o2={id:"namunaord2",firmId:"namuna01",tplId:"inventarizatsiya",title:"Йиллик инвентаризация ўтказиш тўғрисида",status:"signing",values:{number:"2",date:"2026-09-28",invDate:"2026-12-01",chair:"Каримов А.Б.",member1:"Юсупова Д.Р.",member2:"Раҳимов С.Т.",deadline:"2026-12-15"},createdAt:t+2,updatedAt:t+2000,updatedBy:e};
+  const R=(o,row)=>({row,obj:o,updatedAt:o.updatedAt,updatedBy:e,deleted:false});
+  return { firms:{namuna01:R(firm,2)}, orders:{namunaord1:R(o1,2),namunaord2:R(o2,3)},
+    log:[{at:t,email:e,name:n,kind:"firms",id:"namuna01",note:"Фирма қўшилди"},
+         {at:t+1,email:e,name:n,kind:"orders",id:"namunaord1",note:"Яратилди (черновик)"},
+         {at:t+1000,email:e,name:n,kind:"orders",id:"namunaord1",note:"имзоланган деб белгиланди"},
+         {at:t+2000,email:e,name:n,kind:"orders",id:"namunaord2",note:"Яратилди ва имзолашга юборилди"}] };
+}
+
+const STORE = DEMO ? DS : GS;
+
+/* ---------- generic operations ---------- */
+async function refresh(){
+  const d = await STORE.load();
+  ROWS.firms=d.firms; ROWS.orders=d.orders; LOG=d.log;
+  rebuild(); S.ready=true; LAST_SYNC=Date.now(); setSync();
+}
+async function assertFresh(kind, ex, id){
+  const cur = await STORE.readRow(kind, ex.row);
+  if(cur[0]!==id || (+cur[2]||0)!==ex.updatedAt){ await refresh(); throw new ConflictErr(); }
+}
+async function addLog(kind,id,note,at){
+  const e={at,email:ME.email,name:ME.name,kind,id,note};
+  await STORE.appendRow("log",[at,e.email,e.name,kind,id,note]);
+  LOG.push(e);
+}
+async function putItem(kind, obj, note){
+  const ex = ROWS[kind][obj.id];
+  if(ex) await assertFresh(kind, ex, obj.id);
+  const at = Date.now();
+  const o = {...obj, updatedAt:at, updatedBy:ME.email};
+  if(!o.createdBy) o.createdBy = ME.email;
+  const vals = [o.id, JSON.stringify(o), at, ME.email, ""];
+  let row;
+  if(ex){ await STORE.writeRow(kind, ex.row, vals); row=ex.row; }
+  else  { row = await STORE.appendRow(kind, vals); }
+  ROWS[kind][o.id] = {row:row||0, obj:o, updatedAt:at, updatedBy:ME.email, deleted:false};
+  await addLog(kind, o.id, note, at);
+  if(!row) await refresh(); else rebuild();
+  return o;
+}
+async function delItem(kind, id, note){
+  const ex = ROWS[kind][id]; if(!ex) return;
+  await assertFresh(kind, ex, id);
+  const at = Date.now();
+  await STORE.writeRow(kind, ex.row, [id, JSON.stringify({...ex.obj, updatedAt:at, updatedBy:ME.email}), at, ME.email, 1]);
+  ex.deleted=true; ex.updatedAt=at; ex.updatedBy=ME.email;
+  await addLog(kind, id, note, at);
+  rebuild();
+}
+function explain(err){
+  if(err instanceof ConflictErr) return "Бу ҳужжатни бошқа ходим ҳозиргина ўзгартирган. Янги версия юкланди, ўзгаришингизни қайта киритинг.";
+  if(err instanceof AuthErr) return "Сессия тугади. Юқоридаги «Қайта кириш» тугмасини босинг, кейин яна сақланг.";
+  return "Сақланмади: "+(err?.message||"номаълум хато");
+}
+
+/* ---------- live refresh (every 20 s) ---------- */
+function sig(){ return [Object.values(ROWS.firms).map(r=>r.updatedAt).join(), Object.values(ROWS.orders).map(r=>r.updatedAt).join(), LOG.length].join("|"); }
+async function poll(){
+  if(document.hidden || !S.ready || !$("#gate").hidden) return;
+  if(!DEMO && (!TOKEN || Date.now()>TOKEN_EXP)) return;
+  try{ const before=sig(); await refresh(); if(sig()!==before){ liveViews.has(V.view) ? render() : renderRail(); } }catch(e){}
+}
+setInterval(poll, 20000);
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
+function setSync(){ const el=$("#syncLine"); if(el) el.textContent = LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11) : ""; }
+
+/* ---------- view state ---------- */
+const V = { view:"home", firmId:null, tab:"orders", filter:"all", orderId:null, tplId:null, draft:null, confirm:false };
+function go(patch){ Object.assign(V, {confirm:false}, patch); render(); window.scrollTo(0,0); }
+const firm = id => S.firms.find(f=>f.id===id);
+const firmOrders = id => S.orders.filter(o=>o.firmId===id).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+const liveViews = new Set(["home","firm","tpl"]);
+
+/* ---------- rail ---------- */
+function renderRail(){
+  const list = [...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+  $("#firmList").innerHTML = list.length ? list.map(f=>`<li><button type="button" data-firm="${esc(f.id)}" aria-current="${V.firmId===f.id}"><span class="fn">${esc(f.name||"Номсиз фирма")}</span><span class="fi">СТИР ${esc(f.inn||"—")}</span></button></li>`).join("")
+    : `<li class="hint" style="padding:6px 4px">${S.ready?"Ҳали фирма қўшилмаган":"Юкланмоқда…"}</li>`;
+}
+
+/* ---------- views ---------- */
+function vHome(){
+  const cnt = st => S.orders.filter(o=>o.status===st).length;
+  return `<div class="head"><div><h1>Барча фирмалар</h1><div class="sub">${S.firms.length} та фирма · ${S.orders.length} та буйруқ</div></div>
+    <div class="counts">${["draft","signing","signed"].map(s=>`<span class="pill ${STATUS[s].cls}">${ICON[s]}${STATUS[s].t}: ${cnt(s)}</span>`).join("")}</div></div>
+    ${S.firms.length ? `<div class="grid">${[...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||"")).map(f=>{
+      const os=S.orders.filter(o=>o.firmId===f.id);
+      const c=s=>os.filter(o=>o.status===s).length;
+      return `<button type="button" class="fcard" data-firm="${esc(f.id)}"><span class="t">${esc(f.name||"Номсиз фирма")}</span>
+      <span class="m">СТИР ${esc(f.inn||"—")} · ${esc(f.city||"")}</span>
+      <span class="counts">${c("signing")?`<span class="pill signing">${ICON.signing}${c("signing")}</span>`:""}${c("signed")?`<span class="pill signed">${ICON.signed}${c("signed")}</span>`:""}${c("draft")?`<span class="pill draft">${ICON.draft}${c("draft")}</span>`:""}${os.length?"":`<span class="hint">Буйруқ йўқ</span>`}</span></button>`;}).join("")}</div>`
+    : `<div class="card empty"><b>${S.ready?"Ҳали фирма йўқ":"Маълумотлар юкланмоқда…"}</b>${S.ready?"Чапдаги «Фирма қўшиш» тугмасини босиб, биринчи фирманинг реквизитларини киритинг.":""}</div>`}`;
+}
+
+function vFirm(){
+  const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
+  const os=firmOrders(f.id);
+  const tabs=`<div class="tabs" role="tablist"><button role="tab" type="button" data-tab="orders" aria-selected="${V.tab==="orders"}">Буйруқлар (${os.length})</button><button role="tab" type="button" data-tab="reqs" aria-selected="${V.tab==="reqs"}">Реквизитлар</button></div>`;
+  let body="";
+  if(V.tab==="orders"){
+    const shown = V.filter==="all"?os:os.filter(o=>o.status===V.filter);
+    body=`<div class="toolbar"><div class="chips">${[["all","Ҳаммаси"],["draft","Черновик"],["signing","Имзолаш жараёнида"],["signed","Имзоланган"]].map(([k,t])=>`<button type="button" class="chip" data-filter="${k}" aria-pressed="${V.filter===k}">${t} ${k==="all"?os.length:os.filter(o=>o.status===k).length}</button>`).join("")}</div>
+      <button type="button" class="btn primary" data-act="newOrder"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Буйруқ яратиш</button></div>
+      <div class="card">${shown.length?`<div class="tablewrap"><table><thead><tr><th>№</th><th>Сана</th><th>Буйруқ номи</th><th>Ҳолати</th><th>Ким ва қачон ўзгартирган</th></tr></thead><tbody>
+      ${shown.map(o=>`<tr data-order="${esc(o.id)}" tabindex="0"><td class="num">${esc(o.values?.number||"—")}</td><td class="num">${fmtDate(o.values?.date)}</td><td>${esc(o.title)}</td><td>${pill(o.status)}</td><td>${lastMod(o)}</td></tr>`).join("")}
+      </tbody></table></div>`:`<div class="empty"><b>${os.length?"Бу ҳолатда буйруқ йўқ":"Буйруқлар ҳисоби жадвали бўш"}</b>${os.length?"":"«Буйруқ яратиш» тугмасини босиб, шаблондан биринчи буйруқни тузинг."}</div>`}</div>`;
+  } else {
+    body=`<div class="toolbar"><span class="hint">Бу реквизитлар буйруқларга автомат тушади.</span><div class="actions"><button type="button" class="btn" data-act="editFirm">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="askDel">Ўчириш</button></div></div>
+      ${V.confirm?`<div class="confirm">«${esc(f.name)}» ва унинг ${os.length} та буйруғи бутунлай ўчирилади. <button type="button" class="btn danger" data-act="delFirm">Ҳа, ўчириш</button><button type="button" class="btn ghost" data-act="cancelDel">Бекор қилиш</button></div>`:""}
+      ${FIRM_FIELDS.map(g=>`<div class="card"><div style="padding:12px 16px 0" class="label">${g.g}</div><div class="reqs">${g.f.map(([k,l,,x])=>{const v=k==="regDate"?fmtDate(f[k]):f[k];return `<div class="req"><div class="k">${l}</div><div class="v ${x==="mono"?"mono":""} ${v?"":"none"}">${v?esc(v):"киритилмаган"}</div></div>`;}).join("")}</div></div>`).join("")}
+      <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px"><span class="label">Реквизитлар ўзгаришлар тарихи</span>${histList(f)}</div>`;
+  }
+  return `<div class="head"><div><h1>${esc(f.name||"Номсиз фирма")}</h1><div class="sub">СТИР <span class="num">${esc(f.inn||"—")}</span> · ${esc(f.director||"")}</div></div></div>${tabs}${body}`;
+}
+
+function vFirmForm(){
+  const f = V.draft;
+  const isNew = !S.firms.some(x=>x.id===f.id);
+  return `<button type="button" class="back" data-act="${isNew?"home":"toFirm"}">← Орқага</button>
+  <div class="head"><h1>${isNew?"Янги фирма қўшиш":"Реквизитларни таҳрирлаш"}</h1></div>
+  <form class="form card" id="firmForm" style="padding:20px" novalidate>
+    ${FIRM_FIELDS.map(g=>`<fieldset><legend>${g.g}</legend>${g.f.map(([k,l,ph,x])=>`<div class="field ${x===1?"wide":""}"><label for="ff_${k}">${l}${k==="name"?" *":""}</label><input id="ff_${k}" name="${k}" ${x==="date"?'type="date"':'type="text"'} ${x==="mono"?'inputmode="numeric"':""} placeholder="${esc(ph||"")}" value="${esc(f[k]||"")}"></div>`).join("")}</fieldset>`).join("")}
+    <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="${isNew?"home":"toFirm"}">Бекор қилиш</button><span class="hint" id="firmErr"></span></div>
+  </form>`;
+}
+
+function vTpl(){
+  const f=firm(V.firmId);
+  return `<button type="button" class="back" data-act="toFirm">← ${esc(f?.name||"")}</button>
+  <div class="head"><div><h1>Буйруқ яратиш</h1><div class="sub">Шаблонни танланг. Фирма реквизитлари ўзи тўлдирилади.</div></div></div>
+  <div class="tpls">${TEMPLATES.map(t=>`<button type="button" class="tpl" data-tpl="${t.id}"><span class="tag">${t.tag}</span><span class="t">${esc(t.title)}</span><span class="d">${esc(t.desc)}</span></button>`).join("")}</div>`;
+}
+
+function fillBody(tpl, values, f, clean){
+  const wrap=(v,cls)=>clean?esc(v):`<span class="fill ${cls}">${esc(v)}</span>`;
+  const get=(key)=>{
+    if(key.startsWith("firm.")){ const v=f?.[key.slice(5)]; return v?wrap(v,"fa"):wrap("["+key.slice(5)+" киритилмаган]","miss"); }
+    const def=tpl.fields.find(x=>x[0]===key); let v=values[key];
+    if(def && def[2]==="date") v=fmtDate(v);
+    return v?wrap(v,""):(clean?"________":wrap("["+(def?def[1]:key)+"]","miss"));
+  };
+  return tpl.body.replace(/\{\{([\w.]+)\}\}/g,(_,k)=>get(k));
+}
+function sheetHTML(o, forceClean){
+  const tpl=TEMPLATES.find(t=>t.id===o.tplId); const f=firm(o.firmId); const v=o.values||{};
+  const clean=forceClean||o.status==="signed";
+  return `<div class="sheet ${clean?"clean":""}" id="sheet">
+    <div class="org">${esc(f?.form?f.form+" ":"")}${esc(f?.name||"")}</div>
+    <div class="orgm">${[f?.inn&&"СТИР "+f.inn, f?.address, f?.account&&"ҳ/р "+f.account+(f?.mfo?", МФО "+f.mfo:"")].filter(Boolean).map(esc).join(" · ")}</div>
+    <h2>БУЙРУҚ</h2>
+    <div class="meta"><span>${v.date?fmtDate(v.date):"__.__.____"} й.</span><span>№ ${esc(v.number||"___")}</span><span>${esc(f?.city||"")}</span></div>
+    <div class="subj">${esc(tpl.title)}</div>
+    ${fillBody(tpl,v,f,clean)}
+    <div class="sign"><span>${esc(f?.directorTitle||"Раҳбар")}</span><span class="ln"></span><span class="nm">${esc(f?.director||"")}</span>
+      <span>Танишдим: бош бухгалтер</span><span class="ln"></span><span class="nm">${esc(f?.chiefAccountant||"")}</span></div>
+    ${o.status==="signed"?`<div class="stamp">${ICON.signed.replace('fill="currentColor"','fill="currentColor" width="18" height="18"')}Имзоланган ${fmtStamp(o.signedAt)}</div>`:""}
+  </div>`;
+}
+
+function vOrder(){
+  const o=V.draft; const tpl=TEMPLATES.find(t=>t.id===o.tplId); const f=firm(o.firmId);
+  const locked=o.status==="signed";
+  const isNew=!S.orders.some(x=>x.id===o.id);
+  return `<button type="button" class="back" data-act="toFirm">← ${esc(f?.name||"")}</button>
+  <div class="head"><div><h1>${esc(tpl.title)}</h1><div class="sub">${isNew?"Янги буйруқ":"Буйруқ № "+esc(o.values.number||"—")}</div></div>${pill(o.status)}</div>
+  <div class="editor">
+    <form class="card side" id="orderForm" novalidate>
+      <div class="auto"><b>Фирмадан автомат</b><span>${esc(f?.name||"")}, СТИР ${esc(f?.inn||"—")}</span><span>${esc(f?.directorTitle||"Раҳбар")}: ${esc(f?.director||"—")}</span></div>
+      <fieldset ${locked?"disabled":""}><legend>Буйруқ реквизитлари</legend>
+      ${tpl.fields.map(([k,l,type,opt])=>`<div class="field"><label for="of_${k}">${l}</label>${type==="select"
+        ?`<select id="of_${k}" name="${k}">${opt.map(x=>`<option ${o.values[k]===x?"selected":""}>${esc(x)}</option>`).join("")}</select>`
+        :`<input id="of_${k}" name="${k}" type="${type}" value="${esc(o.values[k]||"")}">`}</div>`).join("")}
+      </fieldset>
+      <div class="statusbar">
+        <div class="row" style="justify-content:space-between;align-items:center"><span class="label">Ҳужжат ҳолати</span><button type="button" class="btn ghost" data-act="print">${PRINT_ICON}Чоп этиш / PDF</button></div>
+        ${locked?`<span class="hint">Имзоланган буйруқ ўзгартирилмайди.</span>`:`
+        <div class="row"><button type="button" class="btn" data-set="draft">${ICON.draft}Сақлаш</button>
+        <button type="button" class="btn work" data-set="signing">${ICON.signing.replace('fill="currentColor"','fill="rgba(255,255,255,.25)"')}Имзолаш жараёнида</button>
+        <button type="button" class="btn ok" data-set="signed">${ICON.signed.replace('fill="currentColor"','fill="rgba(255,255,255,.25)"')}Имзоланган</button></div>
+        <span class="hint">«Сақлаш» — черновикка ўтказади.</span>`}
+        ${isNew?"":(V.confirm?`<div class="confirm">Буйруқ ўчирилсинми? <button type="button" class="btn danger" data-act="delOrder">Ҳа</button><button type="button" class="btn ghost" data-act="cancelDel">Йўқ</button></div>`:`<button type="button" class="btn ghost danger" data-act="askDel" style="align-self:flex-start">Буйруқни ўчириш</button>`)}
+      </div>
+      ${isNew?"":`<div class="statusbar"><span class="label">Ўзгаришлар тарихи</span>${histList(o)}</div>`}
+    </form>
+    <div class="sheetwrap" id="sheetWrap">${sheetHTML(o)}</div>
+  </div>`;
+}
+
+
+const PRINT_ICON='<svg viewBox="0 0 16 16" fill="none"><path d="M4 6V2h8v4M4 12H2.5V6.5h11V12H12M4 9.5h8V14H4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+function render(){
+  if(!$("#gate").hidden) return;
+  renderRail();
+  const views={home:vHome,firm:vFirm,firmForm:vFirmForm,tpl:vTpl,order:vOrder};
+  $("#main").innerHTML=(views[V.view]||vHome)();
+}
+/* ---------- events ---------- */
+document.addEventListener("click", async e=>{
+  const t=e.target.closest("#addFirmBtn,[data-firm],[data-tab],[data-filter],[data-act],[data-tpl],[data-order],[data-set]");
+  if(!t) return;
+  if(t.dataset.firm){ return go({view:"firm",firmId:t.dataset.firm,tab:"orders",filter:"all"}); }
+  if(t.dataset.tab){ return go({tab:t.dataset.tab}); }
+  if(t.dataset.filter){ return go({filter:t.dataset.filter}); }
+  if(t.dataset.tpl){
+    const tpl=TEMPLATES.find(x=>x.id===t.dataset.tpl); const f=firm(V.firmId);
+    const values={};
+    tpl.fields.forEach(([k,,type,opt])=>{
+      if(type==="select") values[k]=opt[0];
+      else if(typeof opt==="string"&&opt.startsWith("@")) values[k]=f?.[opt.slice(1)]||"";
+      else if(k==="date") values[k]=today();
+      else if(k==="number") values[k]=String(firmOrders(V.firmId).length+1);
+    });
+    return go({view:"order",draft:{id:uid(),firmId:V.firmId,tplId:tpl.id,title:tpl.title,status:"draft",values,createdAt:Date.now()}});
+  }
+  if(t.dataset.order){ const o=S.orders.find(x=>x.id===t.dataset.order); if(o) go({view:"order",draft:JSON.parse(JSON.stringify(o))}); return; }
+  if(t.dataset.set){
+    const o=V.draft; const st=t.dataset.set;
+    const saved=S.orders.find(x=>x.id===o.id);
+    const changed=!saved || JSON.stringify(saved.values)!==JSON.stringify(o.values);
+    let note;
+    if(!saved) note = st==="draft"?"Яратилди (черновик)":st==="signing"?"Яратилди ва имзолашга юборилди":"Яратилди ва имзоланган деб белгиланди";
+    else if(st===saved.status) note = changed?"Реквизитлар таҳрирланди":"Қайта сақланди";
+    else note = (changed?"Таҳрирланди, ":"") + (st==="draft"?"черновикка қайтарилди":st==="signing"?"имзолаш жараёнига ўтказилди":"имзоланган деб белгиланди");
+    o.status=st; if(st==="signed") o.signedAt=Date.now();
+    t.disabled=true;
+    try{ V.draft = await putItem("orders", o, note); toast(st==="draft"?"Черновикка сақланди":st==="signing"?"Ҳолат: имзолаш жараёнида":"Буйруқ имзоланган деб белгиланди"); }
+    catch(err){ t.disabled=false; if(saved) o.status=saved.status; toast(explain(err)); if(err instanceof ConflictErr) go({view:"firm",tab:"orders"}); return; }
+    if(st==="draft"){ render(); } else go({view:"firm",tab:"orders"});
+    return;
+  }
+  const a=t.dataset.act||(t.id==="addFirmBtn"?"addFirm":"");
+  if(a==="addFirm") return go({view:"firmForm",draft:{id:uid(),createdAt:Date.now()}});
+  if(a==="home") return go({view:"home",firmId:null});
+  if(a==="toFirm") return go({view:"firm"});
+  if(a==="newOrder") return go({view:"tpl"});
+  if(a==="editFirm") return go({view:"firmForm",draft:{...firm(V.firmId)}});
+  if(a==="askDel"){ V.confirm=true; return render(); }
+  if(a==="cancelDel"){ V.confirm=false; return render(); }
+  if(a==="delFirm"){
+    const n=firm(V.firmId)?.name;
+    try{ for(const o of firmOrders(V.firmId)) await delItem("orders", o.id, "Фирма билан бирга ўчирилди"); await delItem("firms", V.firmId, "Фирма ўчирилди"); }
+    catch(err){ toast(explain(err)); return render(); }
+    toast(`«${n}» ўчирилди`); return go({view:"home",firmId:null});
+  }
+  if(a==="delOrder"){
+    try{ await delItem("orders", V.draft.id, "Буйруқ ўчирилди"); }catch(err){ toast(explain(err)); return; }
+    toast("Буйруқ ўчирилди"); return go({view:"firm",tab:"orders"});
+  }
+  if(a==="print"){ $("#printArea").innerHTML=sheetHTML(V.draft,true); window.print(); return; }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches("tr[data-order]")) e.target.click(); });
+document.addEventListener("input",e=>{
+  const form=e.target.closest("#orderForm");
+  if(form){ V.draft.values[e.target.name]=e.target.value; $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
+  if(e.target.closest("#firmForm")){ V.draft[e.target.name]=e.target.value; }
+});
+document.addEventListener("change",e=>{
+  if(e.target.closest("#orderForm")){ V.draft.values[e.target.name]=e.target.value; $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
+});
+document.addEventListener("submit",async e=>{
+  if(e.target.id==="firmForm"){
+    e.preventDefault();
+    new FormData(e.target).forEach((v,k)=>V.draft[k]=String(v).trim());
+    if(!V.draft.name){ $("#firmErr").textContent="Фирма номини киритинг."; $("#ff_name").focus(); return; }
+    const isNewF=!S.firms.some(x=>x.id===V.draft.id);
+    try{ V.draft = await putItem("firms", V.draft, isNewF?"Фирма қўшилди":"Реквизитлар ўзгартирилди"); }catch(err){ $("#firmErr").textContent=explain(err); if(err instanceof ConflictErr) setTimeout(()=>go({view:"firm",tab:"reqs"}),2500); return; }
+    toast("Фирма реквизитлари сақланди");
+    go({view:"firm",firmId:V.draft.id,tab:"reqs"});
+  }
+  if(e.target.id==="orderForm") e.preventDefault();
+});
+
+/* ---------- entry screens: sign in, choose or create the base ---------- */
+const sheetUrl = () => `https://docs.google.com/spreadsheets/d/${DB_ID}/edit`;
+function showGate(state, msg){
+  $(".app").hidden = true; const g=$("#gate"); g.hidden = false;
+  const err = msg ? `<div class="gerr">${esc(msg)}</div>` : "";
+  const brand = `<div class="gbrand">Фирмалар<small>Реквизитлар ва буйруқлар</small></div>`;
+  let body = "";
+  if(state==="loading") body = `<p class="hint">Юкланмоқда…</p>`;
+  if(state==="login") body = `
+    <h1>Дастурга кириш</h1>
+    <p>Иш Gmail ҳисобингиз билан киринг. Фақат раҳбар рухсат берган ҳисоблар кира олади.</p>
+    ${err}
+    <button type="button" class="btn primary big" data-g="login">${GICON}Google орқали кириш</button>`;
+  if(state==="setup") body = `
+    <h1>Базани танланг</h1>
+    <p>Сиз: <b>${esc(ME.name)}</b> <span class="hint">${esc(ME.email)}</span></p>
+    ${err}
+    <div class="gopts">
+      <button type="button" class="gopt" data-g="pick"><b>Мавжуд базага уланиш</b><span>Ёрдамчилар учун. Раҳбар сизга «Фирмалар базаси (дастур)» жадвалини улашган бўлиши керак. Уни рўйхатдан танлайсиз.</span></button>
+      <button type="button" class="gopt" data-g="create"><b>Янги база яратиш</b><span>Фақат раҳбар учун, бир марта. Google Drive'ингизда янги жадвал очилади.</span></button>
+    </div>
+    <button type="button" class="back" data-g="logout">← Бошқа ҳисоб билан кириш</button>`;
+  if(state==="created") body = `
+    <h1>База яратилди</h1>
+    <p>Google Drive'ингизда <b>«Фирмалар базаси (дастур)»</b> жадвали пайдо бўлди. Ёрдамчиларингиз кириши учун уни улашинг:</p>
+    <ol class="steps">
+      <li><a href="${esc(sheetUrl())}" target="_blank" rel="noopener">Жадвални очинг</a></li>
+      <li>Ўнг юқоридаги <b>Share</b> (Настройки доступа) тугмасини босинг</li>
+      <li>Ёрдамчиларнинг Gmail манзилини киритинг, ҳуқуқ: <b>Editor</b> (Редактор)</li>
+      <li>«General access» бўлимида <b>Restricted</b> (Доступ ограничен) турганини текширинг</li>
+    </ol>
+    <p class="hint">Жадвални қўлда таҳрирламанг: дастур уни ўзи юритади.</p>
+    <button type="button" class="btn primary big" data-g="enter">Дастурга ўтиш</button>`;
+  if(state==="error") body = `<h1>Хатолик</h1>${err}<button type="button" class="btn" data-g="reload">Қайта уриниш</button>`;
+  g.innerHTML = `<div class="gatecard card">${brand}${body}</div>`;
+}
+const GICON = '<svg viewBox="0 0 18 18" width="18" height="18"><path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.7H9v3.3h4.8a4.1 4.1 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.5z"/><path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-2.9-2.2c-.8.5-1.8.9-3.1.9-2.4 0-4.4-1.6-5.1-3.8H.9v2.3A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.9 10.7a5.4 5.4 0 0 1 0-3.4V5H.9a9 9 0 0 0 0 8z"/><path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.5 1.4l2.6-2.6A9 9 0 0 0 .9 5l3 2.3C4.6 5.2 6.6 3.6 9 3.6z"/></svg>';
+
+function showApp(){
+  $("#gate").hidden = true; $(".app").hidden = false;
+  const l=$("#meLine");
+  l.innerHTML = `<span>Сиз: <b>${esc(ME.name)}</b></span>` +
+    (DEMO ? "" : `<a href="${esc(sheetUrl())}" target="_blank" rel="noopener">Базани Google Sheets'да очиш</a><button type="button" class="linkbtn" data-g="switch">Базани алмаштириш</button><button type="button" class="linkbtn" data-g="logout">Чиқиш</button>`) +
+    `<span class="hint" id="syncLine"></span>`;
+  l.hidden = false; setSync(); render();
+}
+
+async function afterLogin(){
+  const u = await api("GET","https://www.googleapis.com/oauth2/v3/userinfo");
+  ME.email = u.email; ME.name = u.name || u.email; NAMES[ME.email]=ME.name;
+  if(!DB_ID){ showGate("setup"); return; }
+  try{ await refresh(); }
+  catch(e){ if(e instanceof AuthErr) throw e; DB_ID=null; ls.del(LSK.db); showGate("setup","Аввалги базани очиб бўлмади: "+e.message); return; }
+  showApp();
+}
+
+let pickerReady=null;
+function loadPicker(){
+  if(!pickerReady) pickerReady = loadScript("https://apis.google.com/js/api.js").then(()=>new Promise(r=>gapi.load("picker",r)));
+  return pickerReady;
+}
+async function pickBase(){
+  await loadPicker();
+  return new Promise(res=>{
+    const view = new google.picker.DocsView(google.picker.ViewId.SPREADSHEETS).setMode(google.picker.DocsViewMode.LIST).setIncludeFolders(false);
+    const shared = new google.picker.DocsView(google.picker.ViewId.SPREADSHEETS).setMode(google.picker.DocsViewMode.LIST).setOwnedByMe(false);
+    new google.picker.PickerBuilder()
+      .addView(shared).addView(view)
+      .setOAuthToken(TOKEN).setDeveloperKey(CONFIG.API_KEY).setAppId(CONFIG.APP_ID)
+      .setTitle("«Фирмалар базаси (дастур)» жадвалини танланг").setLocale("ru")
+      .setCallback(d=>{ if(d.action===google.picker.Action.PICKED) res(d.docs[0].id); else if(d.action===google.picker.Action.CANCEL) res(null); })
+      .build().setVisible(true);
+  });
+}
+
+document.addEventListener("click", async e=>{
+  const t = e.target.closest("[data-g]"); if(!t) return;
+  const a = t.dataset.g;
+  try{
+    if(a==="login"){ await requestToken("select_account"); showGate("loading"); await afterLogin(); }
+    if(a==="reauth"){ await requestToken(""); toast("Давом этишингиз мумкин"); poll(); }
+    if(a==="reload"){ location.reload(); }
+    if(a==="create"){
+      t.disabled=true; showGate("loading");
+      DB_ID = await GS.create(); ls.set(LSK.db, DB_ID); await refresh(); showGate("created");
+    }
+    if(a==="enter"){ showApp(); }
+    if(a==="pick"){
+      const id = await pickBase(); if(!id) return;
+      showGate("loading");
+      let ok=false; try{ ok = await GS.check(id); }catch(err){ showGate("setup","Бу жадвални очиб бўлмади: "+err.message); return; }
+      if(!ok){ showGate("setup","Танланган жадвал фирмалар базаси эмас. «Фирмалар базаси (дастур)» жадвалини танланг."); return; }
+      DB_ID=id; ls.set(LSK.db,id); await refresh(); showApp();
+    }
+    if(a==="switch"){ DB_ID=null; ls.del(LSK.db); showGate("setup"); }
+    if(a==="logout"){
+      try{ if(TOKEN) google.accounts.oauth2.revoke(TOKEN,()=>{}); }catch(err){}
+      TOKEN=null; ss.del(LSK.tok); ME.email=""; showGate("login");
+    }
+  }catch(err){
+    if(a==="login"||a==="create"||a==="pick") showGate(a==="login"?"login":"setup", err.message);
+    else toast(err.message);
+  }
+});
+
+/* ---------- boot ---------- */
+(async()=>{
+  if(DEMO){
+    ME.email="demo@example.com"; ME.name="Демо фойдаланувчи";
+    await refresh(); showApp();
+    $("#demoBar").hidden=false;
+    return;
+  }
+  DB_ID = ls.get(LSK.db);
+  showGate("loading");
+  try{ await loadScript("https://accounts.google.com/gsi/client"); }
+  catch(e){ showGate("error","Google хизматлари юкланмади. Интернетни текширинг."); return; }
+  loadPicker().catch(()=>{});
+  try{ const t=JSON.parse(ss.get(LSK.tok)||"null"); if(t && t.e>Date.now()){ TOKEN=t.t; TOKEN_EXP=t.e; scheduleExpiry(); } }catch(e){}
+  if(TOKEN){ try{ await afterLogin(); return; }catch(e){} }
+  showGate("login");
+})();
+</script>
+</body>
+</html>
