@@ -239,6 +239,11 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .steps a{color:var(--accent);font-weight:600}
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:10px 16px;font-size:13.5px;background:var(--work-soft);border-bottom:1px solid var(--line)}
+.backup{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.backup.due{border-color:var(--work);background:var(--work-soft)}
+.bk-text{display:flex;flex-direction:column;gap:2px;min-width:0;font-size:13.5px}
+.bk-text span{color:var(--muted)}
+.backup.due .bk-text span{color:var(--ink)}
 .note-box{background:var(--accent-soft);border-radius:var(--r);padding:14px 16px;font-size:14px;line-height:1.55;max-width:80ch}
 #printArea .pageblock{break-after:page;page-break-after:always}
 #printArea .pageblock:last-child{break-after:auto;page-break-after:auto}
@@ -616,6 +621,7 @@ function vHome(){
   const cnt = st => S.orders.filter(o=>o.status===st).length;
   return `<div class="head"><div><h1>Барча фирмалар</h1><div class="sub">${S.firms.length} та фирма · ${S.orders.length} та буйруқ</div></div>
     <div class="counts">${["draft","signing","signed"].map(s=>`<span class="pill ${STATUS[s].cls}">${ICON[s]}${STATUS[s].t}: ${cnt(s)}</span>`).join("")}</div></div>
+    ${backupBar()}
     ${S.firms.length ? `<div class="grid">${[...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||"")).map(f=>{
       const os=S.orders.filter(o=>o.firmId===f.id);
       const c=s=>os.filter(o=>o.status===s).length;
@@ -697,6 +703,39 @@ function exportPrint(f){
   if(!os.length){ toast("Бу фирмада буйруқ йўқ"); return false; }
   $("#printArea").innerHTML=os.map(o=>`<div class="pageblock">${sheetHTML(o,true)}</div>`).join("");
   window.print(); return true;
+}
+
+function lastBackup(){ return LOG.filter(l=>l.kind==="base").sort((a,b)=>b.at-a.at)[0]; }
+function backupBar(){
+  if(!S.ready || DEMO && !S.firms.length) return "";
+  const lb=lastBackup(); const days=lb?Math.floor((Date.now()-lb.at)/86400000):null;
+  const old=!lb||days>=30;
+  return `<div class="backup ${old?"due":""}">
+    <div class="bk-text"><b>Бутун базанинг захира нусхаси</b><span>${lb?`Охирги нусха: ${fmtStamp(lb.at)} — ${esc(lb.name||nameOf(lb.email))}${old?" · 30 кундан ошди, янгисини олинг":""}`:"Ҳали захира нусха олинмаган. Ойида бир марта олиб, компьютер ёки флешкада сақланг."}</span></div>
+    <div class="actions"><button type="button" class="btn ${old?"primary":""}" data-act="bkXlsx">${DL_ICON}Excel</button><button type="button" class="btn" data-act="bkJson">${DL_ICON}JSON (тўлиқ)</button></div>
+  </div>`;
+}
+async function backupXlsx(){
+  if(!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
+  const firms=[...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+  const fieldDefs=FIRM_FIELDS.flatMap(g=>g.f);
+  const fr=[[...fieldDefs.map(([,l])=>l),"Буйруқлар сони","Охирги ўзгартирган","Охирги ўзгариш"]];
+  firms.forEach(f=>fr.push([...fieldDefs.map(([k])=>k==="regDate"?fmtDate(f[k]):(f[k]||"")), firmOrders(f.id).length, nameOf(f.updatedBy), fmtStamp(f.updatedAt)]));
+  const ord=[["Фирма","СТИР","№","Сана","Буйруқ номи","Ҳолати","Тўлдирилган реквизитлар","Охирги ўзгартирган","Охирги ўзгариш","Имзоланган вақт"]];
+  firms.forEach(f=>firmOrders(f.id).slice().reverse().forEach(o=>ord.push([f.name||"", f.inn||"", o.values?.number||"", fmtDate(o.values?.date), o.title, STATUS[o.status]?.t||o.status, orderFieldsText(o), nameOf(o.updatedBy), fmtStamp(o.updatedAt), o.signedAt?fmtStamp(o.signedAt):""])));
+  const byId={}; S.firms.forEach(f=>byId[f.id]="Фирма: "+(f.name||"")); S.orders.forEach(o=>{ const f=firm(o.firmId); byId[o.id]=(f?.name||"")+" — буйруқ № "+(o.values?.number||"")+" "+o.title; });
+  const hist=[["Вақт","Ким","Почта","Ҳужжат","Нима қилинди"]];
+  [...LOG].sort((a,b)=>a.at-b.at).forEach(l=>hist.push([fmtStamp(l.at), l.name||nameOf(l.email), l.email, l.kind==="base"?"Бутун база":(byId[l.id]||"(ўчирилган ҳужжат)"), l.note]));
+  const wb=XLSX.utils.book_new();
+  const add=(rows,name,cols)=>{ const ws=XLSX.utils.aoa_to_sheet(rows); ws["!cols"]=cols.map(w=>({wch:w})); XLSX.utils.book_append_sheet(wb,ws,name); };
+  add(fr,"Фирмалар",[...fieldDefs.map(()=>22),12,22,18]); add(ord,"Буйруқлар",[30,12,6,12,40,20,70,22,18,18]); add(hist,"Тарих",[18,22,28,60,40]);
+  XLSX.writeFile(wb, "Firmalar_bazasi_zaxira_"+fileStamp()+".xlsx");
+}
+function backupJson(){
+  const data={ dastur:"Фирмалар ва буйруқлар", turi:"butun baza", exportedAt:new Date().toISOString(), exportedBy:ME.email,
+    firms:S.firms, orders:S.orders, log:LOG,
+    deleted:{ firms:Object.values(ROWS.firms).filter(r=>r.deleted).map(r=>r.obj), orders:Object.values(ROWS.orders).filter(r=>r.deleted).map(r=>r.obj) } };
+  saveBlob(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}), "Firmalar_bazasi_zaxira_"+fileStamp()+".json");
 }
 
 function vTpl(){
@@ -823,6 +862,14 @@ document.addEventListener("click", async e=>{
     toast("Буйруқ ўчирилди"); return go({view:"firm",tab:"orders"});
   }
   if(a==="export") return go({view:"export"});
+  if(a==="bkXlsx"||a==="bkJson"){
+    try{
+      if(a==="bkXlsx"){ toast("Excel тайёрланмоқда…"); await backupXlsx(); } else backupJson();
+      try{ await addLog("base","all","Захира нусха олинди ("+(a==="bkXlsx"?"Excel":"JSON")+")", Date.now()); }catch(e){}
+      toast("Захира нусха юклаб олинди: «Загрузки» папкасини текширинг"); render();
+    }catch(err){ toast("Юклаб бўлмади: "+(err?.message||"хато")); }
+    return;
+  }
   if(a==="expXlsx"||a==="expJson"||a==="expPrint"){
     const f=firm(V.firmId); if(!f) return;
     try{
