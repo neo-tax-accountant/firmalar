@@ -321,6 +321,7 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .bsub{font-weight:700;margin-top:6px}
 .acc{border-bottom:1px dotted currentColor;cursor:help}
 @media print{.btab th,.btab td{font-size:10.5px;padding:3px 5px}.sheet.bref{font-size:12px}}
+.rhist{display:flex;gap:3px;align-items:center;font-size:11px}.rhist i{font-style:normal;font-weight:800;font-family:var(--f-display);color:var(--c)}
 /* GTD */
 .greg{display:inline-block;font-family:var(--f-mono);font-size:12px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap}
 .greg.im{background:#cffafe;color:#0e7490}.greg.ex{background:#fce7f3;color:#be185d}
@@ -802,7 +803,7 @@ function kv(l,v,mono){ return `<div class="req"><div class="k">${l}</div><div cl
 function firmSummary(f){
   const vs=vatStatus(f); const tot=founderTotal(f);
   return `<div class="fsum">
-    ${f.ratingCat?`<div class="fs-rate rn-${ratingGroup(f.ratingCat)}">${ratingCircle(f.ratingCat,70)}<div class="rmeta"><b>Солиқ рейтинги</b>${f.ratingScore?`<span class="rscore">${esc(f.ratingScore)}<small>балл</small></span>`:""}${f.ratingDate?`<span>${fmtDate(f.ratingDate)} ҳолатига</span>`:""}<a class="linkbtn" href="https://chamber.uz/contractor-rating" target="_blank" rel="noopener">chamber.uz'да текшириш ↗</a></div></div>`:`<div class="fs-rate"><span class="rn rn-none" style="--fs:40px">—</span><div class="rmeta"><b>Солиқ рейтинги</b><span>киритилмаган</span><a class="linkbtn" href="https://chamber.uz/contractor-rating" target="_blank" rel="noopener">chamber.uz'да текшириш ↗</a></div></div>`}
+    ${f.ratingCat?`<div class="fs-rate rn-${ratingGroup(f.ratingCat)}">${ratingCircle(f.ratingCat,70)}<div class="rmeta"><b>Солиқ рейтинги</b>${f.ratingScore?`<span class="rscore">${esc(f.ratingScore)}<small>балл</small></span>`:""}${f.ratingDate?`<span>${fmtDate(f.ratingDate)} ҳолатига</span>`:""}${(f.ratingHist||[]).length>1?`<span class="rhist">${f.ratingHist.slice(-5).map(h=>`<i class="rn-${ratingGroup(h.cat)}" title="${fmtDate(h.d)} · ${h.score} балл">${esc(h.cat)}</i>`).join("→")}</span>`:""}<button type="button" class="linkbtn" data-act="rateOne">↻ chamber.uz'дан янгилаш</button></div></div>`:`<div class="fs-rate"><span class="rn rn-none" style="--fs:40px">—</span><div class="rmeta"><b>Солиқ рейтинги</b><span>киритилмаган</span><button type="button" class="linkbtn" data-act="rateOne">↻ chamber.uz'дан олиш</button></div></div>`}
     <div class="fs-main"><span class="badge ${vs.cls}">${esc(vs.t)}</span>${f.okedName||f.oked?`<div class="act"><span class="k">Фаолият тури</span><b>${esc(f.okedName||"")}</b>${f.oked?`<span class="mono">ОКЭД ${esc(f.oked)}</span>`:""}</div>`:""}</div>
     ${f.charterFund?`<div class="fs-fund"><span class="k">Устав фонди</span><span class="glow big">${money(f.charterFund)} сўм</span>${f.founders?.length&&Math.abs(tot-100)>0.001?`<span class="warnt">Улушлар жами ${Math.round(tot*100)/100}%</span>`:""}</div>`:""}
   </div>`;
@@ -1117,6 +1118,7 @@ async function refresh(){
   const d = await STORE.load();
   ROWS.firms=d.firms; ROWS.orders=d.orders; ROWS.recs=d.recs||{}; LOG=d.log;
   rebuild(); S.ready=true; LAST_SYNC=Date.now(); setSync();
+  ratingAuto();
   if(!GTD_LOADED&&!GTD_LOADING) ensureGtd().then(()=>{ if(liveViews.has(V.view)&&!V.gImport&&!V.ctEdit&&!V.ckEdit&&!V.loanEdit) render(); else renderRail(); }).catch(()=>{});
 }
 async function assertFresh(kind, ex, id){
@@ -1189,6 +1191,7 @@ function vHome(){
   const cnt = st => S.orders.filter(o=>o.status===st).length;
   return `<div class="head"><div><h1>Барча фирмалар</h1><div class="sub">${S.firms.length} та фирма · ${S.orders.length} та буйруқ</div></div>
     <div class="counts">${["draft","signing","signed"].map(s=>`<span class="pill ${STATUS[s].cls}">${ICON[s]}${STATUS[s].t}: ${cnt(s)}</span>`).join("")}</div></div>
+    ${S.firms.length?`<div class="toolbar"><span class="hint">Солиқ рейтинглари chamber.uz'дан ҳар куни ўзи текширилади${ls.get(RATING_LK)?" · охирги текширув: "+fmtDate(ls.get(RATING_LK)):""}.</span><button type="button" class="btn" data-act="rateAll">↻ Рейтингларни ҳозир янгилаш</button></div>`:""}
     ${backupBar()}
     ${alertsPanel()}
     ${S.firms.length ? `<div class="grid">${[...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||"")).map(f=>{
@@ -2707,6 +2710,50 @@ async function gtdXlsx(firmId){
   XLSX.writeFile(wb,(firmId?safeName(firm(firmId)?.name)+"_":"")+"GTD_reestr_"+fileStamp()+".xlsx");
 }
 
+/* ---------- Солиқ рейтинги: chamber.uz дан автомат олиш ---------- */
+const RATING_API="https://admin.chamber.uz/api/GetCompanyCriteries/";
+const RATING_LK="fb-rating-day";
+const latCat=c=>String(c||"").trim().toUpperCase().replace(/А/g,"A").replace(/В/g,"B").replace(/С/g,"C").replace(/Д/g,"D");
+async function fetchRating(inn){
+  inn=String(inn||"").trim(); if(!/^\d{9}$/.test(inn)) return null;
+  let r; try{ r=await fetch(RATING_API+inn,{cache:"no-store"}); }catch(e){ throw new Error("chamber.uz га уланиб бўлмади"); }
+  if(r.status===404) return null;
+  if(!r.ok) throw new Error("chamber.uz жавоб бермади ("+r.status+")");
+  let j; try{ j=await r.json(); }catch(e){ return null; }
+  const cat=latCat(j?.type); if(!/^(AAA|AA|A|BBB|BB|B|CCC|CC|C|D)$/.test(cat)) return null;
+  return {cat,score:j.criteriaAll!=null?String(j.criteriaAll):"",name:j.nameUz||j.name||""};
+}
+async function applyRating(fid,rt){
+  for(let attempt=0;attempt<2;attempt++){
+    const f=firm(fid); if(!f) return false;
+    if(f.ratingCat===rt.cat&&String(f.ratingScore||"")===rt.score) return false;
+    const o=JSON.parse(JSON.stringify(f)); const prev=(f.ratingCat||"—")+(f.ratingScore?" ("+f.ratingScore+")":"");
+    o.ratingCat=rt.cat; o.ratingScore=rt.score; o.ratingDate=localToday();
+    o.ratingHist=(o.ratingHist||[]).concat([{d:localToday(),cat:rt.cat,score:rt.score}]).slice(-24);
+    try{ await putItem("firms",o,`Солиқ рейтинги: ${prev} → ${rt.cat} (${rt.score} балл), chamber.uz`); return true; }
+    catch(err){ if(err instanceof ConflictErr&&attempt===0) continue; throw err; }
+  }
+  return false;
+}
+let RATING_RUN=null;
+async function refreshRatings(opts={}){
+  if(RATING_RUN) return RATING_RUN;
+  RATING_RUN=(async()=>{
+    const list=S.firms.filter(f=>/^\d{9}$/.test(String(f.inn||"").trim())); let changed=[], fail=0, nf=0;
+    for(const f of list){
+      try{ const rt=await fetchRating(f.inn); if(!rt){ nf++; continue; } const was=f.ratingCat; if(await applyRating(f.id,rt)) changed.push(`${f.name}: ${was||"—"} → ${rt.cat}`); }
+      catch(e){ fail++; if(e instanceof AuthErr) break; }
+      await new Promise(ok=>setTimeout(ok,250));
+    }
+    ls.set(RATING_LK,localToday());
+    if(changed.length) render();
+    if(!opts.silent||changed.length) toast(changed.length?`Рейтинг ўзгарди: ${changed.slice(0,3).join("; ")}${changed.length>3?" ва яна "+(changed.length-3)+" та":""}`:`Рейтинглар текширилди (${list.length-fail-nf} та фирма) — ўзгариш йўқ${fail?", "+fail+" тасида хато":""}`);
+    return {changed,fail,nf};
+  })();
+  try{ return await RATING_RUN; }finally{ RATING_RUN=null; }
+}
+function ratingAuto(){ if(DEMO) return; if(ls.get(RATING_LK)===localToday()) return; setTimeout(()=>{ if(S.ready&&S.firms.length) refreshRatings({silent:true}).catch(()=>{}); },4000); }
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
@@ -3041,6 +3088,14 @@ document.addEventListener("click", async e=>{
   if(a==="newCheck") return go({ckEdit:"tpl"});
   if(a==="ctGen") return go({ctEdit:"gentpl",ctId:null});
   if(a==="cps") return go({view:"cps",cpKey:null,firmId:null});
+  if(a==="rateAll"){ if(DEMO){ toast("Демо режимда рейтинг янгиланмайди"); return; } t.disabled=true; t.textContent="Текширилмоқда…"; try{ await refreshRatings(); }catch(e){ toast(e.message||String(e)); } return render(); }
+  if(a==="rateOne"){ const f=firm(V.firmId); if(!f) return; if(!/^\d{9}$/.test(String(f.inn||"").trim())){ toast("Аввал фирманинг 9 рақамли СТИРини киритинг"); return; }
+    t.disabled=true; t.textContent="Текширилмоқда…";
+    try{ const rt=await fetchRating(f.inn); if(!rt){ toast("chamber.uz'да бу СТИР бўйича рейтинг топилмади"); return render(); }
+      if(DEMO){ toast(`chamber.uz: ${rt.cat}, ${rt.score} балл (демода сақланмайди)`); return render(); }
+      const ch=await applyRating(f.id,rt); toast(ch?`Рейтинг янгиланди: ${rt.cat}, ${rt.score} балл`:`Рейтинг ўзгармаган: ${rt.cat}, ${rt.score} балл`); }
+    catch(e){ toast(e instanceof Error?(e instanceof ConflictErr||e instanceof AuthErr?explain(e):e.message):String(e)); }
+    return render(); }
   if(a==="gtdAll") return go({view:"gtd",gId:null,gImport:null,firmId:null});
   if(a==="gBack") return go({gId:null});
   if(a==="gMore"){ V.gLimit=(V.gLimit||200)+200; return render(); }
