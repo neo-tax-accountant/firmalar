@@ -246,6 +246,7 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .bk-text span{color:var(--muted)}
 .backup.due .bk-text span{color:var(--ink)}
 .hosecs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2px 14px;margin:4px 0 8px}.hosecs .checkline{grid-column:auto}label.checkline.muted{opacity:.45;cursor:default}.hogrp td{background:var(--bg);font-weight:600}.hosign{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px;font-size:12px}.hosheet .btab td{font-size:11px}
+.cccat{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,#8b5cf6 14%,transparent);color:inherit;white-space:nowrap}.neg{color:#dc2626}.ccimp .ccin{width:100%;min-width:0;border:1px solid var(--line);border-radius:6px;padding:5px 7px;font:inherit;font-size:13px;background:var(--panel);color:inherit}.ccimp .ccin+.ccin{margin-top:4px}.ccimp .ccd{min-width:128px}.ccimp .ccs{min-width:170px}.ccimp .cca,.ccimp .ccv{min-width:100px;text-align:right}.ccimp td{vertical-align:top}.ccimp .gfn a{display:inline-flex;vertical-align:middle}.ccimp .gfn svg{width:18px;height:18px}.ccimp .gfn{word-break:break-all}.ccimp .gsel{max-width:190px}
 .checkline{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer;grid-column:1/-1;padding:4px 0}
 .checkline input{width:18px;height:18px;margin-top:2px;accent-color:var(--accent)}
 .field input.bad{border-color:var(--danger)}
@@ -1202,6 +1203,10 @@ function demoRecs(){
     ["namunafc1",{row:14,obj:{id:"namunafc1",firmId:"namuna01",type:"fcontract",dir:"imp",idn:"2600123456789",number:"FX-2026/11",date:"2026-01-15",endDate:"2026-12-31",amount:"120000",currency:"USD",subj:"товар",subject:"Керамик плиткалар",seller:{name:"FOSHAN XINGHE CERAMICS CO., LTD",country:"Хитой",address:"Foshan, Guangdong, China",bank:"Bank of China, Foshan Branch",account:"CN12 3456 7890 1234",swift:"BKCHCNBJ400",director:"Li Wei"},buyer:{name:"«Намуна Савдо» МЧЖ",country:"Ўзбекистон",regNo:"300000001",address:"Тошкент ш., Юнусобод т., Амир Темур кўч., 1",bank:"Намуна банк",account:"20208840000000000002",swift:"NAMUUZ22",director:"Каримов А.Б."},supplier:{},payType:"mixed",prepayPct:"50",prepayDays:"180",postDays:"180",incoterms:"FCA",shipPoint:"Foshan, China",deliveryPoint:"Тошкент, «Чуқурсой» божхона пости",transport:"темир йўл",status:"open",note:"",
       specs:[{id:"namunasp1",no:"1",date:"2026-01-15",currency:"USD",items:[{name:"Плитка керамическая глазурованная 60x60",hs:"6907210000",unit:"м²",qty:"3888",price:"10.4",sum:"40435.2"}],total:"40435.2",note:""}],acts:[],addenda:[{id:"namunaad1",no:"1",date:"2026-06-01",content:"Контракт суммаси ва муддати ўзгартирилди",newAmount:"150000",newEnd:"2027-06-30"}],
       payments:[{id:"np1",date:"2026-01-10",amount:"60000",kind:"prepay",note:"т/т № 12"}],createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}],
+    ["namunacc1",{row:30,obj:{id:"namunacc1",firmId:"namuna01",type:"ccheck",date:"2026-09-03",time:"09:14",amount:"850000",currency:"UZS",kind:"buy",vat:"91071.43",vatRate:"12",seller:"«AYOQSH SERVIS» MCHJ",sellerInn:"301245678",card:{type:"HUMO",first4:"9860",last4:"0000"},cat:"Ёқилғи (бензин, газ)",purpose:"Хизмат автомобили учун АИ-92",holder:"Каримов А.Б.",checkNo:"221",rrn:"124578963201",auth:"",terminal:"",merchant:"",fiscal:"",fm:"",ofd:"",note:"",src:"pdf",createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}],
+    ["namunacc2",{row:31,obj:{id:"namunacc2",firmId:"namuna01",type:"ccheck",date:"2026-09-12",time:"13:40",amount:"1245000",currency:"UZS",kind:"buy",vat:"133392.86",vatRate:"12",seller:"«Office Market» МЧЖ",sellerInn:"305998877",card:{type:"HUMO",first4:"9860",last4:"0000"},cat:"Канцелярия товарлари",purpose:"Офис учун қоғоз ва картридж",holder:"Каримов А.Б.",checkNo:"1543",rrn:"124578963388",auth:"",terminal:"",merchant:"",fiscal:"",fm:"",ofd:"",note:"",src:"pdf",createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}],
+    ["namunacc3",{row:32,obj:{id:"namunacc3",firmId:"namuna01",type:"ccheck",date:"2026-09-25",time:"19:05",amount:"1680000",currency:"UZS",kind:"buy",vat:"180000",vatRate:"12",seller:"«Rayhon» ресторани",sellerInn:"302334455",card:{type:"HUMO",first4:"9860",last4:"0000"},cat:"Овқатланиш, вакиллик",purpose:"Ҳамкорлар билан учрашув",holder:"Каримов А.Б.",checkNo:"88",rrn:"124578963512",auth:"",terminal:"",merchant:"",fiscal:"",fm:"",ofd:"",note:"",src:"pdf",createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}],
+    ["namunacc4",{row:33,obj:{id:"namunacc4",firmId:"namuna01",type:"ccheck",date:"2026-10-02",time:"10:22",amount:"640000",currency:"UZS",kind:"buy",vat:"68571.43",vatRate:"12",seller:"«AYOQSH SERVIS» MCHJ",sellerInn:"301245678",card:{type:"HUMO",first4:"9860",last4:"0000"},cat:"Ёқилғи (бензин, газ)",purpose:"Хизмат автомобили учун АИ-92",holder:"Каримов А.Б.",checkNo:"264",rrn:"124578963707",auth:"",terminal:"",merchant:"",fiscal:"",fm:"",ofd:"",note:"",src:"pdf",createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}],
     ["namunalt1",{row:15,obj:{id:"namunalt1",firmId:"namuna01",type:"letter",dir:"in",regNo:"К-1",regDate:"2026-09-28",docNo:"14-03/1182",docDate:"2026-09-26",corr:"Юнусобод туман ДСИ",corrInn:"",kind:"Талабнома",via:"my.soliq.uz",subject:"ҚҚС бўйича тушунтириш бериш ҳақида",executor:"Юсупова Д.Р.",deadline:(()=>{ const x=new Date(Date.now()+2*86400000); return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"); })(),status:"open",files:[],createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}],
     ["namunach0",{row:13,obj:{id:"namunach0",firmId:"namuna01",type:"charter",kind:"Устав",status:"old",edition:"Биринчи таҳрир",approvedDate:"2019-03-01",regDate:"2019-03-12",name:"«Намуна Савдо» масъулияти чекланган жамияти",capital:"20000000",createdAt:t,updatedAt:t,updatedBy:e},updatedAt:t,updatedBy:e,deleted:false}]]);
   return {...extra,namunact1:{row:6,obj:k1,updatedAt:t+9,updatedBy:e,deleted:false},namunact2:{row:7,obj:k2,updatedAt:t+10,updatedBy:e,deleted:false},namunact3:{row:8,obj:k3,updatedAt:t+11,updatedBy:e,deleted:false},namunaloan1:{row:2,obj:l1,updatedAt:t,updatedBy:e,deleted:false},namunaloan2:{row:3,obj:l2,updatedAt:t+5,updatedBy:e,deleted:false},namunack1:{row:4,obj:c1,updatedAt:t+7,updatedBy:e,deleted:false},namunack2:{row:5,obj:c2,updatedAt:t+8,updatedBy:e,deleted:false}};
@@ -1442,7 +1447,7 @@ taxrep:R3("k20","#fda4af","#e11d48","#4c0519","#ffe4e6",`<path d="M12 7h24v31l-4
 finrep:R3("k21","#c7d2fe","#6366f1","#1e1b4b","#e0e7ff",`<path d="M11 7h19l7 7v24H11z" fill="OBJ"/><path d="M30 7v7h7" fill="#a5b4fc"/><rect x="15" y="27" width="3.5" height="7" rx="1" fill="#818cf8"/><rect x="20.5" y="23" width="3.5" height="11" rx="1" fill="#6366f1"/><rect x="26" y="19" width="3.5" height="15" rx="1" fill="#4338ca"/><path d="M15 15h10M15 19h7" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round"/>`),
 office:R3("k22","#fed7aa","#f97316","#431407","#ffedd5",`<rect x="8" y="13" width="32" height="22" rx="3" fill="OBJ"/><path d="M8.5 14.5 24 26l15.5-11.5" stroke="#f97316" stroke-width="2.2" fill="none" stroke-linejoin="round"/><rect x="28" y="6" width="12" height="9" rx="2" fill="#fdba74"/><path d="M31 9.5h6M31 12h4" stroke="#9a3412" stroke-width="1.4" stroke-linecap="round"/>`),
 };
-ICONS.staff=ICONS.people; ICONS.cash=ICONS.kassa;
+ICONS.staff=ICONS.people; ICONS.cash=ICONS.kassa; ICONS.cards=ICONS.card;
 const ICONC={}, ICOLOR={}, ILIGHT={};
 Object.keys(ICONS).forEach(k=>{ const o=ICONS[k]; ICONC[k]=o.circ; ICOLOR[k]=o.c; ILIGHT[k]=o.l; ICONS[k]=o.tile; });
 
@@ -1467,18 +1472,20 @@ const FIRM_MENUS=[
   {k:"cash",d:"Касса тушумлари, кунлик касса ҳисоби",t:"Касса тушуми",plan:["Кунлик / ойлик касса тушуми","Нақд ва терминал (пластик) бўйича алоҳида","Касса аппаратлари бўйича тушум","Ой якунида жамлама"]},
   {k:"contracts",d:"Кирувчи ва чиқувчи шартномалар, PDF нусхалари",t:"Шартномалар рўйхати",ready:true,plan:["Контрагентлар билан шартномалар: ким билан, рақами, санаси, предмети, суммаси","Шартнома муддати ва ҳолати","Шартнома шаблонлари: реквизитлар автомат тушади","Муддати тугаётган шартномалар бўйича огоҳлантириш"]},
   {k:"import",d:"ГТД реестри: PDF'дан ўзи тўлдирилади",t:"Импорт ҳужжатлари (ГТД)",ready:true,plan:["Импорт шартномалари ва спецификациялар","ЮБК (ГТД) рақами ва санаси, божхона тўловлари","Валюта тўловлари ва ҳисоб-китоб муддатлари","Дебиторлик бўйича назорат муддатлари"]},
+  {k:"cards",d:"Карта чеклари PDF/расмдан ўқилади, ойлик Excel реестр",t:"Корпоратив карта чеклари",ready:true,need:f=>!!f?.modules?.card?.on},
   {k:"loans",d:"Займ шартномалари, фоиз ва солиқ ҳисоби",t:"Молиявий қарз / кредитлар",ready:true,plan:["Қарз ва кредит шартномалари: кимдан, суммаси, фоизи, муддати","Қайтариш графиги ва қолдиқ","Фоизлар ҳисоби","Тўлов санаси яқинлашганда огоҳлантириш"]},
   {k:"finance",d:"Тушум, фойда, асосий кўрсаткичлар",t:"Фирманинг молиявий ҳолати",plan:["Асосий кўрсаткичлар: тушум, фойда, қарзлар","Чоракма-чорак ва йилма-йил солиштириш","Молиявий ҳисобот рақамларидан жадвал ва графиклар","Солиқ юки ҳисоби"]},
   {k:"buyers",d:"Харидорлар, дебиторлик қарзи",t:"Фирма харидорлари",plan:["Харидорлар рўйхати: номи, СТИР, манзили, телефон","Ҳар бир харидор билан шартномалар","Дебиторлик қарзи ва тўловлар","Энг катта харидорлар рейтинги"]},
 ];
+const firmMenus=f=>FIRM_MENUS.filter(m=>!m.need||m.need(f));
 function firmMenu(f,os){
-  if(V.tab==="overview"||!FIRM_MENUS.some(m=>m.k===V.tab)) return "";
-  return `<nav class="dstrip" aria-label="Фирма бўлимлари">${FIRM_MENUS.map(m=>`<button type="button" class="ds ${V.tab===m.k?"on":""}" data-tab="${m.k}" aria-current="${V.tab===m.k}" style="--c:${ICOLOR[m.k]};--cl:${ILIGHT[m.k]}" title="${esc(m.t)}"><span class="ds-i">${ICONC[m.k]}</span><span class="ds-t">${m.t}</span></button>`).join("")}</nav>`;
+  if(V.tab==="overview"||!firmMenus(f).some(m=>m.k===V.tab)) return "";
+  return `<nav class="dstrip" aria-label="Фирма бўлимлари">${firmMenus(f).map(m=>`<button type="button" class="ds ${V.tab===m.k?"on":""}" data-tab="${m.k}" aria-current="${V.tab===m.k}" style="--c:${ICOLOR[m.k]};--cl:${ILIGHT[m.k]}" title="${esc(m.t)}"><span class="ds-i">${ICONC[m.k]}</span><span class="ds-t">${m.t}</span></button>`).join("")}</nav>`;
 }
 function firmOverview(f,os){
   const al=firmAlerts(f); const c=s=>os.filter(o=>o.status===s).length;
-  const info=m=>m.k==="staff"?(()=>{ const n=S.emp.filter(e=>e.firmId===f.id&&e.status!=="fired").length; return n?`${n} та ходим`:""; })():m.k==="import"?(()=>{ const n=S.gtd.filter(r=>r.firmId===f.id).length; return n?`${n} та ГТД`:""; })():m.k==="contracts"?(()=>{ const cs=firmContracts(f.id); if(!cs.length) return ""; const i=cs.filter(c=>(c.dir||"in")==="in").length; return `кирувчи ${i} · чиқувчи ${cs.length-i}`; })():m.k==="check"?(()=>{ const cs=firmChecks(f.id); if(!cs.length) return ""; const due=ckAlerts(f).length; return `${cs.length} та чек лист${due?" · "+due+" та эслатма":""}`; })():m.k==="loans"?(()=>{ const ls=firmLoans(f.id); if(!ls.length) return ""; const b=ls.reduce((a,L)=>a+loanCalc(L).balToday,0); return `${ls.length} та шартнома · қолдиқ ${m0(b)}`; })():m.k==="orders"?`${os.length} та буйруқ · ${c("signing")} та имзолашда`:m.k==="reqs"?`${accountsOf(f).length} та ҳисоб рақам · ${(f.founders||[]).length} та таъсисчи`:"";
-  const cards=FIRM_MENUS.filter(m=>m.k!=="overview").map(m=>`<button type="button" class="dcard" data-tab="${m.k}" style="--c:${ICOLOR[m.k]};--cl:${ILIGHT[m.k]}">
+  const info=m=>m.k==="cards"?ccInfo(f):m.k==="staff"?(()=>{ const n=S.emp.filter(e=>e.firmId===f.id&&e.status!=="fired").length; return n?`${n} та ходим`:""; })():m.k==="import"?(()=>{ const n=S.gtd.filter(r=>r.firmId===f.id).length; return n?`${n} та ГТД`:""; })():m.k==="contracts"?(()=>{ const cs=firmContracts(f.id); if(!cs.length) return ""; const i=cs.filter(c=>(c.dir||"in")==="in").length; return `кирувчи ${i} · чиқувчи ${cs.length-i}`; })():m.k==="check"?(()=>{ const cs=firmChecks(f.id); if(!cs.length) return ""; const due=ckAlerts(f).length; return `${cs.length} та чек лист${due?" · "+due+" та эслатма":""}`; })():m.k==="loans"?(()=>{ const ls=firmLoans(f.id); if(!ls.length) return ""; const b=ls.reduce((a,L)=>a+loanCalc(L).balToday,0); return `${ls.length} та шартнома · қолдиқ ${m0(b)}`; })():m.k==="orders"?`${os.length} та буйруқ · ${c("signing")} та имзолашда`:m.k==="reqs"?`${accountsOf(f).length} та ҳисоб рақам · ${(f.founders||[]).length} та таъсисчи`:"";
+  const cards=firmMenus(f).filter(m=>m.k!=="overview").map(m=>`<button type="button" class="dcard" data-tab="${m.k}" style="--c:${ICOLOR[m.k]};--cl:${ILIGHT[m.k]}">
       <span class="dc-i">${ICONC[m.k]}</span>
       <span class="dc-t">${m.t}</span>
       <span class="dc-d">${esc(m.d||"")}</span>
@@ -3518,8 +3525,8 @@ const VPLAN_TPL={ id:"k-vplan", hr:"vplan", tag:"Кадр · таътил гра
 HR_TEMPLATES.push(VPLAN_TPL); TEMPLATES.push(VPLAN_TPL);
 
 /* ---------- Уникал ҳужжат ИД ---------- */
-const DOC_PFX={letter:"ХТ",fcontract:"ТК",spec:"СП",act:"АК",addendum:"ҚК",order:"БЙ",contract:"ШР",loan:"ҚР",check:"ЧЛ",gtd:"ГТ",emp:"ХД",vplan:"ТГ",taxrep:"СҲ",finrep:"МҲ",charter:"УС",cert:"ГВ",firm:"ФР"};
-const DOC_NAME={letter:"Канцелярия хати",fcontract:"Ташқи савдо контракти",spec:"Спецификация",act:"Акт",addendum:"Қўшимча келишув",order:"Буйруқ",contract:"Шартнома",loan:"Займ шартномаси",check:"Чек лист",gtd:"ГТД",emp:"Ходим карточкаси",vplan:"Таътил графиги",taxrep:"Солиқ ҳисоботи",finrep:"Молиявий ҳисобот",charter:"Устав ҳужжати",cert:"Гувоҳнома",firm:"Фирма"};
+const DOC_PFX={ccheck:"КЧ",letter:"ХТ",fcontract:"ТК",spec:"СП",act:"АК",addendum:"ҚК",order:"БЙ",contract:"ШР",loan:"ҚР",check:"ЧЛ",gtd:"ГТ",emp:"ХД",vplan:"ТГ",taxrep:"СҲ",finrep:"МҲ",charter:"УС",cert:"ГВ",firm:"ФР"};
+const DOC_NAME={ccheck:"Корпоратив карта чеки",letter:"Канцелярия хати",fcontract:"Ташқи савдо контракти",spec:"Спецификация",act:"Акт",addendum:"Қўшимча келишув",order:"Буйруқ",contract:"Шартнома",loan:"Займ шартномаси",check:"Чек лист",gtd:"ГТД",emp:"Ходим карточкаси",vplan:"Таътил графиги",taxrep:"Солиқ ҳисоботи",finrep:"Молиявий ҳисобот",charter:"Устав ҳужжати",cert:"Гувоҳнома",firm:"Фирма"};
 function hash32(s){ let h=2166136261; s=String(s); for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
 const B32="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const docKind=r=>r?(r.tplId?"order":r.type==="pos"?"emp":r.type||"firm"):"";
@@ -3546,6 +3553,7 @@ function docGo(k,id,fid){
   if(k==="taxrep"){ const r=S.recs.find(x=>x.id===id); return go({...base,tab:"taxrep",trKind:r?.kind,trYear:String(r?.period||"").slice(0,4),trEdit:r?JSON.parse(JSON.stringify(r)):null}); }
   if(k==="finrep"){ const r=S.recs.find(x=>x.id===id); return go({...base,tab:"finrep",frYear:String(r?.period||"").slice(0,4)}); }
   if(k==="charter") return go({...base,tab:"charter",chId:id});
+  if(k==="ccheck") return go({...base,tab:"cards",ccId:id,ccEdit:null,ccImport:null});
   if(k==="letter"){ const l=S.recs.find(x=>x.id===id); return go({...base,tab:"office",letDir:l?.dir||"in",letId:id,letEdit:null}); }
   if(k==="fcontract") return go({...base,tab:"import",impSub:"fc",fcId:id,fcSub:"info",gId:null});
   if(k==="spec"||k==="act"||k==="addendum"){ const c=S.recs.find(r=>r.type==="fcontract"&&(r[k==="spec"?"specs":k==="act"?"acts":"addenda"]||[]).some(x=>x.id===id)); if(c) return go({...base,tab:"import",impSub:"fc",fcId:c.id,fcSub:k==="addendum"?"add":k,gId:null}); }
@@ -4357,7 +4365,7 @@ function attachBox(kind,r,title,hint){ const files=r.files||[];
 async function attPut(kind,id,mut,note){
   for(let attempt=0;attempt<2;attempt++){ const row=ROWS[kind]?.[id]; const o0=row?.obj||attList(kind).find(x=>x.id===id); if(!o0) throw new Error("Ҳужжат топилмади"); const o=JSON.parse(JSON.stringify(o0)); mut(o);
     try{ return await putItem(kind,o,note); }catch(err){ if(err instanceof ConflictErr&&attempt===0) continue; throw err; } } }
-const docTitle=(kind,o)=>kind==="orders"?(o.title||"буйруқ")+" № "+(o.values?.number||""):kind==="gtd"?"ГТД "+o.no:kind==="emp"?(o.fio||o.position||"ходим"):o.type==="loan"?"займ № "+(o.number||""):o.type==="contract"?"шартнома № "+(o.number||""):o.type==="charter"?(o.kind||"устав")+" "+(o.edition||""):o.type==="fcontract"?"контракт № "+(o.number||""):o.type==="letter"?(o.dir==="out"?"чиқувчи":"кирувчи")+" хат № "+(o.regNo||""):o.type==="check"?"чек лист "+(o.name||""):"ҳужжат";
+const docTitle=(kind,o)=>kind==="orders"?(o.title||"буйруқ")+" № "+(o.values?.number||""):kind==="gtd"?"ГТД "+o.no:kind==="emp"?(o.fio||o.position||"ходим"):o.type==="loan"?"займ № "+(o.number||""):o.type==="contract"?"шартнома № "+(o.number||""):o.type==="charter"?(o.kind||"устав")+" "+(o.edition||""):o.type==="fcontract"?"контракт № "+(o.number||""):o.type==="letter"?(o.dir==="out"?"чиқувчи":"кирувчи")+" хат № "+(o.regNo||""):o.type==="check"?"чек лист "+(o.name||""):o.type==="ccheck"?"карта чеки "+(o.seller||"")+" "+fmtDate(o.date)+" "+m2(num(o.amount)):"ҳужжат";
 
 /* ---------- Лицензиялар (реквизитлар) ---------- */
 function licAlerts(f){ const out=[]; const td=tdNum(); (f.licenses||[]).forEach(l=>{ const e=dnum(l.exp); if(e==null) return; const d=e-td; if(d<0) out.push({lvl:"bad",tab:"reqs",t:`Лицензия «${l.title||""}»${l.no?" № "+l.no:""}: муддати ўтган (${fmtDate(l.exp)})`}); else if(d<=60) out.push({lvl:"soon",tab:"reqs",t:`Лицензия «${l.title||""}»${l.no?" № "+l.no:""}: ${d} кундан кейин муддати тугайди`}); }); return out; }
@@ -4498,6 +4506,7 @@ function attLoc(kind,o){ o=o||{}; const fid=o.firmId;
   if(t==="contract") return {firmId:fid,sec:"contracts",sub:[(o.dir||"in")==="out"?"Чиқувчи":"Кирувчи"]};
   if(t==="charter") return {firmId:fid,sec:"charter",sub:[o.kind||"Устав"]};
   if(t==="fcontract") return {firmId:fid,sec:"import",sub:["Ташқи савдо контрактлари","Контракт "+(o.number||"")]};
+  if(t==="ccheck") return {firmId:fid,sec:"cards",sub:[o.card?.last4?`${o.card.type||"Карта"} ${o.card.first4||""}-${o.card.last4}`:"Карта кўрсатилмаган",ymOf(o.date)]};
   if(t==="letter") return {firmId:fid,sec:"office",sub:[o.dir==="out"?"Чиқувчи хатлар":"Кирувчи хатлар",yOf(o.regDate)]};
   if(t==="taxrep") return {firmId:fid,sec:"taxrep",sub:[trName(o.kind),yOf(o.period)]};
   if(t==="finrep") return {firmId:fid,sec:"finrep",sub:[yOf(o.period)]};
@@ -4535,11 +4544,11 @@ function firmBundle(f){
   const id=f.id; const recs=S.recs.filter(r=>r.firmId===id);
   return {firm:f,orders:S.orders.filter(o=>o.firmId===id),recs,gtd:S.gtd.filter(r=>r.firmId===id),emp:S.emp.filter(e=>e.firmId===id),pos:S.pos.filter(e=>e.firmId===id),vplan:S.vplan.filter(e=>e.firmId===id),log:firmLog(f)};
 }
-const REC_LABEL={contract:"Шартномалар",loan:"Займ ва кредитлар",check:"Чек листлар",charter:"Устав ҳужжатлари",fcontract:"Ташқи савдо контрактлари",letter:"Канцелярия хатлари",taxrep:"Солиқ ҳисоботлари",finrep:"Молиявий ҳисоботлар"};
+const REC_LABEL={contract:"Шартномалар",loan:"Займ ва кредитлар",check:"Чек листлар",charter:"Устав ҳужжатлари",fcontract:"Ташқи савдо контрактлари",letter:"Канцелярия хатлари",taxrep:"Солиқ ҳисоботлари",finrep:"Молиявий ҳисоботлар",ccheck:"Корпоратив карта чеклари"};
 function firmCoverage(f){
   const B=firmBundle(f); const files=driveAllFiles(true).filter(x=>x.loc.firmId===f.id); const fc=sec=>files.filter(x=>x.loc.sec===sec).length;
   const rows=[["Реквизитлар, ҳисоб рақамлар, таъсисчилар, бўлимлар",1,fc("reqs")],["Буйруқ ва қарорлар",B.orders.length,fc("orders")],["ГТДлар",B.gtd.length,files.filter(x=>x.loc.sec==="import"&&x.loc.sub[0]==="ГТД").length],["Ходимлар",B.emp.length,fc("staff")],["Штат жадвали лавозимлари",B.pos.length,0],["Таътил графиклари",B.vplan.length,0]];
-  Object.entries(REC_LABEL).forEach(([t,l])=>{ const n=B.recs.filter(r=>r.type===t).length; const sec={contract:"contracts",loan:"loans",check:"check",charter:"charter",fcontract:"import",letter:"office",taxrep:"taxrep",finrep:"finrep"}[t]; rows.push([l,n,t==="fcontract"?files.filter(x=>x.loc.sec==="import"&&x.loc.sub[0]!=="ГТД").length:fc(sec)]); });
+  Object.entries(REC_LABEL).forEach(([t,l])=>{ const n=B.recs.filter(r=>r.type===t).length; const sec={contract:"contracts",loan:"loans",check:"check",charter:"charter",fcontract:"import",letter:"office",taxrep:"taxrep",finrep:"finrep",ccheck:"cards"}[t]; rows.push([l,n,t==="fcontract"?files.filter(x=>x.loc.sec==="import"&&x.loc.sub[0]!=="ГТД").length:fc(sec)]); });
   rows.push(["Ўзгаришлар тарихи (ким, қачон, нима қилди)",B.log.length,0]);
   return {rows,files:files.length,B};
 }
@@ -4556,6 +4565,7 @@ async function buildFirmWorkbook(f){
   if(B.emp.length||B.pos.length){ put(await captureWb(()=>hrXlsx(f)),"Кадр"); }
   for(const P of B.vplan) put(await captureWb(()=>vpXlsx(f,P)),"Таътил "+P.year);
   if(B.recs.some(r=>r.type==="letter")) put(await captureWb(()=>letXlsx(f,"in")),"Канц");
+  if(B.recs.some(r=>r.type==="ccheck")) put(await captureWb(()=>ccXlsx(f,"")),"Карта");
   if(trOn(f).length||B.recs.some(r=>r.type==="taxrep")){ const yrs=[...new Set(B.recs.filter(r=>r.type==="taxrep").map(r=>String(r.period).slice(0,4)).concat([String(new Date().getFullYear())]))].sort(); const keep=V.trYear; for(const y of yrs){ V.trYear=y; put(await captureWb(()=>trXlsx(f)),"Солиқ "+y); } V.trYear=keep; }
   const fr=B.recs.filter(r=>r.type==="finrep"); if(fr.length){ const ws=XLSX.utils.aoa_to_sheet([["ИД","Стандарт","Давр","Ҳолати","Топширилган","Актив жами","Соф тушум","Соф фойда","Шакллар ва файллар"],...fr.map(r=>[docCode(r),r.std||"",r.period,r.status==="submitted"?"Топширилган":"Топширилмаган",fmtDate(r.subDate),num(r.figures?.assets)||"",num(r.figures?.revenue)||"",num(r.figures?.profit)||"",Object.entries(r.forms||{}).map(([k,x])=>(FIN_FORMS[r.std||"БҲМС"]?.find(z=>z.k===k)?.t||k)+": "+(x?.file&&!x.file.demo?ctFileUrl(x.file):x?.name||"")).join("\n")])]); ws["!cols"]=[12,8,10,14,12,16,16,16,80].map(w=>({wch:w})); put({SheetNames:["Молиявий ҳисоботлар"],Sheets:{"Молиявий ҳисоботлар":ws}},""); }
   const ch=B.recs.filter(r=>r.type==="charter"); if(ch.length){ const ws=XLSX.utils.aoa_to_sheet([["ИД","Ҳужжат","Таҳрир","Ҳолати","Тасдиқланган","Қарор","Рўйхатдан ўтган","Рўйхат №","Тўлиқ номи","Манзил","Устав фонди","Таъсисчилар","Ижроия органи","Фаолият","PDF","Бошқа файллар"],...ch.map(c=>[docCode(c),c.kind,c.edition||"",c.status==="active"?"Амалдаги":"Эски таҳрир",fmtDate(c.approvedDate),c.approvedBy||"",fmtDate(c.regDate),c.regNo||"",c.name||"",c.address||"",num(c.capital)||"",(c.founders||[]).map(x=>x.name+" "+(x.pct||"")+"%").join("; "),[c.dirTitle,c.dirTerm].filter(Boolean).join(", "),c.activities||"",c.file&&!c.file.demo?ctFileUrl(c.file):"",(c.files||[]).map(x=>x.file&&!x.file.demo?ctFileUrl(x.file):x.name).join("; ")])]); ws["!cols"]=[12,16,14,12,12,30,12,10,40,40,14,40,20,40,40,40].map(w=>({wch:w})); put({SheetNames:["Устав ҳужжатлари"],Sheets:{"Устав ҳужжатлари":ws}},""); }
@@ -4673,9 +4683,10 @@ function hoDocs(f,secs){
   if(on("taxrep")) sortD(B.recs.filter(r=>r.type==="taxrep"),r=>String(r.period)+r.kind,"asc").forEach(r=>add("Солиқ ҳисоботлари",trName(r.kind)+" — "+trPerLabel(r.period),"",r.subDate,docCode(r),(r.files||[]).length,r.status==="draft"?"топширилмаган":"топширилган"));
   if(on("finrep")) sortD(B.recs.filter(r=>r.type==="finrep"),r=>String(r.period),"asc").forEach(r=>add("Молиявий ҳисоботлар","Молиявий ҳисобот ("+(r.std||"")+") — "+trPerLabel(r.period),"",r.subDate,docCode(r),Object.values(r.forms||{}).filter(x=>x?.file).length,r.status==="submitted"?"топширилган":""));
   if(on("office")) sortD(B.recs.filter(r=>r.type==="letter"),l=>(l.regDate||"")+p6(l.regNo),"asc").forEach(l=>add("Канцелярия",`${l.dir==="out"?"Чиқувчи":"Кирувчи"} хат — ${l.corr||""}`,l.regNo,l.regDate,docCode(l),(l.files||[]).length,l.subject||""));
+  if(on("cards")) sortD(B.recs.filter(r=>r.type==="ccheck"),r=>(r.date||"")+(r.time||""),"asc").forEach(r=>add("Корпоратив карта чеклари",`${r.kind==="refund"?"Қайтариш чеки":"Чек"} — ${r.seller||""}`,r.checkNo,r.date,docCode(r),(r.file?1:0)+(r.files||[]).length,`${m2(ccSigned(r))} ${r.currency==="UZS"?"сўм":r.currency||""}${r.card?.last4?" · карта ··"+r.card.last4:""}`));
   return out;
 }
-const HO_SECS=[["reqs","Гувоҳнома ва лицензиялар"],["charter","Устав ҳужжатлари"],["orders","Қарор ва буйруқлар"],["contracts","Шартномалар"],["fc","Ташқи савдо контрактлари"],["gtd","ГТДлар"],["loans","Займ ва кредитлар"],["staff","Кадр ҳужжатлари"],["taxrep","Солиқ ҳисоботлари"],["finrep","Молиявий ҳисоботлар"],["office","Канцелярия"]];
+const HO_SECS=[["reqs","Гувоҳнома ва лицензиялар"],["charter","Устав ҳужжатлари"],["orders","Қарор ва буйруқлар"],["contracts","Шартномалар"],["fc","Ташқи савдо контрактлари"],["gtd","ГТДлар"],["loans","Займ ва кредитлар"],["staff","Кадр ҳужжатлари"],["taxrep","Солиқ ҳисоботлари"],["finrep","Молиявий ҳисоботлар"],["office","Канцелярия"],["cards","Корпоратив карта чеклари"]];
 function hoDefaults(f){ let d={}; try{ d=JSON.parse(localStorage.getItem("fb-ho-"+f.id)||"{}"); }catch(e){} return {no:"1",date:localToday(),city:f.city||"Тошкент ш.",fromName:nameOf(ME.email)||"",fromTitle:"Бухгалтер (аутсорсинг)",toName:"",toTitle:"Бош бухгалтер",director:f.director||"",dirTitle:f.directorTitle||"Директор",basis:"ҳисоб-китоб ва бухгалтерия ҳисобини юритиш бўйича хизмат кўрсатиш тугатилиши муносабати билан",secs:HO_SECS.map(x=>x[0]),...d}; }
 function hoSheet(f,h,docs,forWord){
   const groups={}; docs.forEach(d=>(groups[d.sec]=groups[d.sec]||[]).push(d)); let i=0; const totFiles=docs.reduce((a,d)=>a+d.files,0);
@@ -4710,13 +4721,260 @@ function hoInput(el){ const f=firm(V.firmId); if(!f) return; const h=V.ho||(V.ho
   if(el.name==="sec") h.secs=[...document.querySelectorAll('#hoForm input[name="sec"]:checked')].map(x=>x.value); else if(el.name) h[el.name]=el.value;
   try{ localStorage.setItem("fb-ho-"+f.id,JSON.stringify(h)); }catch(e){}
   const pv=$("#hoPrev"); if(pv) pv.innerHTML=hoSheet(f,h,hoDocs(f,h.secs)); }
+/* ---------- Корпоратив карта чеклари ---------- */
+const CC_CATS=["Ёқилғи (бензин, газ)","Канцелярия товарлари","Хўжалик моллари","Овқатланиш, вакиллик","Хизмат сафари (меҳмонхона, йўл)","Транспорт, такси, тўхташ жойи","Алоқа, интернет","Коммунал тўловлар","Таъмирлаш, эҳтиёт қисмлар","Банк хизмати, комиссия","Товар-материаллар","Бошқа"];
+const CC_KW=[[0,/азс|аёқш|ayoqsh|заправ|benzin|бензин|metan|метан|propan|пропан|аи-?\s?9[25]|ai-?\s?9[25]|дизел|dizel|lukoil|лукойл|mustang|neftegaz|нефтегаз|gaz quyish|ёқилғи|yoqilg|petrol|fuel/i],[1,/канц|kants|qog.?oz|бумага|ручка|папка|степлер|kanstovar|картридж|kartridj/i],[3,/кафе|kafe|cafe|ресторан|restoran|restaurant|food|choyxona|чойхона|pizza|burger|kfc|evos|oqtepa|lavash|coffee|кофе|bistro|бистро/i],[4,/hotel|отел|гостиниц|mehmonxona|меҳмонхона|hostel|airways|авиа|avia|temir yo|темир йўл|railway|поезд|poezd|airport|аэропорт|chipta|билет/i],[5,/taxi|такси|yandex go|mytaxi|uklon|parking|паркинг|автостоянк|avtoturargoh/i],[6,/uzmobile|beeline|ucell|mobiuz|uzonline|turon ?telecom|интернет|internet|uztelecom|узтелеком|sarkor|comnet|aloqa/i],[7,/hududgaz|худудгаз|ҳудудгаз|электр ?энерг|elektr ?energ|suvoqova|сувоқова|toza hudud|коммунал|kommunal|issiqlik/i],[8,/запчаст|ehtiyot qism|эҳтиёт қисм|шина|shina|ремонт|ta.?mir|таъмир|автосервис|avtoservis|vulkaniz|вулканиз|moy almash/i],[9,/комисси|komissiya|commission|bank xizmati|банк хизмати/i],[2,/хозтов|xo.?jalik|хўжалик|супермаркет|supermarket|korzinka|корзинка|makro|макро|havas|ҳавас|baraka|carrefour|магнит|дўкон|do.?kon|magazin|магазин/i]];
+const CC_CUR=["UZS","USD","EUR","RUB","KZT","AED","TRY","CNY"];
+const firmCcards=f=>(f?.modules?.card?.on?(f.modules.card.items||[]):[]).filter(c=>c&&(c.last4||c.first4));
+const firmCC=fid=>S.recs.filter(r=>r.type==="ccheck"&&r.firmId===fid);
+const ccCardLbl=c=>c&&(c.last4||c.first4)?`${c.type||guessCard(c.first4)||"Карта"} ${c.first4||"····"} ···· ${c.last4||"····"}`:"";
+const ccCardShort=c=>c&&c.last4?`${c.type||guessCard(c.first4)||""} ··${c.last4}`.trim():"";
+const ccSigned=r=>(r.kind==="refund"?-1:1)*num(r.amount);
+const ccVatSigned=r=>(r.kind==="refund"?-1:1)*num(r.vat);
+function ccSums(list){ const o={}; list.forEach(r=>{ const k=r.currency||"UZS"; o[k]=o[k]||{n:0,s:0,v:0}; o[k].n++; o[k].s+=ccSigned(r); o[k].v+=ccVatSigned(r); }); return o; }
+const ccSumTxt=(o,k="s")=>Object.entries(o).map(([c,x])=>m2(x[k])+" "+(c==="UZS"?"сўм":c)).join(" · ")||"0";
+const ccMonthLbl=mo=>mo?MONTHS_UZ[+mo.slice(5,7)-1]+" "+mo.slice(0,4):"Барча ойлар";
+
+/* матндан чек маълумотларини ўқиш */
+function ccAmt(s){ let x=String(s||"").replace(/[\s ]/g,""); if(!x) return 0;
+  if(/,\d{3}(\.\d{1,2})?$/.test(x)&&/\./.test(x)) x=x.replace(/,/g,"");
+  else if(/\.\d{3},\d{1,2}$/.test(x)) x=x.replace(/\./g,"").replace(",",".");
+  else if(/^\d{1,3}(\.\d{3})+$/.test(x)) x=x.replace(/\./g,"");
+  else if(/,\d{1,2}$/.test(x)) x=x.replace(/,(?=\d{1,2}$)/,".").replace(/,/g,"");
+  else x=x.replace(/,/g,"");
+  const v=parseFloat(x); return isFinite(v)?Math.round(v*100)/100:0; }
+function ccNums(line){ const s=String(line).replace(/\b\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\b/g," ").replace(/\b\d{4}-\d{2}-\d{2}\b/g," ").replace(/\b\d{1,2}:\d{2}(:\d{2})?\b/g," ").replace(/\d+(?:[.,]\d+)?\s*%/g," ").replace(/\d{4}[\s-]?[\d*xX•·#\s-]{4,14}\d{4}/g," ");
+  return [...s.matchAll(/(?<![\d*])(\d{1,3}(?:[  ,.]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)(?![\d*])/g)].map(m=>({t:m[1],v:ccAmt(m[1])})).filter(x=>x.v>0&&!/^\d{10,}$/.test(x.t.replace(/\s/g,""))); }
+const CC_MON={янв:1,фев:2,мар:3,апр:4,май:5,мая:5,июн:6,июл:7,авг:8,сен:9,окт:10,ноя:11,дек:12,yan:1,fev:2,mart:3,apr:4,may:5,iyun:6,iyul:7,avg:8,sen:9,okt:10,noy:11,dek:12,jan:1,feb:2,mar:3,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+function ccDate(s){ let m=/(?<!\d)(\d{1,2})[./-](\d{1,2})[./-](\d{4})(?!\d)/.exec(s); if(m&&+m[2]>=1&&+m[2]<=12&&+m[1]>=1&&+m[1]<=31) return `${m[3]}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`;
+  m=/(?<!\d)(\d{4})[-./](\d{2})[-./](\d{2})(?!\d)/.exec(s); if(m&&+m[2]>=1&&+m[2]<=12) return `${m[1]}-${m[2]}-${m[3]}`;
+  m=/(?<![\d.])(\d{2})[./](\d{2})[./](\d{2})(?![\d.])/.exec(s); if(m&&+m[2]>=1&&+m[2]<=12&&+m[1]>=1&&+m[1]<=31) return `20${m[3]}-${m[2]}-${m[1]}`;
+  m=/(?<!\d)(\d{1,2})\s+([А-Яа-яЁёA-Za-zЎўҚқҒғҲҳ']{3,})\s+(\d{4})/.exec(s); if(m){ const k=Object.keys(CC_MON).find(x=>m[2].toLowerCase().startsWith(x)); if(k) return `${m[3]}-${String(CC_MON[k]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`; }
+  return ""; }
+const CC_TOTAL=[/итого\s*к\s*оплате|к\s*оплате|jami\s*to.?lov|жами\s*тўлов|umumiy\s*summa|умумий\s*сумма/i,/итого|итог|жами|jami|всего|\btotal\b|\bjami\b/i,/to.?lov\s*summasi|тўлов\s*суммаси|сумма\s*(операции|платежа|транзакции|оплаты|покупки)|tranzaksiya\s*summasi|оплачено|to.?langan|тўланган/i,/сумма|summa|\bamount\b|\bsum\b|\bsale\b|покупка|оплата|xarid/i];
+const CC_NOISE=/(uzcard|humo|visa|master\s?card|mastercard|^\s*(чек|chek|check|receipt)\b|квитанц|kvitans|^\s*(оплата|oplata|sale|покупка|xarid|purchase)\s*$|терминал|terminal|^\s*(дата|sana|сана|date|время|vaqt)\b|касс[аи]р|kassir|фискал|fiskal|\bqr\b|ofd|спасибо|rahmat|раҳмат|рахмат|одобрено|approved|tasdiqlandi|успешно|muvaffaqiyatli|копия|nusxa|клиент|mijoz|^\s*\*+|www\.|http|тел[.:]|tel[.:]|\+998|^\s*\d[\d\s:./-]*$)/i;
+const CC_FORM=/(MCHJ|МЧЖ|ООО|OOO|\bXK\b|\bХК\b|\bЧП\b|ЯТТ|YATT|\bYaTT\b|\bАЖ\b|\bAJ\b|\bАО\b|\bQK\b|\bҚК\b|\bLLC\b|\bLTD\b|\bИП\b|\bОК\b|\bDUK\b|\bДУК\b|\bXF\b|\bХФ\b|\bOAJ\b|\bQMJ\b|ҚМЖ|ДУК|IChP|ИЧП)/;
+function ccParse(text,f){
+  const T=String(text||"").replace(/ /g," ").replace(/[‘’ʻʼ`´]/g,"'"); const L=T.split(/\n/).map(x=>x.replace(/[ \t]+/g," ").trim()).filter(Boolean);
+  const d={date:"",time:"",amount:"",currency:"UZS",vat:"",vatRate:"",seller:"",sellerInn:"",first4:"",last4:"",cardType:"",rrn:"",auth:"",terminal:"",merchant:"",checkNo:"",fiscal:"",fm:"",ofd:"",kind:"buy",cat:"",auto:0};
+  const hit=(re,i=1)=>{ const m=re.exec(T); return m?m[i]:""; };
+  // сана ва вақт
+  const dl=L.find(l=>/(дата|sana|сана|date|vaqt|время|ўтказилган|operatsiya|операци)/i.test(l)&&ccDate(l)); d.date=ccDate(dl||"")||ccDate(T);
+  if(d.date&&(+d.date.slice(0,4)<2015||+d.date.slice(0,4)>2040)) d.date="";
+  const tl=(dl&&/\d{1,2}:\d{2}/.test(dl))?dl:L.find(l=>/(?<!\d)\d{1,2}:\d{2}(:\d{2})?(?!\d)/.test(l)&&!/(тел|tel|\+998)/i.test(l)); const tm=tl&&/(?<!\d)(\d{1,2}):(\d{2})(?::(\d{2}))?(?!\d)/.exec(tl); if(tm&&+tm[1]<24&&+tm[2]<60) d.time=`${tm[1].padStart(2,"0")}:${tm[2]}${tm[3]?":"+tm[3]:""}`;
+  // сумма
+  const vatRe=/(ндс|ққс|qqs|q\.q\.s|\bvat\b|н\.д\.с)/i, exRe=/(без\s*ндс|ндс\s*не|qqs\s*siz|qqssiz|ққс\s*сиз|ққссиз|без\s*налога|сдача|qaytim|қайтим|наличн|naqd|скидк|chegirma|чегирма|баланс|balans|остаток|qoldiq|комисси|komissiya|лимит|limit)/i;
+  outer: for(const re of CC_TOTAL){ for(let i=0;i<L.length;i++){ const l=L[i]; const m=re.exec(l); if(!m||exRe.test(l)) continue; if(vatRe.test(l)&&!/(итого|jami|жами|total)/i.test(l)) continue;
+      let ns=ccNums(l.slice(m.index+m[0].length)); if(!ns.length&&L[i+1]&&!/[A-Za-zА-Яа-яЁё]{4,}/.test(L[i+1].replace(/(uzs|сум|сўм|so.?m|usd|eur|rub)/ig,""))) ns=ccNums(L[i+1]);
+      if(ns.length){ d.amount=String(ns[ns.length-1].v); break outer; } } }
+  if(!d.amount){ const all=L.filter(l=>!vatRe.test(l)&&!exRe.test(l)&&!/(rrn|инн|стир|stir|inn|терминал|terminal|tid|mid|мерчант|merchant|чек\s*№|chek\s*№|auth|авториз|телефон|tel)/i.test(l)).flatMap(ccNums).filter(x=>/[.,]\d{2}$/.test(x.t)); if(all.length) d.amount=String(Math.max(...all.map(x=>x.v))); }
+  const cm=/\b(USD|EUR|RUB|KZT|AED|TRY|CNY)\b/.exec(T)||(/\$\s?\d|\d\s?\$/.test(T)?["","USD"]:/€/.test(T)?["","EUR"]:null); if(cm&&!/(UZS|сўм|сум|so.?m)\b/i.test(T)) d.currency=cm[1];
+  // ҚҚС
+  if(/(без\s*ндс|ндс\s*не\s*облага|qqs\s*(to.?lovchisi\s*emas|siz)|qqssiz|ққс\s*тўловчиси\s*эмас|ққссиз)/i.test(T)){ d.vat="0"; d.vatRate="0"; }
+  else{ const vl=L.find(l=>vatRe.test(l)&&!exRe.test(l)&&ccNums(l).length); if(vl){ const r=/(\d{1,2})(?:[.,]0+)?\s*%/.exec(vl); if(r) d.vatRate=r[1]; const ns=ccNums(vl.slice(vatRe.exec(vl).index)); if(ns.length){ const v=ns[ns.length-1].v; if(!d.amount||v<num(d.amount)) d.vat=String(v); } } }
+  // сотувчи СТИР
+  const own=String(f?.inn||"").trim(); const inns=[...T.matchAll(/(?:ИНН|СТИР|STIR|INN|TIN|ИНН\/СТИР|STIR\/INN|СТИР\/ИНН)\s*[:№#.]?\s*(\d{9})(?!\d)/gi)].map(m=>m[1]).filter(x=>x!==own); d.sellerInn=inns[0]||hit(/(?:ЖШШИР|ПИНФЛ|JSHSHIR|PINFL)\D{0,4}(\d{14})(?!\d)/i);
+  // сотувчи номи
+  let sel=""; const kl=L.find(l=>/^(продавец|sotuvchi|сотувчи|merchant|мерчант|получатель|qabul\s*qiluvchi|қабул\s*қилувчи|организация|tashkilot|ташкилот|магазин|do.?kon|дўкон|наименование|nomi|номи|savdo\s*nuqtasi|точка\s*продаж|торговая\s*точка)\b\s*[:\-]?\s*/i.test(l));
+  if(kl){ const v=kl.replace(/^[^:\-]*[:\-]\s*/,"").trim(); if(/[A-Za-zА-Яа-яЁё]{3,}/.test(v)) sel=v; }
+  if(!sel){ const fl=L.find(l=>CC_FORM.test(l)&&!/(банк|bank)/i.test(l)&&l.length<90); if(fl) sel=fl.replace(/^(продавец|sotuvchi|сотувчи|организация|tashkilot)\s*:?\s*/i,""); }
+  if(!sel){ const fl=L.slice(0,8).find(l=>/[A-Za-zА-Яа-яЁё]{3,}/.test(l)&&!CC_NOISE.test(l)&&!/(банк|bank)\b/i.test(l)&&!/(инн|стир|stir|inn)\b/i.test(l)&&l.length<70); if(fl) sel=fl; }
+  sel=sel.replace(/\s*(ИНН|СТИР|STIR|INN)\s*[:№]?\s*\d{9}.*$/i,"").replace(/["“„]([^"“”„]+)["”“]/g,"«$1»").trim(); if((sel.match(/«/g)||[]).length!==(sel.match(/»/g)||[]).length||/^["“]|["”]$/.test(sel)) sel=sel.replace(/["“”«»]/g,""); d.seller=sel.replace(/\s+/g," ").trim().slice(0,90);
+  // карта
+  const cr=/(?<!\d)(\d{4})[\s-]?(\d{0,2})[\d\s*xX•·#-]{0,10}?[*xX•·#]{2,}[\s*xX•·#-]{0,10}(\d{4})(?!\d)/.exec(T);
+  if(cr){ d.first4=cr[1]; d.last4=cr[3]; } else { const c2=/(?:[*xX•·#]{2,}|\.{3})\s?(\d{4})(?!\d)/.exec(T); if(c2) d.last4=c2[1]; }
+  d.cardType=/\bhumo\b/i.test(T)?"HUMO":/\buzcard\b/i.test(T)?"UZCARD":/\bvisa\b/i.test(T)?"Visa":/master\s?card/i.test(T)?"Mastercard":(d.first4?guessCard(d.first4):"");
+  // реквизитлар
+  d.rrn=hit(/\bRRN\b\D{0,6}(\d{10,14})/i)||hit(/(?:ссылка|референс|reference)\D{0,10}(\d{10,14})/i);
+  d.auth=hit(/(?:auth(?:orization)?\s*(?:code|kod)?|код\s*авт\w*|авт\w*\s*код|approval\s*code|avtorizatsiya\s*kodi|авторизация\s*коди|\bAPR\b|\bAC\b)\s*[:№#.]?\s*([A-Z0-9]{6})\b/i);
+  d.terminal=hit(/(?:terminal|терминал|\bTID\b|\bT\.?ID\b)\s*(?:id|№|#)?\s*[:№#.]?\s*([A-Z0-9]{6,12})\b/i);
+  d.merchant=hit(/(?:merchant|мерчант|\bMID\b)\s*(?:id|№|#)?\s*[:№#.]?\s*(\d{6,16})\b/i);
+  d.checkNo=hit(/(?:чек|chek|check|квитанция|kvitansiya|receipt)\s*(?:№|no\.?|n|#)\s*:?\s*([A-Za-z0-9-]{1,14})\b/i)||hit(/(?:номер\s*чека|chek\s*raqami|чек\s*рақами)\s*:?\s*([A-Za-z0-9-]{1,14})\b/i);
+  d.fiscal=hit(/(?:фискал\w*\s*(?:белги|признак|белгиси)|fiskal\s*belgi\w*|\bФП\b|\bФПД\b|\bFP\b|\bФБ\b)\s*[:№#.]?\s*(\d{6,20})\b/i);
+  d.fm=hit(/(?:\bФМ\b|\bFM\b|фискал\w*\s*модул\w*|fiskal\s*modul\w*)\s*[:№#.]?\s*([A-Z]{2}\d{8,18})\b/i);
+  d.ofd=hit(/((?:https?:\/\/)?ofd\.soliq\.uz\/[^\s]+)/i);
+  if(/(возврат|qaytarish|қайтариш|refund|reversal|отмена\s*операц|bekor\s*qilindi)/i.test(T)) d.kind="refund";
+  const ct=CC_KW.find(([,re])=>re.test(T)); d.cat=ct?CC_CATS[ct[0]]:"";
+  d.auto=["date","amount","seller","sellerInn","last4","vat"].filter(k=>d[k]).length;
+  return d;
+}
+function ccCardIdx(f,d){ const cs=firmCcards(f); if(!cs.length) return ""; let i=d.last4?cs.findIndex(c=>String(c.last4||"")===d.last4&&(!d.first4||!c.first4||c.first4===d.first4)):-1; if(i<0&&d.last4) i=cs.findIndex(c=>String(c.last4||"")===d.last4); if(i<0&&cs.length===1) i=0; return i<0?"":String(i); }
+
+/* PDF / расмни ўқиш: кўп бетли PDF'да ҳар бет алоҳида чек бўлса — бўлиб, ҳар бирига алоҳида PDF */
+async function ensurePdfLib(){ if(!window.PDFLib) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"); }
+async function ccImgToPdf(file){ await ensurePdfLib(); const doc=await PDFLib.PDFDocument.create(); const bytes=new Uint8Array(await file.arrayBuffer());
+  let img; if(/png$/i.test(file.type)||/\.png$/i.test(file.name)) img=await doc.embedPng(bytes); else { try{ img=await doc.embedJpg(bytes); }catch(e){ const bmp=await createImageBitmap(file); const c=document.createElement("canvas"); c.width=bmp.width; c.height=bmp.height; c.getContext("2d").drawImage(bmp,0,0); const b=await new Promise(r=>c.toBlob(r,"image/jpeg",.9)); img=await doc.embedJpg(new Uint8Array(await b.arrayBuffer())); } }
+  const sc=Math.min(1,595/img.width); const pg=doc.addPage([img.width*sc,img.height*sc]); pg.drawImage(img,{x:0,y:0,width:img.width*sc,height:img.height*sc});
+  return new File([await doc.save()],file.name.replace(/\.\w+$/,"")+".pdf",{type:"application/pdf"}); }
+async function ccSplitPdf(file,groups){ await ensurePdfLib(); const src=await PDFLib.PDFDocument.load(new Uint8Array(await file.arrayBuffer()),{ignoreEncryption:true}); const out=[];
+  for(let g=0;g<groups.length;g++){ const d=await PDFLib.PDFDocument.create(); const pages=await d.copyPages(src,groups[g]); pages.forEach(p=>d.addPage(p)); out.push(new File([await d.save()],file.name.replace(/\.pdf$/i,"")+` — ${g+1}-чек.pdf`,{type:"application/pdf"})); }
+  return out; }
+async function ccPageTexts(file,onP){ await ensurePdfjs(); const doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise; const out=[]; const n=Math.min(doc.numPages,60);
+  for(let p=1;p<=n;p++){ const pg=await doc.getPage(p); const vp=pg.getViewport({scale:1}); const tc=await pg.getTextContent(); let t=ctLayout([{items:tc.items,width:vp.width}]);
+    if(t.replace(/\s/g,"").length<25){ onP&&onP(`${p}/${n}-бет: сканер — матн танилмоқда (OCR)…`); try{ const w=await ocrWorker(); const v1=pg.getViewport({scale:1}); const vp2=pg.getViewport({scale:Math.min(3,1800/Math.max(v1.width,1))}); const c=document.createElement("canvas"); c.width=Math.floor(vp2.width); c.height=Math.floor(vp2.height); await pg.render({canvasContext:c.getContext("2d"),viewport:vp2}).promise; t=(await w.recognize(c)).data.text||""; c.width=c.height=0; }catch(e){} }
+    out.push(t); }
+  return {texts:out,pages:doc.numPages}; }
+async function ccReadAny(file,f,onP){
+  const isImg=/^image\//.test(file.type)||/\.(jpe?g|png|webp)$/i.test(file.name);
+  if(isImg){ onP&&onP("Расм: матн танилмоқда (OCR)…"); const w=await ocrWorker(); const t=(await w.recognize(file)).data.text||""; const pdf=await ccImgToPdf(file); return [{file:pdf,text:t,d:ccParse(t,f),pages:1,from:file.name}]; }
+  const {texts,pages}=await ccPageTexts(file,onP); const P=texts.map(t=>ccParse(t,f)); const good=P.map((d,i)=>d.amount&&d.date?i:-1).filter(i=>i>=0);
+  if(texts.length>1&&good.length>=2){ const groups=[]; texts.forEach((t,i)=>{ if(good.includes(i)||!groups.length) groups.push([i]); else groups[groups.length-1].push(i); });
+    const files=await ccSplitPdf(file,groups); return groups.map((g,k)=>{ const t=g.map(i=>texts[i]).join("\n"); return {file:files[k],text:t,d:ccParse(t,f),pages:g.length,from:file.name,split:groups.length}; }); }
+  const t=texts.join("\n"); return [{file,text:t,d:ccParse(t,f),pages,from:file.name}]; }
+
+/* юклаш ойнаси (ГТД каби) */
+const ccDupKey=d=>d.rrn?"r"+d.rrn:d.fiscal?"f"+d.fiscal:[d.date,String(d.time||"").slice(0,5),Math.round(num(d.amount)),d.last4||""].join("|");
+function ccIsDup(f,d,self){ const k=ccDupKey(d); return firmCC(f.id).some(r=>r.id!==self&&ccDupKey(r.card?{...r,last4:r.card.last4}:r)===k)||(V.ccImport?.items||[]).some(x=>x.d&&x.id!==self&&x.status!=="dup"&&x.status!=="err"&&x.status!=="saved"&&ccDupKey(x.d)===k&&V.ccImport.items.indexOf(x)<V.ccImport.items.findIndex(y=>y.id===self)); }
+function ccItemStatus(f,it){ const d=it.d; if(!d) return; if(!num(d.amount)||!d.date){ it.status="need"; return; } it.status=ccIsDup(f,d,it.id)?"dup":"ok"; }
+async function ccReadFiles(files,append){
+  const f=firm(V.firmId); if(!f) return; const list=[...files].filter(x=>/\.(pdf|jpe?g|png|webp)$/i.test(x.name)||/^(application\/pdf|image\/)/.test(x.type));
+  if(!list.length){ toast("PDF ёки расм (JPG, PNG) файлларни танланг"); return; }
+  if(!append||!V.ccImport) V.ccImport={items:[],saving:false}; V.ccImport.items.push(...list.map(x=>({id:uid(),src:x,fname:x.name,status:"read",d:null}))); V.ccId=null; V.ccEdit=null; if(append) ccImpRefresh(); else { render(); window.scrollTo(0,0); }
+  for(let i=0;i<V.ccImport.items.length;i++){ const it=V.ccImport.items[i]; if(!V.ccImport) return; if(it.status!=="read"||!it.src) continue;
+    try{ const res=await ccReadAny(it.src,f,m=>{ const s=$("#ccImpMsg"); if(s) s.textContent=it.fname+": "+m; });
+      const made=res.map((r,k)=>({id:k?uid():it.id,fname:r.split?`${it.fname} (${k+1}/${r.split})`:it.fname,file:r.file,url:URL.createObjectURL(r.file),pages:r.pages,status:"ok",raw:r.text.slice(0,4000),d:{...r.d,cardI:ccCardIdx(f,r.d),purpose:"",holder:""}}));
+      made.forEach(m=>{ const c=firmCcards(f)[+m.d.cardI]; if(c&&!m.d.holder) m.d.holder=c.holder||""; if(m.d.last4&&m.d.cardI===""&&firmCcards(f).length) m.warn=`Чекдаги карта ··${m.d.last4} реквизитлардаги корпоратив карталарга мос келмади`; if(!m.d.auto) m.warn="Матн танилмади — маълумотларни қўлда киритинг"; });
+      if(res.length>1) toast(`${it.fname}: ${res.length} та чекка бўлинди`);
+      V.ccImport.items.splice(i,1,...made); i+=made.length-1; made.forEach(m=>ccItemStatus(f,m)); }
+    catch(e){ it.status="err"; it.msg="Файлни ўқиб бўлмади: "+(e?.message||e); }
+    ccImpRefresh(); }
+  const s=$("#ccImpMsg"); if(s) s.textContent="";
+}
+function ccImpRefresh(){ if(!V.ccImport) return; const box=$("#ccImpBody"); if(box) box.innerHTML=ccImpRows(); else return render(); const I=V.ccImport; const n=I.items.filter(x=>x.status==="ok").length; const b=$("#ccImpSave"); if(b){ b.textContent=I.saving?"Сақланмоқда…":`Ҳаммасини сақлаш (${n})`; b.disabled=I.saving||!n||I.items.some(x=>x.status==="read"); } const h=$("#ccImpHead"); if(h) h.innerHTML=ccImpHead(); }
+function ccImpHead(){ const I=V.ccImport; const c=k=>I.items.filter(x=>x.status===k).length; const ok=I.items.filter(x=>x.status==="ok"&&x.d); return `${I.items.length} та чек · тайёр ${c("ok")}${c("need")?` · тўлдириш керак ${c("need")}`:""}${c("dup")?` · дубликат ${c("dup")}`:""}${c("err")?` · хато ${c("err")}`:""}${c("read")?` · ўқилмоқда ${c("read")}`:""}${ok.length?` · жами: <b>${esc(ccSumTxt(ccSums(ok.map(x=>({...x.d})))))}</b>`:""}`; }
+function ccImpRows(){
+  const f=firm(V.firmId); const I=V.ccImport; const cs=firmCcards(f); const st={read:["","ўқилмоқда…"],ok:["ok","тайёр"],need:["soon","сана/суммани киритинг"],dup:["off","дубликат"],err:["bad","хато"],saving:["act","сақланмоқда…"],saved:["ok","сақланди ✓"]};
+  const inp=(i,k,v,cls="",type="text",ph="")=>`<input class="ccin ${cls}" data-ccimp="${i}" data-k="${k}" type="${type}" value="${esc(v||"")}" placeholder="${esc(ph)}" ${["saving","saved"].includes(I.items[i].status)?"disabled":""}>`;
+  return I.items.map((it,i)=>{ const d=it.d, s=st[it.status]||["",""], lock=["saving","saved","read","err"].includes(it.status);
+    return `<tr class="norow ${it.status}"><td class="num">${i+1}</td>
+    <td><span class="gfn">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener" title="PDF'ни очиш">${PDF_ICON}</a> `:""}${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${it.warn?`<div class="hint">${esc(it.warn)}</div>`:""}${d&&d.kind==="refund"?`<div class="hint">↩ қайтариш (возврат)</div>`:""}</td>
+    ${d?`<td>${inp(i,"date",d.date,"ccd","date")}${inp(i,"time",d.time,"cct","text","ҳҳ:мм")}</td>
+    <td>${inp(i,"seller",d.seller,"ccs","text","Сотувчи")}${inp(i,"sellerInn",d.sellerInn,"cci","text","СТИР")}</td>
+    <td><select class="gsel" data-ccimp="${i}" data-k="cardI" ${lock?"disabled":""}><option value="">${d.last4?"··"+esc(d.last4)+" (реквизитда йўқ)":"— карта —"}</option>${cs.map((c,j)=>`<option value="${j}" ${String(d.cardI)===String(j)?"selected":""}>${esc(ccCardLbl(c))}</option>`).join("")}</select></td>
+    <td><select class="gsel" data-ccimp="${i}" data-k="cat" ${lock?"disabled":""}><option value="">— тоифа —</option>${CC_CATS.map(c=>`<option ${d.cat===c?"selected":""}>${esc(c)}</option>`).join("")}</select></td>
+    <td class="r">${inp(i,"amount",d.amount,"cca r","text","0.00")}<div class="hint">${esc(d.currency||"UZS")}</div></td>
+    <td class="r">${inp(i,"vat",d.vat,"ccv r","text","ҚҚС")}${d.vatRate?`<div class="hint">${esc(d.vatRate)}%</div>`:""}</td>`:`<td colspan="6" class="hint">${it.status==="read"?"ўқилмоқда…":""}</td>`}
+    <td><span class="lpill ${s[0]}">${s[1]}</span></td><td>${!["saving","saved"].includes(it.status)?`<button type="button" class="linkbtn danger" data-act="ccImpDel" data-i="${i}" aria-label="Олиб ташлаш">✕</button>`:""}</td></tr>`; }).join("");
+}
+function ccImportView(f){ const I=V.ccImport; const n=I.items.filter(x=>x.status==="ok").length;
+  return `<button type="button" class="back" data-act="ccImpCancel">← Корпоратив карта чеклари</button>
+  <div class="head"><div><h1 style="font-size:22px">Карта чекларини юклаш</h1><div class="sub" id="ccImpHead">${ccImpHead()}</div></div>
+    <div class="actions"><label class="btn ctup">${LPLUS}Яна файл қўшиш<input type="file" id="ccMore" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" multiple hidden></label><button type="button" class="btn primary" id="ccImpSave" data-act="ccImpSave" ${I.saving||!n||I.items.some(x=>x.status==="read")?"disabled":""}>${I.saving?"Сақланмоқда…":"Ҳаммасини сақлаш ("+n+")"}</button></div></div>
+  <p class="hint">Маълумотлар чекдан ўзи олинди — текшириб, керак бўлса тузатинг. Кўп бетли PDF'да ҳар бетда алоҳида чек бўлса, дастур уни бўлиб, ҳар бир чекни алоҳида PDF қилиб сақлайди${DEMO?" (демода файллар фақат шу сессияда)":" — Google Drive'да «Фирма → Корпоратив карта чеклари → карта → ой» папкасига"}. <span id="ccImpMsg"></span></p>
+  <div class="card"><div class="tablewrap"><table class="ltable gimp ccimp"><thead><tr><th>#</th><th>Файл</th><th>Сана, вақт</th><th>Сотувчи, СТИР</th><th>Карта</th><th>Тоифа</th><th class="r">Сумма</th><th class="r">ҚҚС</th><th>Ҳолати</th><th></th></tr></thead><tbody id="ccImpBody">${ccImpRows()}</tbody></table></div></div>`; }
+function ccRecord(f,d,file,src){ const c=firmCcards(f)[+d.cardI]; const card=c?{type:c.type||guessCard(c.first4)||"",first4:c.first4||"",last4:c.last4||""}:(d.last4?{type:d.cardType||"",first4:d.first4||"",last4:d.last4}:null);
+  const o={id:d.id||uid(),type:"ccheck",firmId:f.id,date:d.date||"",time:d.time||"",amount:String(num(d.amount)||""),currency:d.currency||"UZS",kind:d.kind||"buy",vat:d.vat===""||d.vat==null?"":String(num(d.vat)),vatRate:d.vatRate||"",seller:String(d.seller||"").trim(),sellerInn:String(d.sellerInn||"").trim(),card,cat:d.cat||"",purpose:d.purpose||"",holder:d.holder||c?.holder||"",checkNo:d.checkNo||"",rrn:d.rrn||"",auth:d.auth||"",terminal:d.terminal||"",merchant:d.merchant||"",fiscal:d.fiscal||"",fm:d.fm||"",ofd:d.ofd||"",note:d.note||"",src:src||"pdf",createdAt:d.createdAt||Date.now()};
+  if(file) o.file=file; else if(d.file) o.file=d.file; if(d.files) o.files=d.files; return o; }
+const ccFileName=(f,o)=>`${o.date||""} ${o.time?o.time.slice(0,5).replace(":","-")+" ":""}${dirClean(o.seller||"чек").slice(0,50)} ${m2(num(o.amount)).replace(/\s/g," ")} ${o.currency==="UZS"?"сўм":o.currency}.pdf`.replace(/\s+/g," ");
+async function ccImpSave(){ const f=firm(V.firmId); const I=V.ccImport; if(!f||!I||I.saving) return; I.saving=true; ccImpRefresh(); let ok=0, bad=0, firstM="";
+  for(const it of I.items){ if(it.status!=="ok") continue; if(!V.ccImport) return; it.status="saving"; ccImpRefresh();
+    try{ const o=ccRecord(f,it.d,null,"pdf"); const file=await driveUpload(it.file,ccFileName(f,o),attLoc("recs",o)); o.file=file; await putItem("recs",o,`Корпоратив карта чеки юкланди: ${o.seller||""} ${m2(num(o.amount))} (${fmtDate(o.date)})`); it.status="saved"; ok++; if(!firstM) firstM=o.date.slice(0,7); }
+    catch(e){ it.status="ok"; it.msg=explain(e); bad++; if(e instanceof AuthErr) break; }
+    ccImpRefresh(); }
+  I.saving=false; toast(`${ok} та чек сақланди${bad?` · ${bad} таси сақланмади`:""}`);
+  if(!bad&&!I.items.some(x=>["ok","need"].includes(x.status))){ V.ccImport=null; V.ccM=firstM||V.ccM; return render(); } ccImpRefresh(); }
+
+/* рўйхат */
+COLS.cc=[
+  {k:"date",t:"Сана",d:1,v:r=>`<span class="num">${fmtDate(r.date)}</span>${r.time?`<div class="ctsub">${esc(r.time.slice(0,5))}</div>`:""}`},
+  {k:"seller",t:"Сотувчи",d:1,v:r=>`<b>${esc(r.seller||"—")}</b>${r.sellerInn?`<div class="ctsub num">СТИР ${esc(r.sellerInn)}</div>`:""}${r.kind==="refund"?`<div class="ctsub">↩ қайтариш</div>`:""}`},
+  {k:"cat",t:"Тоифа",d:1,v:r=>r.cat?`<span class="cccat">${esc(r.cat)}</span>`:`<span class="hint">—</span>`},
+  {k:"card",t:"Карта",d:1,v:r=>r.card?`${cardBadge(r.card.type)} <span class="num">··${esc(r.card.last4||"")}</span>`:""},
+  {k:"amount",t:"Сумма",r:1,d:1,v:r=>`<b class="num ${r.kind==="refund"?"neg":""}">${m2(ccSigned(r))}</b>${r.currency&&r.currency!=="UZS"?` <span class="hint">${esc(r.currency)}</span>`:""}`},
+  {k:"vat",t:"ҚҚС",r:1,d:1,v:r=>r.vat!==""&&r.vat!=null?`<span class="num">${m2(ccVatSigned(r))}</span>${r.vatRate?`<div class="ctsub">${esc(r.vatRate)}%</div>`:""}`:""},
+  {k:"pdf",t:"PDF",d:1,v:r=>r.file?`<a class="ctpdf" href="${esc(ctFileUrl(r.file))}" target="_blank" rel="noopener" data-stop="1" title="Чек PDF">${PDF_ICON}</a>`:""},
+  {k:"id",t:"ИД",d:1,v:r=>`<span class="did">${docCode(r)}</span>`},
+  {k:"purpose",t:"Мақсади / изоҳ",v:r=>esc(r.purpose||r.note||"")},
+  {k:"holder",t:"Ҳисобдор шахс",v:r=>esc(r.holder||"")},
+  {k:"checkNo",t:"Чек №",v:r=>`<span class="num">${esc(r.checkNo||"")}</span>`},
+  {k:"rrn",t:"RRN",v:r=>`<span class="num">${esc(r.rrn||"")}</span>`},
+  {k:"auth",t:"Авторизация коди",v:r=>`<span class="num">${esc(r.auth||"")}</span>`},
+  {k:"terminal",t:"Терминал",v:r=>`<span class="num">${esc(r.terminal||"")}</span>`},
+  {k:"fiscal",t:"Фискал белги",v:r=>`<span class="num">${esc(r.fiscal||"")}</span>`},
+];
+COL_TITLE.cc="Корпоратив карта чеклари"; COL_DATE.cc=r=>(r.date||"")+(r.time||"");
+function ccFiltered(f){ const q=qv("ccQ"), cd=V.ccCard||"all", mo=V.ccM||"", ct=V.ccCat||"";
+  return firmCC(f.id).filter(r=>(cd==="all"||(cd==="none"?!r.card?.last4:r.card?.last4===cd))&&(!mo||String(r.date||"").startsWith(mo))&&(!ct||r.cat===ct)&&qhit(q,[r.seller,r.sellerInn,r.purpose,r.note,r.checkNo,r.rrn,r.fiscal,r.cat,r.holder,r.amount,docCode(r)])); }
+function vCards(f){
+  if(V.ccImport) return ccImportView(f);
+  if(V.ccEdit) return ccForm(f,V.ccEdit);
+  if(V.ccId){ const r=S.recs.find(x=>x.id===V.ccId&&x.type==="ccheck"); if(r) return ccDetail(f,r); }
+  const all=firmCC(f.id), cs=firmCcards(f), list=ccFiltered(f); const mo=V.ccM||"";
+  const byCard=[...new Set(all.map(r=>r.card?.last4||"").filter(Boolean).concat(cs.map(c=>String(c.last4||"")).filter(Boolean)))];
+  const lbl=l4=>{ const c=cs.find(x=>String(x.last4)===l4)||all.find(r=>r.card?.last4===l4)?.card; return `${c?.type||""} ··${l4}`.trim(); };
+  const S1=ccSums(list); const cats={}; list.forEach(r=>{ const k=r.cat||"Тоифасиз"; cats[k]=(cats[k]||0)+ccSigned(r); });
+  const foot=cols=>`<tfoot><tr>${cols.map((c,i)=>c.k==="amount"?`<td class="r"><b class="num">${esc(ccSumTxt(S1))}</b></td>`:c.k==="vat"?`<td class="r"><b class="num">${esc(ccSumTxt(S1,"v"))}</b></td>`:i===0?`<td><b>Жами: ${list.length} та</b></td>`:"<td></td>").join("")}</tr></tfoot>`;
+  return `<div class="toolbar"><span class="hint">Чек PDF'лари ёки расмлари юкланганда сана, сумма, ҚҚС, сотувчи ва карта ўзи аниқланади. Ҳар бир чек алоҳида PDF бўлиб сақланади.</span>
+    <div class="actions">${all.length?`<button type="button" class="btn" data-act="ccXlsx" data-m="${esc(mo)}">${DL_ICON}${mo?"Excel: "+esc(ccMonthLbl(mo)):"Excel (ҳар ой алоҳида варақ)"}</button>`:""}<button type="button" class="btn" data-act="ccNew">Қўлда қўшиш</button><label class="btn primary ctup">${PDF_ICON}Чекларни юклаш (PDF / расм)<input type="file" id="ccFiles" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" multiple hidden></label></div></div>
+  ${cs.length?"":`<div class="vpwarn">Реквизитлар → «Корпоратив карта» бўлимида карта рақами (биринчи ва охирги 4 рақам) киритилмаган. Киритсангиз, чеклар картага ўзи боғланади.</div>`}
+  <div class="lstats"><div class="lstat" style="--c:#8b5cf6;--cl:#c4b5fd"><span class="k">${esc(ccMonthLbl(mo))}</span><span class="v">${list.length} та чек</span><span class="s">${esc(ccSumTxt(S1))}</span></div>
+    <div class="lstat" style="--c:#f43f5e;--cl:#fecdd3"><span class="k">ҚҚС (ҳисобга олиш учун)</span><span class="v">${esc(ccSumTxt(S1,"v"))}</span><span class="s">${list.filter(r=>num(r.vat)>0).length} та чекда ҚҚС бор</span></div>
+    <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Энг кўп харажат</span><span class="v">${esc(Object.entries(cats).sort((a,b)=>b[1]-a[1])[0]?.[0]||"—")}</span><span class="s">${Object.entries(cats).sort((a,b)=>b[1]-a[1])[0]?m2(Object.entries(cats).sort((a,b)=>b[1]-a[1])[0][1]):""}</span></div></div>
+  <div class="ctfilters">${byCard.length>1||all.some(r=>!r.card?.last4)?fchips("ccCard",[["all","Барча карталар",all.length],...byCard.map(l4=>[l4,lbl(l4),all.filter(r=>r.card?.last4===l4).length]),...(all.some(r=>!r.card?.last4)?[["none","Карта кўрсатилмаган",all.filter(r=>!r.card?.last4).length]]:[])]):""}
+    <div class="chips">${fsel("ccM",monthOpts(all.map(r=>r.date)),"Барча ойлар")}${fsel("ccCat",CC_CATS.filter(c=>all.some(r=>r.cat===c)).map(c=>[c,c]),"Барча тоифалар")}${fq("ccQ","Қидириш: сотувчи, СТИР, сумма, RRN…")}${fclear(["ccCard","ccM","ccCat","ccQ"])}</div></div>
+  <div class="card">${all.length?colTable("cc",list,r=>`data-cc="${esc(r.id)}" tabindex="0"`,{foot}):`<div class="empty"><b>Корпоратив карта чеклари ҳали йўқ</b>«Чекларни юклаш» тугмасини босиб, PDF ёки расмларни танланг — бир нечтасини бирданига ҳам юкласа бўлади.</div>`}</div>`;
+}
+function ccDetail(f,r){ const u=ctFileUrl(r.file);
+  return `<button type="button" class="back" data-act="ccBack">← Корпоратив карта чеклари</button>
+  <div class="toolbar"><div class="lhead"><h2>${r.kind==="refund"?"Қайтариш":"Чек"} · ${esc(r.seller||"сотувчи кўрсатилмаган")}</h2>${didChip(r)}${r.cat?`<span class="cccat">${esc(r.cat)}</span>`:""}</div>
+    <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${PDF_ICON}Чек PDF'ини очиш</a>`:""}<button type="button" class="btn" data-act="ccEditOpen">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="ccDel">Ўчириш</button></div></div>
+  <div class="lstats"><div class="lstat" style="--c:#8b5cf6;--cl:#c4b5fd"><span class="k">Сумма</span><span class="v">${m2(ccSigned(r))} ${esc(r.currency==="UZS"?"сўм":r.currency||"")}</span><span class="s">${fmtDate(r.date)} ${esc(r.time||"")}</span></div>
+    <div class="lstat" style="--c:#f43f5e;--cl:#fecdd3"><span class="k">ҚҚС</span><span class="v">${r.vat!==""&&r.vat!=null?m2(ccVatSigned(r)):"—"}</span><span class="s">${r.vatRate?esc(r.vatRate)+"% ставка":""}</span></div>
+    <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Карта</span><span class="v">${r.card?esc(ccCardLbl(r.card)):"—"}</span><span class="s">${esc(r.holder||"")}</span></div></div>
+  <div class="card"><div class="reqs">${[["Сотувчи",r.seller],["Сотувчи СТИР / ЖШШИР",r.sellerInn],["Тоифа",r.cat],["Мақсади",r.purpose],["Ҳисобдор шахс",r.holder],["Чек №",r.checkNo],["RRN",r.rrn],["Авторизация коди",r.auth],["Терминал / мерчант",[r.terminal,r.merchant].filter(Boolean).join(" / ")],["Фискал белги",r.fiscal],["Фискал модул",r.fm],["Изоҳ",r.note]].map(([a,b])=>kv(a,b||"",/RRN|№|СТИР|код|Терминал|Фискал/.test(a))).join("")}</div>
+  ${r.ofd?`<p style="padding:0 16px 12px">Солиқ қўмитасида текшириш: <a href="${esc(/^https?:/.test(r.ofd)?r.ofd:"https://"+r.ofd)}" target="_blank" rel="noopener">ofd.soliq.uz</a></p>`:""}</div>
+  ${attachBox("recs",r,"Қўшимча файллар (накладная, ҳисоб-фактура ва б.)")}${histBox(r)}`; }
+function ccNewDraft(f){ const cs=firmCcards(f); return {id:uid(),date:localToday(),time:"",amount:"",currency:"UZS",kind:"buy",vat:"",vatRate:"",seller:"",sellerInn:"",cardI:cs.length===1?"0":"",cat:"",purpose:"",holder:cs.length===1?cs[0].holder||"":"",checkNo:"",rrn:"",auth:"",terminal:"",fiscal:"",note:"",isNew:true}; }
+function ccForm(f,d){ const cs=firmCcards(f); const fld=(k,l,type="text",cls="",ph="")=>`<div class="field ${cls}"><label for="cc_${k}">${l}</label><input id="cc_${k}" name="${k}" type="${type}" value="${esc(d[k]??"")}" placeholder="${esc(ph)}"></div>`; const sel=(k,l,opts)=>`<div class="field"><label for="cc_${k}">${l}</label><select id="cc_${k}" name="${k}">${opts.map(o=>Array.isArray(o)?o:[o,o]).map(([v,t])=>`<option value="${esc(v)}" ${String(d[k]??"")===String(v)?"selected":""}>${esc(t)}</option>`).join("")}</select></div>`;
+  return `<button type="button" class="back" data-act="ccBack">← Корпоратив карта чеклари</button>
+  <form id="ccForm" class="card lform" novalidate><h2>${d.isNew?"Чекни қўлда қўшиш":"Чекни таҳрирлаш"}</h2>
+  <div class="lgrid">${fld("date","Сана *","date")}${fld("time","Вақт","text","","ҳҳ:мм")}${sel("kind","Операция",[["buy","Харид (тўлов)"],["refund","Қайтариш (возврат)"]])}${fld("amount","Сумма *","text","","0.00")}${sel("currency","Валюта",CC_CUR)}${fld("vatRate","ҚҚС ставкаси, %","text","","12")}${fld("vat","ҚҚС суммаси","text","","ставкадан ўзи ҳисобланади")}
+  ${fld("seller","Сотувчи","text","wide2")}${fld("sellerInn","Сотувчи СТИР / ЖШШИР")}${sel("cardI","Корпоратив карта",[["","— карта танланмаган —"],...cs.map((c,j)=>[String(j),ccCardLbl(c)+(c.holder?" · "+c.holder:"")])])}${sel("cat","Тоифа",["",...CC_CATS])}${fld("holder","Ҳисобдор шахс")}${fld("purpose","Мақсади (нима учун)","text","wide")}
+  ${fld("checkNo","Чек №")}${fld("rrn","RRN")}${fld("auth","Авторизация коди")}${fld("terminal","Терминал")}${fld("fiscal","Фискал белги")}${fld("note","Изоҳ","text","wide")}</div>
+  <div class="lgrid">${d.pendingName?`<span class="hint">${esc(d.pendingName)} — сақланганда PDF бўлиб Drive'га юкланади</span>`:d.file?`<span class="hint">Чек PDF: ${esc(d.file.name||"бор")}</span>`:""}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingName?"Чек файлини алмаштириш":"Чек PDF / расмини бириктириш"}<input type="file" id="ccFile" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" hidden></label></div>
+  <p class="err" id="ccErr"></p>
+  <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="ccBack">Бекор қилиш</button></div></form>`; }
+function ccFromRec(f,r){ const cs=firmCcards(f); const i=r.card?.last4?cs.findIndex(c=>String(c.last4)===r.card.last4):-1; return {...JSON.parse(JSON.stringify(r)),cardI:i<0?"":String(i),_card:r.card}; }
+async function ccFormSubmit(form){ const f=firm(V.firmId); const d=V.ccEdit; if(!f||!d) return; const err=$("#ccErr");
+  if(!d.date){ err.textContent="Санани киритинг."; $("#cc_date").focus(); return; } if(!(num(d.amount)>0)){ err.textContent="Суммани киритинг."; $("#cc_amount").focus(); return; }
+  if((d.vat===""||d.vat==null)&&num(d.vatRate)>0) d.vat=String(Math.round(num(d.amount)*num(d.vatRate)/(100+num(d.vatRate))*100)/100);
+  if(ccIsDup(f,{...d,last4:firmCcards(f)[+d.cardI]?.last4||d._card?.last4||""},d.id)&&!d.dupOk){ err.textContent="Бу чек аллақачон киритилган (фискал белги / RRN ёки сана, вақт, сумма ва карта мос). Барибир сақлаш учун яна «Сақлаш»ни босинг."; d.dupOk=true; return; }
+  const btn=form.querySelector("[type=submit]"); btn.disabled=true;
+  try{ const isNew=!S.recs.some(x=>x.id===d.id); let o=ccRecord(f,d,null,isNew?"manual":(d.src||"pdf")); if(!firmCcards(f)[+d.cardI]&&d._card&&d.cardI==="") o.card=d._card;
+    if(d.pending){ let pf=d.pending; if(!/pdf$/i.test(pf.type)&&!/\.pdf$/i.test(pf.name)) pf=await ccImgToPdf(pf); o.file=await driveUpload(pf,ccFileName(f,o),attLoc("recs",o)); }
+    await putItem("recs",o,isNew?`Корпоратив карта чеки қўшилди: ${o.seller||""} ${m2(num(o.amount))} (${fmtDate(o.date)})`:`Корпоратив карта чеки ўзгартирилди (${fmtDate(o.date)}, ${m2(num(o.amount))})`);
+    toast("Сақланди"); V.ccEdit=null; V.ccId=o.id; }
+  catch(er){ btn.disabled=false; err.textContent=explain(er); return; } render(); }
+
+/* ойлик Excel */
+async function ccXlsx(f,mo,list){
+  if(!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
+  list=sortD(list||firmCC(f.id),r=>(r.date||"")+(r.time||""),"asc"); if(mo) list=list.filter(r=>String(r.date||"").startsWith(mo));
+  const months=[...new Set(list.map(r=>String(r.date||"").slice(0,7)).filter(Boolean))].sort(); const wb=XLSX.utils.book_new(); const used=new Set();
+  const H=["№","Сана","Вақт","Корпоратив карта","Сотувчи","Сотувчи СТИР","Тоифа","Мақсади / изоҳ","Сумма","ҚҚС ставка, %","ҚҚС суммаси","Суммa ҚҚСсиз","Валюта","Операция","Чек №","RRN","Авторизация коди","Терминал","Фискал белги","Ҳисобдор шахс","Уникал ИД","Чек PDF"];
+  const fmt=(ws,cols,r0,r1)=>{ for(let r=r0;r<=r1;r++) cols.forEach(c=>{ const a=XLSX.utils.encode_cell({r,c}); if(ws[a]&&typeof ws[a].v==="number") ws[a].z="#,##0.00"; }); };
+  const sheet=(name,rows,title)=>{ const body=rows.map((r,i)=>{ const s=ccSigned(r), v=r.vat===""||r.vat==null?"":ccVatSigned(r); return [i+1,fmtDate(r.date),r.time||"",r.card?ccCardLbl(r.card):"",r.seller||"",r.sellerInn||"",r.cat||"",r.purpose||r.note||"",s,r.vatRate?num(r.vatRate):"",v,v===""?"":Math.round((s-v)*100)/100,r.currency||"UZS",r.kind==="refund"?"Қайтариш":"Харид",r.checkNo||"",r.rrn||"",r.auth||"",r.terminal||"",r.fiscal||"",r.holder||"",docCode(r),r.file?(r.file.demo?r.file.name||"":ctFileUrl(r.file)):""]; });
+    const sums=ccSums(rows); const tot=Object.entries(sums).map(([c,x])=>["","Жами"+(Object.keys(sums).length>1?" ("+c+")":""),"","","",`${x.n} та чек`,"","",Math.round(x.s*100)/100,"",Math.round(x.v*100)/100,Math.round((x.s-x.v)*100)/100,c]);
+    const aoa=[[`${f.name||""} (СТИР ${f.inn||""}) — корпоратив карта чеклари реестри`],[title],[],H,...body,...tot,[],["Тузди: ______________________","","","","Текширди (бош бухгалтер): ______________________"]];
+    const ws=XLSX.utils.aoa_to_sheet(aoa); ws["!cols"]=[5,11,7,24,32,12,24,30,15,8,14,15,7,10,10,14,10,11,16,20,12,40].map(w=>({wch:w})); ws["!merges"]=[{s:{r:0,c:0},e:{r:0,c:10}},{s:{r:1,c:0},e:{r:1,c:10}}]; fmt(ws,[8,10,11],4,4+body.length+tot.length); ws["!autofilter"]={ref:XLSX.utils.encode_range({s:{r:3,c:0},e:{r:3+body.length,c:H.length-1}})};
+    let nm=name.replace(/[\\/?*\[\]:]/g,"").slice(0,31); let k=2; while(used.has(nm)) nm=nm.slice(0,28)+" "+(k++); used.add(nm); XLSX.utils.book_append_sheet(wb,ws,nm); };
+  if(!months.length) sheet("Чеклар",[],ccMonthLbl(mo)); months.forEach(m=>sheet(ccMonthLbl(m),list.filter(r=>String(r.date||"").startsWith(m)),`Давр: ${ccMonthLbl(m)}`));
+  const sum=[[`${f.name||""} — корпоратив карта чеклари: йиғма`],[mo?ccMonthLbl(mo):`${months.length?ccMonthLbl(months[0])+" — "+ccMonthLbl(months[months.length-1]):""}`],[],["Ой","Чеклар сони","Сумма","ҚҚС","Валюта"]];
+  months.forEach(m=>Object.entries(ccSums(list.filter(r=>String(r.date||"").startsWith(m)))).forEach(([c,x])=>sum.push([ccMonthLbl(m),x.n,Math.round(x.s*100)/100,Math.round(x.v*100)/100,c])));
+  sum.push([],["Карта бўйича","Чеклар сони","Сумма","ҚҚС","Валюта"]); const byC={}; list.forEach(r=>{ const k=(r.card?ccCardLbl(r.card):"Карта кўрсатилмаган")+"|"+(r.currency||"UZS"); byC[k]=byC[k]||{n:0,s:0,v:0}; byC[k].n++; byC[k].s+=ccSigned(r); byC[k].v+=ccVatSigned(r); }); Object.entries(byC).forEach(([k,x])=>sum.push([k.split("|")[0],x.n,Math.round(x.s*100)/100,Math.round(x.v*100)/100,k.split("|")[1]]));
+  sum.push([],["Тоифа бўйича","Чеклар сони","Сумма","ҚҚС","Валюта"]); const byT={}; list.forEach(r=>{ const k=(r.cat||"Тоифасиз")+"|"+(r.currency||"UZS"); byT[k]=byT[k]||{n:0,s:0,v:0}; byT[k].n++; byT[k].s+=ccSigned(r); byT[k].v+=ccVatSigned(r); }); Object.entries(byT).sort((a,b)=>b[1].s-a[1].s).forEach(([k,x])=>sum.push([k.split("|")[0],x.n,Math.round(x.s*100)/100,Math.round(x.v*100)/100,k.split("|")[1]]));
+  const ws=XLSX.utils.aoa_to_sheet(sum); ws["!cols"]=[34,12,18,16,8].map(w=>({wch:w})); fmt(ws,[2,3],4,sum.length); XLSX.utils.book_append_sheet(wb,ws,"Йиғма");
+  XLSX.writeFile(wb,safeName(f.name)+"_korp_karta_cheklari_"+(mo||"barcha_oylar")+".xlsx");
+}
+function ccInfo(f){ const all=firmCC(f.id); if(!all.length) return ""; const mo=localToday().slice(0,7); const m=all.filter(r=>String(r.date||"").startsWith(mo)).length; return `${all.length} та чек${m?` · бу ой ${m} та`:""}`; }
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
   const tabs=firmMenu(f,os);
   let body="";
   const menu=FIRM_MENUS.find(m=>m.k===V.tab)||FIRM_MENUS[0];
-  if(V.tab==="overview"||!FIRM_MENUS.some(m=>m.k===V.tab)){ body=firmOverview(f,os); }
+  if(V.tab==="overview"||!firmMenus(f).some(m=>m.k===V.tab)){ body=firmOverview(f,os); }
   else if(!menu.ready){ body=firmPlaceholder(menu); }
   else if(V.tab==="loans"){ body=vLoans(f); }
   else if(V.tab==="check"){ body=vChecks(f); }
@@ -4725,6 +4983,7 @@ function vFirm(){
   else if(V.tab==="finrep"){ body=vFinRep(f); }
   else if(V.tab==="charter"){ body=vCharter(f); }
   else if(V.tab==="office"){ body=vOffice(f); }
+  else if(V.tab==="cards"){ body=vCards(f); }
   else if(V.tab==="import"){ const sub=(V.gId||V.gImport)?"gtd":(V.impSub||"gtd"); const nG=S.gtd.filter(r=>r.firmId===f.id).length, nF=firmFC(f.id).length;
     body=`<div class="chips hrtabs">${[["gtd","ГТД реестри",nG],["fc","Ташқи савдо контрактлари",nF]].map(([k,t,n])=>`<button type="button" class="chip" data-impsub="${k}" aria-pressed="${sub===k}">${t} <i class="cn">${n}</i></button>`).join("")}</div>`+(sub==="fc"?vFContracts(f):vGtd(f.id)); }
   else if(V.tab==="staff"){ body=vStaff(f); }
@@ -4995,13 +5254,14 @@ function render(){
 /* ---------- events ---------- */
 document.addEventListener("click", async e=>{
   if(e.target.closest("a[href]")) return;
-  const t=e.target.closest("#addFirmBtn,[data-firm],[data-tab],[data-filter],[data-act],[data-tpl],[data-order],[data-set],[data-loan],[data-ck],[data-cktpl],[data-ckitem],[data-ckkey],[data-ckfilter],[data-ct],[data-ctdir],[data-ctf],[data-ctgtpl],[data-cp],[data-cpf],[data-gocontract],[data-gtd],[data-gf],[data-gogtd],[data-emp],[data-hrsub],[data-ef],[data-hrorder],[data-pos],[data-doclang],[data-vporder],[data-ndmonth],[data-fclear],[data-ckauto],[data-trkind],[data-trp],[data-fredit],[data-ch],[data-chnew],[data-godoc],[data-impsub],[data-fc],[data-fcsub],[data-fcdoc],[data-fcadd],[data-colcfg],[data-letdir],[data-let],[data-attdel]");
+  const t=e.target.closest("#addFirmBtn,[data-firm],[data-tab],[data-filter],[data-act],[data-tpl],[data-order],[data-set],[data-loan],[data-ck],[data-cktpl],[data-ckitem],[data-ckkey],[data-ckfilter],[data-ct],[data-ctdir],[data-ctf],[data-ctgtpl],[data-cp],[data-cpf],[data-gocontract],[data-gtd],[data-gf],[data-gogtd],[data-emp],[data-hrsub],[data-ef],[data-hrorder],[data-pos],[data-doclang],[data-vporder],[data-ndmonth],[data-fclear],[data-ckauto],[data-trkind],[data-trp],[data-fredit],[data-ch],[data-chnew],[data-godoc],[data-impsub],[data-fc],[data-fcsub],[data-fcdoc],[data-fcadd],[data-colcfg],[data-letdir],[data-let],[data-attdel],[data-cc]");
   if(!t) return;
-  if(t.dataset.firm){ Object.assign(V,{letEdit:null,letId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,trEdit:null, trImport:null, frEdit:null, frImport:null, chEdit:null, chImport:null, chId:null}); V.ckAuto=null; if(t.dataset.gond){ V.gReg="ndopen"; V.gMonth=""; V.gQ=""; } return go({view:"firm",firmId:t.dataset.firm,tab:t.dataset.gotab||"overview",filter:"all",loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,ctQ:"",gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null,eQ:""}); }
-  if(t.dataset.tab){ return go({tab:t.dataset.tab,letEdit:null,letId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,vpEdit:null,vpConfirm:false,ckAuto:null,trEdit:null,trImport:null,frEdit:null,frImport:null,chEdit:null,chImport:null,chId:null,loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null}); }
+  if(t.dataset.firm){ Object.assign(V,{ccId:null,ccEdit:null,ccImport:null,ccCard:"",ccM:"",ccCat:"",ccQ:"",letEdit:null,letId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,trEdit:null, trImport:null, frEdit:null, frImport:null, chEdit:null, chImport:null, chId:null}); V.ckAuto=null; if(t.dataset.gond){ V.gReg="ndopen"; V.gMonth=""; V.gQ=""; } return go({view:"firm",firmId:t.dataset.firm,tab:t.dataset.gotab||"overview",filter:"all",loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,ctQ:"",gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null,eQ:""}); }
+  if(t.dataset.tab){ return go({tab:t.dataset.tab,ccId:null,ccEdit:null,ccImport:null,letEdit:null,letId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,vpEdit:null,vpConfirm:false,ckAuto:null,trEdit:null,trImport:null,frEdit:null,frImport:null,chEdit:null,chImport:null,chId:null,loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null}); }
   if(t.dataset.ctdir){ return go({ctDir:t.dataset.ctdir,ctId:null}); }
   if(t.dataset.ctf){ V[t.dataset.ctf]=t.dataset.v; if(t.dataset.ctf==="gReg") V.gLimit=200; return render(); }
   if(t.dataset.letdir){ return go({letDir:t.dataset.letdir,letId:null,letEdit:null}); }
+  if(t.dataset.cc){ if(e.target.closest("a")) return; return go({ccId:t.dataset.cc,ccEdit:null}); }
   if(t.dataset.let){ const l=S.recs.find(x=>x.id===t.dataset.let); return go({letId:t.dataset.let,letDir:l?.dir||V.letDir,letEdit:null}); }
   if(t.dataset.attdel){ const [kind,id,i]=t.dataset.attdel.split("|"); if(!confirmTwice(t,"Файлни рўйхатдан олиб ташлаш учун яна бир марта босинг (Drive'даги нусха қолади)")) return;
     try{ await attPut(kind,id,o=>{ const fl=(o.files||[])[+i]; o.files.splice(+i,1); o._rm=fl?.name; },"Файл олиб ташланди"); toast("Олиб ташланди"); }catch(er){ toast(explain(er)); } if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
@@ -5115,6 +5375,14 @@ document.addEventListener("click", async e=>{
   if(a==="licNew"){ V.licOpen=true; return render(); }
   if(a==="licCancel"){ V.licOpen=false; return render(); }
   if(a==="licDel"){ const f=firm(V.firmId); if(!f||!confirmTwice(t,"Лицензияни ўчириш учун яна бир марта босинг")) return; const i=+t.dataset.i; try{ await attPut("firms",f.id,o=>{ o.licenses=(o.licenses||[]).filter((_,j)=>j!==i); },"Лицензия ўчирилди"); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="ccNew"){ const f=firm(V.firmId); return go({ccEdit:ccNewDraft(f),ccId:null}); }
+  if(a==="ccBack"){ if(V.ccEdit){ const id=V.ccEdit.id; return go({ccEdit:null,ccId:S.recs.some(x=>x.id===id)?id:null}); } return go({ccId:null}); }
+  if(a==="ccEditOpen"){ const r=S.recs.find(x=>x.id===V.ccId); if(r) return go({ccEdit:ccFromRec(firm(V.firmId),r)}); return; }
+  if(a==="ccDel"){ const r=S.recs.find(x=>x.id===V.ccId); if(!r||!confirmTwice(t,"Чекни ўчириш учун яна бир марта босинг")) return; try{ await delItem("recs",r.id,`Корпоратив карта чеки ўчирилди: ${r.seller||""} ${m2(num(r.amount))} (${fmtDate(r.date)})`); toast("Ўчирилди"); }catch(er){ toast(explain(er)); } return go({ccId:null}); }
+  if(a==="ccImpCancel"){ if(V.ccImport?.saving) return; return go({ccImport:null}); }
+  if(a==="ccImpSave") return ccImpSave();
+  if(a==="ccImpDel"){ const I=V.ccImport; if(!I||I.saving) return; I.items.splice(+t.dataset.i,1); if(!I.items.length) return go({ccImport:null}); const f=firm(V.firmId); I.items.forEach(x=>{ if(x.d&&["ok","dup"].includes(x.status)) ccItemStatus(f,x); }); return ccImpRefresh(); }
+  if(a==="ccXlsx"){ const f=firm(V.firmId); try{ toast("Excel тайёрланмоқда…"); await ccXlsx(f,t.dataset.m||"",ccFiltered({...f,id:f.id}).filter(r=>!V.ccM||String(r.date||"").startsWith(V.ccM))); addLog("firms",f.id,"Корпоратив карта чеклари Excel'га юклаб олинди ("+ccMonthLbl(t.dataset.m||"")+")",Date.now()).catch(()=>{}); }catch(er){ toast("Excel тузиб бўлмади: "+(er?.message||er)); } return; }
   if(a==="letNew"){ const f=firm(V.firmId); return go({letEdit:letNew(f,V.letDir||"in"),letId:null}); }
   if(a==="letBack"){ if(V.letEdit){ const id=V.letEdit.id; return go({letEdit:null,letId:S.recs.some(x=>x.id===id)?id:null}); } return go({letId:null}); }
   if(a==="letEditOpen"){ const l=S.recs.find(x=>x.id===V.letId); if(l) return go({letEdit:JSON.parse(JSON.stringify(l))}); return; }
@@ -5366,6 +5634,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&V.colCfg){ V.colCf
 document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches("tr[data-order],tr[data-ct],tr[data-cp],tr[data-gocontract],tr[data-loan]")) e.target.click(); });
 document.addEventListener("input",e=>{ if(e.target.dataset?.attach!=null||e.target.type==="file") return; if(e.target.closest("#hoForm")){ hoInput(e.target); return; } DRAFT_SEEN=true; draftSave();
   if(e.target.closest("#letForm")&&e.target.name&&V.letEdit){ V.letEdit[e.target.name]=e.target.value; }
+  if(e.target.closest("#ccForm")&&e.target.name&&V.ccEdit){ V.ccEdit[e.target.name]=e.target.value; V.ccEdit.dupOk=false; if(e.target.name==="vatRate"&&V.ccEdit.vatAuto!==false){ const d=V.ccEdit; const v=$("#cc_vat"); if(v&&(!d.vat||d.vatAutoSet)){ d.vat=num(d.vatRate)>0&&num(d.amount)>0?String(Math.round(num(d.amount)*num(d.vatRate)/(100+num(d.vatRate))*100)/100):""; d.vatAutoSet=true; v.value=d.vat; } } if(e.target.name==="vat") V.ccEdit.vatAutoSet=false; }
   const form=e.target.closest("#orderForm");
   if(form){ V.draft.values[e.target.name]=e.target.value; hrOrderInput(e.target); $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
   if(e.target.closest("#firmForm")) onFirmInput(e.target,false);
@@ -5415,7 +5684,10 @@ function onLoanInput(el){
   if(["amount","rate","taxRate"].includes(el.name)) el.value=el.value.replace(/[^\d.,\s]/g,"");
   const pv=$("#loanPrev"); if(pv) pv.innerHTML=loanPreview(V.loanEdit);
 }
-document.addEventListener("change",e=>{ if(e.target.dataset?.attach!=null||e.target.type==="file") return; if(e.target.closest("#hoForm")){ hoInput(e.target); return; } draftSave();
+document.addEventListener("change",e=>{ if(e.target.dataset?.attach!=null||e.target.type==="file") return; if(e.target.closest("#hoForm")){ hoInput(e.target); return; }
+  if(e.target.dataset?.ccimp!=null&&V.ccImport){ const it=V.ccImport.items[+e.target.dataset.ccimp]; const k=e.target.dataset.k; if(it&&it.d){ it.d[k]=e.target.value; const f=firm(V.firmId); if(k==="cardI"){ const c=firmCcards(f)[+e.target.value]; if(c){ it.d.holder=c.holder||it.d.holder; it.warn=""; } } if(k==="amount"&&it.d.vatRate&&!it.vatEdited) it.d.vat=String(Math.round(num(it.d.amount)*num(it.d.vatRate)/(100+num(it.d.vatRate))*100)/100); if(k==="vat") it.vatEdited=true; V.ccImport.items.forEach(x=>{ if(x.d&&["ok","dup","need"].includes(x.status)) ccItemStatus(f,x); }); ccImpRefresh(); } return; }
+  if(e.target.closest("#ccForm")&&V.ccEdit&&e.target.name==="cardI"){ const c=firmCcards(firm(V.firmId))[+e.target.value]; V.ccEdit.cardI=e.target.value; if(c&&!V.ccEdit.holder){ V.ccEdit.holder=c.holder||""; const h=$("#cc_holder"); if(h) h.value=V.ccEdit.holder; } return; }
+  draftSave();
   if(e.target.closest("#letForm")&&V.letEdit&&e.target.name==="status"){ V.letEdit.status=e.target.value; if(e.target.value==="done"&&!V.letEdit.doneDate) V.letEdit.doneDate=localToday(); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
   if(e.target.closest("#firmForm")) onFirmInput(e.target,true);
   if(e.target.closest("#loanForm")) onLoanInput(e.target);
@@ -5448,6 +5720,10 @@ document.addEventListener("change",async e=>{
   if(el.dataset.attach){ const [kind,id]=el.dataset.attach.split("|"); const fs=[...el.files]; el.value=""; if(!fs.length) return; const f=firm(V.firmId)||firm(V.draft?.firmId); let ok=0;
     for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
     if(ok) toast(ok+" та файл бириктирилди"); if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
+  if((el.id==="ccFiles"||el.id==="ccMore")&&V.firmId){ const fs=[...el.files]; el.value=""; if(fs.length) ccReadFiles(fs,el.id==="ccMore"); return; }
+  if(el.id==="ccFile"&&V.ccEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; const d=V.ccEdit; d.pending=fl; d.pendingName=fl.name; toast("Чек ўқилмоқда…");
+    try{ const f=firm(V.firmId); const r=(await ccReadAny(fl,f))[0]; if(r){ d.pending=r.file; const p=r.d; let n=0; ["date","time","amount","vat","vatRate","seller","sellerInn","checkNo","rrn","auth","terminal","fiscal","currency","kind","cat"].forEach(k=>{ if(p[k]&&(!d[k]||(k==="currency"&&d[k]==="UZS")||(k==="kind"&&d[k]==="buy")||(k==="date"&&d.isNew&&d[k]===localToday()))){ d[k]=p[k]; n++; } }); if(d.cardI===""){ d.cardI=ccCardIdx(f,p); } toast(n?n+" та маълумот чекдан олинди":"Чекдан маълумот топилмади — қўлда киритинг"); } }catch(e){ toast("Файлни ўқиб бўлмади"); }
+    return render(); }
   if(el.id==="letFile"&&V.letEdit){ const fs=[...el.files]; el.value=""; if(fs.length){ V.letEdit.pending=(V.letEdit.pending||[]).concat(fs.map(x=>({file:x,name:x.name}))); render(); } return; }
   if(el.id==="fcFile"&&V.fcEdit){ const fl=el.files[0]; el.value=""; if(fl){ V.fcEdit.pendingFile=fl; render(); } return; }
   if(el.id==="fcDocFile"&&V.fcDoc){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcDoc.pendingFile=fl; toast("PDF ўқилмоқда…");
@@ -5491,6 +5767,7 @@ document.addEventListener("change",async e=>{
 document.addEventListener("submit",async e=>{
   if(e.target.id==="shareForm"){ e.preventDefault(); const f=firm(V.firmId); const em=e.target.email.value.trim(); if(!/^\S+@\S+\.\S+$/.test(em)){ toast("Почта манзилини тўғри киритинг"); return; }
     const btn=e.target.querySelector("[type=submit]"); btn.disabled=true; try{ await driveShareFirm(f,em,e.target.role.value); addLog("firms",f.id,`Drive папкаси берилди: ${em} (${e.target.role.value==="writer"?"таҳрирлаш":"кўриш"})`,Date.now()).catch(()=>{}); toast("Папка "+em+" га очилди — у почтасига хабар олади"); e.target.reset(); }catch(er){ toast(explain(er)); } btn.disabled=false; return; }
+  if(e.target.id==="ccForm"){ e.preventDefault(); ccFormSubmit(e.target); return; }
   if(e.target.id==="letForm"){ e.preventDefault(); const d=V.letEdit; const f=firm(V.firmId); if(!d||!f) return; const err=$("#letErr");
     if(!String(d.corr||"").trim()){ err.textContent=d.dir==="in"?"Хат кимдан келганини киритинг.":"Хат кимга юборилганини киритинг."; $("#lt_corr").focus(); return; }
     if(!String(d.regNo||"").trim()) d.regNo=letNextNo(f.id,d.dir,d.regDate);
