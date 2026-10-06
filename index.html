@@ -247,6 +247,8 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .backup.due .bk-text span{color:var(--ink)}
 .hosecs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2px 14px;margin:4px 0 8px}.hosecs .checkline{grid-column:auto}label.checkline.muted{opacity:.45;cursor:default}.hogrp td{background:var(--bg);font-weight:600}.hosign{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px;font-size:12px}.hosheet .btab td{font-size:11px}
 .cccat{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,#8b5cf6 14%,transparent);color:inherit;white-space:nowrap}.neg{color:#dc2626}.ccimp .ccin{width:100%;min-width:0;border:1px solid var(--line);border-radius:6px;padding:5px 7px;font:inherit;font-size:13px;background:var(--panel);color:inherit}.ccimp .ccin+.ccin{margin-top:4px}.ccimp .ccd{min-width:128px}.ccimp .ccs{min-width:170px}.ccimp .cca,.ccimp .ccv{min-width:100px;text-align:right}.ccimp td{vertical-align:top}.ccimp .gfn a{display:inline-flex;vertical-align:middle}.ccimp .gfn svg{width:18px;height:18px}.ccimp .gfn{word-break:break-all}.ccimp .gsel{max-width:190px}
+.aitag{font-size:12px;color:#c2410c;margin-top:3px}.aibtn{border-color:#d97757;color:#c2410c}.linkbtn.aire{display:block;margin-top:4px;font-size:12px;color:#c2410c}.rnav span.aiico{flex:0 0 26px;text-align:center!important}.aiico{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f4c4ae,#d97757);color:#fff;font-size:15px}.aibar{display:block;height:5px;border-radius:5px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}.aibar i{display:block;height:100%;background:#d97757}
+.certai{grid-column:1/-1;margin:6px 0 2px;padding:8px 10px;border:1px dashed #d97757;border-radius:8px;font-size:13px;display:flex;flex-direction:column;gap:3px}.certrow{display:grid;grid-template-columns:minmax(120px,180px) 1fr;gap:2px 10px}.certrow i{grid-column:2;font-size:12px;color:var(--muted)}.certrow.diff i{color:#b45309}.certrow.empty i{color:#15803d}.certai .btn{align-self:flex-start;margin-top:4px}
 .checkline{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer;grid-column:1/-1;padding:4px 0}
 .checkline input{width:18px;height:18px;margin-top:2px;accent-color:var(--accent)}
 .field input.bad{border-color:var(--danger)}
@@ -1287,7 +1289,7 @@ async function putItem(kind, obj, note){
   if(ex){ await STORE.writeRow(kind, ex.row, vals); row=ex.row; }
   else  { row = await STORE.appendRow(kind, vals); }
   ROWS[kind][o.id] = {row:row||0, obj:o, updatedAt:at, updatedBy:ME.email, deleted:false};
-  await addLog(kind, o.id, note, at);
+  if(note!==false) await addLog(kind, o.id, note, at);
   if(!row) await refresh(); else rebuild();
   return o;
 }
@@ -1322,11 +1324,11 @@ const V = { view:"home", firmId:null, tab:"orders", filter:"all", orderId:null, 
 function go(patch){ Object.assign(V, {confirm:false, copyOpen:false}, patch); render(); window.scrollTo(0,0); }
 const firm = id => S.firms.find(f=>f.id===id);
 const firmOrders = id => S.orders.filter(o=>o.firmId===id).sort((a,b)=>(b.values?.date||"").localeCompare(a.values?.date||"")||(parseInt(String(b.values?.number||"").replace(/\D+/g,""),10)||0)-(parseInt(String(a.values?.number||"").replace(/\D+/g,""),10)||0)||(b.createdAt||0)-(a.createdAt||0));
-const liveViews = new Set(["home","firm","tpl","export","cps","gtd"]);
+const liveViews = new Set(["home","firm","tpl","export","cps","gtd","ai"]);
 
 /* ---------- rail ---------- */
 function renderRail(){
-  const rn=$("#railNav"); if(rn){ const n=S.ready?cpIndex().length:0; rn.innerHTML=`<button type="button" class="rnav ${V.view==="cps"?"on":""}" data-act="cps" aria-current="${V.view==="cps"}">${NI("people",26)}<span>Контрагентлар</span>${n?`<i>${n}</i>`:""}</button><button type="button" class="rnav ${V.view==="gtd"?"on":""}" data-act="gtdAll" aria-current="${V.view==="gtd"}">${NI("import",26)}<span>ГТД реестри</span>${S.gtd.length?`<i>${S.gtd.length}</i>`:""}</button>`; }
+  const rn=$("#railNav"); if(rn){ const n=S.ready?cpIndex().length:0; rn.innerHTML=`<button type="button" class="rnav ${V.view==="cps"?"on":""}" data-act="cps" aria-current="${V.view==="cps"}">${NI("people",26)}<span>Контрагентлар</span>${n?`<i>${n}</i>`:""}</button><button type="button" class="rnav ${V.view==="gtd"?"on":""}" data-act="gtdAll" aria-current="${V.view==="gtd"}">${NI("import",26)}<span>ГТД реестри</span>${S.gtd.length?`<i>${S.gtd.length}</i>`:""}</button><button type="button" class="rnav ${V.view==="ai"?"on":""}" data-act="aiPage" aria-current="${V.view==="ai"}"><span class="aiico" aria-hidden="true">✦</span><span>Claude AI</span>${S.ready&&aiOn()?`<i>${aiCents(aiMonthSpend(localToday().slice(0,7)))}</i>`:""}</button>`; }
   const list = [...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||""));
   $("#firmList").innerHTML = list.length ? list.map(f=>`<li><button type="button" data-firm="${esc(f.id)}" aria-current="${V.firmId===f.id}"><span class="fn">${esc(f.name||"Номсиз фирма")}</span><span class="fi">${ratingCircle(f.ratingCat,22)}СТИР ${esc(f.inn||"—")}</span></button></li>`).join("")
     : `<li class="hint" style="padding:6px 4px">${S.ready?"Ҳали фирма қўшилмаган":"Юкланмоқда…"}</li>`;
@@ -2318,6 +2320,7 @@ function ctImportView(f){
     return `<section class="card ctimp ctform" data-impid="${it.id}">
       <div class="ctimp-h">${PDF_ICON}<b>${esc(it.fname)}</b><span class="hint">${(it.size/1024/1024).toFixed(2)} МБ${it.pages?" · "+it.pages+" бет":""}</span><span class="lpill ${s[0]}">${it.ocr&&it.status==="ok"?"Сканердан ўқилди (OCR)":s[1]}${it.status==="ok"?" ("+it.auto.size+" та)":""}</span>
         <span class="ctimp-a">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener">кўриш</a>`:""}${it.status!=="saving"&&it.status!=="saved"?`<button type="button" class="linkbtn danger" data-act="ctImpDel" data-i="${i}">олиб ташлаш</button>`:""}</span></div>
+      <div style="padding:0 16px">${aiTag(it,"ctAi",i)}</div>
       ${it.status==="ocr"?`<p class="ocrp hint">${esc(it.msg2||"")}</p>`:""}
       ${it.ocr&&it.status==="ok"?`<p class="hint">OCR сканердан ўқиганда хато қилиши мумкин — рақам ва суммаларни айниқса текширинг.</p>`:""}
       ${it.msg?`<p class="err">${esc(it.msg)}</p>`:""}
@@ -2412,6 +2415,7 @@ async function ctReadFiles(files){
       if(text.replace(/\s/g,"").length<40){ it.status="scan"; it.d=d; }
       else{ const p=ctParse(text,f); it.auto=ctApplyParsed(d,p,false); it.d=d; it.status="ok"; }
     }catch(e){ it.status="err"; it.msg="PDF'ни ўқиб бўлмади: "+(e?.message||e); it.d=d; }
+    if(V.ctImport&&it.d&&aiAuto(it.status!=="ok"||it.ocr||it.auto.size<6)) await ctAiItem(f,it);
     if(V.ctImport&&V.tab==="contracts") render();
   }
 }
@@ -2872,16 +2876,9 @@ async function gtdReadFiles(files,firmId){
     try{
       const {F}=await gtdFields(it.file); const d=gtdParse(F);
       if(!d){ it.status="err"; it.msg="ГТД майдонлари топилмади (сканер ёки бошқа ҳужжат)"; }
-      else{ it.d=d;
-        const fm=firmByInn(d.inn); if(!it.firmId) it.firmId=fm?.id||""; if(firmId&&fm&&fm.id!==firmId) it.warn=`Бу ГТД бошқа фирмага тегишли (${fm.name}) — шу фирмага сақланади`;
-        const exR=S.gtd.find(r=>r.no===d.no);
-        if(exR&&(!("prev" in exR)||!("g47" in exR))&&!seen.has(d.no)){ it.upd=exR.id; if(!it.firmId) it.firmId=exR.firmId; it.status=it.firmId?"ok":"nofirm"; it.warn="Аввал юкланган — НД/ИМ маълумоти билан янгиланади"; }
-        else if(exR){ it.status="dup"; it.msg="Бу ГТД аллақачон реестрда бор"; }
-        else if(seen.has(d.no)){ it.status="dup"; it.msg="Бу файл рўйхатда икки марта танланган"; }
-        else it.status=it.firmId?"ok":"nofirm";
-        seen.add(d.no);
-      }
+      else gtdAccept(it,d,firmId,seen);
     }catch(e){ it.status="err"; it.msg="PDF'ни ўқиб бўлмади: "+(e?.message||e); }
+    if(V.gImport&&it.status==="err"&&aiAuto(true)) await gtdAiItem(it,firmId,seen);
     if(V.gImport) gtdImpRefresh();
   }
 }
@@ -2889,7 +2886,7 @@ function gtdImpRefresh(){ const box=$("#gImpBody"); if(box&&V.gImport) box.inner
 function gtdImpRows(){
   const I=V.gImport; const st={read:["","ўқилмоқда…"],ok:["ok","тайёр"],nofirm:["soon","фирмани танланг"],dup:["off","дубликат"],err:["bad","хато"],saving:["act","сақланмоқда…"],saved:["ok","сақланди ✓"]};
   const fopts=[...S.firms].sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-  return I.items.map((it,i)=>{ const d=it.d, s=st[it.status]||["",""]; return `<tr class="norow ${it.status}"><td class="num">${i+1}</td><td><span class="gfn">${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${it.warn?`<div class="hint">${esc(it.warn)}</div>`:""}</td>
+  return I.items.map((it,i)=>{ const d=it.d, s=st[it.status]||["",""]; return `<tr class="norow ${it.status}"><td class="num">${i+1}</td><td><span class="gfn">${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${it.warn?`<div class="hint">${esc(it.warn)}</div>`:""}${aiTag(it,"gAi",i)}</td>
     <td class="num">${d?`<b>${esc(d.no)}</b>`:"—"}</td><td>${d?esc(d.regime):""}</td>
     <td>${d?(it.status==="saved"||it.status==="dup"?esc(firm(it.firmId)?.name||""):`<select class="gsel" data-gimpfirm="${i}"><option value="">— фирма —</option>${fopts.map(f=>`<option value="${esc(f.id)}" ${it.firmId===f.id?"selected":""}>${esc(f.name||"")}</option>`).join("")}</select>${!firmByInn(d.inn)?`<div class="hint">СТИР ${esc(d.inn||"?")} базада йўқ</div>`:""}`):""}</td>
     <td>${d?esc(d.sender?.name||""):""}</td><td class="num r">${d?m2(d.invoice)+" "+esc(d.currency||""):""}</td><td class="num r">${d?m2(d.payTotal):""}</td>
@@ -3535,7 +3532,7 @@ const didChip=(r,k)=>r?`<span class="did" title="Дастур берган ун�
 function docIndex(){
   const out=[]; const add=(r,k,fid)=>out.push({r,k,fid,code:docCode(r,k)});
   S.firms.forEach(f=>{ add(f,"firm",f.id); Object.entries(f.docs||{}).forEach(([dk,d])=>{ if(d?.file) add({id:f.id+":"+dk,...d},"cert",f.id); }); });
-  S.orders.forEach(o=>add(o,"order",o.firmId)); S.recs.forEach(r=>{ add(r,r.type,r.firmId); if(r.type==="fcontract"){ (r.specs||[]).forEach(x=>add({...x,cid:r.id},"spec",r.firmId)); (r.acts||[]).forEach(x=>add({...x,cid:r.id},"act",r.firmId)); (r.addenda||[]).forEach(x=>add({...x,cid:r.id},"addendum",r.firmId)); } }); S.gtd.forEach(r=>add(r,"gtd",r.firmId)); S.emp.forEach(r=>add(r,"emp",r.firmId)); S.vplan.forEach(r=>add(r,"vplan",r.firmId));
+  S.orders.forEach(o=>add(o,"order",o.firmId)); S.recs.forEach(r=>{ if(r.type==="aiuse") return; add(r,r.type,r.firmId); if(r.type==="fcontract"){ (r.specs||[]).forEach(x=>add({...x,cid:r.id},"spec",r.firmId)); (r.acts||[]).forEach(x=>add({...x,cid:r.id},"act",r.firmId)); (r.addenda||[]).forEach(x=>add({...x,cid:r.id},"addendum",r.firmId)); } }); S.gtd.forEach(r=>add(r,"gtd",r.firmId)); S.emp.forEach(r=>add(r,"emp",r.firmId)); S.vplan.forEach(r=>add(r,"vplan",r.firmId));
   return out;
 }
 function docFind(q){ q=String(q||"").trim().toUpperCase().replace(/^ИД\s*/,""); if(q.length<4) return []; return docIndex().filter(x=>x.code.toUpperCase().includes(q)).slice(0,12); }
@@ -3688,8 +3685,9 @@ async function trReadFiles(f,files,kind0){
       it.period=perKey(trCfg(f,it.kind).per,p.per); it.accrued=p.accrued!=null?String(p.accrued):""; it.payable=p.payable!=null?String(p.payable):"";
       it.innWarn=p.inn&&f.inn&&p.inn!==String(f.inn).trim()?`Файлдаги СТИР ${p.inn} — бошқа фирмага ўхшайди`:"";
       it.found=[p.kind?"тури: "+trDef(p.kind).t:"тури аниқланмади",(p.per.m||p.per.q)?"давр: "+trPerLabel(it.period):"давр аниқланмади",p.inn?"СТИР "+p.inn:""].filter(Boolean).join(" · ");
-      it.status="ok"; }
+      it.status="ok"; it.weak=!p.kind||!(p.per.m||p.per.q)||p.accrued==null; }
     catch(e){ it.status="err"; it.msg="Файлни ўқиб бўлмади: "+(e?.message||e); }
+    if(V.trImport&&aiCanRead(it.file)&&aiAuto(it.status==="err"||it.weak)) await trAiItem(f,it,kind0);
     render();
   }
 }
@@ -3698,7 +3696,7 @@ function trImportView(f){
   return `<button type="button" class="back" data-act="trImpCancel">← Солиқ ҳисоботлари</button>
   <div class="head"><div><h1 style="font-size:22px">Ҳисоботларни файлдан юклаш</h1><div class="sub">Тури, даври ва суммалар файлдан ўзи топилди — текширинг, керак бўлса ўзгартиринг. Шу давр учун ёзув бўлса, файл унга қўшилади ва «Топширилган» бўлади.</div></div></div>
   <div class="card"><div class="tablewrap"><table class="sched"><thead><tr><th>Файл</th><th>Ҳисобот тури</th><th>Давр</th><th class="r">Ҳисобланган</th><th class="r">Тўланиши лозим</th><th>Ҳолати</th><th></th></tr></thead><tbody>
-  ${I.items.map((it,i)=>`<tr class="norow"><td><span class="gfn">${esc(it.fname)}</span>${it.found?`<div class="hint">${esc(it.found)}</div>`:""}${it.innWarn?`<div class="err">${esc(it.innWarn)}</div>`:""}${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}</td>
+  ${I.items.map((it,i)=>`<tr class="norow"><td><span class="gfn">${esc(it.fname)}</span>${it.found?`<div class="hint">${esc(it.found)}</div>`:""}${aiTag(it,"trAi",i)}${it.innWarn?`<div class="err">${esc(it.innWarn)}</div>`:""}${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}</td>
     <td>${it.status==="read"?"…":`<select class="gsel" data-trimp="${i}" data-k="kind">${on.map(d=>`<option value="${d.k}" ${it.kind===d.k?"selected":""}>${esc(d.t)}</option>`).join("")}</select>`}</td>
     <td>${it.status==="read"?"":`<input class="gsel trper" data-trimp="${i}" data-k="period" value="${esc(it.period||"")}" title="${esc(trPerLabel(it.period))}"><div class="hint">${esc(trPerLabel(it.period))}</div>`}</td>
     <td><input class="gsel trnum" data-trimp="${i}" data-k="accrued" value="${esc(it.accrued||"")}" inputmode="decimal"></td><td><input class="gsel trnum" data-trimp="${i}" data-k="payable" value="${esc(it.payable||"")}" inputmode="decimal"></td>
@@ -3770,8 +3768,10 @@ function frDetect(f,text){ const std=f.std||"БҲМС"; let best=null,bs=0; FIN_
 async function frReadFiles(f,files){
   V.frImport={items:[...files].map(x=>({id:uid(),file:x,fname:x.name,status:"read"})),saving:false}; render();
   for(const it of V.frImport.items){ if(!V.frImport) return;
-    try{ const {text,rows}=await fileText(it.file); const d=frDetect(f,text); it.form=d.form||FIN_FORMS[f.std||"БҲМС"][0].k; it.period=d.period; it.fig=frFigures(rows); it.status="ok"; }
-    catch(e){ it.status="err"; it.msg="Файлни ўқиб бўлмади: "+(e?.message||e); } render(); }
+    try{ const {text,rows}=await fileText(it.file); const d=frDetect(f,text); it.form=d.form||FIN_FORMS[f.std||"БҲМС"][0].k; it.period=d.period; it.fig=frFigures(rows); it.status="ok"; it.weak=Object.keys(it.fig||{}).length<2; }
+    catch(e){ it.status="err"; it.msg="Файлни ўқиб бўлмади: "+(e?.message||e); }
+    if(V.frImport&&aiCanRead(it.file)&&aiAuto(it.status==="err"||it.weak)) await frAiItem(f,it);
+    render(); }
 }
 function frImportView(f){
   const I=V.frImport; const forms=FIN_FORMS[f.std||"БҲМС"]; const n=I.items.filter(x=>x.status==="ok").length; const y=new Date().getFullYear();
@@ -3779,7 +3779,7 @@ function frImportView(f){
   return `<button type="button" class="back" data-act="frImpCancel">← Молиявий ҳисоботлар</button>
   <div class="head"><div><h1 style="font-size:22px">Молиявий ҳисоботларни юклаш</h1><div class="sub">Шакл ва давр файлдан ўзи аниқланди — текширинг.</div></div></div>
   <div class="card"><div class="tablewrap"><table class="sched"><thead><tr><th>Файл</th><th>Шакл</th><th>Давр</th><th>Топилган кўрсаткичлар</th><th>Ҳолати</th><th></th></tr></thead><tbody>
-  ${I.items.map((it,i)=>`<tr class="norow"><td><span class="gfn">${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}</td><td>${it.status==="read"?"…":`<select class="gsel" data-frimp="${i}" data-k="form">${forms.map(x=>`<option value="${x.k}" ${it.form===x.k?"selected":""}>${esc(x.t)}</option>`).join("")}</select>`}</td>
+  ${I.items.map((it,i)=>`<tr class="norow"><td><span class="gfn">${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${aiTag(it,"frAi",i)}</td><td>${it.status==="read"?"…":`<select class="gsel" data-frimp="${i}" data-k="form">${forms.map(x=>`<option value="${x.k}" ${it.form===x.k?"selected":""}>${esc(x.t)}</option>`).join("")}</select>`}</td>
   <td>${it.status==="read"?"":`<select class="gsel" data-frimp="${i}" data-k="period">${pers.map(([k,t])=>`<option value="${k}" ${it.period===k?"selected":""}>${esc(t)}</option>`).join("")}</select>`}</td>
   <td class="hint">${it.fig?Object.entries(it.fig).map(([k,v])=>({assets:"актив",revenue:"тушум",profit:"фойда"}[k])+": "+m0(num(v))).join(" · "):""}</td>
   <td><span class="lpill ${it.status==="ok"||it.status==="saved"?"ok":it.status==="err"?"bad":""}">${it.status==="read"?"ўқилмоқда…":it.status==="ok"?"тайёр":it.status==="saved"?"сақланди ✓":it.status==="saving"?"сақланмоқда…":"хато"}</span></td><td><button type="button" class="linkbtn danger" data-act="frImpDel" data-i="${i}" aria-label="Олиб ташлаш">✕</button></td></tr>`).join("")}
@@ -3840,7 +3840,7 @@ function chForm(f,d){
   <div class="label">Таъсисчилар</div>
   <div class="tablewrap"><table class="sched vpet"><thead><tr><th>Ф.И.О. / номи</th><th>ЖШШИР / СТИР</th><th class="r">Улуш, %</th><th class="r">Сумма, сўм</th><th></th></tr></thead><tbody>${(d.founders||[]).map((x,i)=>`<tr class="norow"><td><input data-chf="${i}" data-k="name" value="${esc(x.name||"")}" aria-label="Ф.И.О."></td><td><input data-chf="${i}" data-k="id" value="${esc(x.inn||x.pinfl||"")}" aria-label="ЖШШИР / СТИР"></td><td><input data-chf="${i}" data-k="pct" value="${esc(x.pct||"")}" class="vpdays" aria-label="Улуш"></td><td><input data-chf="${i}" data-k="sum" value="${esc(x.sum||"")}" aria-label="Сумма"></td><td><button type="button" class="linkbtn danger" data-act="chfDel" data-i="${i}" aria-label="Ўчириш">✕</button></td></tr>`).join("")}</tbody></table></div>
   <button type="button" class="btn addrow" data-act="chfAdd">＋ Таъсисчи қўшиш</button>
-  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"PDF'ни алмаштириш":"PDF бириктириш"}<input type="file" id="chOne" accept="application/pdf,.pdf" hidden></label></div>
+  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("chAiOne",d.file||d.pendingFile)}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"PDF'ни алмаштириш":"PDF бириктириш"}<input type="file" id="chOne" accept="application/pdf,.pdf" hidden></label></div>
   <p class="err" id="chErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="chBack">Бекор қилиш</button></div></form>`;
 }
@@ -3911,14 +3911,16 @@ async function chReadFiles(f,files){
   for(const it of V.chImport.items){ if(!V.chImport) return;
     try{ let r=await pdfToText(it.file); if(r.text.replace(/\s/g,"").length<60){ toast("Сканер қилинган PDF — матн танилмоқда (OCR)…"); try{ r=await pdfOcr(it.file,m=>{ const t=$("#toast"); if(t){ t.textContent="Устав OCR: "+m; t.hidden=false; } },30,t=>chEnough(t,firm(V.firmId))); }catch(e){} }
       it.d=chParse(r.text,f); it.status="ok"; }
-    catch(e){ it.status="err"; it.msg="PDF'ни ўқиб бўлмади: "+(e?.message||e); } render(); }
+    catch(e){ it.status="err"; it.msg="PDF'ни ўқиб бўлмади: "+(e?.message||e); }
+    if(V.chImport&&aiAuto(it.status==="err"||chWeak(it.d))) await chAiItem(f,it);
+    render(); }
 }
 function chImportView(f){
   const I=V.chImport;
   return `<button type="button" class="back" data-act="chImpCancel">← Устав ҳужжатлари</button>
   <div class="head"><div><h1 style="font-size:22px">PDF'дан ўқилди</h1><div class="sub">Ҳар бир ҳужжатни очиб текширинг ва сақланг.</div></div></div>
   <div class="card"><div class="tablewrap"><table class="sched"><thead><tr><th>Файл</th><th>Тури</th><th>Топилган маълумотлар</th><th></th></tr></thead><tbody>
-  ${I.items.map((it,i)=>`<tr class="norow"><td><span class="gfn">${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}</td><td>${it.d?esc(it.d.kind):it.status==="read"?"ўқилмоқда…":""}</td><td class="hint">${it.d?esc([it.d.name,it.d.edition,it.d.capital?"устав фонди "+m0(num(it.d.capital)):"",(it.d.founders||[]).length?it.d.founders.length+" та таъсисчи":"",it.d.auto+" та майдон"].filter(Boolean).join(" · ")):""}</td><td>${it.d?`<button type="button" class="btn sm" data-act="chImpOpen" data-i="${i}">${it.saved?"Сақланди ✓":"Очиш ва сақлаш"}</button>`:""}</td></tr>`).join("")}
+  ${I.items.map((it,i)=>`<tr class="norow"><td><span class="gfn">${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${aiTag(it,"chAi",i)}</td><td>${it.d?esc(it.d.kind):it.status==="read"?"ўқилмоқда…":""}</td><td class="hint">${it.d?esc([it.d.name,it.d.edition,it.d.capital?"устав фонди "+m0(num(it.d.capital)):"",(it.d.founders||[]).length?it.d.founders.length+" та таъсисчи":"",it.d.auto+" та майдон"].filter(Boolean).join(" · ")):""}</td><td>${it.d?`<button type="button" class="btn sm" data-act="chImpOpen" data-i="${i}">${it.saved?"Сақланди ✓":"Очиш ва сақлаш"}</button>`:""}</td></tr>`).join("")}
   </tbody></table></div></div>`;
 }
 async function chSave(f,d){
@@ -3952,7 +3954,7 @@ const CERTS=[["cert","Давлат рўйхатидан ўтказилганли
 function reqExtraView(f){
   const on=trOn(f); const ac=f.charter;
   return `<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Ҳисобот стандарти ва солиқ ҳисоботлари","taxrep",30)}</div><div class="reqs">${kv("Молиявий ҳисобот стандарти",f.std?STD_LIST.find(x=>x[0]===f.std)?.[1]||f.std:"")}${kv("Солиқ ҳисоботлари",on.map(d=>d.t+" ("+TR_PER[trCfg(f,d.k).per].toLowerCase()+")").join(", "))}</div></div>
-  <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Гувоҳномалар (PDF, Google Drive'да)","pdf",30)}</div><div class="certs">${CERTS.map(([k,t])=>{ const d=f.docs?.[k]; return `<div class="cert ${d?.file?"on":""}"><span class="ckbox ${d?.file?"on":""}">${d?.file?"✓":""}</span><div><b>${t}</b>${d?.file?`<span class="hint">${esc(d.name||"")} · ${fmtDate(new Date(d.at||Date.now()).toISOString().slice(0,10))}</span> <span class="did">${docCode({id:f.id+":"+k},"cert")}</span>`:`<span class="hint">юкланмаган</span>`}</div><div class="actions">${d?.file?`<a class="btn sm" href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${PDF_ICON}Очиш</a>`:""}<label class="btn sm ctup">${d?.file?"Алмаштириш":"PDF юклаш"}<input type="file" data-cert="${k}" accept="application/pdf,.pdf" hidden></label></div></div>`; }).join("")}</div></div>
+  <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Гувоҳномалар (PDF, Google Drive'да)","pdf",30)}</div><div class="certs">${CERTS.map(([k,t])=>{ const d=f.docs?.[k]; return `<div class="cert ${d?.file?"on":""}"><span class="ckbox ${d?.file?"on":""}">${d?.file?"✓":""}</span><div><b>${t}</b>${d?.file?`<span class="hint">${esc(d.name||"")} · ${fmtDate(new Date(d.at||Date.now()).toISOString().slice(0,10))}</span> <span class="did">${docCode({id:f.id+":"+k},"cert")}</span>`:`<span class="hint">юкланмаган</span>`}</div><div class="actions">${d?.file?`<a class="btn sm" href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${PDF_ICON}Очиш</a>`:""}${d?.file&&aiOn()?`<button type="button" class="btn sm aibtn" data-act="certAi" data-k="${k}">✦ ${d.ai?"Қайта ўқиш":"Claude"}</button>`:""}<label class="btn sm ctup">${d?.file?"Алмаштириш":"PDF юклаш"}<input type="file" data-cert="${k}" accept="application/pdf,.pdf" hidden></label></div>${certAiBox(f,k)}</div>`; }).join("")}</div></div>
   ${licBox(f)}
   ${ac?`<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Устав маълумотлари (амалдаги устав)","charter",30)}</div><div class="reqs">${kv("Таҳрир",ac.edition)}${kv("Тасдиқланган сана",fmtDate(ac.approvedDate))}${kv("Давлат рўйхатидан ўтган",[fmtDate(ac.regDate),ac.regNo?"№ "+ac.regNo:""].filter(Boolean).join(" · "))}${kv("Тўлиқ номи",ac.name)}${kv("Ижроия органи",[ac.dirTitle,ac.dirTerm?"ваколат муддати "+ac.dirTerm:""].filter(Boolean).join(", "))}</div><div style="padding:0 16px 14px"><button type="button" class="linkbtn" data-tab="charter">Устав ҳужжатларига ўтиш →</button></div></div>`:""}`;
 }
@@ -4033,7 +4035,7 @@ function fcForm(f,d){
   <div class="label">Ташиш ва етказиб бериш</div>
   <div class="lgrid">${sel("incoterms","Инкотермс 2020",INCOTERMS.map(([k,t])=>[k,k+" — "+t.split(" — ")[1]]))}${fld("shipPoint","Жўнатиш пункти")}${fld("deliveryPoint","Етказиб бериш пункти")}${sel("transport","Транспорт тури",[["",""],["авто","Автомобиль"],["темир йўл","Темир йўл"],["авиа","Ҳаво"],["денгиз","Денгиз"],["аралаш","Аралаш"]])}</div>
   <div class="lgrid">${sel("status","Ҳолати",[["open","Амалда"],["closed","Ёпилган"]])}${fld("note","Изоҳ","text","wide")}</div>
-  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"Контракт PDF'ини алмаштириш":"Контракт PDF'ини бириктириш"}<input type="file" id="fcFile" accept="application/pdf,.pdf" hidden></label></div>
+  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcAi",d.file||d.pendingFile)}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"Контракт PDF'ини алмаштириш":"Контракт PDF'ини бириктириш"}<input type="file" id="fcFile" accept="application/pdf,.pdf" hidden></label></div>
   <p class="err" id="fcErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="fcBack">Бекор қилиш</button></div></form>`;
 }
@@ -4082,7 +4084,7 @@ function fcDocForm(f,c,D){
   ${(d.items||[]).map((it,i)=>`<tr class="norow"><td class="num">${i+1}</td><td><input data-fit="${i}" data-k="name" value="${esc(it.name||"")}" aria-label="Номи"></td>${kind==="spec"?`<td><input data-fit="${i}" data-k="hs" value="${esc(it.hs||"")}" class="num" aria-label="ТИФ ТН"></td>`:""}<td><input data-fit="${i}" data-k="unit" value="${esc(it.unit||"")}" list="fcUnits" class="vpdays" aria-label="Ўлчов"></td><td><input data-fit="${i}" data-k="qty" value="${esc(it.qty||"")}" inputmode="decimal" class="r" aria-label="Миқдори"></td><td><input data-fit="${i}" data-k="price" value="${esc(it.price||"")}" inputmode="decimal" class="r" aria-label="Нархи"></td><td><input data-fit="${i}" data-k="sum" value="${esc(it.sum||"")}" inputmode="decimal" class="r" aria-label="Суммаси"></td><td><button type="button" class="linkbtn danger" data-act="fcItemDel" data-i="${i}" aria-label="Ўчириш">✕</button></td></tr>`).join("")}
   </tbody><tfoot><tr><td></td><td colspan="${kind==="spec"?5:4}">Жами</td><td class="num r" id="fdTotal">${m2(fcDocTotal(d))}</td><td></td></tr></tfoot></table></div><datalist id="fcUnits">${FC_UNITS.map(u=>`<option value="${u}">`).join("")}</datalist>
   <button type="button" class="btn addrow" data-act="fcItemAdd">＋ Позиция қўшиш</button>
-  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:D.pendingFile?`<span class="hint">PDF: ${esc(D.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}${d.file||D.pendingFile?"PDF'ни алмаштириш":"PDF'дан ўқиш / бириктириш"}<input type="file" id="fcDocFile" accept="application/pdf,.pdf" hidden></label></div>
+  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:D.pendingFile?`<span class="hint">PDF: ${esc(D.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcDocAi",D.pendingFile||d.file)}<label class="btn ctup">${PDF_ICON}${d.file||D.pendingFile?"PDF'ни алмаштириш":"PDF'дан ўқиш / бириктириш"}<input type="file" id="fcDocFile" accept="application/pdf,.pdf" hidden></label></div>
   <p class="err" id="fdErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button>${isNew?"":`<button type="button" class="btn" data-act="fcDocPrint" data-kind="${kind}" data-id="${esc(d.id)}">${PRINT_ICON}PDF'га чиқариш</button>`}<button type="button" class="btn ghost" data-act="fcDocBack">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-act="fcDocDel">Ўчириш</button>`}</div></form>`;
 }
@@ -4142,7 +4144,7 @@ function fcAddForm(f,c,d){
   return `<button type="button" class="back" data-act="fcAddBack">← Қўшимча келишувлар</button>
   <form id="fcAddForm" class="card lform" novalidate><h2>${isNew?"Янги қўшимча келишув":"Қўшимча келишув № "+esc(d.no||"")} · контракт ${esc(fcLbl(c))}</h2>${isNew?"":didChip(d,"addendum")}${d.auto?`<div class="note-box">PDF'дан ${d.auto} та маълумот ўқилди — текширинг.</div>`:""}
   <div class="lgrid"><div class="field"><label for="fa_no">№</label><input id="fa_no" name="no" value="${esc(d.no||"")}"></div><div class="field"><label for="fa_date">Санаси</label><input id="fa_date" name="date" type="date" value="${esc(d.date||"")}"></div><div class="field"><label for="fa_newAmount">Янги контракт суммаси, ${esc(c.currency||"")}</label><input id="fa_newAmount" name="newAmount" inputmode="decimal" value="${esc(d.newAmount||"")}"></div><div class="field"><label for="fa_newEnd">Янги амал қилиш муддати</label><input id="fa_newEnd" name="newEnd" type="date" value="${esc(d.newEnd||"")}"></div><div class="field wide"><label for="fa_content">Мазмуни (нима ўзгарди)</label><input id="fa_content" name="content" value="${esc(d.content||"")}"></div></div>
-  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"PDF'ни алмаштириш":"PDF'дан ўқиш / бириктириш"}<input type="file" id="fcAddFile" accept="application/pdf,.pdf" hidden></label></div>
+  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcAddAi",d.pendingFile||d.file)}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"PDF'ни алмаштириш":"PDF'дан ўқиш / бириктириш"}<input type="file" id="fcAddFile" accept="application/pdf,.pdf" hidden></label></div>
   <p class="err" id="faErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="fcAddBack">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-act="fcAddDel">Ўчириш</button>`}</div></form>`;
 }
@@ -4420,7 +4422,7 @@ function letForm(f,d){ const isNew=!S.recs.some(x=>x.id===d.id); const fld=(k,l,
   return `<button type="button" class="back" data-act="letBack">← Канцелярия</button>
   <form id="letForm" class="card lform" novalidate><h2>${isNew?(d.dir==="in"?"Кирувчи хатни рўйхатга олиш":"Чиқувчи хат"):LET_DIR[d.dir].t+" хат № "+esc(d.regNo||"")}</h2>${rep?`<div class="note-box">Жавоб: кирувчи хат № ${esc(rep.regNo||"")} (${esc(rep.corr||"")}) — сақланганда у «бажарилди» бўлади.</div>`:""}
   <div class="lgrid">${fld("regNo","Рўйхат рақами")}${fld("regDate","Рўйхатга олинган сана","date")}${fld("docNo",d.dir==="in"?"Хатнинг ўз рақами":"Хат рақами")}${fld("docDate","Хат санаси","date")}${fld("corr",d.dir==="in"?"Кимдан келди *":"Кимга юборилди *","text","wide2")}${fld("corrInn","Корреспондент СТИР")}${sel("kind","Ҳужжат тури",LET_KIND)}${sel("via",d.dir==="in"?"Қандай келди":"Қандай юборилди",["",...LET_VIA])}${fld("subject","Қисқача мазмуни","text","wide")}${fld("executor","Ижрочи (масъул)")}${d.dir==="in"?fld("deadline","Жавоб / ижро муддати","date"):""}${sel("status","Ҳолати",d.dir==="in"?[["open","Ижрода"],["done","Бажарилди"]]:[["draft","Тайёрланмоқда"],["sent","Юборилган"],["done","Жавоб олинди / ёпилди"]])}${d.status==="done"?fld("doneDate","Бажарилган сана","date"):""}${fld("note","Изоҳ","text","wide")}</div>
-  <div class="lgrid">${(d.pending||[]).length?`<span class="hint">${d.pending.map(p=>esc(p.name)).join(", ")} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}Хат PDF / сканини бириктириш<input type="file" id="letFile" accept="${ATT_ACCEPT}" multiple hidden></label></div>
+  <div class="lgrid">${(d.pending||[]).length?`<span class="hint">${d.pending.map(p=>esc(p.name)).join(", ")} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("letAi",(d.pending||[]).some(p=>aiCanRead(p.file))||(d.files||[]).length)}<label class="btn ctup">${PDF_ICON}Хат PDF / сканини бириктириш<input type="file" id="letFile" accept="${ATT_ACCEPT}" multiple hidden></label></div>
   <p class="err" id="letErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="letBack">Бекор қилиш</button></div></form>`; }
 function letDetail(f,l){ const s=letState(l); const rep=l.replyTo&&S.recs.find(x=>x.id===l.replyTo); const answers=S.recs.filter(x=>x.type==="letter"&&x.replyTo===l.id);
@@ -4835,36 +4837,37 @@ async function ccReadFiles(files,append){
       const made=res.map((r,k)=>({id:k?uid():it.id,fname:r.split?`${it.fname} (${k+1}/${r.split})`:it.fname,file:r.file,url:URL.createObjectURL(r.file),pages:r.pages,status:"ok",raw:r.text.slice(0,4000),d:{...r.d,cardI:ccCardIdx(f,r.d),purpose:"",holder:""}}));
       made.forEach(m=>{ const c=firmCcards(f)[+m.d.cardI]; if(c&&!m.d.holder) m.d.holder=c.holder||""; if(m.d.last4&&m.d.cardI===""&&firmCcards(f).length) m.warn=`Чекдаги карта ··${m.d.last4} реквизитлардаги корпоратив карталарга мос келмади`; if(!m.d.auto) m.warn="Матн танилмади — маълумотларни қўлда киритинг"; });
       if(res.length>1) toast(`${it.fname}: ${res.length} та чекка бўлинди`);
-      V.ccImport.items.splice(i,1,...made); i+=made.length-1; made.forEach(m=>ccItemStatus(f,m)); }
+      V.ccImport.items.splice(i,1,...made); i+=made.length-1; made.forEach(m=>ccItemStatus(f,m));
+      const cfg=aiCfg(); if(cfg.key&&cfg.mode!=="manual"){ ccImpRefresh(); for(const m of made){ if(cfg.mode==="always"||ccWeak(m.d)){ await ccAiItem(f,m); if(m.aiErr&&/калит|лимит|маблағ|уланиб/.test(m.aiErr)){ toast(m.aiErr); cfg.mode="manual"; } } } } }
     catch(e){ it.status="err"; it.msg="Файлни ўқиб бўлмади: "+(e?.message||e); }
     ccImpRefresh(); }
   const s=$("#ccImpMsg"); if(s) s.textContent="";
 }
-function ccImpRefresh(){ if(!V.ccImport) return; const box=$("#ccImpBody"); if(box) box.innerHTML=ccImpRows(); else return render(); const I=V.ccImport; const n=I.items.filter(x=>x.status==="ok").length; const b=$("#ccImpSave"); if(b){ b.textContent=I.saving?"Сақланмоқда…":`Ҳаммасини сақлаш (${n})`; b.disabled=I.saving||!n||I.items.some(x=>x.status==="read"); } const h=$("#ccImpHead"); if(h) h.innerHTML=ccImpHead(); }
-function ccImpHead(){ const I=V.ccImport; const c=k=>I.items.filter(x=>x.status===k).length; const ok=I.items.filter(x=>x.status==="ok"&&x.d); return `${I.items.length} та чек · тайёр ${c("ok")}${c("need")?` · тўлдириш керак ${c("need")}`:""}${c("dup")?` · дубликат ${c("dup")}`:""}${c("err")?` · хато ${c("err")}`:""}${c("read")?` · ўқилмоқда ${c("read")}`:""}${ok.length?` · жами: <b>${esc(ccSumTxt(ccSums(ok.map(x=>({...x.d})))))}</b>`:""}`; }
+function ccImpRefresh(){ if(!V.ccImport) return; const box=$("#ccImpBody"); if(box) box.innerHTML=ccImpRows(); else return render(); const I=V.ccImport; const n=I.items.filter(x=>x.status==="ok").length; const b=$("#ccImpSave"); if(b){ b.textContent=I.saving?"Сақланмоқда…":`Ҳаммасини сақлаш (${n})`; b.disabled=I.saving||!n||I.items.some(x=>x.status==="read"||x.status==="ai"); } const h=$("#ccImpHead"); if(h) h.innerHTML=ccImpHead(); const ab=$("#ccAiBar"); if(ab) ab.innerHTML=ccAiBar(); }
+function ccImpHead(){ const I=V.ccImport; const c=k=>I.items.filter(x=>x.status===k).length; const ok=I.items.filter(x=>x.status==="ok"&&x.d); return `${I.items.length} та чек · тайёр ${c("ok")}${c("need")?` · тўлдириш керак ${c("need")}`:""}${c("dup")?` · дубликат ${c("dup")}`:""}${c("err")?` · хато ${c("err")}`:""}${c("read")?` · ўқилмоқда ${c("read")}`:""}${I.items.some(x=>x.ai)?` · Claude: <b>${aiCents(I.items.reduce((a,x)=>a+(x.ai||0),0))}</b>`:""}${ok.length?` · жами: <b>${esc(ccSumTxt(ccSums(ok.map(x=>({...x.d})))))}</b>`:""}`; }
 function ccImpRows(){
-  const f=firm(V.firmId); const I=V.ccImport; const cs=firmCcards(f); const st={read:["","ўқилмоқда…"],ok:["ok","тайёр"],need:["soon","сана/суммани киритинг"],dup:["off","дубликат"],err:["bad","хато"],saving:["act","сақланмоқда…"],saved:["ok","сақланди ✓"]};
+  const f=firm(V.firmId); const I=V.ccImport; const cs=firmCcards(f); const st={ai:["act","✦ Claude ўқимоқда…"],read:["","ўқилмоқда…"],ok:["ok","тайёр"],need:["soon","сана/суммани киритинг"],dup:["off","дубликат"],err:["bad","хато"],saving:["act","сақланмоқда…"],saved:["ok","сақланди ✓"]};
   const inp=(i,k,v,cls="",type="text",ph="")=>`<input class="ccin ${cls}" data-ccimp="${i}" data-k="${k}" type="${type}" value="${esc(v||"")}" placeholder="${esc(ph)}" ${["saving","saved"].includes(I.items[i].status)?"disabled":""}>`;
   return I.items.map((it,i)=>{ const d=it.d, s=st[it.status]||["",""], lock=["saving","saved","read","err"].includes(it.status);
     return `<tr class="norow ${it.status}"><td class="num">${i+1}</td>
-    <td><span class="gfn">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener" title="PDF'ни очиш">${PDF_ICON}</a> `:""}${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${it.warn?`<div class="hint">${esc(it.warn)}</div>`:""}${d&&d.kind==="refund"?`<div class="hint">↩ қайтариш (возврат)</div>`:""}</td>
+    <td><span class="gfn">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener" title="PDF'ни очиш">${PDF_ICON}</a> `:""}${esc(it.fname)}</span>${it.msg?`<div class="err">${esc(it.msg)}</div>`:""}${it.warn?`<div class="hint">${esc(it.warn)}</div>`:""}${it.ai?`<div class="aitag">✦ Claude ўқиди · ${aiCents(it.ai)}</div>`:""}${it.aiErr?`<div class="err">Claude: ${esc(it.aiErr)}</div>`:""}${aiOn()&&it.file&&["ok","need","dup"].includes(it.status)?`<button type="button" class="linkbtn aire" data-act="ccAi" data-i="${i}" title="Шу чекни Claude билан қайта ўқиш">✦ ${it.ai?"Қайта ўқиш":"Claude билан ўқиш"}</button>`:""}${d&&d.kind==="refund"?`<div class="hint">↩ қайтариш (возврат)</div>`:""}</td>
     ${d?`<td>${inp(i,"date",d.date,"ccd","date")}${inp(i,"time",d.time,"cct","text","ҳҳ:мм")}</td>
     <td>${inp(i,"seller",d.seller,"ccs","text","Сотувчи")}${inp(i,"sellerInn",d.sellerInn,"cci","text","СТИР")}</td>
     <td><select class="gsel" data-ccimp="${i}" data-k="cardI" ${lock?"disabled":""}><option value="">${d.last4?"··"+esc(d.last4)+" (реквизитда йўқ)":"— карта —"}</option>${cs.map((c,j)=>`<option value="${j}" ${String(d.cardI)===String(j)?"selected":""}>${esc(ccCardLbl(c))}</option>`).join("")}</select></td>
     <td><select class="gsel" data-ccimp="${i}" data-k="cat" ${lock?"disabled":""}><option value="">— тоифа —</option>${CC_CATS.map(c=>`<option ${d.cat===c?"selected":""}>${esc(c)}</option>`).join("")}</select></td>
     <td class="r">${inp(i,"amount",d.amount,"cca r","text","0.00")}<div class="hint">${esc(d.currency||"UZS")}</div></td>
     <td class="r">${inp(i,"vat",d.vat,"ccv r","text","ҚҚС")}${d.vatRate?`<div class="hint">${esc(d.vatRate)}%</div>`:""}</td>`:`<td colspan="6" class="hint">${it.status==="read"?"ўқилмоқда…":""}</td>`}
-    <td><span class="lpill ${s[0]}">${s[1]}</span></td><td>${!["saving","saved"].includes(it.status)?`<button type="button" class="linkbtn danger" data-act="ccImpDel" data-i="${i}" aria-label="Олиб ташлаш">✕</button>`:""}</td></tr>`; }).join("");
+    <td><span class="lpill ${s[0]}">${s[1]}</span></td><td>${!["saving","saved","ai"].includes(it.status)?`<button type="button" class="linkbtn danger" data-act="ccImpDel" data-i="${i}" aria-label="Олиб ташлаш">✕</button>`:""}</td></tr>`; }).join("");
 }
 function ccImportView(f){ const I=V.ccImport; const n=I.items.filter(x=>x.status==="ok").length;
   return `<button type="button" class="back" data-act="ccImpCancel">← Корпоратив карта чеклари</button>
   <div class="head"><div><h1 style="font-size:22px">Карта чекларини юклаш</h1><div class="sub" id="ccImpHead">${ccImpHead()}</div></div>
-    <div class="actions"><label class="btn ctup">${LPLUS}Яна файл қўшиш<input type="file" id="ccMore" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" multiple hidden></label><button type="button" class="btn primary" id="ccImpSave" data-act="ccImpSave" ${I.saving||!n||I.items.some(x=>x.status==="read")?"disabled":""}>${I.saving?"Сақланмоқда…":"Ҳаммасини сақлаш ("+n+")"}</button></div></div>
+    <div class="actions"><label class="btn ctup">${LPLUS}Яна файл қўшиш<input type="file" id="ccMore" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" multiple hidden></label><span id="ccAiBar">${ccAiBar()}</span><button type="button" class="btn primary" id="ccImpSave" data-act="ccImpSave" ${I.saving||!n||I.items.some(x=>x.status==="read"||x.status==="ai")?"disabled":""}>${I.saving?"Сақланмоқда…":"Ҳаммасини сақлаш ("+n+")"}</button></div></div>
   <p class="hint">Маълумотлар чекдан ўзи олинди — текшириб, керак бўлса тузатинг. Кўп бетли PDF'да ҳар бетда алоҳида чек бўлса, дастур уни бўлиб, ҳар бир чекни алоҳида PDF қилиб сақлайди${DEMO?" (демода файллар фақат шу сессияда)":" — Google Drive'да «Фирма → Корпоратив карта чеклари → карта → ой» папкасига"}. <span id="ccImpMsg"></span></p>
   <div class="card"><div class="tablewrap"><table class="ltable gimp ccimp"><thead><tr><th>#</th><th>Файл</th><th>Сана, вақт</th><th>Сотувчи, СТИР</th><th>Карта</th><th>Тоифа</th><th class="r">Сумма</th><th class="r">ҚҚС</th><th>Ҳолати</th><th></th></tr></thead><tbody id="ccImpBody">${ccImpRows()}</tbody></table></div></div>`; }
 function ccRecord(f,d,file,src){ const c=firmCcards(f)[+d.cardI]; const card=c?{type:c.type||guessCard(c.first4)||"",first4:c.first4||"",last4:c.last4||""}:(d.last4?{type:d.cardType||"",first4:d.first4||"",last4:d.last4}:null);
   const o={id:d.id||uid(),type:"ccheck",firmId:f.id,date:d.date||"",time:d.time||"",amount:String(num(d.amount)||""),currency:d.currency||"UZS",kind:d.kind||"buy",vat:d.vat===""||d.vat==null?"":String(num(d.vat)),vatRate:d.vatRate||"",seller:String(d.seller||"").trim(),sellerInn:String(d.sellerInn||"").trim(),card,cat:d.cat||"",purpose:d.purpose||"",holder:d.holder||c?.holder||"",checkNo:d.checkNo||"",rrn:d.rrn||"",auth:d.auth||"",terminal:d.terminal||"",merchant:d.merchant||"",fiscal:d.fiscal||"",fm:d.fm||"",ofd:d.ofd||"",note:d.note||"",src:src||"pdf",createdAt:d.createdAt||Date.now()};
-  if(file) o.file=file; else if(d.file) o.file=d.file; if(d.files) o.files=d.files; return o; }
+  if(d.ai) o.ai=d.ai; if(file) o.file=file; else if(d.file) o.file=d.file; if(d.files) o.files=d.files; return o; }
 const ccFileName=(f,o)=>`${o.date||""} ${o.time?o.time.slice(0,5).replace(":","-")+" ":""}${dirClean(o.seller||"чек").slice(0,50)} ${m2(num(o.amount)).replace(/\s/g," ")} ${o.currency==="UZS"?"сўм":o.currency}.pdf`.replace(/\s+/g," ");
 async function ccImpSave(){ const f=firm(V.firmId); const I=V.ccImport; if(!f||!I||I.saving) return; I.saving=true; ccImpRefresh(); let ok=0, bad=0, firstM="";
   for(const it of I.items){ if(it.status!=="ok") continue; if(!V.ccImport) return; it.status="saving"; ccImpRefresh();
@@ -4891,6 +4894,7 @@ COLS.cc=[
   {k:"auth",t:"Авторизация коди",v:r=>`<span class="num">${esc(r.auth||"")}</span>`},
   {k:"terminal",t:"Терминал",v:r=>`<span class="num">${esc(r.terminal||"")}</span>`},
   {k:"fiscal",t:"Фискал белги",v:r=>`<span class="num">${esc(r.fiscal||"")}</span>`},
+  {k:"ai",t:"Claude нархи",r:1,v:r=>r.ai?`<span class="num">${aiCents(r.ai.usd||0)}</span>`:""},
 ];
 COL_TITLE.cc="Корпоратив карта чеклари"; COL_DATE.cc=r=>(r.date||"")+(r.time||"");
 function ccFiltered(f){ const q=qv("ccQ"), cd=V.ccCard||"all", mo=V.ccM||"", ct=V.ccCat||"";
@@ -4904,7 +4908,8 @@ function vCards(f){
   const lbl=l4=>{ const c=cs.find(x=>String(x.last4)===l4)||all.find(r=>r.card?.last4===l4)?.card; return `${c?.type||""} ··${l4}`.trim(); };
   const S1=ccSums(list); const cats={}; list.forEach(r=>{ const k=r.cat||"Тоифасиз"; cats[k]=(cats[k]||0)+ccSigned(r); });
   const foot=cols=>`<tfoot><tr>${cols.map((c,i)=>c.k==="amount"?`<td class="r"><b class="num">${esc(ccSumTxt(S1))}</b></td>`:c.k==="vat"?`<td class="r"><b class="num">${esc(ccSumTxt(S1,"v"))}</b></td>`:i===0?`<td><b>Жами: ${list.length} та</b></td>`:"<td></td>").join("")}</tr></tfoot>`;
-  return `<div class="toolbar"><span class="hint">Чек PDF'лари ёки расмлари юкланганда сана, сумма, ҚҚС, сотувчи ва карта ўзи аниқланади. Ҳар бир чек алоҳида PDF бўлиб сақланади.</span>
+  const aiM=aiEntries().filter(e=>e.firmId===f.id&&e.month===localToday().slice(0,7)); const aiT=aiM.reduce((a,e)=>a+e.usd,0);
+  return `<div class="toolbar"><span class="hint">Чек PDF'лари ёки расмлари юкланганда сана, сумма, ҚҚС, сотувчи ва карта ўзи аниқланади. Ҳар бир чек алоҳида PDF бўлиб сақланади. ${aiOn()?`<button type="button" class="linkbtn" data-act="aiPage">✦ Claude: бу ой шу фирма учун ${aiM.length} та файл · ${aiCents(aiT)}</button>`:`<button type="button" class="linkbtn" data-act="aiPage">✦ Claude'ни улаб, аниқроқ ўқитиш</button>`}</span>
     <div class="actions">${all.length?`<button type="button" class="btn" data-act="ccXlsx" data-m="${esc(mo)}">${DL_ICON}${mo?"Excel: "+esc(ccMonthLbl(mo)):"Excel (ҳар ой алоҳида варақ)"}</button>`:""}<button type="button" class="btn" data-act="ccNew">Қўлда қўшиш</button><label class="btn primary ctup">${PDF_ICON}Чекларни юклаш (PDF / расм)<input type="file" id="ccFiles" accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png" multiple hidden></label></div></div>
   ${cs.length?"":`<div class="vpwarn">Реквизитлар → «Корпоратив карта» бўлимида карта рақами (биринчи ва охирги 4 рақам) киритилмаган. Киритсангиз, чеклар картага ўзи боғланади.</div>`}
   <div class="lstats"><div class="lstat" style="--c:#8b5cf6;--cl:#c4b5fd"><span class="k">${esc(ccMonthLbl(mo))}</span><span class="v">${list.length} та чек</span><span class="s">${esc(ccSumTxt(S1))}</span></div>
@@ -4917,7 +4922,7 @@ function vCards(f){
 function ccDetail(f,r){ const u=ctFileUrl(r.file);
   return `<button type="button" class="back" data-act="ccBack">← Корпоратив карта чеклари</button>
   <div class="toolbar"><div class="lhead"><h2>${r.kind==="refund"?"Қайтариш":"Чек"} · ${esc(r.seller||"сотувчи кўрсатилмаган")}</h2>${didChip(r)}${r.cat?`<span class="cccat">${esc(r.cat)}</span>`:""}</div>
-    <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${PDF_ICON}Чек PDF'ини очиш</a>`:""}<button type="button" class="btn" data-act="ccEditOpen">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="ccDel">Ўчириш</button></div></div>
+    <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${PDF_ICON}Чек PDF'ини очиш</a>`:""}${r.file&&aiOn()?`<button type="button" class="btn aibtn" data-act="ccAiRe">✦ Claude билан қайта ўқиш</button>`:""}<button type="button" class="btn" data-act="ccEditOpen">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="ccDel">Ўчириш</button></div></div>
   <div class="lstats"><div class="lstat" style="--c:#8b5cf6;--cl:#c4b5fd"><span class="k">Сумма</span><span class="v">${m2(ccSigned(r))} ${esc(r.currency==="UZS"?"сўм":r.currency||"")}</span><span class="s">${fmtDate(r.date)} ${esc(r.time||"")}</span></div>
     <div class="lstat" style="--c:#f43f5e;--cl:#fecdd3"><span class="k">ҚҚС</span><span class="v">${r.vat!==""&&r.vat!=null?m2(ccVatSigned(r)):"—"}</span><span class="s">${r.vatRate?esc(r.vatRate)+"% ставка":""}</span></div>
     <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Карта</span><span class="v">${r.card?esc(ccCardLbl(r.card)):"—"}</span><span class="s">${esc(r.holder||"")}</span></div></div>
@@ -4967,6 +4972,241 @@ async function ccXlsx(f,mo,list){
   XLSX.writeFile(wb,safeName(f.name)+"_korp_karta_cheklari_"+(mo||"barcha_oylar")+".xlsx");
 }
 function ccInfo(f){ const all=firmCC(f.id); if(!all.length) return ""; const mo=localToday().slice(0,7); const m=all.filter(r=>String(r.date||"").startsWith(mo)).length; return `${all.length} та чек${m?` · бу ой ${m} та`:""}`; }
+
+/* ---------- Claude AI: файлларни ўқиш ва харажат ҳисоби ---------- */
+const AI_LK="fb-claude-v1";
+const AI_MODELS=[{id:"claude-haiku-4-5-20251001",c:"H45",t:"Claude Haiku 4.5 — арзон ва тез (тавсия)",in:1,out:5},{id:"claude-sonnet-5-5",c:"S55",t:"Claude Sonnet 5.5 — аниқроқ, ~2 баравар қиммат",in:2,out:10},{id:"claude-opus-5-5",c:"O55",t:"Claude Opus 5.5 — энг кучли, ~4 баравар қиммат",in:4,out:20}];
+const AI_MODES=[["weak","Фақат яхши ўқилмаган ҳужжатларни Claude ўқисин (тежамкор, тавсия)"],["always","Ҳар бир юкланган ҳужжатни Claude ўқисин (энг аниқ)"],["manual","Фақат мен «✦ Claude» тугмасини босганда"]];
+class AiErr extends Error{}
+function aiCfg(){ let c={}; try{ c=JSON.parse(localStorage.getItem(AI_LK)||"{}"); }catch(e){} return {key:"",model:AI_MODELS[0].id,mode:"weak",limit:"",rate:"",...c}; }
+function aiSave(c){ try{ localStorage.setItem(AI_LK,JSON.stringify(c)); }catch(e){} }
+const aiOn=()=>!!aiCfg().key;
+const aiModel=id=>AI_MODELS.find(m=>m.id===id||m.c===id)||{id,c:id,t:id,in:0,out:0};
+function aiCost(model,u){ const m=aiModel(model); const inT=(u.input_tokens||0)+(u.cache_creation_input_tokens||0)*1.25+(u.cache_read_input_tokens||0)*0.1; return (inT*m.in+(u.output_tokens||0)*m.out)/1e6; }
+const aiCents=usd=>usd>0&&usd<0.0001?"<0.01 ¢":(Math.round(usd*10000)/100).toFixed(2)+" ¢";
+const aiUsd=usd=>"$"+(Math.round(usd*10000)/10000).toFixed(4);
+const aiSom=usd=>{ const r=num(aiCfg().rate); return r?m0(usd*r)+" сўм":""; };
+const aiKeyMask=k=>k?k.slice(0,10)+"…"+k.slice(-4):"";
+async function fileB64(file){ const buf=new Uint8Array(await file.arrayBuffer()); let s=""; for(let i=0;i<buf.length;i+=0x8000) s+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000)); return btoa(s); }
+
+/* харажат журнали: ҳар фирма × ой учун битта ёзув (recs, type "aiuse") */
+const aiRecs=()=>Object.values(ROWS.recs||{}).filter(r=>!r.deleted&&r.obj?.type==="aiuse").map(r=>r.obj);
+const aiEntries=()=>aiRecs().flatMap(r=>(r.items||[]).map(x=>({firmId:r.firmId,fname:r.firmName||"",at:x[0],m:x[1],in:x[2],out:x[3],usd:(x[4]||0)/1e6,sec:x[5]||"",fn:x[6]||"",by:x[7]||"",month:r.month})));
+const aiMonthSpend=mo=>aiEntries().filter(e=>e.month===mo).reduce((a,e)=>a+e.usd,0);
+let AI_Q=Promise.resolve();
+function aiLog(firmId,entry){ const run=async()=>{ const mo=new Date(entry[0]).toISOString().slice(0,7); const fid=firmId||"_global";
+    for(let attempt=0;attempt<3;attempt++){ const mine=aiRecs().filter(r=>r.firmId===fid&&r.month===mo).sort((a,b)=>(a.part||0)-(b.part||0)); let r=mine.find(x=>(x.items||[]).length<350);
+      const o=r?JSON.parse(JSON.stringify(r)):{id:`ai-${fid}-${mo}-${mine.length+1}`,type:"aiuse",firmId:fid,month:mo,part:mine.length+1,items:[],createdAt:Date.now()};
+      o.items.push(entry); if(firm(fid)) o.firmName=firm(fid).name||""; try{ await putItem("recs",o,false); return; }catch(e){ if(e instanceof ConflictErr&&attempt<2){ try{ await refresh(); }catch(_){} continue; } console.warn("AI log",e); return; } } };
+  AI_Q=AI_Q.then(run,run); return AI_Q; }
+
+/* Claude API чақириш (браузердан тўғридан-тўғри; калит фақат шу компьютерда) */
+async function aiCall(content,tool,meta){
+  const c=aiCfg(); if(!c.key) throw new AiErr("Claude API калити киритилмаган — «Claude AI» бўлимида киритинг");
+  const mo=localToday().slice(0,7); if(num(c.limit)>0&&aiMonthSpend(mo)>=num(c.limit)) throw new AiErr(`Ойлик лимит (${aiUsd(num(c.limit))}) тугади — «Claude AI» бўлимида оширинг`);
+  const body={model:c.model,max_tokens:meta?.max||1500,messages:[{role:"user",content}]}; if(meta?.system) body.system=meta.system; if(tool){ body.tools=[tool]; body.tool_choice={type:"tool",name:tool.name}; }
+  let r; try{ r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"x-api-key":c.key,"anthropic-version":"2023-06-01","content-type":"application/json","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify(body)}); }
+  catch(e){ throw new AiErr("Claude'га уланиб бўлмади (интернет ёки браузер блоклади)"); }
+  let j=null; try{ j=await r.json(); }catch(e){}
+  if(!r.ok){ const m=j?.error?.message||""; throw new AiErr(r.status===401?"API калит нотўғри ёки ўчирилган":r.status===403?"Бу калитга рухсат йўқ: "+m:r.status===429?"Claude лимитига етилди — бироздан кейин қайта уриниб кўринг":/credit|balance|billing/i.test(m)?"Anthropic ҳисобида маблағ қолмаган (console.anthropic.com → Billing)":r.status===529||r.status>=500?"Claude ҳозир band — бироздан кейин қайта уриниб кўринг":"Claude хатоси: "+(m||"HTTP "+r.status)); }
+  const u=j.usage||{}; const usd=aiCost(j.model||c.model,u); const code=aiModel(c.model).c;
+  const entry=[Date.now(),code,(u.input_tokens||0)+(u.cache_creation_input_tokens||0)+(u.cache_read_input_tokens||0),u.output_tokens||0,Math.round(usd*1e6),meta?.sec||"",String(meta?.fname||"").slice(0,70),ME.email||""]; if(!meta?.defer) aiLog(meta?.firmId,entry);
+  const tu=(j.content||[]).find(x=>x.type==="tool_use"); const tx=(j.content||[]).filter(x=>x.type==="text").map(x=>x.text).join("\n");
+  return {input:tu?.input||null,text:tx,usage:u,usd,model:code,entry};
+}
+
+/* чекни Claude билан ўқиш */
+const AI_RCPT_TOOL={name:"save_receipts",description:"Save the data extracted from the payment receipt(s) in the document.",input_schema:{type:"object",properties:{receipts:{type:"array",items:{type:"object",properties:{
+  date:{type:"string",description:"Payment date, YYYY-MM-DD"},time:{type:"string",description:"HH:MM or HH:MM:SS"},amount:{type:"number",description:"Final total paid (ИТОГО / JAMI / Сумма операции), positive number"},currency:{type:"string",description:"ISO code, UZS if so'm/сум/сўм or not shown"},
+  vat_amount:{type:"number",description:"VAT (НДС/ҚҚС/QQS) amount shown on the receipt; 0 if explicitly without VAT; omit if not shown"},vat_rate:{type:"number",description:"VAT rate percent, e.g. 12"},
+  seller:{type:"string",description:"Seller / merchant organisation name as printed (not the bank, not the buyer)"},seller_inn:{type:"string",description:"Seller СТИР/ИНН (9 digits) or ПИНФЛ (14 digits)"},
+  card_first4:{type:"string"},card_last4:{type:"string"},card_type:{type:"string",enum:["HUMO","UZCARD","Visa","Mastercard",""]},
+  rrn:{type:"string"},auth_code:{type:"string"},terminal_id:{type:"string"},merchant_id:{type:"string"},check_no:{type:"string"},fiscal_sign:{type:"string",description:"Фискал белги / ФП"},fiscal_module:{type:"string",description:"ФМ / FM code"},ofd_url:{type:"string"},
+  operation:{type:"string",enum:["buy","refund"]},category:{type:"string",enum:CC_CATS},items_summary:{type:"string",description:"What was bought, short, in Uzbek Cyrillic, max 60 chars"}},required:["amount"]}}},required:["receipts"]}};
+async function aiReadReceipt(file,f,fname){
+  const isImg=/^image\/(jpeg|png|webp|gif)$/.test(file.type); if(file.size>25*1024*1024) throw new AiErr("Файл жуда катта (25 МБ дан ортиқ)");
+  const data=await fileB64(file); const block=isImg?{type:"image",source:{type:"base64",media_type:file.type,data}}:{type:"document",source:{type:"base64",media_type:"application/pdf",data}};
+  const prompt=`This file is a payment receipt (or several) paid with a corporate bank card in Uzbekistan: a fiscal cash-register check, a POS terminal slip or a bank app receipt. Text may be in Uzbek (Latin or Cyrillic), Russian or English. Extract every receipt and call save_receipts.
+Rules: amount = final total actually paid. Our company (the buyer) is "${String(f?.name||"").replace(/"/g,"'")}" with СТИР ${f?.inn||"?"} — never return it as the seller. If a field is not visible, omit it — never guess. Dates in DD.MM.YYYY format must be converted to YYYY-MM-DD. "Возврат/Qaytarish/Refund" means operation=refund. Choose category from the list by what was bought.`;
+  const r=await aiCall([block,{type:"text",text:prompt}],AI_RCPT_TOOL,{firmId:f?.id,sec:"cards",fname:fname||file.name,max:1500});
+  const list=(r.input?.receipts||[]).map(x=>({date:/^\d{4}-\d{2}-\d{2}$/.test(x.date||"")?x.date:ccDate(x.date||""),time:x.time||"",amount:x.amount!=null?String(Math.abs(x.amount)):"",currency:(x.currency||"UZS").toUpperCase().replace(/^(SUM|SOM|СУМ|СЎМ)$/,"UZS"),vat:x.vat_amount!=null?String(Math.abs(x.vat_amount)):"",vatRate:x.vat_rate!=null?String(x.vat_rate):"",seller:x.seller||"",sellerInn:String(x.seller_inn||"").replace(/\D/g,""),first4:String(x.card_first4||"").replace(/\D/g,"").slice(0,4),last4:String(x.card_last4||"").replace(/\D/g,"").slice(-4),cardType:x.card_type||"",rrn:x.rrn||"",auth:x.auth_code||"",terminal:x.terminal_id||"",merchant:x.merchant_id||"",checkNo:x.check_no||"",fiscal:x.fiscal_sign||"",fm:x.fiscal_module||"",ofd:x.ofd_url||"",kind:x.operation==="refund"?"refund":"buy",cat:CC_CATS.includes(x.category)?x.category:"",purpose:x.items_summary||""}));
+  if(!list.length) throw new AiErr("Claude чекдан маълумот топмади");
+  return {list,usd:r.usd,model:r.model,usage:r.usage};
+}
+function aiMerge(d,a){ const o={...d}; Object.entries(a).forEach(([k,v])=>{ if(v!==""&&v!=null) o[k]=v; }); return o; }
+const ccWeak=d=>!d||!d.date||!(num(d.amount)>0)||!d.seller||(!d.sellerInn&&!d.last4)||(d.auto||0)<4;
+
+/* Claude AI бўлими: созламалар ва харажатлар */
+function aiRows(mo,fid){ return aiEntries().filter(e=>(!mo||e.month===mo)&&(!fid||e.firmId===fid)).sort((a,b)=>b.at-a.at); }
+const aiSecName=s=>s==="test"?"Уланишни текшириш":s==="import"?"Импорт (ГТД, контрактлар)":s?secName(s):"";
+const aiFirmName=id=>id==="_global"?"(фирмасиз / текширув)":firm(id)?.name||((aiRecs().find(r=>r.firmId===id)?.firmName||"")+" (ўчирилган фирма)").trim();
+function vAi(){
+  const c=aiCfg(); if(V.aiM===undefined) V.aiM=localToday().slice(0,7); const mo=V.aiM||""; const fid=V.aiF||""; const rows=aiRows(mo,fid); const tot=rows.reduce((a,e)=>a+e.usd,0);
+  const all=aiEntries(); const months=monthOpts(all.map(e=>e.month+"-01")); if(!months.some(x=>x[0]===localToday().slice(0,7))) months.unshift([localToday().slice(0,7),ccMonthLbl(localToday().slice(0,7))]);
+  const byF={}; rows.forEach(e=>{ const x=byF[e.firmId]=byF[e.firmId]||{n:0,in:0,out:0,usd:0}; x.n++; x.in+=e.in; x.out+=e.out; x.usd+=e.usd; });
+  const lim=num(c.limit), spentM=aiMonthSpend(localToday().slice(0,7)); const pct=lim?Math.min(100,Math.round(spentM/lim*100)):0;
+  const som=usd=>aiSom(usd)?`<div class="ctsub">${aiSom(usd)}</div>`:"";
+  return `<div class="head"><div><h1>Claude AI</h1><div class="sub">Чеклар ва ҳужжатларни Claude ёрдамида ўқиш · ҳар бир файл ва фирма бўйича харажат ҳисоби</div></div></div>
+  <form id="aiForm" class="card lform" novalidate><h2>Созламалар</h2>
+    <div class="note-box">API калит <b>фақат шу компьютер браузерида</b> сақланади — Google жадвалга, Drive'га ёки GitHub'га юборилмайди. Ҳар бир ходим ўз компьютерида киритади. Калитни <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> да алоҳида яратинг ва у ердаги «Limits» бўлимида ойлик сарф чегарасини ҳам қўйинг. Бегона ёки умумий компьютерда калит киритманг.</div>
+    <div class="lgrid"><div class="field wide2"><label for="ai_key">Claude API калити</label><input id="ai_key" name="key" type="password" autocomplete="off" spellcheck="false" placeholder="${c.key?esc(aiKeyMask(c.key))+" (сақланган — ўзгартириш учун янгисини киритинг)":"sk-ant-api03-…"}"></div>
+      <div class="field wide2"><label for="ai_model">Модел</label><select id="ai_model" name="model">${AI_MODELS.map(m=>`<option value="${m.id}" ${c.model===m.id?"selected":""}>${esc(m.t)} — $${m.in} / $${m.out} (1 млн токен)</option>`).join("")}</select></div>
+      <div class="field wide"><label for="ai_mode">Қачон ишлатилади</label><select id="ai_mode" name="mode">${AI_MODES.map(([k,t])=>`<option value="${k}" ${c.mode===k?"selected":""}>${esc(t)}</option>`).join("")}</select></div>
+      <div class="field"><label for="ai_limit">Ойлик лимит, $ (бутун база)</label><input id="ai_limit" name="limit" inputmode="decimal" value="${esc(c.limit||"")}" placeholder="масалан 5"></div>
+      <div class="field"><label for="ai_rate">1 $ курси, сўм (ҳисобот учун)</label><input id="ai_rate" name="rate" inputmode="decimal" value="${esc(c.rate||"")}" placeholder="масалан 12 100"></div></div>
+    <div class="actions"><button type="submit" class="btn primary">Сақлаш</button>${c.key?`<button type="button" class="btn" data-act="aiTest">Уланишни текшириш</button><button type="button" class="btn ghost danger" data-act="aiForget">Калитни ўчириш</button>`:""}<span class="hint" id="aiMsg">${c.key?"✓ Калит киритилган":"Калит киритилмаган — чеклар оддий усулда ўқилади"}</span></div></form>
+  <div class="lstats"><div class="lstat" style="--c:#d97757;--cl:#f4c4ae"><span class="k">${esc(mo?ccMonthLbl(mo):"Барча ойлар")}${fid?" · "+esc(aiFirmName(fid)):""}</span><span class="v">${aiUsd(tot)}</span><span class="s">${aiCents(tot)}${aiSom(tot)?" · "+aiSom(tot):""}</span></div>
+    <div class="lstat" style="--c:#8b5cf6;--cl:#c4b5fd"><span class="k">Ўқилган файллар</span><span class="v">${rows.length} та</span><span class="s">ўртача ${rows.length?aiCents(tot/rows.length):"0 ¢"} / файл</span></div>
+    <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Бу ойлик лимит</span><span class="v">${lim?pct+"%":"чексиз"}</span><span class="s">${aiUsd(spentM)}${lim?" / "+aiUsd(lim):""}</span>${lim?`<span class="aibar"><i style="width:${pct}%"></i></span>`:""}</div></div>
+  <div class="ctfilters"><div class="chips">${fsel("aiM",months,"Барча ойлар")}${fsel("aiF",[...new Set(all.map(e=>e.firmId))].map(id=>[id,aiFirmName(id)]),"Барча фирмалар")}${all.length?`<button type="button" class="btn" data-act="aiXlsx">${DL_ICON}Excel</button>`:""}</div></div>
+  <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Фирмалар бўйича","firm",30)}</div><div class="tablewrap"><table class="ltable"><thead><tr><th>Фирма</th><th class="r">Файллар</th><th class="r">Кирувчи токен</th><th class="r">Чиқувчи токен</th><th class="r">Харажат</th><th class="r">Ўртача / файл</th></tr></thead><tbody>
+    ${Object.entries(byF).sort((a,b)=>b[1].usd-a[1].usd).map(([id,x])=>`<tr class="norow"><td><b>${esc(aiFirmName(id))}</b></td><td class="num r">${x.n}</td><td class="num r">${m0(x.in)}</td><td class="num r">${m0(x.out)}</td><td class="num r"><b>${aiUsd(x.usd)}</b><div class="ctsub">${aiCents(x.usd)}</div>${som(x.usd)}</td><td class="num r">${aiCents(x.usd/x.n)}</td></tr>`).join("")||`<tr class="norow"><td colspan="6" class="nohit">Бу давр учун Claude ишлатилмаган</td></tr>`}</tbody>
+    ${rows.length?`<tfoot><tr><td><b>Жами</b></td><td class="num r">${rows.length}</td><td class="num r">${m0(rows.reduce((a,e)=>a+e.in,0))}</td><td class="num r">${m0(rows.reduce((a,e)=>a+e.out,0))}</td><td class="num r"><b>${aiUsd(tot)}</b>${som(tot)}</td><td></td></tr></tfoot>`:""}</table></div></div>
+  ${(()=>{ const bs={}; rows.forEach(e=>{ const k=e.sec||""; const x=bs[k]=bs[k]||{n:0,usd:0}; x.n++; x.usd+=e.usd; }); const L=Object.entries(bs).sort((a,b)=>b[1].usd-a[1].usd); return L.length?`<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Бўлимлар бўйича","modules",30)}</div><div class="tablewrap"><table class="ltable"><thead><tr><th>Бўлим</th><th class="r">Файллар</th><th class="r">Харажат</th><th class="r">Ўртача / файл</th></tr></thead><tbody>${L.map(([k,x])=>`<tr class="norow"><td>${esc(aiSecName(k)||"—")}</td><td class="num r">${x.n}</td><td class="num r"><b>${aiCents(x.usd)}</b>${som(x.usd)}</td><td class="num r">${aiCents(x.usd/x.n)}</td></tr>`).join("")}</tbody></table></div></div>`:""; })()}
+  <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Ҳар бир файл бўйича","pdf",30)}</div><div class="tablewrap"><table class="ltable"><thead><tr><th>Вақт</th><th>Фирма</th><th>Бўлим</th><th>Файл</th><th>Модел</th><th class="r">Токен (кир. / чиқ.)</th><th class="r">Нархи</th><th>Ким</th></tr></thead><tbody>
+    ${rows.slice(0,300).map(e=>`<tr class="norow"><td class="num">${fmtStamp(e.at)}</td><td>${esc(aiFirmName(e.firmId))}</td><td>${esc(aiSecName(e.sec))}</td><td>${esc(e.fn)}</td><td>${esc(aiModel(e.m).t.split(" — ")[0])}</td><td class="num r">${m0(e.in)} / ${m0(e.out)}</td><td class="num r"><b>${aiCents(e.usd)}</b><div class="ctsub">${aiUsd(e.usd)}</div></td><td>${esc(nameOf(e.by))}</td></tr>`).join("")||`<tr class="norow"><td colspan="8" class="nohit">Ёзувлар йўқ</td></tr>`}</tbody></table></div>${rows.length>300?`<p class="hint" style="padding:8px 16px">Охирги 300 таси кўрсатилди — ҳаммаси Excel'да.</p>`:""}</div>
+  <p class="hint">Нарх Claude қайтарган токенлар сони ва Anthropic'нинг расмий нархлари (1 млн токен учун) асосида ҳисобланади. Аниқ ҳисоб-китоб console.anthropic.com → Usage / Billing'да кўринади.</p>`;
+}
+async function aiXlsx(){ if(!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
+  const mo=V.aiM===undefined?localToday().slice(0,7):(V.aiM||""); const rows=aiRows(mo,V.aiF||""); const rate=num(aiCfg().rate); const wb=XLSX.utils.book_new();
+  const byF={}; rows.forEach(e=>{ const x=byF[e.firmId]=byF[e.firmId]||{n:0,in:0,out:0,usd:0}; x.n++; x.in+=e.in; x.out+=e.out; x.usd+=e.usd; });
+  const a=[[`Claude AI харажатлари — ${mo?ccMonthLbl(mo):"барча ойлар"}`],[],["Фирма","СТИР","Файллар","Кирувчи токен","Чиқувчи токен","Харажат, $","Харажат, цент",...(rate?["Харажат, сўм"]:[]),"Ўртача, цент/файл"],...Object.entries(byF).map(([id,x])=>[aiFirmName(id),firm(id)?.inn||"",x.n,x.in,x.out,Math.round(x.usd*1e6)/1e6,Math.round(x.usd*1e4)/100,...(rate?[Math.round(x.usd*rate)]:[]),Math.round(x.usd/x.n*1e4)/100])];
+  const T=rows.reduce((s,e)=>s+e.usd,0); a.push(["Жами","",rows.length,rows.reduce((s,e)=>s+e.in,0),rows.reduce((s,e)=>s+e.out,0),Math.round(T*1e6)/1e6,Math.round(T*1e4)/100,...(rate?[Math.round(T*rate)]:[]),""]);
+  let ws=XLSX.utils.aoa_to_sheet(a); ws["!cols"]=[36,11,9,14,14,12,12,14,14].map(w=>({wch:w})); XLSX.utils.book_append_sheet(wb,ws,"Фирмалар бўйича");
+  ws=XLSX.utils.aoa_to_sheet([["Вақт","Фирма","Бўлим","Файл","Модел","Кирувчи токен","Чиқувчи токен","Харажат, $","Харажат, цент",...(rate?["Харажат, сўм"]:[]),"Ким"],...rows.map(e=>[fmtStamp(e.at),aiFirmName(e.firmId),aiSecName(e.sec),e.fn,aiModel(e.m).t.split(" — ")[0],e.in,e.out,Math.round(e.usd*1e6)/1e6,Math.round(e.usd*1e4)/100,...(rate?[Math.round(e.usd*rate)]:[]),e.by])]); ws["!cols"]=[17,30,22,46,18,12,12,11,11,12,26].map(w=>({wch:w})); XLSX.utils.book_append_sheet(wb,ws,"Файллар бўйича");
+  XLSX.writeFile(wb,"claude_xarajatlari_"+(mo||"barcha")+".xlsx"); }
+
+async function ccAiItem(f,it){ if(!it.file) return; it.status="ai"; it.aiErr=""; ccImpRefresh();
+  try{ const res=await aiReadReceipt(it.file,f,it.fname); const [first,...rest]=res.list; const base=it.d;
+    it.d=aiMerge(base,first); it.d.cardI=ccCardIdx(f,it.d); const c=firmCcards(f)[+it.d.cardI]; if(c&&!it.d.holder) it.d.holder=c.holder||""; it.d.ai={m:res.model,usd:Math.round(res.usd/(rest.length+1)*1e6)/1e6}; it.ai=res.usd; it.warn=it.d.last4&&it.d.cardI===""&&firmCcards(f).length?`Чекдаги карта ··${it.d.last4} реквизитлардаги корпоратив карталарга мос келмади`:"";
+    if(rest.length&&V.ccImport){ const at=V.ccImport.items.indexOf(it); rest.forEach((x,k)=>{ const d=aiMerge({...base,cardI:"",holder:""},x); d.cardI=ccCardIdx(f,d); d.ai=it.d.ai; V.ccImport.items.splice(at+1+k,0,{id:uid(),fname:it.fname+` (${k+2}-чек)`,file:it.file,url:it.url,status:"ok",d,ai:0,warn:"Битта файлда бир нечта чек — PDF ҳар бирига бириктирилади"}); }); }
+    it.status="ok"; }
+  catch(e){ it.status="ok"; it.aiErr=e.message||String(e); if(!(e instanceof AiErr)) console.warn(e); }
+  if(V.ccImport) V.ccImport.items.forEach(x=>{ if(x.d&&["ok","dup","need"].includes(x.status)) ccItemStatus(f,x); }); ccImpRefresh(); return it; }
+async function ccAiWeak(f){ const I=V.ccImport; if(!I) return; for(const it of I.items.filter(x=>x.d&&x.file&&!x.ai&&["ok","need","dup"].includes(x.status)&&ccWeak(x.d))){ if(!V.ccImport) return; await ccAiItem(f,it); if(it.aiErr&&/калит|лимит|маблағ|уланиб/.test(it.aiErr)){ toast(it.aiErr); break; } } }
+function ccAiBar(){ const I=V.ccImport; if(!I) return ""; if(!aiOn()) return `<button type="button" class="btn ghost" data-act="aiPage" title="Яхши ўқилмаган чекларни Claude аниқ ўқийди">✦ Claude'ни улаш</button>`; const n=I.items.filter(x=>x.d&&x.file&&!x.ai&&["ok","need","dup"].includes(x.status)&&ccWeak(x.d)).length; const busy=I.items.some(x=>x.status==="ai"); return n||busy?`<button type="button" class="btn aibtn" data-act="ccAiWeak" ${busy||I.saving?"disabled":""}>✦ ${busy?"Claude ўқимоқда…":`Ёмон ўқилганларни Claude билан ўқиш (${n})`}</button>`:""; }
+/* ---------- Claude: барча юкланадиган ҳужжатлар ---------- */
+const aiAuto=weak=>{ const c=aiCfg(); return !!c.key&&c.mode!=="manual"&&(c.mode==="always"||!!weak); };
+const aiCanRead=file=>file&&(/^image\/(jpeg|png|webp|gif)$/.test(file.type)||/\.pdf$/i.test(file.name||"")||file.type==="application/pdf");
+async function aiDoc(file,f,spec,fname,opt){
+  if(!aiCanRead(file)) throw new AiErr("Claude фақат PDF ва расм (JPG, PNG) файлларни ўқийди");
+  if(file.size>25*1024*1024) throw new AiErr("Файл жуда катта (25 МБ дан ортиқ)");
+  const data=await fileB64(file); const isImg=/^image\//.test(file.type);
+  const block=isImg?{type:"image",source:{type:"base64",media_type:file.type,data}}:{type:"document",source:{type:"base64",media_type:"application/pdf",data}};
+  const common=`Our company (the client of the accountant) is "${String(f?.name||"").replace(/"/g,"'")}" with СТИР (INN) ${f?.inn||"unknown"}. The document may be in Uzbek (Cyrillic or Latin), Russian or English, and may be a scan. Extract only what is actually written; if a field is not present, omit it — never guess. Dates must be YYYY-MM-DD. Amounts are plain numbers (no spaces, dot as decimal separator). Free-text values that we describe as "short" should be written in Uzbek Cyrillic.`;
+  const r=await aiCall([block,{type:"text",text:spec.prompt+"\n\n"+common+"\nCall the "+spec.tool+" tool with the result."}],{name:spec.tool,description:spec.desc,input_schema:{type:"object",properties:spec.props,...(spec.req?{required:spec.req}:{})}},{firmId:f?.id,sec:spec.sec,fname:fname||file.name,max:spec.max||2000,defer:opt?.defer});
+  return {x:r.input||{},usd:r.usd,model:r.model,entry:r.entry};
+}
+const AI_S=t=>({type:"string",...(t?{description:t}:{})}), AI_N=t=>({type:"number",...(t?{description:t}:{})});
+const AI_PARTY=extra=>({type:"object",properties:{name:AI_S("Full legal name with legal form"),inn:AI_S("СТИР/ИНН, 9 digits"),director:AI_S("Head / director full name"),address:AI_S(),bank:AI_S("Bank name"),account:AI_S("Settlement account, 20 digits"),mfo:AI_S("Bank МФО code, 5 digits"),phone:AI_S(),...(extra||{})}});
+const AI_SPEC={
+  contract:{tool:"save_contract",sec:"contracts",desc:"Save the main data of a domestic contract (шартнома / договор).",prompt:"This is a contract (шартнома / договор) between our company and a counterparty.",
+    props:{number:AI_S("Contract number"),date:AI_S("Contract date"),end_date:AI_S("Validity end date"),direction:{type:"string",enum:["in","out"],description:"in = our company is the buyer/customer/tenant (receives goods, works or services); out = our company is the seller/contractor/provider"},subject_type:{type:"string",enum:["товар","иш","хизмат"]},subject:AI_S("Short subject of the contract, max 120 chars"),amount:AI_N("Total contract amount"),currency:AI_S("ISO code, UZS for so'm"),counterparty:AI_PARTY()}},
+  fcontract:{tool:"save_foreign_contract",sec:"import",desc:"Save the data of a foreign trade contract.",prompt:"This is a foreign trade (import/export) contract of our company.",max:2500,
+    props:{idn:AI_S("Contract ID number in the Uzbek ЕЭИСВО / ЯЭАТ system, if printed"),number:AI_S(),date:AI_S(),end_date:AI_S(),direction:{type:"string",enum:["imp","exp"],description:"imp = our company buys (import), exp = our company sells (export)"},amount:AI_N("Total contract amount"),currency:AI_S("ISO code"),subject_type:{type:"string",enum:["товар","хизмат","иш"]},subject:AI_S("Short subject, max 120 chars"),
+      seller:AI_PARTY({country:AI_S(),swift:AI_S(),reg_no:AI_S("Registration / tax number of a foreign company"),contact:AI_S("Phone / e-mail")}),buyer:AI_PARTY({country:AI_S(),swift:AI_S(),reg_no:AI_S(),contact:AI_S()}),supplier:AI_PARTY({country:AI_S(),swift:AI_S(),reg_no:AI_S(),contact:AI_S()}),
+      pay_type:{type:"string",enum:["prepay","post","mixed"],description:"prepay = 100% advance, post = payment after delivery, mixed = partial advance"},prepay_percent:AI_N(),prepay_days:AI_N("Days for delivery after advance payment"),post_days:AI_N("Days for payment after delivery"),incoterms:{type:"string",enum:INCOTERMS.map(x=>x[0])},ship_point:AI_S("Place of shipment"),delivery_point:AI_S("Place of delivery"),transport:{type:"string",enum:["авто","темир йўл","авиа","денгиз","аралаш"]}}},
+  fcdoc:{tool:"save_contract_document",sec:"import",desc:"Save a specification, act or additional agreement to a foreign trade contract.",prompt:"This is a specification, act of completed works/services, or an additional agreement (addendum) to a foreign trade contract. For a specification or act extract every goods/services line.",max:4000,
+    props:{no:AI_S("Document number"),date:AI_S(),currency:AI_S("ISO code"),total:AI_N("Grand total"),items:{type:"array",items:{type:"object",properties:{name:AI_S(),hs:AI_S("HS / ТН ВЭД code, 10 digits"),unit:AI_S(),qty:AI_N(),price:AI_N(),sum:AI_N()}}},new_amount:AI_N("For an addendum: new total contract amount"),new_end:AI_S("For an addendum: new contract end date"),content:AI_S("For an addendum: short summary of what it changes, max 200 chars")}},
+  charter:{tool:"save_charter",sec:"charter",desc:"Save the data of a company charter (устав) or founders' agreement.",prompt:"This is a company charter (Устав) or founders' agreement (Таъсис шартномаси / учредительный договор). Read all pages.",max:3000,
+    props:{kind:{type:"string",enum:["Устав","Таъсис шартномаси"]},edition:AI_S("Edition, e.g. Янги таҳрир"),name:AI_S("Full company name"),short_name:AI_S(),form:AI_S("Legal form, e.g. МЧЖ"),approved_date:AI_S("Date of approval by founders"),approved_by:AI_S("Approving decision / protocol, short"),reg_date:AI_S("State registration date"),reg_no:AI_S("State registration number"),address:AI_S("Legal address"),capital:AI_N("Charter capital in so'm"),
+      founders:{type:"array",items:{type:"object",properties:{name:AI_S(),kind:{type:"string",enum:["Жисмоний шахс","Юридик шахс"]},pinfl:AI_S("ПИНФЛ 14 digits"),inn:AI_S("СТИР of a legal entity"),address:AI_S(),pct:AI_N("Share, percent"),sum:AI_N("Share amount, so'm")}}},director_title:AI_S("Title of the executive body, e.g. Директор"),director_term:AI_S("Term of office, e.g. 5 йил"),activities:AI_S("Main activities, short, max 200 chars")}},
+  taxrep:{tool:"save_tax_report",sec:"taxrep",desc:"Save the main data of a tax report.",prompt:"This is a tax report (солиқ ҳисоботи / налоговая отчётность) of our company.",
+    props:{report_type:{type:"string",enum:TAXREPS.map(d=>d.k),description:"One of: "+TAXREPS.map(d=>d.k+" = "+d.n).join("; ")},year:AI_N(),month:AI_N("1-12 for a monthly report"),quarter:AI_N("1-4 for a quarterly report"),inn:AI_S("СТИР written on the report"),accrued:AI_N("Calculated tax amount for the period"),payable:AI_N("Amount payable to the budget"),submitted:AI_S("Submission date")}},
+  finrep:{tool:"save_financial_report",sec:"finrep",desc:"Save the main data of a financial statement.",prompt:"This is a financial statement form (balance sheet, income statement etc.) of our company.",
+    props:{form:AI_S("Form type"),year:AI_N(),quarter:AI_N("1-4, 4 for annual"),total_assets:AI_N("Balance sheet total"),revenue:AI_N("Net revenue"),net_profit:AI_N("Net profit (negative for loss)")}},
+  letter:{tool:"save_letter",sec:"office",desc:"Save the registration data of an official letter.",prompt:"This is an official letter / request / notice received by or sent from our company.",
+    props:{correspondent:AI_S("The other organisation (sender of an incoming letter, or addressee of an outgoing one), not our company"),correspondent_inn:AI_S(),doc_no:AI_S("Outgoing number printed on the letter"),doc_date:AI_S(),kind:{type:"string",enum:LET_KIND},subject:AI_S("Short summary, max 150 chars"),deadline:AI_S("Requested reply / execution deadline, if stated")}},
+  license:{tool:"save_license",sec:"reqs",desc:"Save license data.",prompt:"This is a license or permit issued to our company.",
+    props:{title:AI_S("Licensed activity, short"),no:AI_S("License number"),issued_by:AI_S("Issuing authority, short"),issued:AI_S("Issue date"),expires:AI_S("Expiry date; omit if unlimited")}},
+  cert:{tool:"save_certificate",sec:"reqs",desc:"Save the data of a state registration or VAT registration certificate.",prompt:"This is our company's state registration certificate or VAT payer registration certificate.",
+    props:{name:AI_S("Company name"),form:AI_S("Legal form"),inn:AI_S("СТИР"),reg_date:AI_S("State registration date"),reg_no:AI_S("Registration number"),address:AI_S(),director:AI_S(),oked:AI_S("ОКЭД / ИФУТ code"),vat_code:AI_S("VAT payer registration code (12 digits)"),vat_date:AI_S("VAT registration date")}},
+  gtd:{tool:"save_customs_declaration",sec:"import",desc:"Save the data of an Uzbek customs cargo declaration (ГТД / ЮБК).",prompt:"This is an Uzbek customs cargo declaration (ГТД / ЮБК), possibly scanned. Field numbers refer to the standard form graphs.",max:4000,
+    props:{no:AI_S("Graph 7 / A: registration number in the form 26002/08.04.2026/0030971 (post / date / number)"),form_no:AI_S("Blank number"),regime:AI_S("Graph 1, e.g. 'ИМ 40', 'ЭК 10', 'НД 40'"),sub:AI_S("Graph 1 third part"),inn:AI_S("СТИР of the importer/exporter (graph 8 for import, graph 2 for export)"),
+      sender:{type:"object",properties:{name:AI_S(),address:AI_S(),inn:AI_S()}},recipient:{type:"object",properties:{name:AI_S(),address:AI_S(),inn:AI_S()}},declarant:{type:"object",properties:{name:AI_S(),inn:AI_S()}},
+      country:AI_S("Country of dispatch"),terms:AI_S("Graph 20 delivery terms"),currency:AI_S("Graph 22 currency ISO code"),invoice:AI_N("Graph 22 total invoice amount"),rate:AI_N("Graph 23 exchange rate"),customs_value:AI_N("Total customs value in so'm"),items_count:AI_N("Graph 5"),
+      items:{type:"array",items:{type:"object",properties:{n:AI_N(),hs:AI_S("Graph 33"),desc:AI_S("Graph 31 short, max 150 chars"),qty:AI_S(),brutto:AI_N(),netto:AI_N(),inv:AI_N("Graph 42"),cv:AI_N("Graph 45")}}},
+      payments:{type:"array",description:"Graph 47 lines",items:{type:"object",properties:{type:AI_S("Payment type code: 10, 20, 27, 29, 30…"),base:AI_S(),rate:AI_S(),sum:AI_N(),sp:AI_S("Payment method code, e.g. БН, ОО, УН")}}},
+      prev:{type:"array",items:AI_S("Previous declaration numbers from graph 40")},contract:{type:"object",properties:{no:AI_S(),date:AI_S()}},invoices:{type:"array",items:AI_S("Invoice numbers")},release:AI_S("Release date")}},
+};
+const aiNum=v=>v==null||v===""?"":String(v);
+const aiTag=(it,act,i)=>`${it.aiBusy?`<div class="aitag">✦ Claude ўқимоқда…</div>`:it.ai?`<div class="aitag">✦ Claude ўқиди · ${aiCents(it.ai)}</div>`:""}${it.aiErr?`<div class="err">Claude: ${esc(it.aiErr)}</div>`:""}${aiOn()&&it.file&&aiCanRead(it.file)&&!it.aiBusy&&!["saving","saved","read"].includes(it.status)?`<button type="button" class="linkbtn aire" data-act="${act}" data-i="${i}">✦ ${it.ai?"Claude билан қайта ўқиш":"Claude билан ўқиш"}</button>`:""}`;
+async function aiRun(it,fn,refresh){ it.aiBusy=true; it.aiErr=""; refresh&&refresh(); try{ await fn(); }catch(e){ it.aiErr=e.message||String(e); if(!(e instanceof AiErr)) console.warn(e); } it.aiBusy=false; refresh&&refresh(); return it; }
+
+/* шартнома */
+function aiCtMap(x){ const o={number:x.number,date:x.date,endDate:x.end_date,dir:x.direction,subj:x.subject_type,subject:x.subject,amount:aiNum(x.amount),currency:x.currency}; const cp=x.counterparty||{}; ["name","inn","director","address","bank","account","mfo","phone"].forEach(k=>{ if(cp[k]) o["cp."+k]=String(cp[k]); }); Object.keys(o).forEach(k=>{ if(o[k]==null||o[k]==="") delete o[k]; }); return o; }
+async function ctAiItem(f,it){ return aiRun(it,async()=>{ const r=await aiDoc(it.file,f,AI_SPEC.contract,it.fname); const m=aiCtMap(r.x); Object.entries(m).forEach(([k,v])=>{ setPath(it.d,k,v); it.auto.add(k); }); it.ai=(it.ai||0)+r.usd; if(it.status==="scan") it.status="ok"; it.d.ai={m:r.model,usd:Math.round(r.usd*1e6)/1e6}; },()=>{ if(V.ctImport&&V.tab==="contracts") render(); }); }
+/* ташқи савдо контракти */
+function aiFcApply(d,x,f,all){ const set=(k,v)=>{ if(v==null||v==="") return; if(all||!getPath(d,k)) setPath(d,k,String(v)); };
+  set("idn",x.idn); set("number",x.number); set("date",x.date); set("endDate",x.end_date); set("amount",x.amount); set("currency",x.currency); set("subj",x.subject_type); set("subject",x.subject); set("payType",x.pay_type); set("prepayPct",x.prepay_percent); set("prepayDays",x.prepay_days); if(x.post_days) set("postDays",x.post_days>270?"365":"180"); set("incoterms",x.incoterms); set("shipPoint",x.ship_point); set("deliveryPoint",x.delivery_point); set("transport",x.transport);
+  if(x.direction&&all) d.dir=x.direction; const our=d.dir==="exp"?"seller":"buyer";
+  ["seller","buyer","supplier"].forEach(p=>{ const s=x[p]||{}; const ours=p===our||(s.inn&&String(s.inn)===String(f?.inn||"")); Object.entries({name:s.name,country:s.country,regNo:s.reg_no||s.inn,address:s.address,bank:s.bank,account:s.account,swift:s.swift,director:s.director,contact:s.contact||s.phone}).forEach(([k,v])=>{ if(v==null||v==="") return; if(ours){ if(!getPath(d,p+"."+k)) setPath(d,p+"."+k,String(v)); } else set(p+"."+k,v); }); }); }
+/* спецификация / акт / қўшимча келишув */
+async function fcDocRead(fl,kind,force){ const f=firm(V.firmId); let p={items:[]}; try{ p=fcDocParse(await fcReadPdf(fl),kind); }catch(e){}
+  const weak=kind==="add"?(!p.date||!p.no):(!(p.items||[]).length||!p.total||!p.date);
+  if((force||aiAuto(weak))&&aiCanRead(fl)){ toast("✦ Claude ўқимоқда…"); try{ const r=await aiDoc(fl,f,AI_SPEC.fcdoc,fl.name); const x=r.x; const q={...p}; ["no","date","currency","content"].forEach(k=>{ if(x[k]) q[k]=String(x[k]); }); if(x.total!=null) q.total=String(x.total); if(x.new_amount!=null) q.newAmount=String(x.new_amount); if(x.new_end) q.newEnd=x.new_end;
+      if((x.items||[]).length) q.items=x.items.map(i=>({name:i.name||"",hs:i.hs||"",unit:i.unit||"",qty:aiNum(i.qty),price:aiNum(i.price),sum:aiNum(i.sum??(num(i.qty)*num(i.price)))})); q.auto=Math.max(p.auto||0,Object.keys(x).length); q.ai=r.usd; toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); return q; }
+    catch(e){ toast("Claude: "+(e.message||e)); } }
+  return p; }
+/* устав */
+function aiChMap(x){ const o={}; const s=(k,v)=>{ if(v!=null&&v!=="") o[k]=String(v); }; s("kind",x.kind); s("edition",x.edition); s("name",x.name); s("shortName",x.short_name); s("form",x.form); s("approvedDate",x.approved_date); s("approvedBy",x.approved_by); s("regDate",x.reg_date); s("regNo",x.reg_no); s("address",x.address); s("capital",x.capital); s("dirTitle",x.director_title); s("dirTerm",x.director_term); s("activities",x.activities);
+  if((x.founders||[]).length) o.founders=x.founders.map(z=>({kind:z.kind||(z.inn&&!z.pinfl?"Юридик шахс":"Жисмоний шахс"),name:z.name||"",pinfl:z.pinfl||"",inn:z.inn||"",address:z.address||"",pct:aiNum(z.pct),sum:aiNum(z.sum)})); return o; }
+const chWeak=d=>!d||!d.capital||!(d.founders||[]).length||!d.approvedDate||!d.dirTerm||(d.auto||0)<7;
+async function chAiItem(f,it){ return aiRun(it,async()=>{ const r=await aiDoc(it.file,f,AI_SPEC.charter,it.fname); const m=aiChMap(r.x); it.d={...(it.d||{kind:"Устав"}),...m}; it.d.auto=Math.max(it.d.auto||0,Object.keys(m).length); it.ai=(it.ai||0)+r.usd; it.status="ok"; },()=>{ if(V.chImport) render(); }); }
+/* солиқ ҳисоботи */
+async function trAiItem(f,it,kind0){ return aiRun(it,async()=>{ const r=await aiDoc(it.file,f,AI_SPEC.taxrep,it.fname); const x=r.x; if(x.report_type&&trOn(f).some(d=>d.k===x.report_type)) it.kind=x.report_type; else if(!it.kind) it.kind=kind0||trOn(f)[0]?.k;
+    if(x.year) it.period=perKey(trCfg(f,it.kind).per,{y:x.year,m:x.month||null,q:x.quarter||null}); if(x.accrued!=null) it.accrued=String(x.accrued); if(x.payable!=null) it.payable=String(x.payable); if(x.submitted) it.subDate=x.submitted;
+    it.innWarn=x.inn&&f.inn&&String(x.inn)!==String(f.inn).trim()?`Файлдаги СТИР ${x.inn} — бошқа фирмага ўхшайди`:""; it.found=[it.kind?"тури: "+trDef(it.kind).t:"",it.period?"давр: "+trPerLabel(it.period):"",x.inn?"СТИР "+x.inn:""].filter(Boolean).join(" · "); it.ai=(it.ai||0)+r.usd; it.status="ok"; },()=>{ if(V.trImport) render(); }); }
+/* молиявий ҳисобот */
+async function frAiItem(f,it){ return aiRun(it,async()=>{ const r=await aiDoc(it.file,f,{...AI_SPEC.finrep,props:{...AI_SPEC.finrep.props,form:{type:"string",enum:FIN_FORMS[f.std||"БҲМС"].map(x=>x.k),description:FIN_FORMS[f.std||"БҲМС"].map(x=>x.k+" = "+x.t).join("; ")}}},it.fname); const x=r.x; const std=f.std||"БҲМС";
+    if(x.form&&FIN_FORMS[std].some(z=>z.k===x.form)) it.form=x.form; if(x.year) it.period=std==="БҲМС"?`${x.year}-Q${x.quarter||4}`:String(x.year); const fig={...(it.fig||{})}; if(x.total_assets!=null) fig.assets=String(x.total_assets); if(x.revenue!=null) fig.revenue=String(x.revenue); if(x.net_profit!=null) fig.profit=String(x.net_profit); it.fig=fig; it.ai=(it.ai||0)+r.usd; it.status="ok"; },()=>{ if(V.frImport) render(); }); }
+/* ГТД (сканер) */
+function gtdFromAi(x){ const m=/(\d{5})\s*\/\s*(\d{2}\.\d{2}\.\d{4})\s*\/\s*(\d+)/.exec(x.no||""); if(!m) return null;
+  const regime=String(x.regime||"").trim(); const a=regime.split(/\s+/)[0]||""; const isEx=/^ЭК/i.test(a), isNd=/^НД/i.test(a);
+  const g47=(x.payments||[]).filter(p=>p.type).map(p=>({type:String(p.type),sum:num(p.sum),sp:String(p.sp||"").toUpperCase(),base:String(p.base||""),rate:String(p.rate||"")}));
+  const paidSp=sp=>!sp||GTD_PAID_SP.test(sp); const pay={}; g47.filter(p=>paidSp(p.sp)).forEach(p=>{ pay[p.type]=(pay[p.type]||0)+p.sum; }); g47.forEach(p=>{ p.paid=paidSp(p.sp); });
+  const unpaid={}; g47.filter(p=>!p.paid&&p.sum>0).forEach(p=>{ unpaid[p.type]=(unpaid[p.type]||0)+p.sum; });
+  const items=(x.items||[]).map((i,k)=>({n:+i.n||k+1,hs:String(i.hs||""),desc:String(i.desc||"").slice(0,180),brutto:num(i.brutto),netto:num(i.netto),qty:String(i.qty||""),inv:num(i.inv),cv:num(i.cv)}));
+  const inn=String(x.inn||"").replace(/\D/g,"").slice(0,9); const nItems=+x.items_count||items.length;
+  return {no:`${m[1]}/${m[2]}/${m[3]}`,post:m[1],date:gDate(m[2]),num:m[3],form:x.form_no||"",regime,isEx,isNd,sub:x.sub||"",prev:(x.prev||[]).filter(Boolean),g47,unpaid,inn,
+    sender:{name:x.sender?.name||"",addr:x.sender?.address||"",inn:x.sender?.inn||""},recipient:{name:x.recipient?.name||"",addr:x.recipient?.address||"",inn:x.recipient?.inn||""},declarant:{name:x.declarant?.name||"",inn:x.declarant?.inn||""},
+    country:x.country||"",terms:x.terms||"",currency:x.currency||"",invoice:num(x.invoice),rate:num(x.rate),cv:0,cvSum:num(x.customs_value),nItems,items,partial:items.length<nItems,
+    brutto:items.reduce((s,b)=>s+b.brutto,0),netto:items.reduce((s,b)=>s+b.netto,0),pay,payTotal:Object.values(pay).reduce((s,b)=>s+b,0),contract:x.contract?.no?{no:x.contract.no,date:x.contract.date||""}:null,invoices:(x.invoices||[]).filter(Boolean),release:x.release||"",post29:"",byAi:true}; }
+/* гувоҳнома → реквизитлар */
+const CERT_MAP=[["name","name","Фирма номи"],["form","form","Ташкилий-ҳуқуқий шакли"],["inn","inn","СТИР"],["regDate","reg_date","Рўйхатдан ўтган сана"],["address","address","Юридик манзил"],["director","director","Директор"],["oked","oked","ИФУТ (ОКЭД)"],["vat","vat_code","ҚҚС рўйхат коди"],["vatDate","vat_date","ҚҚС тўловчи бўлган сана"]];
+function certAiBox(f,k){ const a=f.docs?.[k]?.ai; if(!a) return ""; const rows=CERT_MAP.filter(([fk,ak])=>a[ak]).map(([fk,ak,l])=>{ const cur=String(f[fk]??"").trim(), v=String(a[ak]).trim(); return {fk,l,v,cur,st:!cur?"empty":cur.toLowerCase().replace(/\s/g,"")===v.toLowerCase().replace(/\s/g,"")?"same":"diff"}; });
+  const nE=rows.filter(r=>r.st==="empty").length; return `<div class="certai"><div class="aitag">✦ Claude гувоҳномадан ўқиди${a.usd?" · "+aiCents(a.usd):""}</div>${rows.map(r=>`<div class="certrow ${r.st}"><span>${esc(r.l)}</span><b>${esc(r.v)}</b><i>${r.st==="same"?"✓ реквизитлар билан бир хил":r.st==="empty"?"реквизитларда бўш":"реквизитларда: "+esc(r.cur)}</i></div>`).join("")}${nE?`<button type="button" class="btn sm aibtn" data-act="certApply" data-k="${k}">Бўш реквизитларни тўлдириш (${nE})</button>`:""}</div>`; }
+async function certAi(f,k,fl){ const r=await aiDoc(fl,f,AI_SPEC.cert,fl.name); const a={...r.x,usd:Math.round(r.usd*1e6)/1e6,at:Date.now()};
+  for(let attempt=0;attempt<2;attempt++){ const o=migrateFirm(firm(f.id)); if(!o.docs?.[k]) return; o.docs[k].ai=a; try{ await putItem("firms",o,false); return a; }catch(e){ if(e instanceof ConflictErr&&attempt===0) continue; throw e; } } }
+
+const aiFormBtn=(act,has)=>has&&aiOn()?`<button type="button" class="btn aibtn" data-act="${act}">✦ Claude билан ўқиб тўлдириш</button>`:"";
+async function aiFileOf(pending,ref,name){ if(pending) return pending; if(!ref) throw new AiErr("Файл бириктирилмаган"); const b=await driveFetch(ref); return new File([b],ref.name||name||"hujjat.pdf",{type:b.type&&b.type!=="application/octet-stream"?b.type:(/\.(jpe?g)$/i.test(ref.name||"")?"image/jpeg":/\.png$/i.test(ref.name||"")?"image/png":"application/pdf")}); }
+function gtdAccept(it,d,firmId,seen){ it.d=d;
+  const fm=firmByInn(d.inn); if(!it.firmId) it.firmId=fm?.id||""; if(firmId&&fm&&fm.id!==firmId) it.warn=`Бу ГТД бошқа фирмага тегишли (${fm.name}) — шу фирмага сақланади`;
+  const exR=S.gtd.find(r=>r.no===d.no);
+  if(exR&&(!("prev" in exR)||!("g47" in exR))&&!seen.has(d.no)){ it.upd=exR.id; if(!it.firmId) it.firmId=exR.firmId; it.status=it.firmId?"ok":"nofirm"; it.warn="Аввал юкланган — НД/ИМ маълумоти билан янгиланади"; }
+  else if(exR){ it.status="dup"; it.msg="Бу ГТД аллақачон реестрда бор"; }
+  else if(seen.has(d.no)){ it.status="dup"; it.msg="Бу файл рўйхатда икки марта танланган"; }
+  else it.status=it.firmId?"ok":"nofirm";
+  seen.add(d.no); }
+async function gtdAiItem(it,firmId,seen){ it.aiBusy=true; it.aiErr=""; gtdImpRefresh();
+  try{ const r=await aiDoc(it.file,firm(firmId)||null,AI_SPEC.gtd,it.fname,{defer:true}); const d=gtdFromAi(r.x); it.ai=(it.ai||0)+r.usd;
+    const fid=(d&&(firmByInn(d.inn)?.id))||firmId||it.firmId||""; aiLog(fid,r.entry);
+    if(!d){ it.aiErr="Claude ГТД рақамини топмади"; } else { it.msg=""; gtdAccept(it,d,firmId,seen||new Set(V.gImport.items.filter(x=>x!==it&&x.d).map(x=>x.d.no))); if(it.status!=="dup") it.warn=(it.warn?it.warn+" · ":"")+"Сканердан Claude ўқиди — суммаларни текширинг"; } }
+  catch(e){ it.aiErr=e.message||String(e); }
+  it.aiBusy=false; gtdImpRefresh(); }
+async function letAiFill(fl){ const d=V.letEdit; if(!d) return; toast("✦ Claude хатни ўқимоқда…");
+  try{ const r=await aiDoc(fl,firm(V.firmId),AI_SPEC.letter,fl.name); const x=r.x; const set=(k,v)=>{ if(v!=null&&v!==""&&(!d[k]||(k==="kind"&&d[k]==="Хат"))) d[k]=String(v); };
+    set("corr",x.correspondent); set("corrInn",x.correspondent_inn); set("docNo",x.doc_no); set("docDate",x.doc_date); set("kind",x.kind); set("subject",x.subject); if(d.dir==="in") set("deadline",x.deadline); d.ai={usd:Math.round(r.usd*1e6)/1e6}; toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }
+  catch(e){ toast("Claude: "+(e.message||e)); } render(); }
+async function fcAiFill(fl,force){ const d=V.fcEdit; const f=firm(V.firmId); if(!d) return; toast("✦ Claude контрактни ўқимоқда…");
+  try{ const r=await aiDoc(fl,f,AI_SPEC.fcontract,fl.name); aiFcApply(d,r.x,f,!S.recs.some(x=>x.id===d.id)); d.aiUsd=(d.aiUsd||0)+r.usd; toast(`✦ Claude ўқиди · ${aiCents(r.usd)} — маълумотларни текширинг`); }
+  catch(e){ toast("Claude: "+(e.message||e)); } render(); }
+async function chAiFill(fl,p){ const d=V.chEdit; if(!d) return; toast("✦ Claude уставни ўқимоқда (кўп бетли бўлса 1–2 дақиқа)…");
+  try{ const r=await aiDoc(fl,firm(V.firmId),AI_SPEC.charter,fl.name); const m=aiChMap(r.x); let n=0;
+    Object.entries(m).forEach(([k,v])=>{ if(k==="kind") return; if(k==="founders"){ if(!(d.founders||[]).length||(p&&JSON.stringify(d.founders)===JSON.stringify(p.founders))){ d.founders=v; n++; } return; } if(!d[k]||(p&&d[k]===p[k])){ d[k]=v; n++; } });
+    d.auto=Math.max(d.auto||0,n); toast(`✦ Claude ўқиди · ${aiCents(r.usd)} — ${n} та майдон`); }
+  catch(e){ toast("Claude: "+(e.message||e)); } render(); }
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
@@ -5246,7 +5486,7 @@ const PRINT_ICON='<svg viewBox="0 0 16 16" fill="none"><path d="M4 6V2h8v4M4 12H
 function render(){
   if(!$("#gate").hidden) return;
   renderRail();
-  const views={home:vHome,firm:vFirm,export:vExport,firmForm:vFirmForm,tpl:vTpl,order:vOrder,cps:vCps,gtd:()=>vGtd(null),handover:vHandover,restore:vRestore};
+  const views={home:vHome,firm:vFirm,export:vExport,firmForm:vFirmForm,tpl:vTpl,order:vOrder,cps:vCps,gtd:()=>vGtd(null),handover:vHandover,restore:vRestore,ai:vAi};
   $("#main").innerHTML=(views[V.view]||vHome)()+colPanel();
   if(DRAFT_SEEN&&!draftSnapDirty()){ try{ localStorage.removeItem(DRAFT_LK); }catch(e){} }
   const fmOn=document.querySelector(".dstrip .ds.on"); if(fmOn&&render._tab!==V.tab){ render._tab=V.tab; const st=fmOn.parentElement; st.scrollLeft=fmOn.offsetLeft-st.clientWidth/2+fmOn.clientWidth/2; } if(false) fmOn.scrollIntoView({block:"nearest",inline:"center"});
@@ -5375,6 +5615,27 @@ document.addEventListener("click", async e=>{
   if(a==="licNew"){ V.licOpen=true; return render(); }
   if(a==="licCancel"){ V.licOpen=false; return render(); }
   if(a==="licDel"){ const f=firm(V.firmId); if(!f||!confirmTwice(t,"Лицензияни ўчириш учун яна бир марта босинг")) return; const i=+t.dataset.i; try{ await attPut("firms",f.id,o=>{ o.licenses=(o.licenses||[]).filter((_,j)=>j!==i); },"Лицензия ўчирилди"); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="aiPage") return go({view:"ai",aiM:V.aiM===undefined?localToday().slice(0,7):V.aiM});
+  if(a==="aiForget"){ if(!confirmTwice(t,"Калитни ўчириш учун яна бир марта босинг")) return; const c=aiCfg(); c.key=""; aiSave(c); toast("Калит шу компьютердан ўчирилди"); return render(); }
+  if(a==="aiTest"){ const m=$("#aiMsg"); if(m) m.textContent="Текширилмоқда…"; t.disabled=true; try{ const r=await aiCall([{type:"text",text:"Reply with the single word OK."}],null,{sec:"test",fname:"Уланишни текшириш",max:5}); if(m) m.textContent=`✓ Claude жавоб берди (${aiModel(aiCfg().model).t.split(" — ")[0]}) · ${aiCents(r.usd)}`; }catch(e){ if(m) m.textContent="✕ "+(e.message||e); } t.disabled=false; return; }
+  if(a==="aiXlsx"){ try{ await aiXlsx(); }catch(e){ toast("Excel тузиб бўлмади: "+(e?.message||e)); } return; }
+  if(a==="ccAi"){ const it=V.ccImport?.items[+t.dataset.i]; if(it) await ccAiItem(firm(V.firmId),it); if(it?.aiErr) toast("Claude: "+it.aiErr); return; }
+  if(a==="ccAiWeak"){ await ccAiWeak(firm(V.firmId)); return; }
+  if(a==="ccAiRe"){ const r=S.recs.find(x=>x.id===V.ccId); const f=firm(V.firmId); if(!r?.file) return; t.disabled=true; toast("✦ Claude ўқимоқда…");
+    try{ const blob=await driveFetch(r.file); const file=new File([blob],r.file.name||"chek.pdf",{type:blob.type||"application/pdf"}); const res=await aiReadReceipt(file,f,r.file.name||"чек"); const d=ccFromRec(f,r); const a2=res.list[0]; Object.entries(a2).forEach(([k,v])=>{ if(v!==""&&v!=null) d[k]=v; }); if(a2.last4){ const i=ccCardIdx(f,a2); if(i!=="") d.cardI=i; } d.ai={m:res.model,usd:Math.round(res.usd*1e6)/1e6}; toast(`Claude ўқиди (${aiCents(res.usd)}) — текшириб, «Сақлаш»ни босинг`); return go({ccEdit:d}); }
+    catch(e){ t.disabled=false; toast("Claude: "+(e.message||e)); return; } }
+  if(a==="ctAi"){ const it=V.ctImport?.items[+t.dataset.i]; if(it) await ctAiItem(firm(V.firmId),it); return; }
+  if(a==="chAi"){ const it=V.chImport?.items[+t.dataset.i]; if(it) await chAiItem(firm(V.firmId),it); return; }
+  if(a==="trAi"){ const it=V.trImport?.items[+t.dataset.i]; if(it) await trAiItem(firm(V.firmId),it); return; }
+  if(a==="frAi"){ const it=V.frImport?.items[+t.dataset.i]; if(it) await frAiItem(firm(V.firmId),it); return; }
+  if(a==="gAi"){ const it=V.gImport?.items[+t.dataset.i]; if(it) await gtdAiItem(it,V.gImport.firmId||"",null); return; }
+  if(a==="fcAi"){ const d=V.fcEdit; if(!d) return; try{ await fcAiFill(await aiFileOf(d.pendingFile,d.file,"kontrakt.pdf")); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
+  if(a==="fcDocAi"&&V.fcDoc){ const D=V.fcDoc; try{ const fl=await aiFileOf(D.pendingFile,D.d.file); const p=await fcDocRead(fl,D.kind,true); const d=D.d; ["no","date","currency","total"].forEach(k=>{ if(p[k]) d[k]=p[k]; }); if((p.items||[]).length) d.items=p.items; D.auto=p.auto; }catch(e){ toast("Claude: "+(e.message||e)); } return render(); }
+  if(a==="fcAddAi"&&V.fcAdd){ const A=V.fcAdd; try{ const fl=await aiFileOf(A.pendingFile,A.file); const p=await fcDocRead(fl,"add",true); ["no","date","newAmount","newEnd","content"].forEach(k=>{ if(p[k]) A[k]=p[k]; }); A.auto=p.auto; }catch(e){ toast("Claude: "+(e.message||e)); } return render(); }
+  if(a==="chAiOne"&&V.chEdit){ try{ await chAiFill(await aiFileOf(V.chEdit.pendingFile,V.chEdit.file),null); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
+  if(a==="letAi"&&V.letEdit){ const d=V.letEdit; try{ const p=(d.pending||[]).find(x=>aiCanRead(x.file)); await letAiFill(await aiFileOf(p?.file,(d.files||[])[0]?.file)); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
+  if(a==="certAi"){ const f=firm(V.firmId); const k=t.dataset.k; const ref=f?.docs?.[k]?.file; if(!ref) return; t.disabled=true; toast("✦ Claude гувоҳномани ўқимоқда…"); try{ await certAi(f,k,await aiFileOf(null,ref,"guvohnoma.pdf")); toast("Гувоҳнома ўқилди"); }catch(e){ toast("Claude: "+(e.message||e)); } return render(); }
+  if(a==="certApply"){ const f=firm(V.firmId); const k=t.dataset.k; const ai=f?.docs?.[k]?.ai; if(!ai) return; let n=0; try{ await attPut("firms",f.id,o=>{ CERT_MAP.forEach(([fk,ak])=>{ if(ai[ak]&&!String(o[fk]??"").trim()){ o[fk]=String(ai[ak]); n++; } }); },"Гувоҳномадан реквизитлар тўлдирилди (Claude)"); toast(n+" та реквизит тўлдирилди"); }catch(e){ toast(explain(e)); } return render(); }
   if(a==="ccNew"){ const f=firm(V.firmId); return go({ccEdit:ccNewDraft(f),ccId:null}); }
   if(a==="ccBack"){ if(V.ccEdit){ const id=V.ccEdit.id; return go({ccEdit:null,ccId:S.recs.some(x=>x.id===id)?id:null}); } return go({ccId:null}); }
   if(a==="ccEditOpen"){ const r=S.recs.find(x=>x.id===V.ccId); if(r) return go({ccEdit:ccFromRec(firm(V.firmId),r)}); return; }
@@ -5459,7 +5720,7 @@ document.addEventListener("click", async e=>{
   if(a==="cancelDel"){ V.confirm=false; return render(); }
   if(a==="delFirm"){
     const n=firm(V.firmId)?.name;
-    try{ for(const o of firmOrders(V.firmId)) await delItem("orders", o.id, "Фирма билан бирга ўчирилди"); for(const r of S.recs.filter(x=>x.firmId===V.firmId)) await delItem("recs", r.id, "Фирма билан бирга ўчирилди"); for(const r of S.gtd.filter(x=>x.firmId===V.firmId)) await delItem("gtd", r.id, "Фирма билан бирга ўчирилди"); for(const r of [...S.emp,...S.pos].filter(x=>x.firmId===V.firmId)) await delItem("emp", r.id, "Фирма билан бирга ўчирилди"); await delItem("firms", V.firmId, "Фирма ўчирилди"); }
+    try{ for(const o of firmOrders(V.firmId)) await delItem("orders", o.id, "Фирма билан бирга ўчирилди"); for(const r of S.recs.filter(x=>x.firmId===V.firmId&&x.type!=="aiuse")) await delItem("recs", r.id, "Фирма билан бирга ўчирилди"); for(const r of S.gtd.filter(x=>x.firmId===V.firmId)) await delItem("gtd", r.id, "Фирма билан бирга ўчирилди"); for(const r of [...S.emp,...S.pos].filter(x=>x.firmId===V.firmId)) await delItem("emp", r.id, "Фирма билан бирга ўчирилди"); await delItem("firms", V.firmId, "Фирма ўчирилди"); }
     catch(err){ toast(explain(err)); return render(); }
     toast(`«${n}» ўчирилди`); return go({view:"home",firmId:null});
   }
@@ -5722,22 +5983,23 @@ document.addEventListener("change",async e=>{
     if(ok) toast(ok+" та файл бириктирилди"); if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
   if((el.id==="ccFiles"||el.id==="ccMore")&&V.firmId){ const fs=[...el.files]; el.value=""; if(fs.length) ccReadFiles(fs,el.id==="ccMore"); return; }
   if(el.id==="ccFile"&&V.ccEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; const d=V.ccEdit; d.pending=fl; d.pendingName=fl.name; toast("Чек ўқилмоқда…");
-    try{ const f=firm(V.firmId); const r=(await ccReadAny(fl,f))[0]; if(r){ d.pending=r.file; const p=r.d; let n=0; ["date","time","amount","vat","vatRate","seller","sellerInn","checkNo","rrn","auth","terminal","fiscal","currency","kind","cat"].forEach(k=>{ if(p[k]&&(!d[k]||(k==="currency"&&d[k]==="UZS")||(k==="kind"&&d[k]==="buy")||(k==="date"&&d.isNew&&d[k]===localToday()))){ d[k]=p[k]; n++; } }); if(d.cardI===""){ d.cardI=ccCardIdx(f,p); } toast(n?n+" та маълумот чекдан олинди":"Чекдан маълумот топилмади — қўлда киритинг"); } }catch(e){ toast("Файлни ўқиб бўлмади"); }
+    try{ const f=firm(V.firmId); const r=(await ccReadAny(fl,f))[0]; if(r){ d.pending=r.file; let p=r.d; const cfg=aiCfg(); if(cfg.key&&cfg.mode!=="manual"&&(cfg.mode==="always"||ccWeak(p))){ toast("✦ Claude ўқимоқда…"); try{ const a=await aiReadReceipt(r.file,f,fl.name); p=aiMerge(p,a.list[0]); d.ai={m:a.model,usd:Math.round(a.usd*1e6)/1e6}; ["date","time","amount","vat","vatRate","seller","sellerInn","purpose"].forEach(k=>{ if(p[k]) d[k]=""; }); }catch(e){ toast("Claude: "+e.message); } } let n=0; ["date","time","amount","vat","vatRate","seller","sellerInn","checkNo","rrn","auth","terminal","fiscal","currency","kind","cat","purpose"].forEach(k=>{ if(p[k]&&(!d[k]||(k==="currency"&&d[k]==="UZS")||(k==="kind"&&d[k]==="buy")||(k==="date"&&d.isNew&&d[k]===localToday()))){ d[k]=p[k]; n++; } }); if(d.cardI===""){ d.cardI=ccCardIdx(f,p); } toast(n?n+" та маълумот чекдан олинди":"Чекдан маълумот топилмади — қўлда киритинг"); } }catch(e){ toast("Файлни ўқиб бўлмади"); }
     return render(); }
-  if(el.id==="letFile"&&V.letEdit){ const fs=[...el.files]; el.value=""; if(fs.length){ V.letEdit.pending=(V.letEdit.pending||[]).concat(fs.map(x=>({file:x,name:x.name}))); render(); } return; }
-  if(el.id==="fcFile"&&V.fcEdit){ const fl=el.files[0]; el.value=""; if(fl){ V.fcEdit.pendingFile=fl; render(); } return; }
+  if(el.id==="lic_file"){ const fl=el.files[0]; if(!fl||!aiAuto(true)||!aiCanRead(fl)) return; toast("✦ Claude лицензияни ўқимоқда…"); try{ const r=await aiDoc(fl,firm(V.firmId),AI_SPEC.license,fl.name); const x=r.x; const put=(id,v)=>{ const e=$("#"+id); if(e&&!e.value&&v) e.value=v; }; put("lic_title",x.title); put("lic_no",x.no); put("lic_by",x.issued_by); put("lic_issued",x.issued); put("lic_exp",x.expires); toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
+  if(el.id==="letFile"&&V.letEdit){ const fs=[...el.files]; el.value=""; if(fs.length){ V.letEdit.pending=(V.letEdit.pending||[]).concat(fs.map(x=>({file:x,name:x.name}))); render(); const rf=fs.find(aiCanRead); if(rf&&aiAuto(!V.letEdit.corr||!V.letEdit.subject)) await letAiFill(rf); } return; }
+  if(el.id==="fcFile"&&V.fcEdit){ const fl=el.files[0]; el.value=""; if(fl){ V.fcEdit.pendingFile=fl; render(); if(aiAuto(true)&&aiCanRead(fl)) await fcAiFill(fl); } return; }
   if(el.id==="fcDocFile"&&V.fcDoc){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcDoc.pendingFile=fl; toast("PDF ўқилмоқда…");
-    try{ const p=fcDocParse(await fcReadPdf(fl),V.fcDoc.kind); const d=V.fcDoc.d; let n=0; ["no","date","currency","total"].forEach(k=>{ if(p[k]){ d[k]=p[k]; n++; } }); if(p.items.length&&!(d.items||[]).some(x=>x.name)){ d.items=p.items; n++; } V.fcDoc.auto=n; toast(n?n+" та маълумот PDF'дан олинди":"PDF'дан маълумот топилмади — қўлда киритинг"); }catch(er){ toast("PDF'ни ўқиб бўлмади"); } return render(); }
+    try{ const p=await fcDocRead(fl,V.fcDoc.kind); const d=V.fcDoc.d; let n=0; ["no","date","currency","total"].forEach(k=>{ if(p[k]){ d[k]=p[k]; n++; } }); if(p.items.length&&!(d.items||[]).some(x=>x.name)){ d.items=p.items; n++; } V.fcDoc.auto=n; toast(n?n+" та маълумот PDF'дан олинди":"PDF'дан маълумот топилмади — қўлда киритинг"); }catch(er){ toast("PDF'ни ўқиб бўлмади"); } return render(); }
   if((el.id==="fcDocFiles"||el.id==="fcAddFiles")&&V.fcId){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const kind=el.id==="fcAddFiles"?"add":el.dataset.kind; const c=S.recs.find(x=>x.id===V.fcId); const f=firm(V.firmId); if(!c) return;
-    if(fs.length===1){ const fl=fs[0]; toast("PDF ўқилмоқда…"); let p={items:[]}; try{ p=fcDocParse(await fcReadPdf(fl),kind); }catch(e){}
+    if(fs.length===1){ const fl=fs[0]; toast("PDF ўқилмоқда…"); let p={items:[]}; try{ p=await fcDocRead(fl,kind); }catch(e){}
       if(kind==="add"){ return go({fcAdd:{id:uid(),no:p.no||String((c.addenda||[]).length+1),date:p.date||localToday(),content:p.content||"",newAmount:p.newAmount||"",newEnd:p.newEnd||"",pendingFile:fl,auto:p.auto}}); }
       const D=fcDocNew(c,kind); Object.assign(D.d,{no:p.no||D.d.no,date:p.date||D.d.date,currency:p.currency||D.d.currency,total:p.total||""}); if(p.items.length) D.d.items=p.items; D.pendingFile=fl; D.auto=p.auto; return go({fcDoc:D}); }
-    let ok=0; for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const p=fcDocParse(await fcReadPdf(fl),kind); const file=await driveUpload(fl,`${safeName(f.name)} — контракт ${String(c.number||"").replace(/[\/:*?"<>|]/g,"-")} — ${fl.name}`.slice(0,180),{...attLoc("recs",c),sub:[...attLoc("recs",c).sub,kind==="add"?"Қўшимча келишувлар":kind==="spec"?"Спецификациялар":"Актлар"]});
+    let ok=0; for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const p=await fcDocRead(fl,kind); const file=await driveUpload(fl,`${safeName(f.name)} — контракт ${String(c.number||"").replace(/[\/:*?"<>|]/g,"-")} — ${fl.name}`.slice(0,180),{...attLoc("recs",c),sub:[...attLoc("recs",c).sub,kind==="add"?"Қўшимча келишувлар":kind==="spec"?"Спецификациялар":"Актлар"]});
         if(kind==="add") await fcPut(c.id,cc=>{ (cc.addenda=cc.addenda||[]).push({id:uid(),no:p.no||"",date:p.date||"",content:p.content||"",newAmount:p.newAmount||"",newEnd:p.newEnd||"",file}); },`Қўшимча келишув PDF'дан қўшилди (${fl.name})`);
         else { const key=kind==="spec"?"specs":"acts"; await fcPut(c.id,cc=>{ (cc[key]=cc[key]||[]).push({id:uid(),no:p.no||"",date:p.date||"",currency:p.currency||cc.currency,items:p.items,total:p.total||"",note:"PDF'дан юкланди",counts:kind==="act"&&cc.subj!=="товар",file}); },`${kind==="spec"?"Спецификация":"Акт"} PDF'дан қўшилди (${fl.name})`); }
         ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
     toast(ok+" та ҳужжат қўшилди — маълумотларини текширинг"); return render(); }
-  if(el.id==="fcAddFile"&&V.fcAdd){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcAdd.pendingFile=fl; try{ const p=fcDocParse(await fcReadPdf(fl),"add"); ["no","date","newAmount","newEnd","content"].forEach(k=>{ if(p[k]&&!V.fcAdd[k]) V.fcAdd[k]=p[k]; }); V.fcAdd.auto=p.auto; }catch(e){} return render(); }
+  if(el.id==="fcAddFile"&&V.fcAdd){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcAdd.pendingFile=fl; try{ const p=await fcDocRead(fl,"add"); ["no","date","newAmount","newEnd","content"].forEach(k=>{ if(p[k]&&!V.fcAdd[k]) V.fcAdd[k]=p[k]; }); V.fcAdd.auto=p.auto; }catch(e){} return render(); }
   if(el.id==="trFiles"){ const fs=[...el.files]; el.value=""; const f=firm(V.firmId); if(fs.length&&f) await trReadFiles(f,fs,trOn(f).some(d=>d.k===V.trKind)?V.trKind:trOn(f)[0]?.k); return; }
   if(el.id==="trOne"&&V.trEdit){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const d=V.trEdit; d.pending=(d.pending||[]).concat(fs.map(x=>({file:x,name:x.name})));
     for(const x of fs){ try{ const {text,rows}=await fileText(x); const p=trParse(text,rows,firm(V.firmId)); let n=0; if(p.accrued!=null&&!d.accrued){ d.accrued=String(p.accrued); n++; } if(p.payable!=null&&!d.payable){ d.payable=String(p.payable); n++; } if(n) toast(n+" та сумма файлдан олинди — текширинг"); }catch(e){} }
@@ -5747,20 +6009,23 @@ document.addEventListener("change",async e=>{
     try{ let fig={}; try{ const {rows}=await fileText(fl); fig=frFigures(rows); }catch(e){} await frPutFile(f,key,fk,fl,fig); toast("Сақланди"+(Object.keys(fig).length?" · кўрсаткичлар файлдан олинди":"")); }catch(er){ toast(explain(er)); } return render(); }
   if(el.id==="chFiles"){ const fs=[...el.files]; el.value=""; const f=firm(V.firmId); if(fs.length&&f) await chReadFiles(f,fs); return; }
   if(el.id==="chOne"&&V.chEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; V.chEdit.pendingFile=fl;
-    try{ let r=await pdfToText(fl); if(r.text.replace(/\s/g,"").length<60){ try{ r=await pdfOcr(fl,m=>{ const t=$("#toast"); if(t){ t.textContent="Устав OCR: "+m; t.hidden=false; } },30,t=>chEnough(t,firm(V.firmId))); }catch(e){} } const p=chParse(r.text,firm(V.firmId)); let n=0; Object.entries(p).forEach(([k,v])=>{ if(["auto","kind"].includes(k)) return; if(k==="founders"){ if(!(V.chEdit.founders||[]).length&&v.length){ V.chEdit.founders=v; n++; } return; } if(!V.chEdit[k]){ V.chEdit[k]=v; n++; } }); V.chEdit.auto=n; }catch(e){}
+    try{ let r=await pdfToText(fl); if(r.text.replace(/\s/g,"").length<60){ try{ r=await pdfOcr(fl,m=>{ const t=$("#toast"); if(t){ t.textContent="Устав OCR: "+m; t.hidden=false; } },30,t=>chEnough(t,firm(V.firmId))); }catch(e){} } const p=chParse(r.text,firm(V.firmId)); let n=0; Object.entries(p).forEach(([k,v])=>{ if(["auto","kind"].includes(k)) return; if(k==="founders"){ if(!(V.chEdit.founders||[]).length&&v.length){ V.chEdit.founders=v; n++; } return; } if(!V.chEdit[k]){ V.chEdit[k]=v; n++; } }); V.chEdit.auto=n; if(aiAuto(chWeak(p))&&aiCanRead(fl)){ render(); await chAiFill(fl,p); return; } }catch(e){}
     return render(); }
   if(el.dataset.cert){ const fl=el.files[0]; el.value=""; const f=firm(V.firmId); if(!fl||!f) return; const k=el.dataset.cert; const title=CERTS.find(x=>x[0]===k)?.[1]||"Гувоҳнома"; toast("PDF Drive'га юкланмоқда…");
     try{ const file=await driveUpload(fl,`${safeName(f.name)} — ${title}.pdf`.slice(0,180),{firmId:f.id,sec:"reqs",sub:["Гувоҳномалар"]});
       for(let attempt=0;attempt<2;attempt++){ const o=migrateFirm(firm(V.firmId)); o.docs=o.docs||{}; const had=!!o.docs[k]?.file; o.docs[k]={file,name:fl.name,title,at:Date.now(),by:ME.email};
         try{ await putItem("firms",o,`${title}: PDF ${had?"алмаштирилди":"юкланди"}`); break; }catch(err){ if(err instanceof ConflictErr&&attempt===0) continue; throw err; } }
-      toast("Гувоҳнома сақланди"); }catch(er){ toast(explain(er)); } return render(); }
+      toast("Гувоҳнома сақланди"); render();
+      if(aiAuto(true)&&aiCanRead(fl)){ toast("✦ Claude гувоҳномани ўқимоқда…"); try{ await certAi(f,k,fl); toast("Гувоҳнома ўқилди — реквизитлар билан солиштиринг"); }catch(e){ toast("Claude: "+(e.message||e)); } } }catch(er){ toast(explain(er)); } return render(); }
   if(el.id==="hrFile"){ const fl=el.files[0]; el.value=""; if(!fl) return; try{ await hrReadFile(fl); }catch(er){ toast("Файлни ўқиб бўлмади: "+(er?.message||er)); } return render(); }
   if(el.id==="gtdFiles"){ const fs=[...el.files]; el.value=""; if(fs.length) await gtdReadFiles(fs,V.view==="firm"?V.firmId:""); return; }
   if(el.id==="ctFiles"){ const fs=[...el.files]; el.value=""; if(fs.length) await ctReadFiles(fs); return; }
   if(el.id==="ctOneFile"){ const fl=el.files[0]; el.value=""; if(!fl||!V.ctEdit) return; V.ctEditFile=fl; render();
     try{ const r=await pdfToText(fl); if(r.text.replace(/\s/g,"").length<40){ toast("Сканер қилинган PDF — матн танилмоқда (OCR)…"); try{ r.text=(await pdfOcr(fl,m=>{ const t=$("#toast"); if(t){ t.textContent="OCR: "+m; t.hidden=false; } })).text; }catch(e){} }
       if(r.text.replace(/\s/g,"").length>=40){ const p=ctParse(r.text,firm(V.firmId)); V.ctEditAuto=ctApplyParsed(V.ctEdit,p,true); toast(V.ctEditAuto.size?V.ctEditAuto.size+" та бўш майдон PDF'дан тўлдирилди":"PDF'дан янги маълумот топилмади"); } else toast("PDF'дан матн ўқиб бўлмади — маълумотни қўлда киритинг"); }
-    catch(err){ toast("PDF'ни ўқиб бўлмади"); } if(V.ctEdit) render(); return; }
+    catch(err){ toast("PDF'ни ўқиб бўлмади"); }
+    if(V.ctEdit&&aiAuto((V.ctEditAuto?.size||0)<6)&&aiCanRead(fl)){ toast("✦ Claude ўқимоқда…"); try{ const r=await aiDoc(fl,firm(V.firmId),AI_SPEC.contract,fl.name); const m=aiCtMap(r.x); V.ctEditAuto=V.ctEditAuto||new Set(); Object.entries(m).forEach(([k,v])=>{ if(!getPath(V.ctEdit,k)||V.ctEditAuto.has(k)){ setPath(V.ctEdit,k,v); V.ctEditAuto.add(k); } }); toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }catch(e){ toast("Claude: "+(e.message||e)); } }
+    if(V.ctEdit) render(); return; }
   if(el.id==="ctAttach"){ const fl=el.files[0]; el.value=""; const C=S.recs.find(x=>x.id===V.ctId); if(!fl||!C) return; toast("PDF юкланмоқда…");
     try{ const o=JSON.parse(JSON.stringify(C)); o.file=await driveUpload(fl,ctFileName(firm(o.firmId),o),attLoc("recs",o)); await putItem("recs",o,C.file?"PDF алмаштирилди":"PDF бириктирилди"); toast("PDF сақланди"); }catch(err){ toast(explain(err)); } render(); return; }
 });
@@ -5768,6 +6033,7 @@ document.addEventListener("submit",async e=>{
   if(e.target.id==="shareForm"){ e.preventDefault(); const f=firm(V.firmId); const em=e.target.email.value.trim(); if(!/^\S+@\S+\.\S+$/.test(em)){ toast("Почта манзилини тўғри киритинг"); return; }
     const btn=e.target.querySelector("[type=submit]"); btn.disabled=true; try{ await driveShareFirm(f,em,e.target.role.value); addLog("firms",f.id,`Drive папкаси берилди: ${em} (${e.target.role.value==="writer"?"таҳрирлаш":"кўриш"})`,Date.now()).catch(()=>{}); toast("Папка "+em+" га очилди — у почтасига хабар олади"); e.target.reset(); }catch(er){ toast(explain(er)); } btn.disabled=false; return; }
   if(e.target.id==="ccForm"){ e.preventDefault(); ccFormSubmit(e.target); return; }
+  if(e.target.id==="aiForm"){ e.preventDefault(); const fm=e.target; const c=aiCfg(); const k=fm.key.value.trim(); if(k){ if(!/^sk-ant-/.test(k)){ $("#aiMsg").textContent="✕ Калит «sk-ant-» билан бошланиши керак"; return; } c.key=k; } c.model=fm.model.value; c.mode=fm.mode.value; c.limit=String(fm.limit.value).replace(/[^\d.,]/g,"").replace(",","."); c.rate=String(fm.rate.value).replace(/[^\d.,]/g,"").replace(",","."); aiSave(c); toast("Сақланди"+(k?" — энди «Уланишни текшириш»ни босинг":"")); return render(); }
   if(e.target.id==="letForm"){ e.preventDefault(); const d=V.letEdit; const f=firm(V.firmId); if(!d||!f) return; const err=$("#letErr");
     if(!String(d.corr||"").trim()){ err.textContent=d.dir==="in"?"Хат кимдан келганини киритинг.":"Хат кимга юборилганини киритинг."; $("#lt_corr").focus(); return; }
     if(!String(d.regNo||"").trim()) d.regNo=letNextNo(f.id,d.dir,d.regDate);
