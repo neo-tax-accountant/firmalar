@@ -228,7 +228,7 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .gate{min-height:100%;display:grid;place-items:center;padding:32px 16px}
 .gatecard{max-width:560px;width:100%;padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:14px}
 .gatecard h1{font-family:var(--f-display);font-size:22px;margin:6px 0 0;letter-spacing:-.01em}
-.gatecard p{margin:0}
+.gatecard p{margin:0}.glogin{display:flex;flex-direction:column;gap:10px}.glogin label[for]{font-size:13px;font-weight:600;color:var(--muted)}.glogin input[type=email]{font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}.glogin input[type=email]:focus{outline:2px solid var(--accent);outline-offset:1px}.glogin .checkline{grid-column:auto}
 .gbrand{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--accent)}
 .gbrand small{display:block;font-family:var(--f-body);font-weight:500;font-size:12px;color:var(--muted)}
 .gerr{background:var(--work-soft);border-radius:8px;padding:10px 12px;font-size:13.5px}
@@ -249,6 +249,17 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .cccat{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,#8b5cf6 14%,transparent);color:inherit;white-space:nowrap}.neg{color:#dc2626}.ccimp .ccin{width:100%;min-width:0;border:1px solid var(--line);border-radius:6px;padding:5px 7px;font:inherit;font-size:13px;background:var(--panel);color:inherit}.ccimp .ccin+.ccin{margin-top:4px}.ccimp .ccd{min-width:128px}.ccimp .ccs{min-width:170px}.ccimp .cca,.ccimp .ccv{min-width:100px;text-align:right}.ccimp td{vertical-align:top}.ccimp .gfn a{display:inline-flex;vertical-align:middle}.ccimp .gfn svg{width:18px;height:18px}.ccimp .gfn{word-break:break-all}.ccimp .gsel{max-width:190px}
 .aitag{font-size:12px;color:#c2410c;margin-top:3px}.aibtn{border-color:#d97757;color:#c2410c}.linkbtn.aire{display:block;margin-top:4px;font-size:12px;color:#c2410c}.rnav span.aiico{flex:0 0 26px;text-align:center!important}.aiico{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f4c4ae,#d97757);color:#fff;font-size:15px}.aibar{display:block;height:5px;border-radius:5px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}.aibar i{display:block;height:100%;background:#d97757}
 .certai{grid-column:1/-1;margin:6px 0 2px;padding:8px 10px;border:1px dashed #d97757;border-radius:8px;font-size:13px;display:flex;flex-direction:column;gap:3px}.certrow{display:grid;grid-template-columns:minmax(120px,180px) 1fr;gap:2px 10px}.certrow i{grid-column:2;font-size:12px;color:var(--muted)}.certrow.diff i{color:#b45309}.certrow.empty i{color:#15803d}.certai .btn{align-self:flex-start;margin-top:4px}
+.selc{width:34px;text-align:center!important;padding-left:8px!important;padding-right:4px!important}.selc input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}tr[data-selected] td{background:color-mix(in srgb,var(--accent) 10%,transparent)}.selhint{font-size:12px;color:var(--muted);margin-right:auto}.selbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-right:auto;padding:6px 10px;border:1px solid #fca5a5;background:color-mix(in srgb,#ef4444 8%,transparent);border-radius:10px}.selfl{display:flex;gap:6px;align-items:center;font-size:13px;cursor:pointer}.selbar .btn.danger{border-color:#dc2626;color:#fff;background:#dc2626}.colbar{gap:8px;align-items:center;flex-wrap:wrap}
+.trfile .attcb{width:16px;height:16px;margin-right:4px;vertical-align:middle;accent-color:var(--accent)}
+.docqr{display:flex;gap:12px;align-items:center;margin-top:22px;padding-top:10px;border-top:1px dashed #bbb;font-size:8.5pt;line-height:1.35;color:#333;break-inside:avoid}.docqr .qrimg svg,.docqr .qrimg img{width:24mm;height:24mm;display:block}.docqr .qrtx{display:flex;flex-direction:column;gap:2px}.docqr .qrtx b{font-family:var(--f-mono,monospace);font-size:9pt}.docqr .qrtx i{color:#666}
+.did.didqr{cursor:pointer;border:1px solid var(--line);background:var(--panel);font:inherit}.did.didqr:hover{border-color:var(--accent)}
+.qrmask{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;z-index:200;padding:16px}.qrbox{position:relative;background:var(--panel);color:var(--ink);border-radius:14px;padding:20px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}.qrbox .qrx{position:absolute;right:12px;top:10px}.qrbig{background:#fff;padding:12px;border-radius:8px}.qrbig svg{width:220px;height:220px;display:block}.qrbox .actions{justify-content:center;flex-wrap:wrap}
+.vbanner{display:flex;gap:14px;align-items:center;padding:16px;border-radius:12px;margin:0 0 14px;border:1px solid}.vbanner>div{display:flex;flex-direction:column;gap:3px}.vbanner b{font-size:17px}.vbanner.ok{background:color-mix(in srgb,#16a34a 12%,transparent);border-color:#16a34a}.vbanner.warn{background:color-mix(in srgb,#f59e0b 14%,transparent);border-color:#f59e0b}.vbanner.bad{background:color-mix(in srgb,#dc2626 12%,transparent);border-color:#dc2626}
+.vnote{padding:10px 12px;border-radius:10px;background:color-mix(in srgb,#0ea5e9 12%,transparent);border:1px solid #0ea5e9;font-size:14px}
+#printArea .qrlabel{display:flex;gap:12px;align-items:center;border:1px dashed #999;padding:8px;width:90mm;font-size:9pt}#printArea .qrlabel svg{width:28mm;height:28mm}#printArea .qrlabel>div{display:flex;flex-direction:column;gap:2px}
+#orderForm textarea{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);resize:vertical;width:100%}
+.salchg input{width:130px;font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);text-align:right}
+.tpl.tplfree{border-style:dashed;border-color:var(--accent)}.sheet .annex{margin-top:14px}.sheet ol.cont{margin-top:0}
 .checkline{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer;grid-column:1/-1;padding:4px 0}
 .checkline input{width:18px;height:18px;margin-top:2px;accent-color:var(--accent)}
 .field input.bad{border-color:var(--danger)}
@@ -315,6 +326,9 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .laccs{border:1px dashed var(--line);border-radius:10px;padding:10px 14px}.laccs summary{cursor:pointer;font-weight:600;font-size:14px}.laccs .lgrid{margin-top:12px}.laccs .hint{margin:8px 0 0}
 .repctl{display:flex;flex-wrap:wrap;gap:14px;align-items:end;padding:14px 16px}.repctl .field{width:180px}.repctl .lprev{flex:1;min-width:260px}
 .sheet.bref{font-size:13.5px;max-width:1000px}
+.utplbox{display:flex;flex-direction:column;gap:6px;margin:4px 0 14px}.utplbox select{font:inherit;font-size:13.5px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}.utplbox input{font:inherit;font-size:13.5px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}.tplwrap{position:relative;display:flex}.tplwrap .tpl{flex:1}.tplwrap .utdel{position:absolute;top:6px;right:8px}.grpmode{margin:2px 0 8px;flex-wrap:wrap}.grpsplit{background:var(--bg);border-radius:8px;padding:6px 10px}.fireform{padding:14px 16px;margin-bottom:14px;border-color:#f3b4b4}
+.note-box.warn{background:#fff7ed;border-color:#fdba74;color:#7c2d12}.letax td.minu{color:#b45309;font-weight:600}.letax tr.cur td{background:rgba(132,204,22,.12)}.letax .neg{color:#dc2626}.lepar{padding:12px 16px;margin-bottom:12px}.lepar .lgrid{align-items:end}
+.grptog{display:flex;gap:8px;align-items:center;margin:2px 0 12px;font-weight:600}.grprow{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;background:var(--bg)}.grph{display:flex;gap:8px;align-items:center}.grph select{flex:1;min-width:0;font:inherit;font-size:13.5px}.grpc{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px 8px;margin-top:6px}.grpc label{display:flex;flex-direction:column;gap:2px;font-size:11.5px;color:var(--muted)}.grpc input{width:100%;font:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)}.grptot{text-align:right;font-size:13.5px;margin:2px 4px 6px}.grptab td,.famtab td{font-size:11.5px}.famtab td{height:24px}
 .btab{width:100%;border-collapse:collapse;font-family:var(--f-body);font-size:12.5px;line-height:1.35;margin:6px 0 14px}
 .btab th,.btab td{border:1px solid #1d1d1b;padding:5px 7px;vertical-align:top;color:inherit;background:none;cursor:default;text-transform:none;letter-spacing:0;font-size:12px}
 .btab th{font-weight:700;text-align:center;white-space:normal}
@@ -1024,7 +1038,8 @@ const HEAD = {
   emp:["id","data","updatedAt","updatedBy","deleted"],
   log:["at","email","name","kind","id","note"],
 };
-const LSK = { db:"fb-db-id", tok:"fb-token", demo:"fb-demo" };
+const LSK = { db:"fb-db-id", tok:"fb-token", demo:"fb-demo", email:"fb-last-email", remember:"fb-remember" };
+const tokStore=()=>ls.get(LSK.remember)==="1"?ls:ss;
 const store = k => ({
   get(n){ try{ return window[k].getItem(n); }catch(e){ return null; } },
   set(n,v){ try{ window[k].setItem(n,v); }catch(e){} },
@@ -1089,7 +1104,7 @@ function requestToken(prompt){
       callback: r=>{
         if(r.error){ rej(new Error(r.error_description||r.error)); return; }
         TOKEN=r.access_token; TOKEN_EXP=Date.now()+(Number(r.expires_in||3600)-120)*1000;
-        ss.set(LSK.tok, JSON.stringify({t:TOKEN,e:TOKEN_EXP}));
+        ss.del(LSK.tok); ls.del(LSK.tok); tokStore().set(LSK.tok, JSON.stringify({t:TOKEN,e:TOKEN_EXP}));
         $("#authBar").hidden=true; scheduleExpiry(); res();
       },
       error_callback: e=>rej(new Error(e?.type==="popup_closed"?"Кириш ойнаси ёпилди":"Кириш ойнаси очилмади. Браузерда pop-up ойналарга рухсат беринг.")),
@@ -1324,7 +1339,7 @@ const V = { view:"home", firmId:null, tab:"orders", filter:"all", orderId:null, 
 function go(patch){ Object.assign(V, {confirm:false, copyOpen:false}, patch); render(); window.scrollTo(0,0); }
 const firm = id => S.firms.find(f=>f.id===id);
 const firmOrders = id => S.orders.filter(o=>o.firmId===id).sort((a,b)=>(b.values?.date||"").localeCompare(a.values?.date||"")||(parseInt(String(b.values?.number||"").replace(/\D+/g,""),10)||0)-(parseInt(String(a.values?.number||"").replace(/\D+/g,""),10)||0)||(b.createdAt||0)-(a.createdAt||0));
-const liveViews = new Set(["home","firm","tpl","export","cps","gtd","ai"]);
+const liveViews = new Set(["home","firm","tpl","export","cps","gtd","ai","verify"]);
 
 /* ---------- rail ---------- */
 function renderRail(){
@@ -1470,7 +1485,7 @@ const FIRM_MENUS=[
   {k:"charter",d:"Устав, таъсис шартномаси, PDF'дан ўқиш",t:"Устав ҳужжатлари",ready:true,plan:["Устав, таъсис шартномаси, гувоҳнома, қарорлар","Устав фонди ва таъсисчилар ўзгаришлари тарихи","Ҳужжат файллари Google Drive'да фирма папкасида","Ҳар бир ҳужжатнинг санаси ва рақами"]},
   {k:"policy",d:"Молиявий тамойиллар, ҳисоб юритиш қоидалари",t:"Ҳисоб сиёсатлари",plan:["Ҳар йил учун ҳисоб сиёсати: амортизация, ТМЗ баҳолаш, ҳисоб шакли","Тасдиқлаш буйруғи билан боғлиқ","Йиллар бўйича ўзгаришларни солиштириш","Кейинги йил учун эслатма"]},
   {k:"staff",d:"Ходимлар, буйруқлар, штат, таътиллар",t:"Кадр бўлими",ready:true,plan:["Ходимлар рўйхати: Ф.И.О., ЖШШИР, лавозим, қабул санаси, маош","Ишга қабул, бўшатиш, таътил буйруқлари шаблондан","Меҳнат шартномалари ва штат жадвали","Меҳнат дафтарчаси ва шахсий варақалар"]},
-  {k:"lease",d:"Бинолар ижараси, шартномалар",t:"Ижаралар",plan:["Ижара шартномалари: ижарага берувчи, манзил, майдон, ойлик сумма","Шартнома муддати ва рўйхатдан ўтказилгани","Тўлов графиги","Муддати тугаётган ижаралар бўйича огоҳлантириш"]},
+  {k:"lease",d:"Ижара гувоҳномаси PDF'дан ўқилади, ЖШДС графиги",t:"Ижаралар",ready:true,plan:["Ижара шартномалари: ижарага берувчи, манзил, майдон, ойлик сумма","Шартнома муддати ва рўйхатдан ўтказилгани","Тўлов графиги","Муддати тугаётган ижаралар бўйича огоҳлантириш"]},
   {k:"cash",d:"Касса тушумлари, кунлик касса ҳисоби",t:"Касса тушуми",plan:["Кунлик / ойлик касса тушуми","Нақд ва терминал (пластик) бўйича алоҳида","Касса аппаратлари бўйича тушум","Ой якунида жамлама"]},
   {k:"contracts",d:"Кирувчи ва чиқувчи шартномалар, PDF нусхалари",t:"Шартномалар рўйхати",ready:true,plan:["Контрагентлар билан шартномалар: ким билан, рақами, санаси, предмети, суммаси","Шартнома муддати ва ҳолати","Шартнома шаблонлари: реквизитлар автомат тушади","Муддати тугаётган шартномалар бўйича огоҳлантириш"]},
   {k:"import",d:"ГТД реестри: PDF'дан ўзи тўлдирилади",t:"Импорт ҳужжатлари (ГТД)",ready:true,plan:["Импорт шартномалари ва спецификациялар","ЮБК (ГТД) рақами ва санаси, божхона тўловлари","Валюта тўловлари ва ҳисоб-китоб муддатлари","Дебиторлик бўйича назорат муддатлари"]},
@@ -2442,12 +2457,14 @@ async function driveShareWithBase(fileId){
   }catch(e){ SHARE_SYNC[fileId]=0; }
 }
 async function driveUpload(file,name,loc){
-  if(DEMO){ const id="demo-"+uid(); DEMO_FILES[id]=URL.createObjectURL(file); return {id,name,size:file.size,demo:true,by:ME.email,at:Date.now()}; }
+  const fh=await fileHash(file);
+  if(DEMO){ if(fh&&DEMO_HASH[fh]&&DEMO_FILES[DEMO_HASH[fh].id]) return {...DEMO_HASH[fh],dupOf:true}; const id="demo-"+uid(); DEMO_FILES[id]=URL.createObjectURL(file); const ref={id,name,size:file.size,demo:true,by:ME.email,at:Date.now(),hash:fh||undefined}; if(fh) DEMO_HASH[fh]=ref; return ref; }
+  if(fh){ try{ const q=encodeURIComponent(`trashed=false and appProperties has { key='fbhash' and value='${fh}' } and appProperties has { key='fbdb' and value='${DB_ID}' }`); const ex=await api("GET",`${DRIVE}?q=${q}&fields=files(id,name,size,webViewLink)&spaces=drive&pageSize=1`); const j0=ex.files?.[0]; if(j0) return {id:j0.id,name:j0.name||name,size:+j0.size||file.size,link:j0.webViewLink||`https://drive.google.com/file/d/${j0.id}/view`,by:ME.email,at:Date.now(),hash:fh,dupOf:true}; }catch(e){ if(e instanceof AuthErr) throw e; } }
   const root=await driveFolderId(); await driveShareWithBase(root); const folder=await drivePath(loc);
   if(!TOKEN||Date.now()>TOKEN_EXP){ needAuth(); throw new AuthErr("Сессия тугаган"); }
   const ext=(String(file.name||name).match(/\.(\w+)$/)||[])[1]?.toLowerCase(); const MIME={pdf:"application/pdf",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",xls:"application/vnd.ms-excel",csv:"text/csv",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png"};
   const mime=file.type||MIME[ext]||"application/pdf"; if(ext&&!/\.\w+$/.test(name)) name+="."+ext; else if(ext&&ext!=="pdf"&&/\.pdf$/i.test(name)) name=name.replace(/\.pdf$/i,"."+ext);
-  const meta={name,parents:[folder],mimeType:mime,appProperties:{fbdb:DB_ID}};
+  const meta={name,parents:[folder],mimeType:mime,appProperties:{fbdb:DB_ID,...(fh?{fbhash:fh}:{})}};
   let r;
   try{
     if(file.size<=4.5*1024*1024){
@@ -2464,7 +2481,7 @@ async function driveUpload(file,name,loc){
   if(r.status===401){ TOKEN=null; needAuth(); throw new AuthErr("Сессия тугаган"); }
   if(!r.ok){ let m=""; try{ m=(await r.json()).error?.message||""; }catch(e){} throw new Error("Файл Drive'га юкланмади: "+(m||r.status)); }
   const j=await r.json();
-  return {id:j.id,name:j.name||name,size:+j.size||file.size,link:j.webViewLink||`https://drive.google.com/file/d/${j.id}/view`,by:ME.email,at:Date.now()};
+  return {id:j.id,name:j.name||name,size:+j.size||file.size,link:j.webViewLink||`https://drive.google.com/file/d/${j.id}/view`,by:ME.email,at:Date.now(),hash:fh||undefined};
 }
 const ctFileName=(f,d,orig)=>`${safeName(f.name)} — ${d.dir==="out"?"чиқувчи":"кирувчи"} № ${String(d.number||"").replace(/[\\/:*?"<>|]/g,"-")} ${fmtDate(d.date)} ${String(d.cp?.name||"").replace(/[«»"\\/:*?<>|]/g,"")}`.replace(/\s+/g," ").trim().slice(0,150)+".pdf";
 function ctClean(d){
@@ -2600,6 +2617,7 @@ function ctgSheet(f,d,clean){
     ${S.map((s,i)=>`<p class="ctg-h">${i+1}. ${s[0]}</p>${s[1].map((x,j)=>`<p>${i+1}.${j+1}. ${x}</p>`).join("")}`).join("")}
     <p class="ctg-h">${S.length+1}. ${L==="uz"?"ТОМОНЛАРНИНГ МАНЗИЛЛАРИ ВА БАНК РЕКВИЗИТЛАРИ":"АДРЕСА И БАНКОВСКИЕ РЕКВИЗИТЫ СТОРОН"}</p>
     <table class="ctg-req"><tr>${blk(r0,A)}${blk(r1,B)}</tr></table>
+    ${S.recs.some(x=>x.id===d.id)?docQrBlock("contract",d):""}
   </div>`;
 }
 function ctgPicker(f){
@@ -2657,7 +2675,7 @@ function ctgForm(f,d){
 }
 function ctgWord(f,d){
   const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>${esc(CTG[d.gen.tpl].t)}</title><style>@page{size:A4;margin:2cm 1.5cm 2cm 2.5cm}body{font-family:"Times New Roman",serif;font-size:12pt;line-height:1.35}h2{text-align:center;font-size:13pt;margin:0 0 8pt}p{margin:0 0 6pt;text-align:justify}.ctg-h{font-weight:bold;text-align:center;margin-top:10pt}.meta{margin-bottom:10pt}table{width:100%;border-collapse:collapse}td{vertical-align:top;width:50%;padding:4pt;font-size:11pt}</style></head><body>${ctgSheet(f,d,true).replace(/<div class="meta"><span>(.*?)<\/span><span>(.*?)<\/span><\/div>/,'<table class="meta"><tr><td>$1</td><td style="text-align:right">$2</td></tr></table>')}</body></html>`;
-  saveBlob(new Blob(["﻿",html],{type:"application/msword"}), safeName((d.cp?.name||"shartnoma").replace(/[«»"]/g,""))+"_"+(d.gen.tpl)+"_"+safeName(d.number||"")+".doc");
+  saveBlob(new Blob(["﻿",html.replace(/<span class="qrimg">[\s\S]*?<\/svg><\/span>/,()=>{ const g=qrGif(docQrUrl("contract",d),3); return g?`<img src="${g}" width="96" height="96" alt="QR">`:""; })],{type:"application/msword"}), safeName((d.cp?.name||"shartnoma").replace(/[«»"]/g,""))+"_"+(d.gen.tpl)+"_"+safeName(d.number||"")+".doc");
 }
 
 /* ---------- Контрагентлар маълумотномаси (барча фирмалар бўйича) ---------- */
@@ -3020,6 +3038,115 @@ const HR_TEMPLATES=[
 </ol>${HR_FAM}` },
 ];
 TEMPLATES.push(...HR_TEMPLATES);
+/* ---------- Қўшимча буйруқ шаблонлари ---------- */
+const FIRE_FIELDS=[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["end","Бўшатиш санаси (охирги иш куни)","date"]];
+const FIRE_TAIL=`<li>Бухгалтерияга ходим билан охирги иш кунида тўлиқ ҳисоб-китоб қилиш ва фойдаланилмаган {{compdays}} кунлик меҳнат таътили учун компенсация тўлаш топширилсин.</li>
+<li>Электрон меҳнат дафтарчасига тегишли ёзув белгиланган тартибда киритилсин.</li>`;
+const HR_TEMPLATES2=[
+  { id:"k-hire-perm", hr:"hire", tag:"Кадр · қабул", title:"Ходимни номуайян муддатга ишга қабул қилиш тўғрисида", desc:"Номуайян муддатга тузилган меҳнат шартномаси асосида ишга қабул қилиш.", fixed:{ctype:"номуайян муддатга"},
+    fields:[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["start","Ишга қабул санаси","date"],["dept","Бўлим","text"],["pos","Лавозим","text"],["rate","Ставка","select",["1 (тўлиқ)","0,75","0,5","0,25"]],["salary","Лавозим маоши, сўм","text"],["probation","Синов муддати","select",["белгиланмасин","1 ой","2 ой","3 ой"]],["cno","Меҳнат шартномаси №","text"],["cdate","Меҳнат шартномаси санаси","date"]],
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, ходимнинг аризаси ва у билан номуайян муддатга тузилган меҳнат шартномаси асосида</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{fio}} {{start}} дан бошлаб {{dept}} бўлимига {{pos}} лавозимига {{rate}} ставкада, ойлик лавозим маоши {{salary}} сўм қилиб, <b>номуайян муддатга</b> ишга қабул қилинсин.</li>
+<li>Синов муддати: {{probation}}.</li>
+<li>Бухгалтерияга иш ҳақини штат жадвалига мувофиқ ҳисоблаш ва ходим маълумотларини меҳнат ахборот тизимига (электрон меҳнат дафтарчасига) киритиш топширилсин.</li>
+</ol>
+<p>Асос: {{fio}}нинг аризаси, [[{{cdate}} даги ]]{{cno}}-сонли номуайян муддатли меҳнат шартномаси.</p>${HR_FAM}` },
+  { id:"k-fire-own", hr:"fire", tag:"Кадр · бўшатиш", title:"Ходимни ўз хоҳишига кўра ишдан бўшатиш тўғрисида", desc:"Ходимнинг ташаббуси (аризаси) билан меҳнат шартномасини бекор қилиш.", fixed:{reason:"ходимнинг ташаббусига кўра (ўз хоҳишига кўра)"},
+    fields:[...FIRE_FIELDS,["appDate","Ходим аризасининг санаси","date"],["compdays","Фойдаланилмаган таътил, кун","text"],["article","Меҳнат кодекси моддаси (ихтиёрий)","text"]],
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексига[[ ({{article}})]] мувофиқ ва ходимнинг {{appDate}} даги аризасига асосан</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{pos}} {{fio}} билан тузилган меҳнат шартномаси <b>ходимнинг ташаббусига кўра (ўз хоҳишига кўра)</b> {{end}} дан бекор қилинсин ва ходим ишдан бўшатилсин.</li>
+${FIRE_TAIL}
+</ol>
+<p>Асос: {{fio}}нинг {{appDate}} даги аризаси.</p>${HR_FAM}` },
+  { id:"k-fire-emp", hr:"fire", tag:"Кадр · бўшатиш", title:"Иш берувчининг ташаббуси билан меҳнат шартномасини бекор қилиш тўғрисида", desc:"Штат қисқариши, малака етарли эмаслиги, интизомни бузиш ва бошқа асослар.", fixed:{reason:"иш берувчининг ташаббусига кўра"},
+    fields:[...FIRE_FIELDS,["ground","Асос (сабаб)","select",["штатлар (ходимлар сони) қисқариши муносабати билан","ходимнинг малакаси бажараётган ишига етарли бўлмаганлиги сабабли","ходим ўз меҳнат вазифаларини мунтазам равишда бузганлиги сабабли","ходим ўз меҳнат вазифаларини бир марта қўпол равишда бузганлиги сабабли","ташкилот тугатилиши муносабати билан"]],["notice","Ходим огоҳлантирилган сана","date"],["sev","Ишдан бўшатиш нафақаси, сўм (тегишли бўлса)","text"],["docs","Асос ҳужжатлар (далолатнома, тушунтириш хати ва б.)","text"],["compdays","Фойдаланилмаган таътил, кун","text"],["article","Меҳнат кодекси моддаси (ихтиёрий)","text"]],
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексига[[ ({{article}})]] мувофиқ</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{pos}} {{fio}} билан тузилган меҳнат шартномаси <b>иш берувчининг ташаббусига кўра</b> — {{ground}} — {{end}} дан бекор қилинсин ва ходим ишдан бўшатилсин.</li>
+[[<li>Ходим ишдан бўшатилиши ҳақида {{notice}} да ёзма равишда огоҳлантирилган.</li>]]
+[[<li>Ходимга {{sev}} сўм миқдорида ишдан бўшатиш нафақаси тўлансин.</li>]]
+${FIRE_TAIL}
+</ol>
+[[<p>Асос: {{docs}}.</p>]]${HR_FAM}` },
+  { id:"k-fire-agree", hr:"fire", tag:"Кадр · бўшатиш", title:"Меҳнат шартномасини тарафларнинг келишувига кўра бекор қилиш тўғрисида", desc:"Ходим ва иш берувчи ўртасидаги ёзма келишув асосида.", fixed:{reason:"тарафларнинг келишувига кўра"},
+    fields:[...FIRE_FIELDS,["agrDate","Тарафлар келишуви санаси","date"],["comp","Келишилган компенсация, сўм (бўлса)","text"],["compdays","Фойдаланилмаган таътил, кун","text"],["article","Меҳнат кодекси моддаси (ихтиёрий)","text"]],
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексига[[ ({{article}})]] мувофиқ ва тарафлар ўртасида {{agrDate}} да тузилган ёзма келишувга асосан</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{pos}} {{fio}} билан тузилган меҳнат шартномаси <b>тарафларнинг келишувига кўра</b> {{end}} дан бекор қилинсин ва ходим ишдан бўшатилсин.</li>
+[[<li>Келишувга мувофиқ ходимга {{comp}} сўм миқдорида компенсация тўлансин.</li>]]
+${FIRE_TAIL}
+</ol>
+<p>Асос: тарафларнинг {{agrDate}} даги келишуви.</p>${HR_FAM}` },
+  { id:"k-vac-annual", hr:"vac", tag:"Кадр · таътил", title:"Ходимга йиллик асосий меҳнат таътили бериш тўғрисида", desc:"Ходимни йиллик меҳнат таътилига чиқариш, таътил пулини тўлаш.", fixed:{vkind:"йиллик асосий меҳнат таътили"},
+    fields:[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["period","Иш даври","text"],["from","Таътил бошланиши","date"],["to","Таътил тугаши (охирги таътил куни)","date"],["days","Календарь кунлар сони","text"],["back","Ишга чиқиш санаси","date"],["sub","Вазифаларини вақтинча бажарувчи (ихтиёрий)","text"]],
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, таътиллар графиги ва ходимнинг аризасига асосан</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{pos}} {{fio}}га {{period}} иш даври учун {{from}} дан {{to}} гача {{days}} календарь кунлик <b>йиллик асосий меҳнат таътили</b> берилсин.[[ Ишга чиқиш санаси — {{back}}.]]</li>
+[[<li>Таътил даврида ходимнинг вазифаларини бажариш {{sub}} зиммасига юклансин.</li>]]
+<li>Бухгалтерияга таътил пулини белгиланган тартибда ҳисоблаш ва таътил бошланишидан олдин тўлаш топширилсин.</li>
+</ol>
+<p>Асос: {{fio}}нинг аризаси, таътиллар графиги.</p>${HR_FAM}` },
+  { id:"k-bonus", hr:"bonus", tag:"Кадр · мукофот", title:"Ходимни мукофотлаш тўғрисида", desc:"Ходимга мукофот (бир марталик рағбатлантириш) тайинлаш.",
+    fields:[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["amount","Мукофот миқдори, сўм","text"],["reason","Мукофот асоси","select",["намунали меҳнати учун","ой якунлари бўйича","чорак якунлари бўйича","йил якунлари бўйича","байрам муносабати билан","юбилей муносабати билан","алоҳида топшириқни бажаргани учун"]],["period","Давр / изоҳ (масалан: 2026 йил сентябрь)","text"],["source","Тўлов манбаи","select",["иш ҳақи фонди ҳисобидан","соф фойда ҳисобидан"]]],
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексига ва ички меҳнат тартиби қоидаларига (мукофотлаш низомига) мувофиқ</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{pos}} {{fio}} {{reason}}[[ ({{period}})]] <b>{{amount}} сўм</b> миқдорида мукофотлансин.</li>
+<li>Мукофот {{source}} тўлансин. Бухгалтерияга мукофотни иш ҳақи билан бирга ҳисоблаш ҳамда қонунчиликда белгиланган солиқ ва мажбурий ажратмаларни ушлаб қолиш топширилсин.</li>
+</ol>${HR_FAM}` },
+];
+HR_TEMPLATES.push(...HR_TEMPLATES2); TEMPLATES.push(...HR_TEMPLATES2);
+/* штат жадвали */
+function posSnap(firmId){ return firmPos(firmId).map(p=>({dept:p.dept||"",position:p.position||"",units:String(p.units||""),salary:String(p.salary||"")})); }
+function staffTableHTML(rows){ let tu=0,tf=0; const tr=rows.map((p,i)=>{ const u=num(p.units), f=u*num(p.salary); tu+=u; tf+=f; return `<tr><td>${i+1}</td><td>${esc(p.dept)}</td><td>${esc(p.position)}</td><td class="r">${u}</td><td class="r">${m0(num(p.salary))}</td><td class="r">${m0(f)}</td></tr>`; }).join("");
+  return {html:`<table class="btab"><thead><tr><th>№</th><th>Бўлим</th><th>Лавозим</th><th>Штат бирлиги</th><th>Лавозим маоши, сўм</th><th>Ойлик фонд, сўм</th></tr></thead><tbody>${tr||`<tr><td colspan="6">Штат жадвали бўш — «Кадр бўлими → Штат жадвали»да лавозимларни киритинг</td></tr>`}</tbody><tfoot><tr><td colspan="3"><b>Жами</b></td><td class="r"><b>${tu}</b></td><td></td><td class="r"><b>${m0(tf)}</b></td></tr></tfoot></table>`,tu,tf}; }
+function chgRows(v){ try{ return JSON.parse(v.chg||"[]"); }catch(e){ return []; } }
+const STAFF_TEMPLATES=[
+  { id:"k-staff", hr:"staff", tag:"Кадр · штат", title:"Штат жадвалини тасдиқлаш тўғрисида", desc:"Штат жадвалини (лавозимлар, штат бирликлари, маошлар) тасдиқлаш — жадвал иловага ўзи қўшилади.",
+    fields:[["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["from","Амал қилиш санаси","date"],["resp","Назорат масъули","text","@chiefAccountant"]],
+    init:(v,f)=>{ v.snap=JSON.stringify(posSnap(f.id)); },
+    render:(v,f,clean,W)=>{ const rows=(()=>{ try{ return JSON.parse(v.snap||"null")||posSnap(f.id); }catch(e){ return posSnap(f.id); } })(); const T=staffTableHTML(rows);
+      return `<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, ташкилотнинг тузилмаси ва меҳнатга ҳақ тўлаш тизимини белгилаш мақсадида</p>
+<div class="order">БУЮРАМАН:</div>
+<ol><li>${W("from")} дан бошлаб амал қиладиган штат жадвали иловага мувофиқ тасдиқлансин: жами ${T.tu} штат бирлиги, ойлик лавозим маошлари фонди ${m0(T.tf)} сўм.</li>
+<li>Аввалги штат жадвали ${W("from")} дан эътиборан ўз кучини йўқотган деб ҳисоблансин.</li>
+<li>Бухгалтерияга иш ҳақини тасдиқланган штат жадвалига мувофиқ ҳисоблаш топширилсин.</li>
+<li>Мазкур буйруқ ижросини назорат қилиш ${W("resp")} зиммасига юклансин.</li></ol>
+<p class="annex"><b>Илова:</b> ${W("from")} дан амал қиладиган штат жадвали</p>${T.html}`; } },
+  { id:"k-staffsal", hr:"staff", tag:"Кадр · штат", title:"Штат жадвалидаги лавозим маошларини ўзгартириш тўғрисида", desc:"Штат жадвалидаги ойлик маошларни ошириш ёки ўзгартириш; имзоланганда штат жадвали ўзи янгиланади.",
+    fields:[["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["from","Ўзгариш санаси","date"],["reason","Асос","select",["иш ҳақини индексациялаш мақсадида","энг кам иш ҳақи миқдори ўзгариши муносабати билан","ташкилотнинг молиявий имкониятларидан келиб чиқиб","ташкилий-штат ўзгаришлари муносабати билан"]],["chg","Лавозимлар ва янги маошлар","salchg"],["resp","Назорат масъули","text","@chiefAccountant"]],
+    init:(v,f)=>{ v.chg=JSON.stringify(posSnap(f.id).map(p=>({...p,newsal:""}))); },
+    render:(v,f,clean,W)=>{ const ch=chgRows(v).filter(r=>num(r.newsal)>0&&num(r.newsal)!==num(r.salary));
+      const tr=ch.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.dept)}</td><td>${esc(r.position)}</td><td class="r">${num(r.units)}</td><td class="r">${m0(num(r.salary))}</td><td class="r"><b>${m0(num(r.newsal))}</b></td><td class="r">${(num(r.newsal)>num(r.salary)?"+":"")+m0(num(r.newsal)-num(r.salary))}</td></tr>`).join("");
+      const dF=ch.reduce((a,r)=>a+num(r.units)*(num(r.newsal)-num(r.salary)),0);
+      return `<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, ${W("reason")}</p>
+<div class="order">БУЮРАМАН:</div>
+<ol><li>${W("from")} дан бошлаб штат жадвалидаги қуйидаги лавозимларнинг ойлик лавозим маошлари ўзгартирилсин (ойлик фонд ўзгариши: ${(dF>0?"+":"")+m0(dF)} сўм):</li></ol>
+<table class="btab"><thead><tr><th>№</th><th>Бўлим</th><th>Лавозим</th><th>Штат бирлиги</th><th>Амалдаги маош, сўм</th><th>Янги маош, сўм</th><th>Фарқ, сўм</th></tr></thead><tbody>${tr||`<tr><td colspan="7">${clean?"—":'<span class="fill miss">[формада янги маошларни киритинг]</span>'}</td></tr>`}</tbody></table>
+<ol start="2"><li>Тегишли лавозимлардаги ходимлар билан меҳнат шартномаларига қўшимча келишувлар тузилсин ва улар буйруқ билан таништирилсин.</li>
+<li>Штат жадвалига тегишли ўзгартиришлар киритилсин. Бухгалтерияга иш ҳақини ${W("from")} дан янги маошлар бўйича ҳисоблаш топширилсин.</li>
+<li>Мазкур буйруқ ижросини назорат қилиш ${W("resp")} зиммасига юклансин.</li></ol>`; } },
+];
+HR_TEMPLATES.push(...STAFF_TEMPLATES); TEMPLATES.push(...STAFF_TEMPLATES);
+/* ихтиёрий буйруқ / қарор */
+const FREE_TEMPLATES=[
+  { id:"free", custom:true, tag:"Ихтиёрий", title:"Ихтиёрий буйруқ / қарор", desc:"Матнини ўзингиз ёзадиган буйруқ, қарор ёки фармойиш — ҳар қандай мавзуда.",
+    fields:[["dtype","Ҳужжат тури","select",["БУЙРУҚ","ҚАРОР","ФАРМОЙИШ"]],["number","Рақами","text"],["date","Санаси","date"],["subject","Мавзуси (масалан: «… тўғрисида»)","text"],["preamble","Кириш қисми: асос ва мақсад","textarea"],["verb","Хулоса сўзи","select",["БУЮРАМАН:","ҚАРОР ҚИЛАМАН:","ТАКЛИФ ҚИЛАМАН:"]],["items","Бандлар — ҳар бир банд янги қатордан","list"],["basis","Асос (ихтиёрий)","text"],["resp","Назорат масъули (ихтиёрий)","text"]],
+    render:(v,f,clean,W)=>{ const P=s=>clean?esc(s):`<span class="fill">${esc(s)}</span>`; const L=String(v.items||"").split(/\n+/).map(s=>s.trim()).filter(Boolean);
+      const li=L.map(s=>`<li>${P(s)}</li>`); if(!L.length) li.push(`<li>${clean?"________":'<span class="fill miss">[бандларни киритинг — ҳар бири янги қатордан]</span>'}</li>`);
+      if(String(v.resp||"").trim()) li.push(`<li>Мазкур ${v.dtype==="ҚАРОР"?"қарор":v.dtype==="ФАРМОЙИШ"?"фармойиш":"буйруқ"} ижросини назорат қилиш ${W("resp")} зиммасига юклансин.</li>`);
+      const pre=String(v.preamble||"").split(/\n+/).map(s=>s.trim()).filter(Boolean).map(s=>`<p>${P(s)}</p>`).join("");
+      return `${pre}<div class="order">${esc(v.verb||"БУЮРАМАН:")}</div><ol>${li.join("")}</ol>${String(v.basis||"").trim()?`<p>Асос: ${W("basis")}.</p>`:""}`; } },
+];
+TEMPLATES.unshift(...FREE_TEMPLATES);
+
 
 /* ---------- Кадр бўлими ---------- */
 let EMP_LOADED=false, EMP_LOADING=null;
@@ -3077,6 +3204,7 @@ function empForm(f,e){
   <form id="empForm" class="card lform" novalidate><h2>${isNew?"Янги ходим":"Ходим маълумотларини таҳрирлаш"}</h2>
     ${EMP_FIELDS.map(([g,fl])=>`<div class="label">${g}</div><div class="lgrid">${fl.map(inp).join("")}</div>`).join("")}
     <div class="lgrid"><div class="field wide"><label for="ef_note">Изоҳ</label><input id="ef_note" name="note" type="text" value="${esc(e.note||"")}"></div></div>
+    ${isNew?`<label class="checkline"><input type="checkbox" id="ef_autoOrd" checked> Ишга қабул қилиш буйруғини автомат яратиш (черновик сифатида очилади)</label>`:""}
     <p class="hint">Ишга қабул, таътил, ўтказиш ва бўшатишни буйруқ орқали расмийлаштирсангиз, буйруқ «имзоланган» бўлганда карточка ўзи янгиланади.</p>
     <p class="err" id="empErr" role="alert"></p>
     <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="hrBack">Бекор қилиш</button></div>
@@ -3122,13 +3250,14 @@ function vStaff(f){
 function empDetail(f,e){
   const s=empStatus(e), vb=empVacBalance(e);
   const kvs=(arr)=>`<div class="reqs">${arr.map(([k,v,m])=>kv(k,v||"",m)).join("")}</div>`;
-  const orders=S.orders.filter(o=>o.firmId===f.id&&o.values?.emp===e.id).sort((a,b)=>(b.values?.date||"").localeCompare(a.values?.date||""));
+  const orders=S.orders.filter(o=>o.firmId===f.id&&ordHasEmp(o,e.id)).sort((a,b)=>(b.values?.date||"").localeCompare(a.values?.date||""));
   const hrBtn=(id,t)=>`<button type="button" class="btn" data-hrorder="${id}">${t}</button>`;
   return `<button type="button" class="back" data-act="hrBack">← Ходимлар</button>
   <div class="toolbar"><div class="lhead"><h2>${esc(e.fio||"")}</h2><span class="lpill ${s.cls}">${s.t}</span>${didChip(e,"emp")}</div>
-    <div class="actions"><button type="button" class="btn" data-act="empDoc">${PRINT_ICON}Меҳнат шартномаси</button><button type="button" class="btn" data-act="editEmp">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="askDel">Ўчириш</button></div></div>
+    <div class="actions"><button type="button" class="btn" data-act="empDoc">${PRINT_ICON}Меҳнат шартномаси</button><button type="button" class="btn" data-act="editEmp">Таҳрирлаш</button>${e.status!=="fired"?`<button type="button" class="btn danger" data-act="empFire">Ишдан бўшатиш</button>`:""}<button type="button" class="btn ghost danger" data-act="askDel">Ўчириш</button></div></div>
+  ${V.empFire===e.id&&e.status!=="fired"?empFireForm(e):""}
   ${V.confirm?`<div class="confirm">«${esc(e.fio)}» карточкаси ўчирилади (буйруқлар сақланиб қолади). Ишдан бўшаган бўлса, ўчириш ўрнига «Бўшатиш» буйруғини расмийлаштиринг. <button type="button" class="btn danger" data-act="delEmp">Ҳа, ўчириш</button><button type="button" class="btn ghost" data-act="cancelDel">Бекор қилиш</button></div>`:""}
-  <div class="card hrorders"><span class="label">Буйруқ тузиш:</span>${e.status==="fired"?hrBtn("k-hire","Қайта қабул"):(!e.hireOrder?hrBtn("k-hire","Ишга қабул"):"")+hrBtn("k-vac","Таътил")+hrBtn("k-move","Бошқа ишга ўтказиш")+hrBtn("k-salary","Маошни ўзгартириш")+hrBtn("k-trip","Хизмат сафари")+hrBtn("k-fire","Бўшатиш")}</div>
+  <div class="card hrorders"><span class="label">Буйруқ тузиш:</span>${e.status==="fired"?hrBtn("k-hire","Қайта қабул"):(!e.hireOrder?hrBtn("k-hire-perm","Номуайян муддатга қабул")+hrBtn("k-hire","Ишга қабул (бошқа)"):"")+hrBtn("k-vac-annual","Йиллик таътил")+hrBtn("k-vac","Бошқа таътил")+hrBtn("k-move","Бошқа ишга ўтказиш")+hrBtn("k-salary","Маошни ўзгартириш")+hrBtn("k-bonus","Мукофот")+hrBtn("k-trip","Хизмат сафари")+hrBtn("k-fire-own","Бўшатиш: ўз хоҳиши")+hrBtn("k-fire-agree","Бўшатиш: келишув")+hrBtn("k-fire-emp","Бўшатиш: иш берувчи ташаббуси")}</div>
   <div class="lcols">
     <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Иш жойи","staff",30)}</div>${kvs([["Лавозим",e.position],["Бўлим",e.dept],["Ставка",e.rate],["Лавозим маоши",e.salary?m0(num(e.salary))+" сўм":""],["Ишга қабул санаси",fmtDate(e.hireDate)],["Қабул буйруғи",e.hireOrder],["Синов муддати тугаши",fmtDate(e.probEnd)],["Табель №",e.tab,true],["Иш тартиби",e.schedule]].concat(e.status==="fired"?[["Бўшатилган сана",fmtDate(e.fireDate)],["Бўшатиш асоси",e.fireReason]]:[]))}</div>
     <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Таътил","history",30)}</div>
@@ -3153,7 +3282,7 @@ function shtatView(f){
   let tu=0,to=0,tf=0;
   const rows=pos.map(p=>{ const k=key(p.dept,p.position), u=num(p.units)||0, o=occ[k]||0, fund=u*num(p.salary); tu+=u; to+=o; tf+=fund;
     return `<tr data-pos="${esc(p.id)}" tabindex="0"><td>${esc(p.dept||"")}</td><td><b>${esc(p.position||"")}</b></td><td class="num r">${u}</td><td class="num r">${o}</td><td class="num r ${u-o>0?"vac":u-o<0?"neg":""}">${Math.round((u-o)*100)/100}</td><td class="num r">${m0(num(p.salary))}</td><td class="num r">${m0(fund)}</td></tr>`; }).join("");
-  return `<div class="toolbar"><span class="hint">Штат жадвали: лавозимлар, штат бирликлари ва маошлар. Банд ўринлар ходимлар рўйхатидан ўзи ҳисобланади.</span>${deptOpts(posAll).length>1?fsel("sD",deptOpts(posAll),"Барча бўлимлар"):""}<div class="actions"><button type="button" class="btn" data-act="newPos">${LPLUS}Лавозим қўшиш</button>${unplanned.length?`<button type="button" class="btn" data-act="posFromEmp">Ходимлардан тузиш (${unplanned.length})</button>`:""}${posAll.length?`<button type="button" class="btn" data-act="shtatPrint">${PRINT_ICON}Чоп этиш</button>`:""}</div></div>
+  return `<div class="toolbar"><span class="hint">Штат жадвали: лавозимлар, штат бирликлари ва маошлар. Банд ўринлар ходимлар рўйхатидан ўзи ҳисобланади.</span>${deptOpts(posAll).length>1?fsel("sD",deptOpts(posAll),"Барча бўлимлар"):""}<div class="actions">${posAll.length?`<button type="button" class="btn" data-tpl="k-staff">Тасдиқлаш буйруғи</button><button type="button" class="btn" data-tpl="k-staffsal">Маошларни ўзгартириш буйруғи</button>`:""}<button type="button" class="btn" data-act="newPos">${LPLUS}Лавозим қўшиш</button>${unplanned.length?`<button type="button" class="btn" data-act="posFromEmp">Ходимлардан тузиш (${unplanned.length})</button>`:""}${posAll.length?`<button type="button" class="btn" data-act="shtatPrint">${PRINT_ICON}Чоп этиш</button>`:""}</div></div>
   <div class="card">${pos.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>Бўлим</th><th>Лавозим</th><th class="r">Штат бирлиги</th><th class="r">Банд</th><th class="r">Бўш</th><th class="r">Лавозим маоши</th><th class="r">Ойлик фонд</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="2">Жами</td><td class="num r">${tu}</td><td class="num r">${to}</td><td class="num r">${Math.round((tu-to)*100)/100}</td><td></td><td class="num r">${m0(tf)}</td></tr></tfoot></table></div>`:`<div class="empty"><b>Штат жадвали бўш</b>${emps.length?"«Ходимлардан тузиш» тугмаси ҳозирги ходимлар асосида лавозимларни ўзи яратади.":"Аввал лавозим қўшинг."}</div>`}</div>
   ${unplanned.length&&pos.length?`<p class="hint">Штат жадвалида йўқ лавозимдаги ходимлар бор: ${esc(unplanned.map(k=>k.split("|")[1]).join(", "))}.</p>`:""}`;
 }
@@ -3196,20 +3325,24 @@ function hrOrdersView(f){
   <div class="card">${all.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>№</th><th>Сана</th><th>Буйруқ</th><th>Ходим</th><th>Ҳолати</th></tr></thead><tbody>${os.length?os.map(o=>`<tr data-order="${esc(o.id)}" tabindex="0"><td class="num">${esc(o.values?.number||"—")}</td><td class="num">${fmtDate(o.values?.date)}</td><td>${esc(o.title)}</td><td>${esc(o.values?.fio||(o.values?.year?o.values.year+" йил графиги":""))}</td><td>${pill(o.status)}</td></tr>`).join(""):noHit(5)}</tbody></table></div>`:`<div class="empty"><b>Кадр буйруқлари йўқ</b></div>`}</div>`;
 }
 /* буйруқ: ходимдан тўлдириш ва имзолангандан кейин карточкага қўллаш */
+function salChgEditor(o){ const rows=chgRows(o.values); if(!rows.length) return `<p class="hint">Штат жадвали бўш — аввал «Кадр бўлими → Штат жадвали»да лавозимларни киритинг.</p>`;
+  return `<div class="tablewrap"><table class="sched salchg"><thead><tr><th>Бўлим</th><th>Лавозим</th><th class="r">Бирлик</th><th class="r">Амалдаги маош</th><th>Янги маош, сўм</th></tr></thead><tbody>${rows.map((r,i)=>`<tr class="norow"><td>${esc(r.dept)}</td><td><b>${esc(r.position)}</b></td><td class="num r">${num(r.units)}</td><td class="num r">${m0(num(r.salary))}</td><td><input class="salnew" data-sal="${i}" inputmode="numeric" value="${esc(r.newsal||"")}" placeholder="ўзгармаса бўш"></td></tr>`).join("")}</tbody></table></div><p class="hint">Фақат ўзгарадиган лавозимларга янги маош ёзинг. Буйруқ «Имзоланган» бўлганда штат жадвали ва шу лавозимдаги ходимлар маоши ўзи янгиланади.</p>`; }
 function hrOrderInput(el,isChange){
   const o=V.draft; if(!o) return false; const tpl=TEMPLATES.find(t=>t.id===o.tplId); if(!tpl?.hr) return false;
   if(el.name==="emp"&&isChange){ const e=S.emp.find(x=>x.id===el.value); hrFill(o.values,e,o.tplId); render(); return true; }
-  if((el.name==="from"||el.name==="to")&&(o.tplId==="k-vac"||o.tplId==="k-trip")){ const d=vDays(o.values.from,o.values.to); if(d){ o.values.days=d; const i=$("#of_days"); if(i) i.value=d; } }
+  if((el.name==="from"||el.name==="to")&&(tpl.hr==="vac"||tpl.hr==="trip")){ const d=vDays(o.values.from,o.values.to); if(d){ o.values.days=d; const i=$("#of_days"); if(i) i.value=d; } }
   return false;
 }
 function hrFill(values,e,tplId){
-  if(!e) return values;
+  const T0=TEMPLATES.find(t=>t.id===tplId); const H=T0?.hr;
+  if(!e){ if(T0?.fixed) Object.assign(values,T0.fixed); return values; }
   Object.assign(values,{emp:e.id,fio:e.fio||"",pos:e.position||"",dept:e.dept||values.dept||""});
-  if(tplId==="k-hire"){ Object.assign(values,{pos:e.position||"",salary:e.salary?m0(num(e.salary)):"",start:e.hireDate||values.start||localToday(),cno:e.contractNo||"",rate:e.rate&&e.rate!=="1"?e.rate:"1 (тўлиқ)",ctype:e.contractType==="муайян"?"муайян муддатга":"номуайян муддатга",cend:e.contractEnd||""}); }
+  if(H==="hire"){ Object.assign(values,{pos:e.position||"",salary:e.salary?m0(num(e.salary)):"",start:e.hireDate||values.start||localToday(),cno:e.contractNo||"",rate:e.rate&&e.rate!=="1"?e.rate:"1 (тўлиқ)",ctype:e.contractType==="муайян"?"муайян муддатга":"номуайян муддатга",cend:e.contractEnd||""}); }
   if(tplId==="k-move"){ values.oldpos=e.position||""; values.salary=e.salary?m0(num(e.salary)):""; values.pos=""; }
   if(tplId==="k-salary"){ values.oldsal=e.salary?m0(num(e.salary)):""; values.salary=""; }
-  if(tplId==="k-vac"){ const y=new Date().getFullYear(); values.period=values.period||`${y-1}-${y}`; values.days=values.days||String(num(e.vacDays)||VAC_DAYS_DEFAULT); }
-  if(tplId==="k-fire"){ const vb=empVacBalance(e); values.compdays=vb?String(Math.max(0,Math.round(vb.bal))):""; values.end=values.end||localToday(); }
+  if(H==="vac"){ const y=new Date().getFullYear(); values.period=values.period||`${y-1}-${y}`; values.days=values.days||String(num(e.vacDays)||VAC_DAYS_DEFAULT); }
+  if(H==="fire"){ const vb=empVacBalance(e); values.compdays=vb?String(Math.max(0,Math.round(vb.bal))):""; values.end=values.end||localToday(); }
+  if(T0?.fixed) Object.assign(values,T0.fixed);
   return values;
 }
 function hrOrderDraft(tplId,empId){
@@ -3217,10 +3350,16 @@ function hrOrderDraft(tplId,empId){
   const values={}; tpl.fields.forEach(([k,,type,opt])=>{ if(type==="select") values[k]=opt[0]; else if(k==="date") values[k]=localToday(); else if(k==="number") values[k]=String(firmOrders(V.firmId).length+1); });
   hrFill(values,e,tplId);
   if(tplId==="k-vplan"&&!values.year) values.year=String(V.vpYear||new Date().getFullYear());
+  tpl.fields.forEach(([k,,type,opt])=>{ if(typeof opt==="string"&&opt.startsWith("@")&&!values[k]) values[k]=f?.[opt.slice(1)]||""; });
+  if(tpl.init&&f) tpl.init(values,f);
   return {id:uid(),firmId:V.firmId,tplId,title:tpl.title,status:"draft",values,createdAt:Date.now()};
 }
 const vDays=(a,b)=>{ const x=dnum(a), y=dnum(b); return x!=null&&y!=null&&y>=x?String(y-x+1):""; };
-async function hrApply(o){
+async function staffSalApply(o){ const ch=chgRows(o.values).filter(r=>num(r.newsal)>0&&num(r.newsal)!==num(r.salary)); if(!ch.length) return null; const ord=`№ ${o.values?.number||""} ${fmtDate(o.values?.date)}`; const K=(d,p)=>String(d||"").trim().toLowerCase()+"|"+String(p||"").trim().toLowerCase(); let np=0, ne=0;
+  for(const r of ch){ const p=firmPos(o.firmId).find(x=>K(x.dept,x.position)===K(r.dept,r.position)); if(p){ await putItem("emp",{...p,salary:String(num(r.newsal))},`Штат жадвали: ${p.position} маоши ${m0(num(r.salary))} → ${m0(num(r.newsal))} сўм (буйруқ ${ord})`); np++; }
+    for(const e0 of firmEmps(o.firmId).filter(e=>e.status!=="fired"&&K(e.dept,e.position)===K(r.dept,r.position)&&num(e.salary)===num(r.salary))){ const e=JSON.parse(JSON.stringify(e0)); e.hist=e.hist||[]; e.hist.push({d:o.values?.from||localToday(),t:`Маош ${m0(num(r.salary))} → ${m0(num(r.newsal))} сўм — штат жадвали ўзгариши (буйруқ ${ord})`}); e.salary=String(num(r.newsal)); await putItem("emp",e,`Маош штат жадвали бўйича ўзгартирилди (буйруқ ${ord})`); ne++; } }
+  return {pos:np,emp:ne}; }
+async function hrApplyOne(o,quiet){
   const tpl=TEMPLATES.find(t=>t.id===o.tplId); const v=o.values||{}; if(!tpl?.hr||!v.emp) return;
   for(let attempt=0;attempt<2;attempt++){
     const e0=S.emp.find(x=>x.id===v.emp); if(!e0) return;
@@ -3233,9 +3372,10 @@ async function hrApply(o){
     if(tpl.hr==="vac"){ e.vacs.push({kind:v.vkind,from:v.from,to:v.to,days:v.days||vDays(v.from,v.to),order:ord}); e.hist.push({d:v.from,t:`${v.vkind}: ${fmtDate(v.from)}–${fmtDate(v.to)} (буйруқ ${ord})`}); }
     if(tpl.hr==="move"){ e.hist.push({d:v.from,t:`${e.position} → ${v.pos}${v.dept?", "+v.dept:""}, маош ${m0(num(v.salary))} сўм (буйруқ ${ord})`}); Object.assign(e,{position:v.pos||e.position,dept:v.dept||e.dept,salary:sal(v.salary)||e.salary}); }
     if(tpl.hr==="salary"){ e.hist.push({d:v.from,t:`Маош ${m0(num(v.oldsal))} → ${m0(num(v.salary))} сўм (буйруқ ${ord})`}); e.salary=sal(v.salary)||e.salary; }
+    if(tpl.hr==="bonus"){ e.hist.push({d:v.date,t:`Мукофот ${m0(num(String(v.amount||"").replace(/\s/g,"")))} сўм — ${v.reason}${v.period?" ("+v.period+")":""} (буйруқ ${ord})`}); }
     if(tpl.hr==="trip"){ e.hist.push({d:v.from,t:`Хизмат сафари: ${v.place}, ${fmtDate(v.from)}–${fmtDate(v.to)} (буйруқ ${ord})`}); }
     if(tpl.hr==="fire"){ Object.assign(e,{status:"fired",fireDate:v.end,fireReason:v.reason}); e.hist.push({d:v.end,t:`Ишдан бўшатилди: ${v.reason} (буйруқ ${ord})`}); }
-    try{ await putItem("emp",e,`${tpl.title}: буйруқ ${ord} имзоланди, карточка янгиланди`); toast("Ходим карточкаси буйруқ бўйича янгиланди"); return; }
+    try{ await putItem("emp",e,`${tpl.title}: буйруқ ${ord} имзоланди, карточка янгиланди`); if(!quiet) toast("Ходим карточкаси буйруқ бўйича янгиланди"); return true; }
     catch(err){ if(err instanceof ConflictErr&&attempt===0){ await ensureEmp(true); continue; } toast("Карточкани янгилаб бўлмади: "+explain(err)); return; }
   }
 }
@@ -3405,7 +3545,7 @@ function vpRowState(r,e,y,f){
   const a=dnum(r.from), b=dnum(r.to||r.from);
   const fact=vpFact(e,y).find(v=>{ const x=dnum(v.from), z=dnum(v.to||v.from); return x!=null&&(x<=b+30&&z>=a-30); });
   if(fact) return {cls:"ok",t:fact.from===r.from?"Берилди ✓":"Берилди ✓ ("+fmtDate(fact.from)+")",fact};
-  const o=S.orders.find(o=>o.firmId===f.id&&o.tplId==="k-vac"&&o.values?.emp===e.id&&o.values?.from&&Math.abs(dnum(o.values.from)-a)<=30);
+  const o=S.orders.find(o=>o.firmId===f.id&&(o.tplId==="k-vac"||o.tplId==="k-vac-annual")&&ordHasEmp(o,e.id)&&ordEmpVals(o,e.id)?.from&&Math.abs(dnum(ordEmpVals(o,e.id).from)-a)<=30);
   if(o) return {cls:o.status==="signed"?"ok":"act",t:o.status==="signed"?"Буйруқ имзоланган":"Буйруқ тайёр, имзоланмаган",order:o.id};
   const l=a-tdNum();
   if(l<0) return {cls:"bad",t:"Бошланиши ўтди — буйруқ йўқ"};
@@ -3484,7 +3624,7 @@ function vpSheet(f,P){
   ${vpSorted(f,P).map((x,i)=>{ const st=vpRowState(x.r,x.e,P.year,f); return `<tr><td>${i+1}</td><td>${esc(x.e.dept||"")}</td><td>${esc(x.e.position||"")}</td><td>${esc(x.e.fio||"")}</td><td>${esc(x.e.tab||"")}</td><td class="r">${esc(x.r.days||"")}</td><td>${fmtDate(x.r.from)}${x.r.to?" – "+fmtDate(x.r.to):""}</td><td>${st.fact?fmtDate(st.fact.from):""}</td><td></td><td>${esc(x.r.note||"")}</td><td></td></tr>`; }).join("")}
   </tbody></table>
   <div class="sign"><span>Кадрлар бўйича масъул</span><span class="ln"></span><span class="nm"></span></div>
-  <div class="sign"><span>Бош бухгалтер</span><span class="ln"></span><span class="nm">${esc(f.chiefAccountant||"")}</span></div></div>`;
+  <div class="sign"><span>Бош бухгалтер</span><span class="ln"></span><span class="nm">${esc(f.chiefAccountant||"")}</span></div>${S.vplan.some(x=>x.id===P.id)?docQrBlock("vplan",P):""}</div>`;
 }
 async function vpXlsx(f,P){
   if(!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
@@ -3528,7 +3668,7 @@ function hash32(s){ let h=2166136261; s=String(s); for(let i=0;i<s.length;i++){ 
 const B32="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const docKind=r=>r?(r.tplId?"order":r.type==="pos"?"emp":r.type||"firm"):"";
 function docCode(r,kind){ if(!r) return ""; kind=kind||docKind(r); let h=hash32(r.id), h2=hash32("#"+r.id+kind); let s=""; for(let i=0;i<4;i++){ s+=B32[h&31]; h>>>=5; } for(let i=0;i<3;i++){ s+=B32[h2&31]; h2>>>=5; } return `${DOC_PFX[kind]||"ҲЖ"}-${s}`; }
-const didChip=(r,k)=>r?`<span class="did" title="Дастур берган уникал ИД">ИД ${docCode(r,k)}</span>`:"";
+const didChip=(r,k)=>r?`<button type="button" class="did didqr" data-qr="${esc(k||docKind(r))}|${esc(r.id)}" title="QR-код: ҳақиқийликни текшириш">ИД ${docCode(r,k)} <span aria-hidden="true">▦</span></button>`:"";
 function docIndex(){
   const out=[]; const add=(r,k,fid)=>out.push({r,k,fid,code:docCode(r,k)});
   S.firms.forEach(f=>{ add(f,"firm",f.id); Object.entries(f.docs||{}).forEach(([dk,d])=>{ if(d?.file) add({id:f.id+":"+dk,...d},"cert",f.id); }); });
@@ -3550,6 +3690,7 @@ function docGo(k,id,fid){
   if(k==="taxrep"){ const r=S.recs.find(x=>x.id===id); return go({...base,tab:"taxrep",trKind:r?.kind,trYear:String(r?.period||"").slice(0,4),trEdit:r?JSON.parse(JSON.stringify(r)):null}); }
   if(k==="finrep"){ const r=S.recs.find(x=>x.id===id); return go({...base,tab:"finrep",frYear:String(r?.period||"").slice(0,4)}); }
   if(k==="charter") return go({...base,tab:"charter",chId:id});
+  if(k==="lease") return go({...base,tab:"lease",leId:id,leEdit:null,leSub:"info"});
   if(k==="ccheck") return go({...base,tab:"cards",ccId:id,ccEdit:null,ccImport:null});
   if(k==="letter"){ const l=S.recs.find(x=>x.id===id); return go({...base,tab:"office",letDir:l?.dir||"in",letId:id,letEdit:null}); }
   if(k==="fcontract") return go({...base,tab:"import",impSub:"fc",fcId:id,fcSub:"info",gId:null});
@@ -3596,7 +3737,7 @@ function trState(rec,dl,end){
   const l=dnum(dl)-td; if(l<0) return {cls:"bad",t:"Топширилмаган · "+(-l)+" кун ўтди"}; if(l<=5) return {cls:"soon",t:l?l+" кун қолди":"Бугун муддат"}; return {cls:"act",t:l+" кун қолди"};
 }
 function trRows(f,k,y){ const cfg=trCfg(f,k), d=trDef(k); const td=localToday();
-  return trPeriods(cfg.per,y).filter(P=>P.start<=td).map(P=>{ const dl=trDeadline(cfg,P,(cfg.per==="y"||(cfg.per==="q"&&(f.taxReps?.[k]?.ydue||d.ydue)))?cfg.ydue:null); const rec=trRec(f.id,k,P.key); return {P,dl,rec,st:trState(rec,dl,P.end)}; }).reverse(); }
+  return trPeriods(cfg.per,y).filter(P=>P.start<=td).map(P=>{ const dl=trDeadline(cfg,P,(cfg.per==="y"||(cfg.per==="q"&&(f.taxReps?.[k]?.ydue||d.ydue)))?cfg.ydue:null); const rec=trRec(f.id,k,P.key); return {k,P,dl,rec,st:trState(rec,dl,P.end)}; }).reverse(); }
 function taxAlerts(f){
   const out=[]; const td=tdNum(); const y=new Date().getFullYear();
   trOn(f).forEach(d=>{ const bad=[], soon=[]; [y-1,y].forEach(yy=>trRows(f,d.k,yy).forEach(x=>{ if(f.regDate&&x.P.end<f.regDate) return; const l=dnum(x.dl)-td; if(x.st.cls==="bad"&&l>=-45) bad.push(x); else if(x.st.cls==="soon") soon.push(x); }));
@@ -3619,12 +3760,12 @@ function vTaxRep(f){
     return `<button type="button" class="trtab ${t.k===k?"on":""}" data-trkind="${t.k}" style="--c:${t.c}" aria-pressed="${t.k===k}"><b>${esc(t.t)}</b><span>${TR_PER[trCfg(f,t.k).per]}</span>${n?`<i>${n}</i>`:""}</button>`; };
   return `<div class="trtabs">${on.map(tab).join("")}</div>
   <div class="toolbar"><div class="lhead"><h2>${esc(d.n)}</h2><span class="hint">${esc(d.full)} · ${TR_PER[cfg.per]}, муддат: ${cfg.per==="y"?fmtDate("2000-"+cfg.ydue).slice(0,5):"кейинги ойнинг "+cfg.due+"-санаси"}${cfg.per==="q"&&d.ydue?", йиллик — "+fmtDate("2000-"+cfg.ydue).slice(0,5):""}</span></div>
-    <div class="actions"><label class="btn primary ctup">${DL_ICON}Excel / PDF'дан юклаш<input type="file" id="trFiles" accept=".xlsx,.xls,.pdf" multiple hidden></label><button type="button" class="btn" data-act="trXlsx">${DL_ICON}Excel</button></div></div>
+    <div class="actions"><label class="btn primary ctup" title="Файлни танланг — ҳисобот тури ва даври ўзи аниқланади ва рўйхатга «Топширилган» бўлиб сақланади">${UP_ICON}Ҳисобот файлини юклаш (Excel / PDF)<input type="file" id="trFiles" accept=".xlsx,.xls,.pdf" multiple hidden></label><button type="button" class="btn" data-act="trXlsx">${DL_ICON}Excel</button></div></div>
   <div class="lstats">
     <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">${y} йил даврлари</span><span class="v">${rows.length} та</span><span class="s">${rows.filter(x=>x.st.cls==="ok").length} таси топширилган</span></div>
     <div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">Топшириш керак</span><span class="v">${rows.filter(x=>x.st.cls==="bad"||x.st.cls==="soon").length} та</span><span class="s">муддати яқин ёки ўтган</span></div>
-    <div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Ҳисобланган солиқ</span><span class="v">${m0(sum("accrued"))}</span><span class="s">${y} йил, сўм</span></div>
-    <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Тўланиши лозим</span><span class="v">${m0(sum("payable"))}</span><span class="s">${y} йил, сўм</span></div>
+    ${sum("accrued")||sum("payable")?`<div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Ҳисобланган солиқ</span><span class="v">${m0(sum("accrued"))}</span><span class="s">${y} йил, сўм</span></div>
+    <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Тўланиши лозим</span><span class="v">${m0(sum("payable"))}</span><span class="s">${y} йил, сўм</span></div>`:""}
   </div>
   <div class="ctfilters">${fchips("trSt",[["all","Ҳаммаси",rows.length],["need","Топшириш керак",rows.filter(x=>x.st.cls==="bad"||x.st.cls==="soon").length],["done","Топширилган",rows.filter(x=>x.st.cls==="ok").length],["wait","Кутилмоқда",rows.filter(x=>x.st.cls==="act"||x.st.cls==="off").length]])}<div class="chips"><select class="gsel" data-fs="trYear" id="fs_trYear" aria-label="Йил">${yrs.map(x=>`<option value="${x}" ${x===y?"selected":""}>${x} йил</option>`).join("")}</select>${fq("trQ","Қидириш: давр, изоҳ, ИД…")}${fclear(["trSt","trQ"])}</div></div>
   <div class="card">${colTable("tr",shown,x=>`data-trp="${x.P.key}" tabindex="0"`)}<p class="hint" style="padding:8px 16px 12px">Даврни босинг: ҳолат, суммалар ва файлларни киритасиз. Муддатлар — умумий қоида бўйича олдиндан қўйилган; фирма учун бошқача бўлса, реквизитларда ўзгартиринг.</p></div>`;
@@ -3685,11 +3826,13 @@ async function trReadFiles(f,files,kind0){
       it.period=perKey(trCfg(f,it.kind).per,p.per); it.accrued=p.accrued!=null?String(p.accrued):""; it.payable=p.payable!=null?String(p.payable):"";
       it.innWarn=p.inn&&f.inn&&p.inn!==String(f.inn).trim()?`Файлдаги СТИР ${p.inn} — бошқа фирмага ўхшайди`:"";
       it.found=[p.kind?"тури: "+trDef(p.kind).t:"тури аниқланмади",(p.per.m||p.per.q)?"давр: "+trPerLabel(it.period):"давр аниқланмади",p.inn?"СТИР "+p.inn:""].filter(Boolean).join(" · ");
-      it.status="ok"; it.weak=!p.kind||!(p.per.m||p.per.q)||p.accrued==null; }
+      it.status="ok"; it.kpOk=!!p.kind&&(trCfg(f,it.kind).per==="y"||!!(p.per.m||p.per.q)); it.weak=!it.kpOk; }
     catch(e){ it.status="err"; it.msg="Файлни ўқиб бўлмади: "+(e?.message||e); }
-    if(V.trImport&&aiCanRead(it.file)&&aiAuto(it.status==="err"||it.weak)) await trAiItem(f,it,kind0);
+    if(V.trImport&&aiCanRead(it.file)&&aiAuto(it.status==="err"||it.weak)){ await trAiItem(f,it,kind0); if(it.status==="ok"&&it.ai&&it.kind&&it.period) it.kpOk=true; }
     render();
   }
+  if(V.trImport&&V.trImport.items.every(x=>x.status==="ok"&&x.kpOk)) await trImpSaveAll();
+  else if(V.trImport) toast("Баъзи файлларда ҳисобот тури ёки даври аниқланмади — текшириб, «Ҳаммасини сақлаш»ни босинг");
 }
 function trImportView(f){
   const I=V.trImport; const on=trOn(f); const n=I.items.filter(x=>x.status==="ok").length;
@@ -4256,12 +4399,13 @@ const COLS={
   orders:[
     {k:"no",t:"№",d:1,v:o=>`<span class="num">${esc(o.values?.number||"—")}</span>`},
     {k:"date",t:"Сана",d:1,v:o=>`<span class="num">${fmtDate(o.values?.date)}</span>`},
-    {k:"title",t:"Буйруқ номи",d:1,v:o=>`${esc(o.title)}${o.values?.fio?`<div class="ctsub">${esc(o.values.fio)}</div>`:""}`},
+    {k:"title",t:"Буйруқ номи",d:1,v:o=>`${esc(o.title)}${o.files?.length?` <span class="hint" title="Бириктирилган файллар">📎${o.files.length}</span>`:""}${o.values?.fio?`<div class="ctsub">${esc(o.values.fio)}</div>`:""}`},
     {k:"type",t:"Тури",d:1,v:o=>{ const tp=TEMPLATES.find(t=>t.id===o.tplId); return tp?`<span class="otag ${tp.hr?"hr":""}">${esc(tp.hr?tp.tag.replace("Кадр · ","Кадр: "):(tp.tag||""))}</span>`:""; }},
     {k:"status",t:"Ҳолати",d:1,v:o=>pill(o.status)},
     {k:"mod",t:"Ким ва қачон ўзгартирган",d:1,v:o=>lastMod(o)},
     {k:"id",t:"ИД",d:1,v:o=>`<span class="did">${docCode(o,"order")}</span>`},
     {k:"emp",t:"Ходим",v:o=>esc(o.values?.fio||"")},
+    {k:"files",t:"Файллар",v:o=>(o.files||[]).length?`📎 ${o.files.length}`:""},
     {k:"signed",t:"Имзоланган сана",v:o=>`<span class="num">${o.signedAt?fmtStamp(o.signedAt):""}</span>`},
     {k:"created",t:"Яратилган",v:o=>`<span class="num">${o.createdAt?fmtStamp(o.createdAt):""}</span>`},
     {k:"fields",t:"Реквизитлар",v:o=>`<span class="hint">${esc(orderFieldsText(o)).slice(0,160)}</span>`},
@@ -4284,13 +4428,16 @@ const COLS={
     {k:"id",t:"ИД",v:({L})=>`<span class="did">${docCode(L)}</span>`},
   ],
   tr:[
-    {k:"per",t:"Давр",d:1,v:x=>`<b>${trPerLabel(x.P.key)}</b>`},
-    {k:"dl",t:"Муддат",d:1,v:x=>`<span class="num">${fmtDate(x.dl)}</span>`},
-    {k:"state",t:"Ҳолати",d:1,v:x=>`<span class="lpill ${x.st.cls}">${x.st.t}</span>`},
-    {k:"sub",t:"Топширилган сана",d:1,v:x=>`<span class="num">${fmtDate(x.rec?.subDate)}</span>`},
-    {k:"acc",t:"Ҳисобланган, сўм",r:1,d:1,v:x=>`<span class="num">${x.rec?.accrued?m0(num(x.rec.accrued)):""}</span>`},
-    {k:"pay",t:"Тўланиши лозим, сўм",r:1,d:1,v:x=>`<span class="num">${x.rec?.payable?m0(num(x.rec.payable)):""}</span>`},
-    {k:"files",t:"Файллар",d:1,v:x=>(x.rec?.files||[]).map(fl=>`<a class="ctpdf" href="${esc(ctFileUrl(fl.file))}" target="_blank" rel="noopener" title="${esc(fl.name||"")}">${/\.xlsx?$/i.test(fl.name||"")?"XLS":PDF_ICON}</a>`).join("")},
+    {k:"name",t:"Ҳисобот номи",d:1,v:x=>`<b>${esc(trName(x.k||V.trKind))}</b> <span class="hint">${trPerLabel(x.P.key)}</span>${(x.rec?.files||[]).length?` <span class="hint" title="Файл бириктирилган">📎</span>`:""}`},
+    {k:"year",t:"Йили",d:1,v:x=>`<span class="num">${String(x.P.key).slice(0,4)}</span>`},
+    {k:"sub2",t:"Ҳолати",d:1,v:x=>{ const ok=x.st.cls==="ok"; return `<span class="lpill ${ok?"ok":x.st.cls==="bad"?"bad":x.st.cls==="soon"?"soon":"off"}">${ok?"Топширилган":x.st.t==="Давр тугамаган"?"Давр тугамаган":"Топширилмаган"}</span>`; }},
+    {k:"per",t:"Давр",v:x=>`<b>${trPerLabel(x.P.key)}</b>`},
+    {k:"dl",t:"Муддат",v:x=>`<span class="num">${fmtDate(x.dl)}</span>`},
+    {k:"state",t:"Ҳолати (батафсил)",v:x=>`<span class="lpill ${x.st.cls}">${x.st.t}</span>`},
+    {k:"sub",t:"Топширилган сана",v:x=>`<span class="num">${fmtDate(x.rec?.subDate)}</span>`},
+    {k:"acc",t:"Ҳисобланган, сўм",r:1,v:x=>`<span class="num">${x.rec?.accrued?m0(num(x.rec.accrued)):""}</span>`},
+    {k:"pay",t:"Тўланиши лозим, сўм",r:1,v:x=>`<span class="num">${x.rec?.payable?m0(num(x.rec.payable)):""}</span>`},
+    {k:"files",t:"Файллар",v:x=>(x.rec?.files||[]).map(fl=>`<a class="ctpdf" href="${esc(ctFileUrl(fl.file))}" target="_blank" rel="noopener" title="${esc(fl.name||"")}">${/\.xlsx?$/i.test(fl.name||"")?"XLS":PDF_ICON}</a>`).join("")},
     {k:"id",t:"ИД",d:1,v:x=>x.rec?`<span class="did">${docCode(x.rec)}</span>`:""},
     {k:"note",t:"Изоҳ",v:x=>esc(x.rec?.note||"")},
     {k:"who",t:"Ким киритган",v:x=>x.rec?lastMod(x.rec):""},
@@ -4333,12 +4480,14 @@ const COL_LK=k=>"fb-cols-"+k;
 function colKeys(key){ let p=null; try{ p=JSON.parse(localStorage.getItem(COL_LK(key))||"null"); }catch(e){} const all=COLS[key]; if(!Array.isArray(p)||!p.length) return all.filter(c=>c.d).map(c=>c.k); return p.filter(k=>all.some(c=>c.k===k)); }
 function colSet(key,arr){ try{ localStorage.setItem(COL_LK(key),JSON.stringify(arr)); }catch(e){} COL_MEM[key]=arr; }
 const COL_MEM={};
+try{ if(!localStorage.getItem("fb-cols-tr-v2")){ localStorage.removeItem("fb-cols-tr"); localStorage.setItem("fb-cols-tr-v2","1"); } }catch(e){}
 function colsOf(key,hide){ const ks=COL_MEM[key]||colKeys(key); return ks.map(k=>COLS[key].find(c=>c.k===k)).filter(c=>c&&!(hide||[]).includes(c.k)); }
 function colTable(key,rows,attr,opts={}){
   const cols=colsOf(key,opts.hide); if(COL_DATE[key]&&!opts.nosort) rows=sortD(rows,COL_DATE[key]);
-  return `<div class="colbar">${COL_DATE[key]?sortBtn():""}<button type="button" class="colcfg-btn" data-colcfg="${key}" title="Устунларни созлаш: тартиб, қўшиш, олиб ташлаш">⚙ Устунлар</button></div><div class="tablewrap"><table class="ltable ${opts.cls||""}" data-colkey="${key}"><thead><tr>${cols.map(c=>`<th class="${c.r?"r":""}" draggable="true" data-colth="${c.k}" title="Устунни суриб жойини ўзгартиринг">${esc(c.t)}</th>`).join("")}</tr></thead><tbody>
-  ${rows.length?rows.map(r=>`<tr ${attr(r)}>${cols.map(c=>`<td class="${c.r?"r":""}">${c.v(r)}</td>`).join("")}</tr>`).join(""):noHit(cols.length)}
-  </tbody>${opts.foot?opts.foot(cols):""}</table></div>`;
+  const S0=SEL_MAP[key]&&!opts.nosel?SEL_MAP[key]:null; if(S0) SEL_ROWS[key]=rows.map(S0.id);
+  return `<div class="colbar">${S0?selBar(key):""}${COL_DATE[key]?sortBtn():""}<button type="button" class="colcfg-btn" data-colcfg="${key}" title="Устунларни созлаш: тартиб, қўшиш, олиб ташлаш">⚙ Устунлар</button></div><div class="tablewrap"><table class="ltable ${opts.cls||""}" data-colkey="${key}"><thead><tr>${S0?`<th class="selc"><input type="checkbox" class="selcb" data-selall="${key}" ${rows.length&&rows.every(r=>selHas(key,S0.id(r)))?"checked":""} aria-label="Ҳаммасини белгилаш" title="Ҳаммасини белгилаш"></th>`:""}${cols.map(c=>`<th class="${c.r?"r":""}" draggable="true" data-colth="${c.k}" title="Устунни суриб жойини ўзгартиринг">${esc(c.t)}</th>`).join("")}</tr></thead><tbody>
+  ${rows.length?rows.map(r=>`<tr ${attr(r)} ${S0&&selHas(key,S0.id(r))?'data-selected="1"':""}>${S0?`<td class="selc"><input type="checkbox" class="selcb" data-selk="${key}" data-selid="${esc(S0.id(r))}" ${selHas(key,S0.id(r))?"checked":""} aria-label="Белгилаш"></td>`:""}${cols.map(c=>`<td class="${c.r?"r":""}">${c.v(r)}</td>`).join("")}</tr>`).join(""):noHit(cols.length+(S0?1:0))}
+  </tbody>${opts.foot?(S0?opts.foot(cols).replace("<tr>","<tr><td></td>"):opts.foot(cols)):""}</table></div>`;
 }
 function colPanel(){
   const key=V.colCfg; if(!key||!COLS[key]) return ""; const all=COLS[key]; const on=COL_MEM[key]||colKeys(key); const off=all.filter(c=>!on.includes(c.k));
@@ -4360,10 +4509,10 @@ document.addEventListener("toggle",e=>{ const d=e.target; if(d?.dataset?.histid!
 /* ---------- Ҳар қандай ҳужжатга файл бириктириш ---------- */
 const ATT_ACCEPT=".pdf,.xlsx,.xls,.csv,.doc,.docx,.jpg,.jpeg,.png";
 const attList=(kind)=>kind==="orders"?S.orders:kind==="emp"?[...S.emp,...S.pos,...S.vplan]:kind==="gtd"?S.gtd:S.recs;
-function attachBox(kind,r,title,hint){ const files=r.files||[];
+function attachBox(kind,r,title,hint){ const files=r.files||[]; const ak=kind+"|"+r.id; const as=V.attSel&&V.attSel.k===ak?V.attSel.idx:[]; const nPr=files.length+(r.file?1:0);
   return `<div class="card attbox"><div class="label" style="padding:12px 16px 0">${GH(title||"Бириктирилган файллар","pdf",30)}</div>${hint?`<p class="hint" style="padding:4px 16px 0">${hint}</p>`:""}
-  <div class="attl">${files.map((fl,i)=>`<span class="trfile"><a href="${esc(ctFileUrl(fl.file))}" target="_blank" rel="noopener">${/\.xlsx?$|\.csv$/i.test(fl.name||"")?"📊":/\.(jpe?g|png)$/i.test(fl.name||"")?"🖼":"📄"} ${esc(fl.name||"файл")}</a><span class="hint">${fl.at?fmtStamp(fl.at):""}${fl.by?" · "+esc(nameOf(fl.by)):""}</span><button type="button" class="linkbtn danger" data-attdel="${kind}|${esc(r.id)}|${i}" aria-label="Олиб ташлаш">✕</button></span>`).join("")||`<span class="hint">Файл бириктирилмаган</span>`}</div>
-  <div style="padding:0 16px 14px"><label class="btn sm ctup">${LPLUS}Файл бириктириш (PDF, Excel, скан)<input type="file" data-attach="${kind}|${esc(r.id)}" accept="${ATT_ACCEPT}" multiple hidden></label></div></div>`; }
+  <div class="attl">${files.map((fl,i)=>`<span class="trfile"><input type="checkbox" class="attcb" data-attk="${esc(ak)}" data-i="${i}" ${as.includes(i)?"checked":""} aria-label="Чоп этиш учун белгилаш"><a href="${esc(ctFileUrl(fl.file))}" target="_blank" rel="noopener">${/\.xlsx?$|\.csv$/i.test(fl.name||"")?"📊":/\.(jpe?g|png)$/i.test(fl.name||"")?"🖼":"📄"} ${esc(fl.name||"файл")}</a><span class="hint">${fl.at?fmtStamp(fl.at):""}${fl.by?" · "+esc(nameOf(fl.by)):""}</span><button type="button" class="linkbtn danger" data-attdel="${kind}|${esc(r.id)}|${i}" aria-label="Олиб ташлаш">✕</button></span>`).join("")||`<span class="hint">Файл бириктирилмаган</span>`}</div>
+  <div style="padding:0 16px 14px;display:flex;gap:8px;flex-wrap:wrap">${nPr?`<button type="button" class="btn sm" data-act="attPrint" data-k="${esc(ak)}">🖨 ${as.length?`Белгиланганларни чоп этиш (${as.length})`:`Ҳаммасини чоп этиш (${nPr})`}</button>`:""}<label class="btn sm ctup">${LPLUS}Файл бириктириш (PDF, Excel, скан)<input type="file" data-attach="${kind}|${esc(r.id)}" accept="${ATT_ACCEPT}" multiple hidden></label></div></div>`; }
 async function attPut(kind,id,mut,note){
   for(let attempt=0;attempt<2;attempt++){ const row=ROWS[kind]?.[id]; const o0=row?.obj||attList(kind).find(x=>x.id===id); if(!o0) throw new Error("Ҳужжат топилмади"); const o=JSON.parse(JSON.stringify(o0)); mut(o);
     try{ return await putItem(kind,o,note); }catch(err){ if(err instanceof ConflictErr&&attempt===0) continue; throw err; } } }
@@ -4512,6 +4661,7 @@ function attLoc(kind,o){ o=o||{}; const fid=o.firmId;
   if(t==="letter") return {firmId:fid,sec:"office",sub:[o.dir==="out"?"Чиқувчи хатлар":"Кирувчи хатлар",yOf(o.regDate)]};
   if(t==="taxrep") return {firmId:fid,sec:"taxrep",sub:[trName(o.kind),yOf(o.period)]};
   if(t==="finrep") return {firmId:fid,sec:"finrep",sub:[yOf(o.period)]};
+  if(t==="lease") return {firmId:fid,sec:"lease",sub:[o.lessorName||"ижара"]};
   return {firmId:fid,sec:"other",sub:[]};
 }
 function driveAllFiles(withDemo){
@@ -4826,15 +4976,15 @@ async function ccReadAny(file,f,onP){
 
 /* юклаш ойнаси (ГТД каби) */
 const ccDupKey=d=>d.rrn?"r"+d.rrn:d.fiscal?"f"+d.fiscal:[d.date,String(d.time||"").slice(0,5),Math.round(num(d.amount)),d.last4||""].join("|");
-function ccIsDup(f,d,self){ const k=ccDupKey(d); return firmCC(f.id).some(r=>r.id!==self&&ccDupKey(r.card?{...r,last4:r.card.last4}:r)===k)||(V.ccImport?.items||[]).some(x=>x.d&&x.id!==self&&x.status!=="dup"&&x.status!=="err"&&x.status!=="saved"&&ccDupKey(x.d)===k&&V.ccImport.items.indexOf(x)<V.ccImport.items.findIndex(y=>y.id===self)); }
+function ccIsDup(f,d,self){ const k=ccDupKey(d); const hk=d.fileHash; if(hk){ if(S.recs.some(r=>r.type==="ccheck"&&r.id!==self&&r.fileHash===hk)) return true; const its=V.ccImport?.items||[]; const me=its.findIndex(y=>y.id===self); if(its.some((x,j)=>x.d&&x.id!==self&&j<me&&x.d.fileHash===hk&&!["dup","err"].includes(x.status))) return true; } return firmCC(f.id).some(r=>r.id!==self&&ccDupKey(r.card?{...r,last4:r.card.last4}:r)===k)||(V.ccImport?.items||[]).some(x=>x.d&&x.id!==self&&x.status!=="dup"&&x.status!=="err"&&x.status!=="saved"&&ccDupKey(x.d)===k&&V.ccImport.items.indexOf(x)<V.ccImport.items.findIndex(y=>y.id===self)); }
 function ccItemStatus(f,it){ const d=it.d; if(!d) return; if(!num(d.amount)||!d.date){ it.status="need"; return; } it.status=ccIsDup(f,d,it.id)?"dup":"ok"; }
 async function ccReadFiles(files,append){
   const f=firm(V.firmId); if(!f) return; const list=[...files].filter(x=>/\.(pdf|jpe?g|png|webp)$/i.test(x.name)||/^(application\/pdf|image\/)/.test(x.type));
   if(!list.length){ toast("PDF ёки расм (JPG, PNG) файлларни танланг"); return; }
   if(!append||!V.ccImport) V.ccImport={items:[],saving:false}; V.ccImport.items.push(...list.map(x=>({id:uid(),src:x,fname:x.name,status:"read",d:null}))); V.ccId=null; V.ccEdit=null; if(append) ccImpRefresh(); else { render(); window.scrollTo(0,0); }
   for(let i=0;i<V.ccImport.items.length;i++){ const it=V.ccImport.items[i]; if(!V.ccImport) return; if(it.status!=="read"||!it.src) continue;
-    try{ const res=await ccReadAny(it.src,f,m=>{ const s=$("#ccImpMsg"); if(s) s.textContent=it.fname+": "+m; });
-      const made=res.map((r,k)=>({id:k?uid():it.id,fname:r.split?`${it.fname} (${k+1}/${r.split})`:it.fname,file:r.file,url:URL.createObjectURL(r.file),pages:r.pages,status:"ok",raw:r.text.slice(0,4000),d:{...r.d,cardI:ccCardIdx(f,r.d),purpose:"",holder:""}}));
+    try{ const srcHash=await fileHash(it.src); const res=await ccReadAny(it.src,f,m=>{ const s=$("#ccImpMsg"); if(s) s.textContent=it.fname+": "+m; });
+      const made=res.map((r,k)=>({id:k?uid():it.id,fname:r.split?`${it.fname} (${k+1}/${r.split})`:it.fname,file:r.file,url:URL.createObjectURL(r.file),pages:r.pages,status:"ok",raw:r.text.slice(0,4000),d:{...r.d,cardI:ccCardIdx(f,r.d),purpose:"",holder:"",fileHash:srcHash?srcHash+(res.length>1?"#"+k:""):""}}));
       made.forEach(m=>{ const c=firmCcards(f)[+m.d.cardI]; if(c&&!m.d.holder) m.d.holder=c.holder||""; if(m.d.last4&&m.d.cardI===""&&firmCcards(f).length) m.warn=`Чекдаги карта ··${m.d.last4} реквизитлардаги корпоратив карталарга мос келмади`; if(!m.d.auto) m.warn="Матн танилмади — маълумотларни қўлда киритинг"; });
       if(res.length>1) toast(`${it.fname}: ${res.length} та чекка бўлинди`);
       V.ccImport.items.splice(i,1,...made); i+=made.length-1; made.forEach(m=>ccItemStatus(f,m));
@@ -4867,7 +5017,7 @@ function ccImportView(f){ const I=V.ccImport; const n=I.items.filter(x=>x.status
   <div class="card"><div class="tablewrap"><table class="ltable gimp ccimp"><thead><tr><th>#</th><th>Файл</th><th>Сана, вақт</th><th>Сотувчи, СТИР</th><th>Карта</th><th>Тоифа</th><th class="r">Сумма</th><th class="r">ҚҚС</th><th>Ҳолати</th><th></th></tr></thead><tbody id="ccImpBody">${ccImpRows()}</tbody></table></div></div>`; }
 function ccRecord(f,d,file,src){ const c=firmCcards(f)[+d.cardI]; const card=c?{type:c.type||guessCard(c.first4)||"",first4:c.first4||"",last4:c.last4||""}:(d.last4?{type:d.cardType||"",first4:d.first4||"",last4:d.last4}:null);
   const o={id:d.id||uid(),type:"ccheck",firmId:f.id,date:d.date||"",time:d.time||"",amount:String(num(d.amount)||""),currency:d.currency||"UZS",kind:d.kind||"buy",vat:d.vat===""||d.vat==null?"":String(num(d.vat)),vatRate:d.vatRate||"",seller:String(d.seller||"").trim(),sellerInn:String(d.sellerInn||"").trim(),card,cat:d.cat||"",purpose:d.purpose||"",holder:d.holder||c?.holder||"",checkNo:d.checkNo||"",rrn:d.rrn||"",auth:d.auth||"",terminal:d.terminal||"",merchant:d.merchant||"",fiscal:d.fiscal||"",fm:d.fm||"",ofd:d.ofd||"",note:d.note||"",src:src||"pdf",createdAt:d.createdAt||Date.now()};
-  if(d.ai) o.ai=d.ai; if(file) o.file=file; else if(d.file) o.file=d.file; if(d.files) o.files=d.files; return o; }
+  if(d.ai) o.ai=d.ai; if(d.fileHash) o.fileHash=d.fileHash; if(file) o.file=file; else if(d.file) o.file=d.file; if(d.files) o.files=d.files; return o; }
 const ccFileName=(f,o)=>`${o.date||""} ${o.time?o.time.slice(0,5).replace(":","-")+" ":""}${dirClean(o.seller||"чек").slice(0,50)} ${m2(num(o.amount)).replace(/\s/g," ")} ${o.currency==="UZS"?"сўм":o.currency}.pdf`.replace(/\s+/g," ");
 async function ccImpSave(){ const f=firm(V.firmId); const I=V.ccImport; if(!f||!I||I.saving) return; I.saving=true; ccImpRefresh(); let ok=0, bad=0, firstM="";
   for(const it of I.items){ if(it.status!=="ok") continue; if(!V.ccImport) return; it.status="saving"; ccImpRefresh();
@@ -4897,8 +5047,8 @@ COLS.cc=[
   {k:"ai",t:"Claude нархи",r:1,v:r=>r.ai?`<span class="num">${aiCents(r.ai.usd||0)}</span>`:""},
 ];
 COL_TITLE.cc="Корпоратив карта чеклари"; COL_DATE.cc=r=>(r.date||"")+(r.time||"");
-function ccFiltered(f){ const q=qv("ccQ"), cd=V.ccCard||"all", mo=V.ccM||"", ct=V.ccCat||"";
-  return firmCC(f.id).filter(r=>(cd==="all"||(cd==="none"?!r.card?.last4:r.card?.last4===cd))&&(!mo||String(r.date||"").startsWith(mo))&&(!ct||r.cat===ct)&&qhit(q,[r.seller,r.sellerInn,r.purpose,r.note,r.checkNo,r.rrn,r.fiscal,r.cat,r.holder,r.amount,docCode(r)])); }
+function ccFiltered(f){ const q=qv("ccQ"), cd=V.ccCard||"all", mo=V.ccM||"", ct=V.ccCat||""; const dupIds=V.ccD==="dup"?new Set(ccDupGroups(f.id).flat().map(r=>r.id)):null;
+  return firmCC(f.id).filter(r=>(!dupIds||dupIds.has(r.id))&&(cd==="all"||(cd==="none"?!r.card?.last4:r.card?.last4===cd))&&(!mo||String(r.date||"").startsWith(mo))&&(!ct||r.cat===ct)&&qhit(q,[r.seller,r.sellerInn,r.purpose,r.note,r.checkNo,r.rrn,r.fiscal,r.cat,r.holder,r.amount,docCode(r)])); }
 function vCards(f){
   if(V.ccImport) return ccImportView(f);
   if(V.ccEdit) return ccForm(f,V.ccEdit);
@@ -4917,6 +5067,7 @@ function vCards(f){
     <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Энг кўп харажат</span><span class="v">${esc(Object.entries(cats).sort((a,b)=>b[1]-a[1])[0]?.[0]||"—")}</span><span class="s">${Object.entries(cats).sort((a,b)=>b[1]-a[1])[0]?m2(Object.entries(cats).sort((a,b)=>b[1]-a[1])[0][1]):""}</span></div></div>
   <div class="ctfilters">${byCard.length>1||all.some(r=>!r.card?.last4)?fchips("ccCard",[["all","Барча карталар",all.length],...byCard.map(l4=>[l4,lbl(l4),all.filter(r=>r.card?.last4===l4).length]),...(all.some(r=>!r.card?.last4)?[["none","Карта кўрсатилмаган",all.filter(r=>!r.card?.last4).length]]:[])]):""}
     <div class="chips">${fsel("ccM",monthOpts(all.map(r=>r.date)),"Барча ойлар")}${fsel("ccCat",CC_CATS.filter(c=>all.some(r=>r.cat===c)).map(c=>[c,c]),"Барча тоифалар")}${fq("ccQ","Қидириш: сотувчи, СТИР, сумма, RRN…")}${fclear(["ccCard","ccM","ccCat","ccQ"])}</div></div>
+  ${(()=>{ const G=ccDupGroups(f.id); const extra=G.reduce((a,g)=>a+g.length-1,0); return G.length?`<div class="vpwarn ccdup"><b>Такрорланган чеклар: ${G.length} гуруҳ, ${extra} та ортиқча нусха.</b> <button type="button" class="btn sm" data-act="ccDupSel">Ортиқча нусхаларни белгилаш</button> ${V.ccD==="dup"?`<button type="button" class="linkbtn" data-fclear="ccD">Ҳаммасини кўрсатиш</button>`:`<button type="button" class="linkbtn" data-ctf="ccD" data-v="dup">Фақат такрорланганларни кўрсатиш</button>`}</div>`:""; })()}
   <div class="card">${all.length?colTable("cc",list,r=>`data-cc="${esc(r.id)}" tabindex="0"`,{foot}):`<div class="empty"><b>Корпоратив карта чеклари ҳали йўқ</b>«Чекларни юклаш» тугмасини босиб, PDF ёки расмларни танланг — бир нечтасини бирданига ҳам юкласа бўлади.</div>`}</div>`;
 }
 function ccDetail(f,r){ const u=ctFileUrl(r.file);
@@ -5208,6 +5359,440 @@ async function chAiFill(fl,p){ const d=V.chEdit; if(!d) return; toast("✦ Claud
     d.auto=Math.max(d.auto||0,n); toast(`✦ Claude ўқиди · ${aiCents(r.usd)} — ${n} та майдон`); }
   catch(e){ toast("Claude: "+(e.message||e)); } render(); }
 
+/* ---------- Бир нечта ёзувни белгилаб, бирдан ўчириш ---------- */
+const SEL_MAP={
+  gtd:{kind:"gtd",id:r=>r.id,lbl:r=>"ГТД "+(r.no||"")},
+  ct:{kind:"recs",id:c=>c.id,lbl:c=>"шартнома № "+(c.number||"")+" "+(c.cp?.name||"")},
+  fc:{kind:"recs",id:x=>x.c.id,lbl:c=>"ташқи савдо контракти "+(c.number||"")},
+  emp:{kind:"emp",id:e=>e.id,lbl:e=>"ходим "+(e.fio||e.position||"")},
+  orders:{kind:"orders",id:o=>o.id,lbl:o=>(o.title||"буйруқ")+" № "+(o.values?.number||"")},
+  loans:{kind:"recs",id:x=>x.L.id,lbl:L=>"займ № "+(L.number||"")+" "+(L.person||"")},
+  ch:{kind:"recs",id:c=>c.id,lbl:c=>(c.kind||"устав")+" "+(c.edition||"")},
+  let:{kind:"recs",id:l=>l.id,lbl:l=>"хат "+(l.regNo||"")+" "+(l.corr||"")},
+  cc:{kind:"recs",id:r=>r.id,lbl:r=>"карта чеки "+(r.seller||"")+" "+fmtDate(r.date)+" "+m2(num(r.amount))},
+};
+const SEL_ROWS={};
+const selOf=key=>V.sel&&V.sel.key===key?V.sel:null;
+const selHas=(key,id)=>{ const s=selOf(key); return !!s&&s.ids.includes(id); };
+function selBar(key){ const s=selOf(key); const n=s?s.ids.length:0;
+  if(!n) return `<span class="selhint">☐ — белгилаб, бирдан чоп этиш ёки ўчириш мумкин</span>`;
+  return `<div class="selbar"><b>${n} та белгиланди</b><label class="selfl"><input type="checkbox" id="selFiles" ${V.selFiles?"checked":""}> Google Drive'даги файлларини ҳам саватга (Trash) ташлаш</label><button type="button" class="btn sm" data-act="selPrint" data-k="${key}" title="Белгиланган ёзувларнинг барча PDF ва расм файллари битта ҳужжат бўлиб принтерга берилади">🖨 Файлларини бирлаштириб чоп этиш</button>${key==="orders"?`<button type="button" class="btn sm" data-act="selPrintOrders">🖨 Буйруқларни чоп этиш</button>`:""}<button type="button" class="btn danger sm" data-act="selDel" data-k="${key}">🗑 Белгиланганларни ўчириш (${n})</button><button type="button" class="btn ghost sm" data-act="selClear">Бекор қилиш</button></div>`; }
+function fileInUse(id){ let used=false; const chk=o=>{ if(!used) walkFiles(JSON.parse(JSON.stringify(o)),x=>{ if(x.id===id) used=true; }); };
+  S.firms.forEach(chk); S.orders.forEach(chk); S.recs.forEach(chk); S.gtd.forEach(chk); [...S.emp,...S.pos,...S.vplan].forEach(chk); return used; }
+async function driveTrash(ref){ if(!ref?.id||fileInUse(ref.id)) return false; if(ref.demo){ delete DEMO_FILES[ref.id]; return true; }
+  await api("PATCH",`${DRIVE}/${ref.id}?fields=id`,{trashed:true}); return true; }
+async function selDelete(key,ids,withFiles){ const M=SEL_MAP[key]; let ok=0,bad=0,fl=0,i=0;
+  for(const id of ids){ i++; const ex=ROWS[M.kind]?.[id]; if(!ex||ex.deleted) continue; const o=ex.obj; toast(`Ўчирилмоқда ${i} / ${ids.length}…`);
+    try{ await delItem(M.kind,id,`Ўчирилди (рўйхатдан белгилаб): ${M.lbl(o)}`); ok++;
+      if(withFiles){ const refs=[]; walkFiles(JSON.parse(JSON.stringify(o)),x=>{ refs.push(x); }); for(const r of refs){ try{ if(await driveTrash(r)) fl++; }catch(e){ if(e instanceof AuthErr) throw e; } } } }
+    catch(e){ bad++; if(e instanceof AuthErr) break; } }
+  V.sel=null; toast(`${ok} та ўчирилди${fl?` · ${fl} та файл Drive саватига ташланди`:""}${bad?` · ${bad} таси ўчмади`:""}`); render(); }
+/* SHA-256 — бир хил файлни иккинчи марта сақламаслик учун */
+async function fileHash(file){ try{ const b=await crypto.subtle.digest("SHA-256",await file.arrayBuffer()); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""); }catch(e){ return ""; } }
+const DEMO_HASH={};
+/* карта чекларидаги такрорланганлар */
+function ccDupGroups(fid){ const g={}; firmCC(fid).forEach(r=>{ const keys=[ccDupKey(r.card?{...r,last4:r.card.last4}:r)]; if(r.fileHash) keys.push("h"+r.fileHash); keys.forEach(k=>{ (g[k]=g[k]||[]).push(r); }); });
+  const seen=new Set(); const out=[]; Object.values(g).filter(a=>a.length>1).forEach(a=>{ const ids=a.map(r=>r.id).sort().join(); if(seen.has(ids)) return; seen.add(ids); out.push(a.slice().sort((x,y)=>(x.createdAt||0)-(y.createdAt||0))); }); return out; }
+
+/* ---------- Файлларни бирлаштириб чоп этиш ---------- */
+function selFileRefs(key,ids){ const M=SEL_MAP[key]; const out=[], seen=new Set(); ids.forEach(id=>{ const o=ROWS[M.kind]?.[id]?.obj; if(!o) return; walkFiles(JSON.parse(JSON.stringify(o)),x=>{ if(!seen.has(x.id)){ seen.add(x.id); out.push(x); } }); }); return out; }
+async function printMerge(refs,onP){ await ensurePdfLib(); const out=await PDFLib.PDFDocument.create(); let n=0; const skip=[];
+  for(let i=0;i<refs.length;i++){ const r=refs[i]; const nm=String(r.name||"файл"); onP&&onP(`Файллар тайёрланмоқда: ${i+1} / ${refs.length}`);
+    let bytes; try{ bytes=new Uint8Array(await (await driveFetch(r)).arrayBuffer()); }catch(e){ if(e instanceof AuthErr) throw e; skip.push(nm+" (юклаб бўлмади)"); continue; }
+    const isPdf=bytes[0]===0x25&&bytes[1]===0x50&&bytes[2]===0x44&&bytes[3]===0x46, isPng=bytes[0]===0x89&&bytes[1]===0x50, isJpg=bytes[0]===0xFF&&bytes[1]===0xD8;
+    try{ if(isPdf){ const src=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true}); (await out.copyPages(src,src.getPageIndices())).forEach(p=>out.addPage(p)); n++; }
+      else if(isPng||isJpg){ const img=isPng?await out.embedPng(bytes):await out.embedJpg(bytes); const W=595.28,H=841.89,m=28; const sc=Math.min((W-2*m)/img.width,(H-2*m)/img.height,1); const pg=out.addPage([W,H]); pg.drawImage(img,{x:(W-img.width*sc)/2,y:H-m-img.height*sc,width:img.width*sc,height:img.height*sc}); n++; }
+      else skip.push(nm+" (PDF ёки расм эмас)"); }
+    catch(e){ skip.push(nm+" (очиб бўлмади)"); } }
+  if(!n) throw new Error("Чоп этиладиган PDF ёки расм топилмади"+(skip.length?": "+skip.join(", "):""));
+  return {bytes:await out.save(),n,pages:out.getPageCount(),skip}; }
+function printPdfBytes(bytes,name){ const blob=new Blob([bytes],{type:"application/pdf"}); const url=URL.createObjectURL(blob);
+  let fr=$("#printFrame"); if(fr) fr.remove(); fr=document.createElement("iframe"); fr.id="printFrame"; fr.style.cssText="position:fixed;right:0;bottom:0;width:1px;height:1px;border:0;opacity:0"; fr.src=url;
+  fr.onload=()=>{ setTimeout(()=>{ try{ fr.contentWindow.focus(); fr.contentWindow.print(); }catch(e){ saveBlob(blob,name); toast("Браузер тўғридан-тўғри чоп эттирмади — PDF юклаб олинди, уни очиб чоп этинг"); } },300); };
+  document.body.appendChild(fr); V.lastPrint={url,name}; }
+async function printRefs(refs,name,btn){ if(!refs.length){ toast("Танланганларда бириктирилган файл йўқ"); return; } if(btn) btn.disabled=true;
+  try{ const r=await printMerge(refs,m=>toast(m)); toast(`${r.n} та файл (${r.pages} бет) чоп этишга тайёр${r.skip.length?` · ўтказиб юборилди: ${r.skip.join(", ")}`:""}`); printPdfBytes(r.bytes,name); }
+  catch(e){ toast(e.message||String(e)); } if(btn) btn.disabled=false; }
+
+/* ---------- QR-код: ҳужжат ҳақиқийлигини реестр орқали текшириш ---------- */
+const QR_URL="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js";
+let QR_LOADING=null;
+function ensureQr(){ if(window.qrcode) return Promise.resolve(); if(!QR_LOADING) QR_LOADING=loadScript(QR_URL).catch(e=>{ QR_LOADING=null; throw e; }); return QR_LOADING; }
+const stableStr=v=>v&&typeof v==="object"?(Array.isArray(v)?"["+v.map(stableStr).join(",")+"]":"{"+Object.keys(v).sort().filter(k=>v[k]!==undefined).map(k=>JSON.stringify(k)+":"+stableStr(v[k])).join(",")+"}"):JSON.stringify(v??null);
+const SIG_SKIP=new Set(["updatedAt","updatedBy","createdAt","createdBy","files","file","status","ai","fileHash","doneDate","payments","repays","done","signedAt","signedBy","signedName","signedTitle","cid","pending","pendingFile","auto","dupOk"]);
+function docSig(k,r){ let o; if(k==="order") o={tplId:r.tplId,firmId:r.firmId,values:r.values||{}}; else { o={}; Object.keys(r||{}).forEach(x=>{ if(!SIG_SKIP.has(x)) o[x]=r[x]; }); }
+  const s=stableStr(o); let a=hash32(s), b=hash32("§"+s); let out=""; for(let i=0;i<4;i++){ out+=B32[a&31]; a>>>=5; } for(let i=0;i<4;i++){ out+=B32[b&31]; b>>>=5; } return out; }
+function docQrUrl(k,r){ const base=location.href.split("#")[0].split("?")[0]; return `${base}#v=${encodeURIComponent(k)}.${encodeURIComponent(r.id)}&h=${docSig(k,r)}`; }
+function qrSvg(text){ if(!window.qrcode) return ""; try{ const q=qrcode(0,"M"); q.addData(text); q.make(); return q.createSvgTag({cellSize:4,margin:0,scalable:true}); }catch(e){ return ""; } }
+function qrGif(text,cell){ if(!window.qrcode) return ""; try{ const q=qrcode(0,"M"); q.addData(text); q.make(); return q.createDataURL(cell||4,8); }catch(e){ return ""; } }
+/* ҳужжат ичига қўйиладиган QR блок (чоп этиш учун) */
+function docQrBlock(k,r,forWord){ if(!r?.id) return ""; const url=docQrUrl(k,r); const code=docCode(r,k);
+  const img=forWord?(qrGif(url,3)?`<img src="${qrGif(url,3)}" width="96" height="96" alt="QR">`:""):qrSvg(url);
+  return `<div class="docqr">${img?`<span class="qrimg">${img}</span>`:""}<span class="qrtx"><b>ИД ${esc(code)}</b><span>Ҳужжат ҳақиқийлигини текшириш учун QR-кодни сканер қилинг: реестрдаги асл нусха ва ким, қачон имзолагани очилади.</span><i>QR — фақат текшириш воситаси; ҳуқуқий кучни имзо беради.</i></span></div>`; }
+/* QR ойнаси: ИД чипи босилганда */
+function qrModal(k,id){ const h=docIndex().find(x=>x.k===k&&String(x.r.id)===String(id)); if(!h) return; const url=docQrUrl(k,h.r);
+  const show=()=>{ $("#qrModal")?.remove(); const d=document.createElement("div"); d.id="qrModal"; d.className="qrmask";
+    d.innerHTML=`<div class="qrbox" role="dialog" aria-label="QR-код"><button type="button" class="linkbtn qrx" data-act="qrClose" aria-label="Ёпиш">✕</button>
+      <b>${esc(DOC_NAME[k]||"Ҳужжат")}</b><span class="hint">${esc(firm(h.fid)?.name||"")}</span>
+      <div class="qrbig">${qrSvg(url)||`<p class="err">QR кутубхонаси юкланмади (интернетни текширинг)</p>`}</div>
+      <div class="did">ИД ${esc(h.code)}</div>
+      <p class="hint">Бу QR-кодни ҳужжатга (масалан, қоғоздаги нусхасига) ёпиштиринг. Сканер қилинганда дастур реестридаги асл нусха очилади ва ҳужжат QR берилгандан кейин ўзгартирилган-ўзгартирилмагани кўрсатилади.</p>
+      <div class="actions"><button type="button" class="btn sm" data-act="qrPng" data-k="${esc(k)}" data-id="${esc(id)}">⬇ QR расмини юклаб олиш</button><button type="button" class="btn sm" data-act="qrLabel" data-k="${esc(k)}" data-id="${esc(id)}">🖨 Ёрлиқни чоп этиш</button><button type="button" class="btn sm" data-act="qrCopy" data-url="${esc(url)}">Ҳаволани нусхалаш</button></div></div>`;
+    d.addEventListener("click",e=>{ if(e.target===d) d.remove(); }); document.body.appendChild(d); };
+  if(window.qrcode) show(); else ensureQr().then(show).catch(()=>show()); }
+/* сканер қилинганда: текшириш саҳифаси */
+const VERIFY=(()=>{ const m=/[#&]v=([^&]+)(?:&h=([A-Za-z0-9]+))?/.exec(location.hash||""); if(!m) return null; const raw=decodeURIComponent(m[1]); const i=raw.indexOf("."); return i>0?{k:raw.slice(0,i),id:raw.slice(i+1),h:m[2]||""}:null; })();
+const DOC_TABLE=k=>k==="order"?"orders":k==="gtd"?"gtd":(k==="emp"||k==="vplan")?"emp":k==="firm"?"firms":"recs";
+function verifyFind(k,id){ const live=docIndex().find(x=>x.k===k&&String(x.r.id)===String(id)); if(live) return {...live,deleted:false};
+  const row=ROWS[DOC_TABLE(k)]?.[id]; if(row&&row.deleted) return {k,r:row.obj,fid:row.obj.firmId||row.obj.id,code:docCode(row.obj,k),deleted:true,delAt:row.updatedAt,delBy:row.updatedBy};
+  for(const rr of Object.values(ROWS.recs||{})){ const c=rr.obj; if(c?.type!=="fcontract") continue; const key=k==="spec"?"specs":k==="act"?"acts":k==="addendum"?"addenda":""; const x=key&&(c[key]||[]).find(z=>z.id===id); if(x) return {k,r:{...x,cid:c.id},fid:c.firmId,code:docCode(x,k),deleted:!!rr.deleted}; }
+  return null; }
+function vVerify(){ const Q=V.verify||{}; const h=verifyFind(Q.k,Q.id); const f=h?firm(h.fid):null;
+  const head=`<div class="head"><div><h1>Ҳужжатни QR орқали текшириш</h1><div class="sub">QR — ҳақиқийликни текшириш воситаси. Ҳуқуқий кучни ҳужжатдаги имзо беради (Ўзбекистонда муҳр мажбурий эмас).</div></div></div>`;
+  if(!h) return head+`<div class="vbanner bad">${NI("alert",40)}<div><b>Бу QR-код бўйича ҳужжат реестрда топилмади</b><span>QR бошқа базага тегишли, нотўғри ёки ҳужжат реестрга киритилмаган. Ҳужжат эгасидан сўранг.</span></div></div>`;
+  const r=h.r, k=h.k; const sigNow=docSig(k,r); const same=!Q.h||Q.h===sigNow;
+  const st=h.deleted?{c:"bad",t:"Ҳужжат реестрдан ЎЧИРИЛГАН",s:`Ўчирилган: ${h.delAt?fmtStamp(h.delAt):""}${h.delBy?" · "+nameOf(h.delBy):""}. Бу ҳужжатга ишонманг ёки эгасидан аниқлаштиринг.`}
+    :same?{c:"ok",t:"✓ Ҳужжат ҳақиқий — реестрда бор",s:Q.h?"QR берилгандан кейин ҳужжат маълумотлари ўзгартирилмаган.":"Реестрдаги асл нусха пастда."}
+    :{c:"warn",t:"⚠ Ҳужжат реестрда бор, лекин ўзгартирилган",s:"QR чоп этилгандан кейин реестрдаги маълумотлар ўзгартирилган. Қоғоздаги нусхани пастдаги асл нусха билан солиштиринг."};
+  const no=r.values?.number||r.number||r.no||r.regNo||r.tab||"", dt=r.values?.date||r.date||r.regDate||r.approvedDate||r.hireDate||"";
+  const title=k==="order"?(r.title||""):k==="gtd"?"ГТД "+(r.no||""):k==="emp"?(r.fio||""):k==="vplan"?r.year+" йил таътиллар графиги":k==="ccheck"?(r.seller||""):k==="letter"?(r.corr||"")+" — "+(r.subject||""):k==="contract"?(r.cp?.name||""):(r.title||r.name||r.kind||r.seller||"");
+  const logs=LOG.filter(l=>l.id===r.id||(k==="cert"&&l.id===f?.id)).sort((a,b)=>b.at-a.at);
+  const signLog=logs.find(l=>/имзоланган деб белгиланди|имзоланди|тасдиқланди/i.test(l.note||""));
+  const signRows=[];
+  if(k==="order"){ signRows.push(["Ҳолати",STATUS[r.status]?.t||r.status||""]); if(r.status==="signed"){ signRows.push(["Имзолаган",[r.signedTitle||f?.directorTitle||"Раҳбар",r.signedName||f?.director||""].filter(Boolean).join(" ")]); signRows.push(["Имзоланган вақт",r.signedAt?fmtStamp(r.signedAt):signLog?fmtStamp(signLog.at):""]); signRows.push(["Дастурда «имзоланди» деб белгилаган",nameOf(r.signedBy||signLog?.email||"")]); } }
+  else if(k==="vplan"&&r.approved){ signRows.push(["Тасдиқланган",`${r.approved.number?"буйруқ № "+r.approved.number+", ":""}${fmtDate(r.approved.date)}`]); }
+  else if(r.status) signRows.push(["Ҳолати",({active:"амалдаги",old:"эски таҳрир",closed:"ёпилган",open:"очиқ",done:"бажарилган",sent:"юборилган",draft:"черновик",submitted:"топширилган"})[r.status]||r.status]);
+  signRows.push(["Реестрга киритган",[r.createdBy?nameOf(r.createdBy):"",r.createdAt?fmtStamp(r.createdAt):""].filter(Boolean).join(" · ")]);
+  if(r.updatedAt) signRows.push(["Охирги ўзгариш",[r.updatedBy?nameOf(r.updatedBy):"",fmtStamp(r.updatedAt)].filter(Boolean).join(" · ")]);
+  const u=r.file?ctFileUrl(r.file):"";
+  return head+`<div class="vbanner ${st.c}">${NI(st.c==="ok"?"charter":"alert",40)}<div><b>${st.t}</b><span>${esc(st.s)}</span></div></div>
+  <div class="card"><div class="reqs">${[["Фирма",(f?.name||"")+(f?.inn?" · СТИР "+f.inn:"")],["Ҳужжат тури",DOC_NAME[k]||""],["Номи",title],["Рақами",no],["Санаси",fmtDate(dt)],["Уникал ИД",h.code]].map(([a,b])=>kv(a,b||"",/ИД|Рақами/.test(a))).concat(signRows.map(([a,b])=>kv(a,b||""))).join("")}</div>
+    <div class="actions" style="padding:0 16px 14px">${!h.deleted?`<button type="button" class="btn primary" data-godoc="${esc(k)}|${esc(r.id)}|${esc(h.fid||"")}">Реестрдаги ёзувни очиш</button>`:""}${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${PDF_ICON}Асл нусха (PDF)</a>`:""}<button type="button" class="btn ghost" data-act="verifyClose">Бош саҳифа</button></div></div>
+  ${k==="order"?`<div class="label" style="margin:16px 0 6px">Реестрдаги асл нусха</div><div class="sheetwrap">${sheetHTML(r,true)}</div>`:""}
+  ${k==="order"&&(r.files||[]).length?`<div class="card attbox"><div class="label" style="padding:12px 16px 0">${GH("Бириктирилган файллар (имзоланган нусха, иловалар)","pdf",30)}</div><div class="attl">${r.files.map(fl=>`<span class="trfile"><a href="${esc(ctFileUrl(fl.file))}" target="_blank" rel="noopener">📄 ${esc(fl.name||"файл")}</a><span class="hint">${fl.at?fmtStamp(fl.at):""}</span></span>`).join("")}</div></div>`:""}
+  ${logs.length?`<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Ўзгаришлар тарихи","history",30)}</div><div class="tablewrap"><table class="sched"><tbody>${logs.slice(0,15).map(l=>`<tr class="norow"><td class="num">${fmtStamp(l.at)}</td><td>${esc(l.name||nameOf(l.email))}</td><td>${esc(l.note||"")}</td></tr>`).join("")}</tbody></table></div></div>`:""}`; }
+
+/* ---------- Гуруҳли кадр буйруқлари (бир буйруқда бир нечта ходим) ---------- */
+const GM=x=>{ const n=num(String(x||"").replace(/\s/g,"")); return n?m0(n):String(x||""); };
+const HR_GROUP={
+  hire:{cand:[["start","Қабул санаси","date"],["dept","Бўлим"],["pos","Лавозим"],["rate","Ставка"],["salary","Маош, сўм","money"],["cno","Шартнома №"],["cdate","Шартнома санаси","date"]],
+    pre:()=>`<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, ходимларнинг аризалари ва улар билан тузилган меҳнат шартномалари асосида</p>`,
+    lead:(g,v)=>`Қуйидаги шахслар ${v.ctype?g("ctype"):"номуайян муддатга"} тузилган меҳнат шартномалари асосида ишга қабул қилинсин:`,
+    tail:(g,v)=>[v.probation?`Синов муддати: ${g("probation")}.`:"",`Бухгалтерияга иш ҳақини штат жадвалига мувофиқ ҳисоблаш ва ходимлар маълумотларини меҳнат ахборот тизимига (электрон меҳнат дафтарчасига) киритиш топширилсин.`],
+    basis:"ходимларнинг аризалари, меҳнат шартномалари"},
+  vac:{cand:[["period","Иш даври"],["from","Бошланиши","date"],["to","Тугаши","date"],["days","Кун"],["back","Ишга чиқиш","date"],["sub","Вазифасини бажарувчи"]],
+    pre:()=>`<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, таътиллар графиги ва ходимларнинг аризаларига асосан</p>`,
+    lead:(g,v)=>`Қуйидаги ходимларга ${v.vkind?g("vkind"):"меҳнат таътили"} берилсин:`,
+    tail:()=>[`Бухгалтерияга таътил пулини белгиланган тартибда ҳисоблаш ва таътил бошланишидан олдин тўлаш топширилсин.`],
+    basis:"ходимларнинг аризалари, таътиллар графиги"},
+  move:{cand:[["oldpos","Ҳозирги лавозими"],["dept","Янги бўлим"],["pos","Янги лавозим"],["salary","Янги маош, сўм","money"]],
+    pre:()=>`<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ, ходимларнинг розилиги ва меҳнат шартномаларига қўшимча келишувлар асосида</p>`,
+    lead:g=>`Қуйидаги ходимлар ${g("from")} дан бошлаб бошқа ишга ўтказилсин:`,
+    tail:()=>[`Бухгалтерияга иш ҳақини янги лавозим маошлари бўйича ҳисоблаш топширилсин.`],
+    basis:"ходимларнинг аризалари, меҳнат шартномаларига қўшимча келишувлар"},
+  salary:{cand:[["oldsal","Ҳозирги маош, сўм","money"],["salary","Янги маош, сўм","money"]],
+    pre:()=>`<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ ва меҳнат шартномаларига қўшимча келишувлар асосида</p>`,
+    lead:g=>`Қуйидаги ходимларнинг ойлик лавозим маошлари ${g("from")} дан бошлаб ўзгартирилсин:`,
+    tail:()=>[`Бухгалтерияга иш ҳақини янги маошлар бўйича ҳисоблаш топширилсин.`],
+    basis:"меҳнат шартномаларига қўшимча келишувлар"},
+  trip:{cand:[],
+    pre:()=>"",
+    lead:g=>`Қуйидаги ходимлар ${g("from")} дан ${g("to")} гача ${g("days")} кун муддатга ${g("place")}га ${g("purpose")} мақсадида хизмат сафарига юборилсин:`,
+    tail:()=>[`Бухгалтерияга хизмат сафари харажатлари учун белгиланган тартибда маблағ ажратиш ва ҳисобот асосида харажатларни қоплаш топширилсин.`],
+    basis:""},
+  bonus:{cand:[["amount","Мукофот, сўм","money"]],total:"amount",
+    pre:()=>`<p>Ўзбекистон Республикаси Меҳнат кодексига ва ички меҳнат тартиби қоидаларига (мукофотлаш низомига) мувофиқ</p>`,
+    lead:(g,v)=>`Қуйидаги ходимлар ${g("reason")}${v.period?" ("+g("period")+")":""} мукофотлансин:`,
+    tail:g=>[`Мукофот ${g("source")} тўлансин. Бухгалтерияга мукофотни иш ҳақи билан бирга ҳисоблаш ҳамда қонунчиликда белгиланган солиқ ва мажбурий ажратмаларни ушлаб қолиш топширилсин.`],
+    basis:""},
+  fire:{cand:[["end","Бўшатиш санаси","date"],["appDate","Ариза санаси","date"],["compdays","Фойдал. таътил, кун"],["sev","Нафақа, сўм","money"],["comp","Компенсация, сўм","money"]],
+    pre:(g,v)=>`<p>Ўзбекистон Республикаси Меҳнат кодексига${v.article?" ("+g("article")+")":""} мувофиқ${v.agrDate?` ва тарафлар ўртасида ${g("agrDate")} да тузилган ёзма келишувга асосан`:""}</p>`,
+    lead:(g,v)=>`Қуйидаги ходимлар билан тузилган меҳнат шартномалари <b>${g("reason")}</b>${v.ground?" — "+g("ground")+" —":""} бекор қилинсин ва улар ишдан бўшатилсин:`,
+    tail:(g,v)=>[v.notice?`Ходимлар ишдан бўшатилиши ҳақида ${g("notice")} да ёзма равишда огоҳлантирилган.`:"",`Бухгалтерияга ходимлар билан охирги иш кунида тўлиқ ҳисоб-китоб қилиш ва фойдаланилмаган меҳнат таътили учун компенсация тўлаш топширилсин.`,`Электрон меҳнат дафтарчаларига тегишли ёзувлар белгиланган тартибда киритилсин.`],
+    basis:"ходимларнинг аризалари / тарафлар келишувлари / асос ҳужжатлар"},
+};
+const grpOk=tpl=>!!(tpl&&HR_GROUP[tpl.hr]&&tpl.fields.some(f=>f[2]==="emp"));
+const grpOn=o=>o?.values?.group==="1";
+function grpCols(tpl){ const G=HR_GROUP[tpl.hr]; if(!G) return []; const ks=tpl.fields.map(f=>f[0]); return G.cand.filter(c=>ks.includes(c[0])); }
+function grpRows(v){ try{ const r=JSON.parse(v?.rows||"[]"); return Array.isArray(r)?r:[]; }catch(e){ return []; } }
+function grpSetRows(o,rows){ o.values.rows=JSON.stringify(rows); const n=rows.filter(r=>r.emp).length; o.values.fio=n?`${n} та ходим: `+rows.filter(r=>r.emp).map(r=>shortFio(r.fio)).join(", "):""; }
+function shortFio(s){ const p=String(s||"").trim().split(/\s+/); return p.length>1?p[0]+" "+p.slice(1).map(x=>x[0]?x[0]+".":"").join(""):p[0]||""; }
+const ordHasEmp=(o,id)=>o.values?.emp===id||(grpOn(o)&&grpRows(o.values).some(r=>r.emp===id));
+const ordEmpVals=(o,id)=>grpOn(o)?{...o.values,...(grpRows(o.values).find(r=>r.emp===id)||{})}:o.values;
+function grpRowFrom(o,e){ const tpl=TEMPLATES.find(t=>t.id===o.tplId); const tmp={}; hrFill(tmp,e,o.tplId); const r={emp:e?.id||"",fio:e?.fio||"",pos:e?.position||"",dept:tmp.dept||""};
+  grpCols(tpl).forEach(([k])=>{ r[k]=tmp[k]!=null&&tmp[k]!==""?String(tmp[k]):(o.values[k]&&!["emp","fio","pos"].includes(k)?String(o.values[k]):""); });
+  if(tpl.hr==="vac"&&r.from&&r.to){ const d=vDays(r.from,r.to); if(d) r.days=d; }
+  return r; }
+function grpBody(tpl,v,f,clean,get){
+  const G=HR_GROUP[tpl.hr]; const cols=grpCols(tpl); const rows=grpRows(v).filter(r=>r.emp||r.fio);
+  const showPos=!cols.some(c=>c[0]==="pos"); const miss=t=>clean?"":`<span class="fill miss">[${t}]</span>`;
+  const cell=(r,[k,l,t])=>{ const x=String(r[k]??"").trim(); if(!x) return k==="sub"||k==="appDate"||k==="sev"||k==="comp"||k==="cdate"||k==="back"?"":miss(l); const s=t==="date"?fmtDate(x):t==="money"?GM(x):x; return clean?esc(s):`<span class="fill">${esc(s)}</span>`; };
+  const tot=G.total?rows.reduce((s,r)=>s+num(String(r[G.total]||"").replace(/\s/g,"")),0):0;
+  const used=cols.filter(c=>!["sub","appDate","sev","comp","cdate","back"].includes(c[0])||rows.some(r=>String(r[c[0]]||"").trim()));
+  const tbl=`<table class="btab grptab"><thead><tr><th>№</th><th>Ф.И.О.</th>${showPos?"<th>Лавозими</th>":""}${used.map(c=>`<th>${esc(c[1])}</th>`).join("")}</tr></thead><tbody>${rows.length?rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.fio?(clean?esc(r.fio):`<span class="fill">${esc(r.fio)}</span>`):miss("ходим")}</td>${showPos?`<td>${esc(r.pos||"")}</td>`:""}${used.map(c=>`<td${c[2]==="money"||c[0]==="days"?' class="r"':""}>${cell(r,c)}</td>`).join("")}</tr>`).join(""):`<tr><td colspan="${2+(showPos?1:0)+used.length}">${miss("ходимларни қўшинг")}</td></tr>`}</tbody>${G.total&&rows.length?`<tfoot><tr><td colspan="${2+(showPos?1:0)+used.findIndex(c=>c[0]===G.total)}"><b>Жами</b></td><td class="r"><b>${m0(tot)}</b></td>${"<td></td>".repeat(Math.max(0,used.length-1-used.findIndex(c=>c[0]===G.total)))}</tr></tfoot>`:""}</table>`;
+  const tail=G.tail(get,v).filter(Boolean);
+  const fam=`<p class="fam" style="margin-top:14px">Буйруқ билан танишдим:</p><table class="btab famtab"><thead><tr><th>№</th><th>Ф.И.О.</th><th>Имзо</th><th>Сана</th></tr></thead><tbody>${(rows.length?rows:[{}]).map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.fio||"")}</td><td style="width:28%"></td><td style="width:18%"></td></tr>`).join("")}</tbody></table>`;
+  return `${G.pre(get,v)}<div class="order">БУЮРАМАН:</div><ol><li>${G.lead(get,v)}${tbl}</li>${tail.map(t=>`<li>${t}</li>`).join("")}</ol>${G.basis?`<p>Асос: ${G.basis}.</p>`:""}${fam}`;
+}
+function grpEditor(o){ const tpl=TEMPLATES.find(t=>t.id===o.tplId); const cols=grpCols(tpl); const rows=grpRows(o.values); const used=new Set(rows.map(r=>r.emp));
+  const emps=firmEmps(o.firmId).filter(e=>e.status!=="fired"||tpl.hr==="hire"||used.has(e.id));
+  const opt=(cur)=>`<option value="">— ходим —</option>${emps.filter(e=>e.id===cur||!used.has(e.id)).map(e=>`<option value="${esc(e.id)}" ${e.id===cur?"selected":""}>${esc(e.fio||"")}${e.position?" — "+esc(e.position):""}</option>`).join("")}`;
+  const G=HR_GROUP[tpl.hr]; const tot=G.total?rows.reduce((s,r)=>s+num(String(r[G.total]||"").replace(/\s/g,"")),0):0;
+  const sp=o.values.split==="1"; const nE=rows.filter(r=>r.emp).length;
+  return `<div class="chips grpmode"><button type="button" class="chip" data-act="grpMode" data-v="" aria-pressed="${!sp}">Битта умумий буйруқ (жадвал билан)</button><button type="button" class="chip" data-act="grpMode" data-v="1" aria-pressed="${sp}">Ҳар бир ходимга алоҳида буйруқ</button></div>${sp?`<p class="hint grpsplit">Сақланганда <b>${nE} та алоҳида буйруқ</b> яратилади${nE?`: № ${esc(grpNum(o.values.number,0))}${nE>1?" – "+esc(grpNum(o.values.number,nE-1)):""}`:""}. Ўнгда 1-ходимнинг буйруғи намуна сифатида кўрсатилган.</p>`:""}<div class="grped">${rows.map((r,i)=>`<div class="grprow"><div class="grph"><b>${i+1}</b><select data-grow="${i}" aria-label="Ходим">${opt(r.emp)}</select><button type="button" class="linkbtn danger" data-act="grpDel" data-i="${i}" aria-label="Қаторни ўчириш">✕</button></div>${cols.length?`<div class="grpc">${cols.map(([k,l,t])=>`<label><span>${esc(l)}</span><input data-gcell="${i}|${k}" type="${t==="date"?"date":"text"}" ${t==="money"||k==="days"||k==="compdays"?'inputmode="numeric"':""} value="${esc(r[k]||"")}"></label>`).join("")}</div>`:""}</div>`).join("")||`<p class="hint">Ходим қўшилмаган</p>`}${G.total&&rows.length?`<div class="grptot">Жами: <b id="grpTot">${m0(tot)}</b> сўм</div>`:""}</div>
+  <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn sm" data-act="grpAdd">${LPLUS}Ходим қўшиш</button>${tpl.hr!=="hire"?`<button type="button" class="btn sm" data-act="grpAll">Барча фаол ходимларни қўшиш</button>`:""}${rows.length>1&&cols.length?`<button type="button" class="btn sm ghost" data-act="grpCopy" title="1-қатордаги қийматларни бошқа қаторлардаги бўш катакларга кўчиради">↓ 1-қатордагини бўш катакларга</button>`:""}</div>
+  <p class="hint">Ҳар бир ходим учун алоҳида қатор. Буйруқ «Имзоланган» бўлганда ҳар бир ходимнинг карточкаси ўзи янгиланади.</p>`; }
+function grpToggle(on){ const o=V.draft; const tpl=TEMPLATES.find(t=>t.id===o.tplId); if(!grpOk(tpl)) return;
+  if(on){ let rows=grpRows(o.values); if(!rows.length&&o.values.emp){ const e=S.emp.find(x=>x.id===o.values.emp); const r={emp:o.values.emp,fio:o.values.fio||e?.fio||"",pos:o.values.pos||e?.position||"",dept:o.values.dept||""}; grpCols(tpl).forEach(([k])=>{ r[k]=o.values[k]||""; }); rows=[r]; }
+    o.values.group="1"; o.values.emp=""; grpSetRows(o,rows); }
+  else { const rows=grpRows(o.values); const r=rows.find(x=>x.emp); o.values.group=""; o.values.rows=""; o.values.fio=""; if(r){ Object.assign(o.values,r); } }
+  render(); }
+function grpInput(el){ const o=V.draft; if(!o) return; const rows=grpRows(o.values); const tpl=TEMPLATES.find(t=>t.id===o.tplId);
+  if(el.dataset.gcell!=null){ const [i,k]=el.dataset.gcell.split("|"); const r=rows[+i]; if(!r) return; r[k]=el.value;
+    if((k==="from"||k==="to")&&(tpl.hr==="vac")){ const d=vDays(r.from,r.to); if(d){ r.days=d; const x=document.querySelector(`[data-gcell="${i}|days"]`); if(x) x.value=d; } }
+    grpSetRows(o,rows); const t=$("#grpTot"); const G=HR_GROUP[tpl.hr]; if(t&&G.total) t.textContent=m0(rows.reduce((s,r)=>s+num(String(r[G.total]||"").replace(/\s/g,"")),0)); }
+  const sw=$("#sheetWrap"); if(sw) sw.innerHTML=sheetHTML(o); }
+function grpPick(el){ const o=V.draft; const rows=grpRows(o.values); const i=+el.dataset.grow; const e=S.emp.find(x=>x.id===el.value);
+  const nr=e?grpRowFrom(o,e):{emp:"",fio:"",pos:""}; const old=rows[i]||{};
+  const tpl=TEMPLATES.find(t=>t.id===o.tplId); grpCols(tpl).forEach(([k])=>{ if(old[k]&&!["oldpos","oldsal","compdays","pos","salary","dept"].includes(k)) nr[k]=old[k]; });
+  if(tpl.hr==="vac"&&nr.from&&nr.to){ const d=vDays(nr.from,nr.to); if(d) nr.days=d; }
+  rows[i]=nr; grpSetRows(o,rows); render(); }
+function grpAct(a,t){ const o=V.draft; if(!o) return false; const rows=grpRows(o.values); const tpl=TEMPLATES.find(x=>x.id===o.tplId);
+  if(a==="grpMode"){ o.values.split=t.dataset.v||""; render(); return true; }
+  if(a==="grpAdd"){ rows.push({emp:"",fio:"",pos:""}); }
+  else if(a==="grpDel"){ rows.splice(+t.dataset.i,1); }
+  else if(a==="grpAll"){ const has=new Set(rows.map(r=>r.emp)); firmEmps(o.firmId).filter(e=>e.status!=="fired"&&!has.has(e.id)).forEach(e=>rows.push(grpRowFrom(o,e))); }
+  else if(a==="grpCopy"){ const f0=rows[0]||{}; const ks=grpCols(tpl).map(c=>c[0]).filter(k=>!["oldpos","oldsal","compdays","pos","dept","salary","cno"].includes(k)||tpl.hr==="bonus"); rows.slice(1).forEach(r=>ks.forEach(k=>{ if(!String(r[k]||"").trim()&&f0[k]) r[k]=f0[k]; })); if(tpl.hr==="vac") rows.forEach(r=>{ const d=vDays(r.from,r.to); if(d) r.days=d; }); }
+  else return false;
+  grpSetRows(o,rows); render(); return true; }
+async function hrApply(o){ const v=o.values||{};
+  if(!grpOn(o)) return hrApplyOne(o);
+  const rows=grpRows(v).filter(r=>r.emp); let n=0;
+  for(const r of rows){ const ok=await hrApplyOne({...o,values:{...v,...r,group:"",rows:""}},true); if(ok) n++; }
+  if(n) toast(`${n} та ходим карточкаси буйруқ бўйича янгиланди`); }
+
+/* ---------- Буйруққа файл бириктириш (сақлашдан олдин ҳам) ---------- */
+function ordPendBox(o){ const P=V.ordPend&&V.ordPend.id===o.id?V.ordPend.files:[];
+  return `<div class="card attbox"><div class="label" style="padding:12px 16px 0">${GH("Иловалар: PDF, скан, Excel","pdf",30)}</div><p class="hint" style="padding:4px 16px 0">Файллар буйруқ сақланганда («Сақлаш» ёки «Имзоланган») Google Drive'га юкланади ва буйруққа бириктирилади.</p>
+  <div class="attl">${P.map((fl,i)=>`<span class="trfile">📄 ${esc(fl.name)} <span class="hint">${Math.max(1,Math.round(fl.size/1024))} КБ · кутилмоқда</span><button type="button" class="linkbtn danger" data-act="ordPendDel" data-i="${i}" aria-label="Олиб ташлаш">✕</button></span>`).join("")||`<span class="hint">Файл танланмаган</span>`}</div>
+  <div style="padding:0 16px 14px"><label class="btn sm ctup">${LPLUS}PDF / скан бириктириш<input type="file" id="ordPending" accept="${ATT_ACCEPT}" multiple hidden></label></div></div>`; }
+async function attUploadFiles(kind,id,fs){ const f=firm(V.firmId)||firm(V.draft?.firmId); let ok=0;
+  for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); if((o0?.files||[]).some(x=>x.file?.id===file.id)){ toast(fl.name+": бу файл аллақачон бириктирилган"); continue; } await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
+  return ok; }
+async function ordPendFlush(o){ const P=V.ordPend&&V.ordPend.id===o.id?V.ordPend.files:[]; if(!P.length) return 0; V.ordPend=null; const n=await attUploadFiles("orders",o.id,P); if(n) toast(n+" та файл буйруққа бириктирилди"); const s=S.orders.find(x=>x.id===o.id); if(s&&V.draft?.id===o.id){ const st=V.draft; V.draft=JSON.parse(JSON.stringify(s)); if(st.status) V.draft.status=s.status; } return n; }
+
+/* ---------- Рўйхатдан ҳар бир ходимга алоҳида буйруқ ---------- */
+function grpNum(n,i){ n=String(n||"").trim(); if(!i) return n; if(/^\d+$/.test(n)) return String(+n+i); const m=/^(.*?)(\d+)$/.exec(n); if(m) return m[1]+(+m[2]+i); return (n||"")+"-"+(i+1); }
+const grpSplit=o=>o?.values?.group==="1"&&o.values.split==="1";
+function grpSplitOne(o,i){ const v=o.values||{}; const rows=grpRows(v).filter(r=>r.emp); const r=rows[i]||{};
+  const nv={...v,...r,group:"",rows:"",split:""}; nv.number=grpNum(v.number,i); const tpl=TEMPLATES.find(t=>t.id===o.tplId); if(tpl) grpCols(tpl).forEach(([k,,t])=>{ if(t==="money"&&nv[k]) nv[k]=GM(nv[k]); }); return {id:uid(),firmId:o.firmId,tplId:o.tplId,title:o.title,status:o.status,values:nv,createdAt:Date.now()}; }
+async function grpSplitSave(o,st,btn){ const rows=grpRows(o.values).filter(r=>r.emp); if(!rows.length){ toast("Буйруққа камида битта ходим қўшинг"); return; }
+  btn.disabled=true; const files=V.ordPend&&V.ordPend.id===o.id?V.ordPend.files:[]; V.ordPend=null; const ff=firm(o.firmId); const made=[];
+  if(st==="signed") await ensureEmp();
+  for(let i=0;i<rows.length;i++){ const x=grpSplitOne(o,i); x.status=st; if(st==="signed"){ x.signedAt=Date.now(); x.signedBy=ME.email; x.signedName=ff?.director||""; x.signedTitle=ff?.directorTitle||"Директор"; }
+    try{ toast(`Буйруқ ${i+1}/${rows.length} яратилмоқда…`); const s=await putItem("orders",x,`Рўйхатдан алоҳида буйруқ яратилди: ${x.values.fio||""} (${st==="draft"?"черновик":st==="signing"?"имзолаш жараёнида":"имзоланган"})`); made.push(s);
+      if(files.length) await attUploadFiles("orders",s.id,files);
+      if(st==="signed") await hrApplyOne(s,true); }
+    catch(er){ toast((x.values.fio||"")+": "+explain(er)); } }
+  if(S.orders.some(x=>x.id===o.id)){ try{ await delItem("orders",o.id,"Рўйхатли черновик алоҳида буйруқларга ажратилди"); }catch(e){} }
+  toast(made.length?`${made.length} та алоҳида буйруқ яратилди: № ${made[0].values.number}${made.length>1?" – "+made[made.length-1].values.number:""}`:"Буйруқ яратилмади");
+  go({view:"firm",tab:"orders",draft:null}); }
+
+/* ---------- Кадр бўлимидан: янги ходим ва бўшатишда автомат буйруқ ---------- */
+async function autoHireOrder(e){ const tplId=e.contractType==="муайян"?"k-hire":"k-hire-perm"; const d=hrOrderDraft(tplId,e.id);
+  if(e.hireDate) d.values.start=e.hireDate; if(e.contractDate&&tplId==="k-hire-perm") d.values.cdate=e.contractDate;
+  return await putItem("orders",d,`Ходим қўшилганда автомат яратилди (черновик): ${e.fio||""}`); }
+const FIRE_KIND=[["k-fire-own","Ўз хоҳишига кўра (ариза асосида)"],["k-fire-agree","Тарафларнинг келишувига кўра"],["k-fire-emp","Иш берувчининг ташаббуси билан"]];
+function empFireForm(e){ return `<form id="empFireForm" class="card fireform" novalidate><div class="label">${GH("Ишдан бўшатиш — буйруқ автомат тузилади","alert",30)}</div>
+  <div class="lgrid"><div class="field wide2"><label for="ff_kind">Бўшатиш асоси</label><select id="ff_kind">${FIRE_KIND.map(([k,t])=>`<option value="${k}">${t}</option>`).join("")}</select></div>
+  <div class="field"><label for="ff_end">Бўшатиш санаси (охирги иш куни)</label><input id="ff_end" type="date" value="${localToday()}"></div>
+  <div class="field"><label for="ff_app">Ариза / келишув санаси</label><input id="ff_app" type="date" value="${localToday()}"></div></div>
+  <label class="checkline"><input type="checkbox" id="ff_sign"> Буйруқ дарҳол «Имзоланган» бўлсин (ходим карточкаси «Бўшаган» ҳолатига ўтади)</label>
+  <p class="hint">Белгиланмаса, буйруқ черновик сифатида очилади — текшириб, кейин имзолайсиз. Фойдаланилмаган таътил кунлари ўзи ҳисобланади.</p>
+  <div class="actions"><button type="submit" class="btn danger">Бўшатиш буйруғини яратиш</button><button type="button" class="btn ghost" data-act="empFireNo">Бекор қилиш</button></div></form>`; }
+async function empFireSubmit(form){ const e=S.emp.find(x=>x.id===V.empId); if(!e) return; const tplId=$("#ff_kind").value; const end=$("#ff_end").value; const app=$("#ff_app").value; const sign=$("#ff_sign").checked;
+  if(!end){ toast("Бўшатиш санасини киритинг"); return; }
+  const d=hrOrderDraft(tplId,e.id); d.values.end=end; if(tplId==="k-fire-own") d.values.appDate=app; if(tplId==="k-fire-agree") d.values.agrDate=app; if(tplId==="k-fire-emp"&&app) d.values.notice=app;
+  const btn=form.querySelector("[type=submit]"); btn.disabled=true;
+  if(sign){ const ff=firm(d.firmId); Object.assign(d,{status:"signed",signedAt:Date.now(),signedBy:ME.email,signedName:ff?.director||"",signedTitle:ff?.directorTitle||"Директор"}); }
+  try{ const s=await putItem("orders",d,sign?"Кадр бўлимидан бўшатишда автомат яратилди ва имзоланган деб белгиланди":"Кадр бўлимидан бўшатишда автомат яратилди (черновик)"); V.empFire=null;
+    if(sign){ await ensureEmp(); await hrApplyOne(s,true); toast("Бўшатиш буйруғи яратилди ва ходим карточкаси «Бўшаган» ҳолатига ўтди"); return go({view:"firm",tab:"staff",empId:e.id}); }
+    toast("Бўшатиш буйруғи черновиги яратилди — текшириб, «Имзоланган»ни босинг"); return go({view:"order",draft:JSON.parse(JSON.stringify(s))}); }
+  catch(er){ btn.disabled=false; toast(explain(er)); } }
+
+/* ---------- Сақланган буйруқ шаблонлари ---------- */
+const UTPL_SKIP=["date","number","emp","fio","pos","snap","rows","group","split"];
+const userTpls=()=>Object.values(ROWS.recs||{}).filter(r=>!r.deleted&&r.obj?.type==="otpl").map(r=>r.obj).sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+function utplBox(o,tpl){ if(tpl.hr) return ""; const L=userTpls().filter(x=>x.tplId===o.tplId); const locked=o.status==="signed";
+  const def=tpl.custom?String(o.values.subject||"").trim()||"Ихтиёрий "+String(o.values.dtype||"буйруқ").toLowerCase():tpl.title;
+  return `<div class="utplbox">${L.length&&!locked?`<select id="utplPick" aria-label="Шаблондан тўлдириш"><option value="">⭐ Сақланган шаблондан тўлдириш…</option>${L.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select>`:""}
+  ${V.utplSave===o.id?`<div class="row" style="gap:6px;flex-wrap:wrap;align-items:center"><input id="utplName" value="${esc(def)}" placeholder="Шаблон номи" style="flex:1;min-width:180px"><button type="button" class="btn sm primary" data-act="utplSave">Сақлаш</button><button type="button" class="btn sm ghost" data-act="utplCancel">Бекор</button></div><span class="hint">Матн, мавзу ва бошқа реквизитлар сақланади; рақам ва сана ҳар сафар янгидан қўйилади. Шаблон барча фирмаларда кўринади.</span>`
+  :`<button type="button" class="btn sm" data-act="utplAsk">⭐ Шаблон сифатида сақлаш</button>`}</div>`; }
+async function utplSave(){ const o=V.draft; if(!o) return; const name=String($("#utplName")?.value||"").trim(); if(!name){ toast("Шаблон номини ёзинг"); return; }
+  const vals={}; Object.entries(o.values||{}).forEach(([k,v])=>{ if(!UTPL_SKIP.includes(k)&&String(v??"").trim()) vals[k]=v; });
+  const ex=userTpls().find(x=>x.tplId===o.tplId&&x.name.toLowerCase()===name.toLowerCase());
+  const t={...(ex||{id:uid(),type:"otpl",firmId:"_global",createdAt:Date.now()}),tplId:o.tplId,name,values:vals,srcFirm:firm(o.firmId)?.name||""};
+  try{ await putItem("recs",t,ex?`Буйруқ шаблони янгиланди: ${name}`:`Буйруқ шаблони сақланди: ${name}`); V.utplSave=null; toast(ex?"Шаблон янгиланди":"Шаблон сақланди — «Буйруқ яратиш» саҳифасида ва шу формада кўринади"); }catch(er){ toast(explain(er)); }
+  render(); }
+function utplApply(id){ const o=V.draft; const t=userTpls().find(x=>x.id===id); if(!o||!t) return; Object.entries(t.values||{}).forEach(([k,v])=>{ if(!UTPL_SKIP.includes(k)) o.values[k]=v; }); toast("Шаблондан тўлдирилди: "+t.name); render(); }
+function utplDraft(id){ const t=userTpls().find(x=>x.id===id); if(!t) return null; const tpl=TEMPLATES.find(x=>x.id===t.tplId); if(!tpl) return null; const f=firm(V.firmId); const values={};
+  tpl.fields.forEach(([k,,type,opt])=>{ if(type==="select") values[k]=opt[0]; else if(typeof opt==="string"&&opt.startsWith("@")) values[k]=f?.[opt.slice(1)]||""; else if(k==="date") values[k]=today(); else if(k==="number") values[k]=String(firmOrders(V.firmId).length+1); });
+  if(tpl.fixed) Object.assign(values,tpl.fixed); if(tpl.init&&f) tpl.init(values,f);
+  Object.entries(t.values||{}).forEach(([k,v])=>{ if(!UTPL_SKIP.includes(k)) values[k]=v; });
+  return {id:uid(),firmId:V.firmId,tplId:tpl.id,title:tpl.custom?(String(values.subject||"").trim()||tpl.title):tpl.title,status:"draft",values,createdAt:Date.now()}; }
+function utplTiles(){ const L=userTpls(); if(!L.length) return ""; return `<div class="label" style="margin:14px 0 6px">⭐ Сақланган шаблонларим</div><div class="tpls">${L.map(x=>{ const tp=TEMPLATES.find(t=>t.id===x.tplId); return `<div class="tplwrap"><button type="button" class="tpl tplfree" data-utpl="${esc(x.id)}"><span class="tag">⭐ ${esc(tp?.custom?(x.values?.dtype||"Ихтиёрий"):(tp?.tag||"Шаблон"))}</span><span class="t">${esc(x.name)}</span><span class="d">${esc(String(x.values?.preamble||x.values?.items||tp?.title||"").slice(0,110))}</span></button><button type="button" class="linkbtn danger utdel" data-act="utplDel" data-id="${esc(x.id)}" aria-label="Шаблонни ўчириш" title="Шаблонни ўчириш">✕</button></div>`; }).join("")}</div>`; }
+
+async function trImpSaveAll(){ if(!V.trImport||V.trImport.saving) return; const f=firm(V.firmId); const I=V.trImport; I.saving=true; render(); let ok=0,bad=0;
+    for(const it of I.items){ if(it.status!=="ok") continue; it.status="saving"; render();
+      try{ for(let attempt=0;attempt<2;attempt++){ const ex=trRec(f.id,it.kind,it.period); const d=ex?JSON.parse(JSON.stringify(ex)):trNew(f,it.kind,it.period);
+          if(attempt===0||!it.up) it.up=(await uploadPending(f,[{file:it.file,name:it.fname}],trName(it.kind)+" "+it.period,attLoc("recs",{type:"taxrep",firmId:f.id,kind:it.kind,period:it.period})))[0];
+          d.files=(d.files||[]).concat([it.up]); if(it.accrued&&!d.accrued) d.accrued=String(num(it.accrued)); if(it.payable&&!d.payable) d.payable=String(num(it.payable)); if(d.status==="draft") d.status="submitted"; if(!d.subDate) d.subDate=localToday(); d.xls=it.found||"";
+          try{ await putItem("recs",d,`${trName(d.kind)} ${trPerLabel(d.period)}: файлдан юкланди (${it.fname})`); break; }catch(err){ if(err instanceof ConflictErr&&attempt===0) continue; throw err; } }
+        it.status="saved"; ok++; }
+      catch(err){ it.status="err"; it.msg=explain(err); bad++; if(err instanceof AuthErr) break; } render(); }
+    I.saving=false; toast(ok+" та ҳисобот рўйхатга сақланди"+(bad?", "+bad+" тасида хато":"")); I.items=I.items.filter(x=>x.status!=="saved"); if(!I.items.length) V.trImport=null; return render(); }
+/* ---------- Ижаралар (кўчмас мулк ижара шартномалари) ---------- */
+DOC_PFX.lease="ИЖ"; DOC_NAME.lease="Ижара шартномаси";
+const firmLeases=fid=>S.recs.filter(r=>r.type==="lease"&&r.firmId===fid);
+const LE_TAX_DEF=12;
+function leNew(f){ return {id:uid(),type:"lease",firmId:f.id,dir:"in",regNo:"",regDate:"",confDate:"",ctNo:"",ctDate:"",lessorType:"phys",lessorName:"",lessorId:"",lessorAddr:"",lessorPhone:"",lesseeName:f.name||"",lesseeInn:f.inn||"",cadastre:"",objType:"Нотурар",objAddr:"",areaTotal:"",area:"",partial:"",from:"",to:"",purpose:"",monthly:"",total:"",free:"",utilities:"",minRate:"",coef:"1",taxRate:String(LE_TAX_DEF),relative:"",note:"",files:[],paid:{},createdAt:Date.now()}; }
+function leState(l){ const td=tdNum(), e=dnum(l.to), s=dnum(l.from); if(l.status==="closed") return {cls:"off",t:"Бекор қилинган"}; if(e==null) return {cls:"act",t:"Амалда"}; if(s!=null&&s>td) return {cls:"act",t:"Бошланмаган"}; const d=e-td; if(d<0) return {cls:"off",t:"Муддати тугаган"}; if(d<=30) return {cls:"soon",t:d+" кундан кейин тугайди"}; return {cls:"ok",t:"Амалда"}; }
+const lePhys=l=>l.lessorType==="phys"&&l.dir!=="out";
+/* гувоҳнома / шартнома матнидан ўқиш */
+function leParse(text){ const T=String(text||""); const out={}; const g=(rx,s=T)=>{ const m=rx.exec(s); return m?m[1].trim():""; };
+  const iO=T.search(/Ижарага олувчи тўғрисида/i), iK=T.search(/Ижарага берилган кўчмас мулк тўғрисида/i), iB=T.search(/Ижарага берувчи тўғрисида/i);
+  const pB=iB>=0?T.slice(iB,iO>iB?iO:undefined):"", pO=iO>=0?T.slice(iO,iK>iO?iK:undefined):"", pK=iK>=0?T.slice(iK):T;
+  out.regNo=g(/\bID\s*(\d{4,})/)||g(/№\s*(\d{5,})/); out.regDate=isoD(g(/Г\s*У\s*В\s*О\s*Ҳ\s*Н\s*О\s*М\s*А[\s\S]{0,40}?(\d{2}\.\d{2}\.\d{4})/i));
+  out.confDate=isoD(g(/(\d{2}\.\d{2}\.\d{4})\s+\d{2}:\d{2}:\d{2}\s*ТАСДИҚЛАНГАН/i));
+  const pin=g(/ЖШШИР:?\s*(\d{14})/,pB), innB=g(/СТИР:?\s*(\d{9})\b/,pB);
+  if(pin){ out.lessorType="phys"; out.lessorId=pin; out.lessorName=g(/Ф\.?\s*И\.?\s*О\.?:?\s*([^\n]+)/,pB); }
+  else if(innB){ out.lessorType="legal"; out.lessorId=innB; out.lessorName=g(/номи:?\s*([^\n]+)/,pB); }
+  out.lessorAddr=g(/Рўйхатга олинган манзили:?\s*([^\n]+)/,pB)||g(/Юридик манзили:?\s*([^\n]+)/,pB);
+  out.lesseeInn=g(/СТИР:?\s*(\d{9})\b/,pO); out.lesseeName=g(/Юридик шахснинг номи:?\s*([^\n]+)/,pO)||g(/Ф\.?\s*И\.?\s*О\.?:?\s*([^\n]+)/,pO);
+  out.cadastre=g(/кадастр рақами:?\s*([\d:\/]+)/i,pK); out.objType=g(/мулкнинг тури:?\s*([^\n]+)/i,pK); out.objAddr=g(/жойлашган манзили:?\s*([^\n]+)/i,pK);
+  out.areaTotal=g(/умумий майдони:?\s*([\d.,]+)/i,pK).replace(",","."); out.area=g(/ижарага берилган майдони:?\s*([\d.,]+)/i,pK).replace(",","."); out.partial=g(/ижарага берилиши:?\s*([^\n]+)/i,pK);
+  const per=/муддат:?\s*(\d{2}\.\d{2}\.\d{4})\s*[-–—]\s*(\d{2}\.\d{2}\.\d{4})/i.exec(pK); if(per){ out.from=isoD(per[1]); out.to=isoD(per[2]); }
+  out.purpose=g(/Ижара мақсади:?\s*([^\n]+)/i,pK).replace(/[,\s]+$/,"");
+  const mo=g(/ойлик ижара ҳақи[^:\n]*:\s*([^\n]+)/i,pK), tot=g(/умумий суммаси:?\s*([^\n]+)/i,pK);
+  if(/текин/i.test(mo)){ out.free="1"; out.monthly="0"; } else if(mo){ const n=num(mo.replace(/[^\d.,]/g,"").replace(",",".")); if(n) out.monthly=String(n); }
+  if(tot&&!/текин/i.test(tot)){ const n=num(tot.replace(/[^\d.,]/g,"").replace(",",".")); if(n) out.total=String(n); }
+  const ut=/Коммунал тўловлар:?\s*([^\n]*\n?[^\n]*)/gi; const us=[...T.matchAll(ut)].map(m=>m[1]).find(s=>/✔/.test(s)); if(us) out.utilities=us.replace(/\s+/g," ").trim();
+  Object.keys(out).forEach(k=>{ if(out[k]==null||out[k]==="") delete out[k]; }); return out; }
+function isoD(s){ const m=/(\d{2})\.(\d{2})\.(\d{4})/.exec(s||""); return m?`${m[3]}-${m[2]}-${m[1]}`:""; }
+AI_SPEC.lease={tool:"save_lease",sec:"lease",desc:"Save the data of a real estate lease (ижара) contract or its tax registration certificate.",prompt:"This is a real estate lease contract (ижара шартномаси / договор аренды) or the State Tax Committee certificate that the lease contract was registered (Кўчмас мулк ижара шартномаси ҳисобга қўйилганлиги тўғрисида гувоҳнома).",max:1800,
+  props:{reg_id:AI_S("Certificate / registration ID number"),reg_date:AI_S("Certificate date"),contract_no:AI_S("Lease contract number, if a contract"),contract_date:AI_S(),
+    lessor:{type:"object",properties:{type:{type:"string",enum:["phys","legal"],description:"phys = individual (has ЖШШИР/ПИНФЛ), legal = company (has СТИР)"},name:AI_S("Full name of the individual or company"),pinfl:AI_S("ЖШШИР 14 digits"),inn:AI_S("СТИР 9 digits"),address:AI_S(),phone:AI_S()}},
+    lessee:{type:"object",properties:{name:AI_S(),inn:AI_S("СТИР 9 digits")}},
+    cadastre:AI_S("Cadastral number"),object_type:AI_S("Турар / Нотурар"),address:AI_S("Address of the leased property"),area_total:AI_N("Total area, m²"),area:AI_N("Leased area, m²"),
+    from:AI_S("Lease start date"),to:AI_S("Lease end date"),purpose:AI_S("Purpose, short"),monthly:AI_N("Monthly rent in so'm; 0 if free use"),total:AI_N("Total rent for the whole term"),free_use:{type:"boolean",description:"true if 'Текин фойдаланиш' (free use)"}}};
+function leFromAi(x){ const o={}; const s=(k,v)=>{ if(v!=null&&v!=="") o[k]=String(v); };
+  s("regNo",x.reg_id); s("regDate",x.reg_date); s("ctNo",x.contract_no); s("ctDate",x.contract_date); const L=x.lessor||{}; if(L.type) o.lessorType=L.type; s("lessorName",L.name); s("lessorId",L.pinfl||L.inn); if(!L.type&&(L.pinfl||L.inn)) o.lessorType=L.pinfl?"phys":"legal"; s("lessorAddr",L.address); s("lessorPhone",L.phone);
+  s("lesseeName",x.lessee?.name); s("lesseeInn",x.lessee?.inn); s("cadastre",x.cadastre); s("objType",x.object_type); s("objAddr",x.address); s("areaTotal",x.area_total); s("area",x.area); s("from",x.from); s("to",x.to); s("purpose",x.purpose); s("monthly",x.monthly); s("total",x.total); if(x.free_use) { o.free="1"; o.monthly="0"; } return o; }
+function leApply(d,p,f){ let n=0; Object.entries(p).forEach(([k,v])=>{ if(v!=null&&v!==""&&(!d[k]||(k==="lesseeName"||k==="lesseeInn")||(k==="lessorType")||(k==="objType"&&d[k]==="Нотурар"))){ if(d[k]!==v) n++; d[k]=v; } });
+  if(f?.inn&&d.lessorId===String(f.inn)) d.dir="out"; else if(f?.inn&&d.lesseeInn&&d.lesseeInn!==String(f.inn)) d.innWarn=`Ижарага олувчи СТИРи ${d.lesseeInn} — фирма СТИРи ${f.inn} эмас`; else delete d.innWarn; return n; }
+async function leReadFile(fl,force){ const d=V.leEdit; const f=firm(V.firmId); if(!d||!f) return; let n=0, weak=true;
+  try{ if(/\.pdf$/i.test(fl.name)||fl.type==="application/pdf"){ toast("PDF ўқилмоқда…"); let r=await pdfToText(fl); if(r.text.replace(/\s/g,"").length<60){ try{ r=await pdfOcr(fl); }catch(e){} } const p=leParse(r.text); n=leApply(d,p,f); weak=!p.lessorName||!p.from||!p.area; } }catch(e){ console.warn(e); }
+  if(aiCanRead(fl)&&(force||aiAuto(weak))){ toast("✦ Claude ижара ҳужжатини ўқимоқда…"); try{ const r=await aiDoc(fl,f,AI_SPEC.lease,fl.name); n+=leApply(d,leFromAi(r.x),f); d.aiUsd=(d.aiUsd||0)+r.usd; toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }catch(e){ toast("Claude: "+(e.message||e)); } }
+  else toast(n?n+" та маълумот ҳужжатдан олинди — текширинг":"Ҳужжатдан маълумот топилмади — қўлда киритинг");
+  const dup=d.regNo&&firmLeases(f.id).find(x=>x.id!==d.id&&x.regNo===d.regNo); d.dupOf=dup?dup.id:"";
+  render(); }
+/* ЖШДС графиги */
+function leMonths(l){ const a=dnum(l.from), b=dnum(l.to); if(a==null||b==null||b<a) return []; const out=[]; let y=+l.from.slice(0,4), m=+l.from.slice(5,7); const ey=+l.to.slice(0,4), em=+l.to.slice(5,7);
+  while(y<ey||(y===ey&&m<=em)){ const ms=`${y}-${p2(m)}-01`, me=`${y}-${p2(m)}-${p2(lastDay(y,m))}`; const s=ms<l.from?l.from:ms, e=me>l.to?l.to:me; const days=dnum(e)-dnum(s)+1, full=lastDay(y,m); out.push({ym:`${y}-${p2(m)}`,y,m,days,full,k:days/full}); m++; if(m>12){ m=1; y++; } if(out.length>240) break; }
+  return out; }
+function leTaxRows(l){ const rate=num(l.taxRate)||LE_TAX_DEF; const minM=num(l.minRate)*(num(String(l.coef||"1").replace(",","."))||1)*num(String(l.area||"").replace(",",".")); const rent=num(l.monthly);
+  return leMonths(l).map(M=>{ const r=Math.round(rent*M.k), mn=l.relative?0:Math.round(minM*M.k); const base=Math.max(r,mn); const tax=Math.round(base*rate/100); const ny=M.m===12?M.y+1:M.y, nm=M.m===12?1:M.m+1;
+    return {...M,rent:r,min:mn,base,tax,net:Math.max(0,r-tax),due:`${ny}-${p2(nm)}-15`,minUsed:mn>r}; }); }
+function leTaxView(f,l){ const R=leTaxRows(l); const rate=num(l.taxRate)||LE_TAX_DEF; const tot=k=>R.reduce((s,x)=>s+x[k],0); const td=localToday(); const y=V.leYear||"all"; const yrs=[...new Set(R.map(x=>String(x.y)))]; const show=y==="all"?R:R.filter(x=>String(x.y)===y);
+  if(!l.from||!l.to) return `<div class="card empty"><b>Ижара муддати киритилмаган</b>«Маълумотлар» вкладкасида ижара бошланиши ва тугаш санасини киритинг — график ўзи тузилади.</div>`;
+  const warn=!num(l.monthly)&&!num(l.minRate)&&!l.relative?`<div class="note-box warn">${l.free?"Мулк <b>текин фойдаланишга</b> берилган.":"Ойлик ижара ҳақи киритилмаган."} Солиқ кодексига кўра бундай ҳолатда ЖШДС <b>ижаранинг энг кам ставкаси</b> бўйича ҳисобланади (яқин қариндошлар бундан мустасно). Пастдаги «Энг кам ставка» ва «Коэффициент»ни киритинг.</div>`:"";
+  const paidN=R.filter(x=>l.paid?.[x.ym]).length;
+  return `${warn}<div class="card lepar"><form id="leTaxForm" class="lgrid" novalidate>
+    <div class="field"><label for="lt2_monthly">Ойлик ижара ҳақи (шартнома), сўм</label><input id="lt2_monthly" name="monthly" inputmode="decimal" value="${esc(l.monthly||"")}"></div>
+    <div class="field"><label for="lt2_area">Ижарага олинган майдон, м²</label><input id="lt2_area" name="area" inputmode="decimal" value="${esc(l.area||"")}"></div>
+    <div class="field"><label for="lt2_minRate">Энг кам ставка, сўм / м² ойига</label><input id="lt2_minRate" name="minRate" inputmode="decimal" value="${esc(l.minRate||"")}" placeholder="ҳудуд ва зона бўйича"></div>
+    <div class="field"><label for="lt2_coef">Коэффициент (маҳаллий Кенгаш)</label><input id="lt2_coef" name="coef" inputmode="decimal" value="${esc(l.coef||"1")}"></div>
+    <div class="field"><label for="lt2_taxRate">ЖШДС ставкаси, %</label><input id="lt2_taxRate" name="taxRate" inputmode="decimal" value="${esc(l.taxRate||LE_TAX_DEF)}"></div>
+    <label class="checkline"><input type="checkbox" name="relative" ${l.relative?"checked":""}> Ижарага берувчи — яқин қариндош (энг кам ставка қўлланмайди)</label>
+    <div class="actions" style="grid-column:1/-1"><button type="submit" class="btn primary sm">Қайта ҳисоблаш ва сақлаш</button><button type="button" class="btn sm" data-act="leTaxXlsx">${DL_ICON}Excel</button><button type="button" class="btn sm" data-act="leTaxPrint">${PRINT_ICON}Чоп этиш</button></div></form></div>
+  <div class="lstats"><div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Солиқ базаси (жами)</span><span class="v">${m0(tot("base"))}</span><span class="s">${R.length} ой · сўм</span></div>
+    <div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">ЖШДС ${rate}% (жами)</span><span class="v">${m0(tot("tax"))}</span><span class="s">ойига ўртача ${m0(R.length?tot("tax")/R.length:0)}</span></div>
+    <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Ижарага берувчига</span><span class="v">${m0(tot("net"))}</span><span class="s">солиқ ушлангандан кейин</span></div>
+    <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">Бюджетга ўтказилган</span><span class="v">${paidN} / ${R.length}</span><span class="s">ой белгиланган</span></div></div>
+  <div class="ctfilters"><div class="chips">${["all",...yrs].map(x=>`<button type="button" class="chip" data-ctf="leYear" data-v="${x}" aria-pressed="${y===x}">${x==="all"?"Барча йиллар":x+" йил"}</button>`).join("")}</div></div>
+  <div class="card"><div class="tablewrap"><table class="sched letax"><thead><tr><th>Ой</th><th class="r">Ижара ҳақи</th><th class="r">Энг кам ставка бўйича</th><th class="r">Солиқ базаси</th><th class="r">ЖШДС ${rate}%</th><th class="r">Ижарага берувчига</th><th>Бюджетга муддат</th><th>Ўтказилди</th></tr></thead>
+  <tbody>${show.map(x=>{ const late=!l.paid?.[x.ym]&&x.due<td; return `<tr class="norow ${x.ym===td.slice(0,7)?"cur":""}"><td>${MONTHS_UZ[x.m-1]} ${x.y}${x.days<x.full?` <span class="hint">(${x.days} кун)</span>`:""}</td><td class="num r">${m0(x.rent)}</td><td class="num r">${x.min?m0(x.min):"—"}</td><td class="num r ${x.minUsed?"minu":""}" ${x.minUsed?'title="Энг кам ставка бўйича ҳисобланди"':""}>${m0(x.base)}</td><td class="num r"><b>${m0(x.tax)}</b></td><td class="num r">${m0(x.net)}</td><td class="num ${late?"neg":""}">${fmtDate(x.due)}${late?" · ўтди":""}</td><td><label class="checkline" style="margin:0"><input type="checkbox" class="lepaid" data-ym="${x.ym}" ${l.paid?.[x.ym]?"checked":""}> ${l.paid?.[x.ym]?fmtDate(l.paid[x.ym]):""}</label></td></tr>`; }).join("")}</tbody>
+  <tfoot><tr class="norow"><td><b>Жами</b></td><td class="num r"><b>${m0(show.reduce((s,x)=>s+x.rent,0))}</b></td><td></td><td class="num r"><b>${m0(show.reduce((s,x)=>s+x.base,0))}</b></td><td class="num r"><b>${m0(show.reduce((s,x)=>s+x.tax,0))}</b></td><td class="num r"><b>${m0(show.reduce((s,x)=>s+x.net,0))}</b></td><td colspan="2"></td></tr></tfoot></table></div>
+  <p class="hint" style="padding:8px 16px 12px">Корхона тўлов манбаи (солиқ агенти) сифатида ижара ҳақидан ЖШДСни ушлаб қолади ва бюджетга ўтказади; ЖШДС ҳисоботи — кейинги ойнинг 15-санасигача. Ижара ҳақи энг кам ставкадан паст бўлса ёки мулк текин берилган бўлса, солиқ базаси энг кам ставка бўйича олинади. Ставка ва коэффициентни ҳудудингиз учун амалдаги қарордан текширинг.</p></div>`; }
+async function leTaxXlsx(f,l){ if(!window.XLSX) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"); const R=leTaxRows(l); const rate=num(l.taxRate)||LE_TAX_DEF;
+  const ws=XLSX.utils.aoa_to_sheet([[`${f.name} — ижара бўйича ЖШДС графиги`],[`Ижарага берувчи: ${l.lessorName||""} (ЖШШИР ${l.lessorId||""}) · гувоҳнома ID ${l.regNo||""} · ${fmtDate(l.from)} – ${fmtDate(l.to)} · ${l.area||""} м²`],[],["Ой","Кунлар","Ижара ҳақи","Энг кам ставка бўйича","Солиқ базаси",`ЖШДС ${rate}%`,"Ижарага берувчига","Бюджетга муддат","Ўтказилди"],...R.map(x=>[MONTHS_UZ[x.m-1]+" "+x.y,x.days,x.rent,x.min,x.base,x.tax,x.net,fmtDate(x.due),l.paid?.[x.ym]?fmtDate(l.paid[x.ym]):""]),["Жами","",R.reduce((s,x)=>s+x.rent,0),"",R.reduce((s,x)=>s+x.base,0),R.reduce((s,x)=>s+x.tax,0),R.reduce((s,x)=>s+x.net,0)]]);
+  ws["!cols"]=[16,8,14,18,14,14,16,14,12].map(w=>({wch:w})); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"ЖШДС графиги"); XLSX.writeFile(wb,safeName(f.name)+"_ijara_JShDS_"+safeName(l.lessorName||"")+".xlsx"); }
+function leTaxSheet(f,l){ const R=leTaxRows(l); const rate=num(l.taxRate)||LE_TAX_DEF; return `<div class="sheet clean bref"><div class="org">${esc(f.name||"")}</div><h2>ИЖАРА БЎЙИЧА ЖШДС ГРАФИГИ</h2><p>Ижарага берувчи: <b>${esc(l.lessorName||"")}</b> (ЖШШИР ${esc(l.lessorId||"")}). Объект: ${esc(l.objAddr||"")}, ${esc(l.area||"")} м². Муддат: ${fmtDate(l.from)} – ${fmtDate(l.to)}. Гувоҳнома ID ${esc(l.regNo||"")}${l.regDate?" ("+fmtDate(l.regDate)+")":""}.</p>
+  <table class="btab"><thead><tr><th>Ой</th><th>Ижара ҳақи</th><th>Солиқ базаси</th><th>ЖШДС ${rate}%</th><th>Ижарага берувчига</th><th>Бюджетга муддат</th></tr></thead><tbody>${R.map(x=>`<tr><td>${MONTHS_UZ[x.m-1]} ${x.y}</td><td class="r">${m0(x.rent)}</td><td class="r">${m0(x.base)}</td><td class="r">${m0(x.tax)}</td><td class="r">${m0(x.net)}</td><td>${fmtDate(x.due)}</td></tr>`).join("")}</tbody><tfoot><tr><td><b>Жами</b></td><td class="r"><b>${m0(R.reduce((s,x)=>s+x.rent,0))}</b></td><td class="r"><b>${m0(R.reduce((s,x)=>s+x.base,0))}</b></td><td class="r"><b>${m0(R.reduce((s,x)=>s+x.tax,0))}</b></td><td class="r"><b>${m0(R.reduce((s,x)=>s+x.net,0))}</b></td><td></td></tr></tfoot></table></div>`; }
+/* рўйхат, форма, карточка */
+COLS.lease=[
+  {k:"lessor",t:"Ижарага берувчи",d:1,v:l=>`<b>${esc(l.lessorName||"—")}</b><div class="ctsub">${l.lessorType==="phys"?"Жисмоний шахс":"Юридик шахс"}${l.lessorId?" · "+esc(l.lessorId):""}</div>`},
+  {k:"obj",t:"Объект",d:1,v:l=>`${esc(l.objAddr||"")}<div class="ctsub">${[l.objType,l.area?l.area+" м²":""].filter(Boolean).map(esc).join(" · ")}</div>`},
+  {k:"term",t:"Муддати",d:1,v:l=>`<span class="num">${fmtDate(l.from)} – ${fmtDate(l.to)}</span>`},
+  {k:"rent",t:"Ойлик ҳақи, сўм",r:1,d:1,v:l=>l.free?`<span class="hint">текин</span>`:`<span class="num">${l.monthly?m0(num(l.monthly)):""}</span>`},
+  {k:"tax",t:"ЖШДС / ой",r:1,d:1,v:l=>lePhys(l)&&l.from&&l.to?`<span class="num">${m0((leTaxRows(l).find(x=>x.ym===localToday().slice(0,7))||leTaxRows(l)[0]||{tax:0}).tax)}</span>`:""},
+  {k:"state",t:"Ҳолати",d:1,v:l=>{ const s=leState(l); return `<span class="lpill ${s.cls}">${s.t}</span>`; }},
+  {k:"reg",t:"Гувоҳнома ID",d:1,v:l=>`<span class="num">${esc(l.regNo||"")}</span>${(l.files||[]).length?` <span class="hint">📎${l.files.length}</span>`:""}`},
+  {k:"id",t:"ИД",d:1,v:l=>`<span class="did">${docCode(l)}</span>`},
+  {k:"purpose",t:"Мақсади",v:l=>esc(l.purpose||"")},
+  {k:"cad",t:"Кадастр рақами",v:l=>`<span class="num">${esc(l.cadastre||"")}</span>`},
+];
+COL_TITLE.lease="Ижаралар"; COL_DATE.lease=l=>l.from||"";
+function vLease(f){
+  if(V.leEdit) return leForm(f,V.leEdit);
+  if(V.leId){ const l=S.recs.find(x=>x.id===V.leId&&x.type==="lease"); if(l) return leDetail(f,l); }
+  const all=firmLeases(f.id); const q=qv("leQ"), st=V.leSt||"all";
+  const list=all.filter(l=>{ const s=leState(l).cls; return (st==="all"||(st==="act"?["ok","soon","act"].includes(s):st==="soon"?s==="soon":s==="off"))&&qhit(q,[l.lessorName,l.lessorId,l.objAddr,l.cadastre,l.regNo,l.purpose,docCode(l)]); });
+  const act=all.filter(l=>["ok","soon","act"].includes(leState(l).cls)); const rentM=act.reduce((s,l)=>s+num(l.monthly),0); const taxM=act.filter(lePhys).reduce((s,l)=>{ const r=leTaxRows(l).find(x=>x.ym===localToday().slice(0,7)); return s+(r?r.tax:0); },0);
+  return `<div class="toolbar"><span class="hint">Солиқ органида ҳисобга қўйилганлик гувоҳномаси ёки ижара шартномаси PDF'ини юкланг — маълумотлар ўзи тўлдирилади.</span><div class="actions"><label class="btn primary ctup">${UP_ICON}Гувоҳнома / шартнома PDF юклаш<input type="file" id="leFile" accept=".pdf,.jpg,.jpeg,.png" hidden></label><button type="button" class="btn" data-act="leNew">${LPLUS}Қўлда киритиш</button></div></div>
+  <div class="lstats"><div class="lstat" style="--c:#84cc16;--cl:#d9f99d"><span class="k">Амалдаги ижаралар</span><span class="v">${act.length} та</span><span class="s">жами ${all.length} та</span></div>
+    <div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Ойлик ижара ҳақи</span><span class="v">${m0(rentM)}</span><span class="s">амалдаги шартномалар, сўм</span></div>
+    <div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">ЖШДС (жорий ой)</span><span class="v">${m0(taxM)}</span><span class="s">жисмоний шахслардан ижара</span></div>
+    <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">30 кунда тугайди</span><span class="v">${all.filter(l=>leState(l).cls==="soon").length} та</span><span class="s">узайтириш керак</span></div></div>
+  <div class="ctfilters">${fchips("leSt",[["all","Ҳаммаси",all.length],["act","Амалда",act.length],["soon","Тугаётган",all.filter(l=>leState(l).cls==="soon").length],["off","Тугаган",all.filter(l=>leState(l).cls==="off").length]])}<div class="chips">${fq("leQ","Қидириш: ижарага берувчи, манзил, кадастр, ID…")}${fclear(["leSt","leQ"])}</div></div>
+  <div class="card">${all.length?colTable("lease",list,l=>`data-lease="${esc(l.id)}" tabindex="0"`):`<div class="empty"><b>Ижара шартномалари ҳали йўқ</b>my.soliq.uz'дан олинган «Кўчмас мулк ижара шартномаси ҳисобга қўйилганлиги тўғрисида гувоҳнома» PDF'ини юкланг.</div>`}</div>`; }
+function leForm(f,d){ const isNew=!S.recs.some(x=>x.id===d.id);
+  const fld=(k,l,type="text",cls="",ex="")=>`<div class="field ${cls}"><label for="le_${k}">${l}</label><input id="le_${k}" name="${k}" type="${type}" value="${esc(d[k]||"")}" ${ex}></div>`;
+  const sel=(k,l,opts)=>`<div class="field"><label for="le_${k}">${l}</label><select id="le_${k}" name="${k}">${opts.map(([v,t])=>`<option value="${esc(v)}" ${String(d[k]||"")===v?"selected":""}>${esc(t)}</option>`).join("")}</select></div>`;
+  return `<button type="button" class="back" data-act="leBack">← Ижаралар</button>
+  <form id="leForm" class="card lform" novalidate><h2>${isNew?"Янги ижара":"Ижарани таҳрирлаш"}</h2>
+  ${d.dupOf?`<div class="note-box warn">Бу гувоҳнома (ID ${esc(d.regNo)}) аввал киритилган. <button type="button" class="linkbtn" data-lease="${esc(d.dupOf)}">Мавжуд ёзувни очиш</button></div>`:""}${d.innWarn?`<div class="note-box warn">${esc(d.innWarn)}</div>`:""}${d.aiUsd?`<div class="aitag">✦ Claude ўқиди · ${aiCents(d.aiUsd)}</div>`:""}
+  <div class="label">Ҳужжат</div><div class="lgrid">${sel("dir","Фирма",[["in","ижарага олувчи (биз ижарага олганмиз)"],["out","ижарага берувчи (биз ижарага берганмиз)"]])}${fld("regNo","Гувоҳнома ID (ҳисобга қўйилган №)")}${fld("regDate","Гувоҳнома санаси","date")}${fld("confDate","Тасдиқланган сана","date")}${fld("ctNo","Шартнома №")}${fld("ctDate","Шартнома санаси","date")}</div>
+  <div class="label">Ижарага берувчи</div><div class="lgrid">${sel("lessorType","Тури",[["phys","Жисмоний шахс"],["legal","Юридик шахс"]])}${fld("lessorName","Ф.И.О. / номи *","text","wide2")}${fld("lessorId",d.lessorType==="phys"?"ЖШШИР (14 рақам)":"СТИР (9 рақам)","text","",'inputmode="numeric"')}${fld("lessorPhone","Телефон")}${fld("lessorAddr","Манзили","text","wide")}</div>
+  <div class="label">Ижарага олувчи</div><div class="lgrid">${fld("lesseeName","Номи","text","wide2")}${fld("lesseeInn","СТИР","text","",'inputmode="numeric"')}</div>
+  <div class="label">Кўчмас мулк</div><div class="lgrid">${fld("cadastre","Кадастр рақами")}${fld("objType","Тури (турар / нотурар)")}${fld("objAddr","Манзили","text","wide")}${fld("areaTotal","Умумий майдони, м²","text","",'inputmode="decimal"')}${fld("area","Ижарага берилган майдон, м²","text","",'inputmode="decimal"')}${fld("partial","Ижарага берилиши (тўлиқ / қисман)")}${fld("purpose","Ижара мақсади","text","wide2")}</div>
+  <div class="label">Муддат ва тўлов</div><div class="lgrid">${fld("from","Ижара бошланиши *","date")}${fld("to","Ижара тугаши *","date")}${fld("monthly","Ойлик ижара ҳақи, сўм","text","",'inputmode="decimal"')}${fld("total","Ижара ҳақининг умумий суммаси","text","",'inputmode="decimal"')}<label class="checkline"><input type="checkbox" name="free" ${d.free?"checked":""}> Текин фойдаланиш</label>${fld("utilities","Коммунал тўловлар","text","wide2")}${fld("note","Изоҳ","text","wide")}</div>
+  <div class="lgrid">${(d.pending||[]).length?`<span class="hint">📄 ${d.pending.map(p=>esc(p.name)).join(", ")} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}${(d.pending||[]).length||(d.files||[]).length?"Яна PDF бириктириш":"Гувоҳнома / шартнома PDF"}<input type="file" id="leMore" accept="${ATT_ACCEPT}" multiple hidden></label>${aiOn()&&(d.pending||[]).some(p=>aiCanRead(p.file))?`<button type="button" class="btn ghost" data-act="leAi">✦ Claude билан ўқиш</button>`:""}</div>
+  <p class="err" id="leErr" role="alert"></p>
+  <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="leBack">Бекор қилиш</button></div></form>`; }
+function leDetail(f,l){ const s=leState(l); const ph=lePhys(l); const sub=V.leSub==="tax"&&ph?"tax":V.leSub==="files"?"files":"info";
+  const tabs=[["info","Маълумотлар"],...(ph?[["tax","ЖШДС графиги"]]:[]),["files",`Файллар (${(l.files||[]).length})`]];
+  const info=`<div class="lcols"><div class="card"><div class="label" style="padding:12px 16px 0">${GH("Ижарага берувчи","people",30)}</div><div class="reqs">${[["Ф.И.О. / номи",l.lessorName],["Тури",l.lessorType==="phys"?"Жисмоний шахс":"Юридик шахс"],[l.lessorType==="phys"?"ЖШШИР":"СТИР",l.lessorId],["Манзили",l.lessorAddr],["Телефон",l.lessorPhone]].map(([a,b])=>kv(a,b||"",/ЖШШИР|СТИР/.test(a))).join("")}</div>
+      <div class="label" style="padding:12px 16px 0">Ижарага олувчи</div><div class="reqs">${[["Номи",l.lesseeName],["СТИР",l.lesseeInn]].map(([a,b])=>kv(a,b||"",a==="СТИР")).join("")}</div></div>
+    <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Кўчмас мулк ва шартлар","lease",30)}</div><div class="reqs">${[["Кадастр рақами",l.cadastre],["Тури",l.objType],["Манзили",l.objAddr],["Умумий майдони",l.areaTotal?l.areaTotal+" м²":""],["Ижарага берилган майдон",l.area?l.area+" м²"+(l.partial?" ("+l.partial.toLowerCase()+")":""):""],["Мақсади",l.purpose],["Муддати",l.from?fmtDate(l.from)+" – "+fmtDate(l.to):""],["Ойлик ижара ҳақи",l.free?"Текин фойдаланиш":l.monthly?m0(num(l.monthly))+" сўм":""],["Умумий сумма",l.total?m0(num(l.total))+" сўм":""],["Коммунал тўловлар",l.utilities],["Гувоҳнома",[l.regNo?"ID "+l.regNo:"",fmtDate(l.regDate),l.confDate?"тасдиқланган "+fmtDate(l.confDate):""].filter(Boolean).join(" · ")],["Шартнома",[l.ctNo?"№ "+l.ctNo:"",fmtDate(l.ctDate)].filter(Boolean).join(" · ")],["Изоҳ",l.note]].map(([a,b])=>kv(a,b||"",/Кадастр|Гувоҳнома/.test(a))).join("")}</div></div></div>
+    ${ph?`<div class="note-box">Ижарага берувчи — жисмоний шахс: фирма солиқ агенти сифатида ҳар ой ЖШДС ушлаб қолади. Ҳисоб-китоб «ЖШДС графиги» вкладкасида.</div>`:""}`;
+  return `<button type="button" class="back" data-act="leBack">← Ижаралар</button>
+  <div class="toolbar"><div class="lhead"><h2>Ижара: ${esc(l.lessorName||"")}</h2><span class="lpill ${s.cls}">${esc(s.t)}</span>${didChip(l)}</div>
+    <div class="actions"><button type="button" class="btn" data-act="leEditOpen">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="leDel">Ўчириш</button></div></div>
+  <div class="chips hrtabs">${tabs.map(([k,t])=>`<button type="button" class="chip" data-lesub="${k}" aria-pressed="${sub===k}">${t}</button>`).join("")}</div>
+  ${sub==="tax"?leTaxView(f,l):sub==="files"?attachBox("recs",l,"Ижара ҳужжатлари: гувоҳнома, шартнома, далолатнома ва бошқа PDF"):info+attachBox("recs",l,"Ижара ҳужжатлари (PDF)")}
+  ${sub==="info"?histBox(l):""}`; }
+function leAlerts(f){ const out=[]; firmLeases(f.id).forEach(l=>{ const s=leState(l); if(s.cls==="soon") out.push({lvl:"soon",tab:"lease",t:`Ижара (${l.lessorName||""}, ${l.objAddr||""}): ${fmtDate(l.to)} да тугайди — узайтириш ёки янги шартнома`}); if(lePhys(l)){ const td=localToday(); const late=leTaxRows(l).filter(x=>!l.paid?.[x.ym]&&x.due<td&&x.tax>0&&dnum(x.due)>=tdNum()-62); if(late.length) out.push({lvl:"bad",tab:"lease",t:`Ижара ЖШДС (${l.lessorName||""}): ${late.map(x=>MONTHS_UZ[x.m-1]+" "+x.y).join(", ")} — бюджетга ўтказилгани белгиланмаган`}); } }); return out; }
+async function leSave(form){ const d=V.leEdit; const f=firm(V.firmId); if(!d||!f) return; const err=$("#leErr");
+  ["monthly","total","area","areaTotal"].forEach(k=>{ if(d[k]) d[k]=String(num(String(d[k]).replace(/\s/g,"").replace(",","."))||""); });
+  if(!String(d.lessorName||"").trim()){ err.textContent="Ижарага берувчини киритинг."; $("#le_lessorName").focus(); return; }
+  if(d.from&&d.to&&d.to<d.from){ err.textContent="Тугаш санаси бошланишидан олдин бўлиши мумкин эмас."; return; }
+  if(d.lessorType==="phys"&&d.lessorId&&!/^\d{14}$/.test(d.lessorId)){ err.textContent="ЖШШИР 14 рақамдан иборат бўлиши керак."; $("#le_lessorId").focus(); return; }
+  const btn=form.querySelector("[type=submit]"); btn.disabled=true;
+  try{ const up=await uploadPending(f,d.pending,"ижара "+(d.regNo||d.lessorName||""),attLoc("recs",d)); const o=JSON.parse(JSON.stringify({...d,pending:undefined,dupOf:undefined,innWarn:undefined})); o.files=(o.files||[]).concat(up);
+    const isNew=!S.recs.some(x=>x.id===o.id); await putItem("recs",o,`Ижара ${isNew?"киритилди":"ўзгартирилди"}: ${o.lessorName}${o.regNo?" (гувоҳнома ID "+o.regNo+")":""}`); toast("Сақланди"); V.leEdit=null; V.leId=o.id; V.leSub=lePhys(o)&&isNew?"tax":"info"; render(); }
+  catch(er){ btn.disabled=false; err.textContent=explain(er); } }
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
@@ -5224,6 +5809,7 @@ function vFirm(){
   else if(V.tab==="charter"){ body=vCharter(f); }
   else if(V.tab==="office"){ body=vOffice(f); }
   else if(V.tab==="cards"){ body=vCards(f); }
+  else if(V.tab==="lease"){ body=vLease(f); }
   else if(V.tab==="import"){ const sub=(V.gId||V.gImport)?"gtd":(V.impSub||"gtd"); const nG=S.gtd.filter(r=>r.firmId===f.id).length, nF=firmFC(f.id).length;
     body=`<div class="chips hrtabs">${[["gtd","ГТД реестри",nG],["fc","Ташқи савдо контрактлари",nF]].map(([k,t,n])=>`<button type="button" class="chip" data-impsub="${k}" aria-pressed="${sub===k}">${t} <i class="cn">${n}</i></button>`).join("")}</div>`+(sub==="fc"?vFContracts(f):vGtd(f.id)); }
   else if(V.tab==="staff"){ body=vStaff(f); }
@@ -5233,7 +5819,7 @@ function vFirm(){
     const base=os.filter(o=>(oT==="all"||(oT==="hr"?isHr(o):!isHr(o)))&&(!oM||(o.values?.date||"").startsWith(oM))&&qhit(oq,[o.values?.number,o.title,o.values?.fio,o.values?.pos,o.values?.year,oTpl(o)?.tag,docCode(o,"order")]));
     const shown = V.filter==="all"?base:base.filter(o=>o.status===V.filter);
     body=`<div class="toolbar"><div class="chips">${[["all","Ҳаммаси"],["draft","Черновик"],["signing","Имзолаш жараёнида"],["signed","Имзоланган"]].map(([k,t])=>`<button type="button" class="chip" data-filter="${k}" aria-pressed="${V.filter===k}">${t} ${k==="all"?base.length:base.filter(o=>o.status===k).length}</button>`).join("")}</div>
-      <button type="button" class="btn primary" data-act="newOrder"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Буйруқ яратиш</button></div>
+      <div class="actions"><button type="button" class="btn" data-tpl="free">✎ Ихтиёрий буйруқ / қарор</button><button type="button" class="btn primary" data-act="newOrder"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Буйруқ яратиш</button></div></div>
       <div class="ctfilters">${fchips("oT",[["all","Барча турлар",os.length],["hr","Кадр буйруқлари",os.filter(isHr).length],["other","Бошқа қарор ва буйруқлар",os.filter(o=>!isHr(o)).length]])}<div class="chips">${fsel("oM",monthOpts(os.map(o=>o.values?.date)),"Барча ойлар")}${fq("oQ","Қидириш: №, номи, ходим…")}${fclear(["oT","oM","oQ"])}</div></div>
       <div class="card">${shown.length?`${colTable("orders",shown,o=>`data-order="${esc(o.id)}" tabindex="0"`)}`:`<div class="empty"><b>${os.length?"Фильтр бўйича буйруқ йўқ":"Буйруқлар ҳисоби жадвали бўш"}</b>${os.length?"":"«Буйруқ яратиш» тугмасини босиб, шаблондан биринчи буйруқни тузинг."}</div>`}</div>`;
   } else {
@@ -5336,6 +5922,7 @@ function firmAlerts(f){
   out.push(...fcAlerts(f));
   out.push(...licAlerts(f));
   out.push(...letAlerts(f));
+  out.push(...leAlerts(f));
   return out;
 }
 function alertsPanel(){
@@ -5418,7 +6005,7 @@ function vTpl(){
   const f=firm(V.firmId);
   return `<button type="button" class="back" data-act="toFirm">← ${esc(f?.name||"")}</button>
   <div class="head"><div><h1>Буйруқ яратиш</h1><div class="sub">Шаблонни танланг. Фирма реквизитлари ўзи тўлдирилади.</div></div></div>
-  <div class="tpls">${TEMPLATES.map(t=>`<button type="button" class="tpl" data-tpl="${t.id}"><span class="tag">${t.tag}</span><span class="t">${esc(t.title)}</span><span class="d">${esc(t.desc)}</span></button>`).join("")}</div>`;
+  ${utplTiles()}${[["Ихтиёрий матнли",t=>t.custom],["Умумий буйруқлар",t=>!t.custom&&!t.hr],["Кадр буйруқлари (қабул, таътил, мукофот, бўшатиш ва б. — бир ёки бир нечта ходим учун)",t=>t.hr]].map(([g,fn])=>`<div class="label" style="margin:14px 0 6px">${g}</div><div class="tpls">${TEMPLATES.filter(fn).map(t=>`<button type="button" class="tpl ${t.custom?"tplfree":""}" data-tpl="${t.id}"><span class="tag">${t.tag}</span><span class="t">${esc(t.title)}</span><span class="d">${esc(t.desc)}</span></button>`).join("")}</div>`).join("")}`;
 }
 
 function fillBody(tpl, values, f, clean){
@@ -5429,21 +6016,26 @@ function fillBody(tpl, values, f, clean){
     if(def && def[2]==="date") v=fmtDate(v);
     return v?wrap(v,""):(clean?"________":wrap("["+(def?def[1]:key)+"]","miss"));
   };
-  return tpl.body.replace(/\{\{([\w.]+)\}\}/g,(_,k)=>get(k));
+  if(values.group==="1"&&grpOk(tpl)) return grpBody(tpl,values,f,clean,get);
+  if(tpl.render) return tpl.render(values,f,clean,get);
+  const body=tpl.body.replace(/\[\[([\s\S]*?)\]\]/g,(m,inner)=>{ const ks=[...inner.matchAll(/\{\{([\w.]+)\}\}/g)].map(x=>x[1]); return ks.length&&ks.every(k=>!String(values[k]??"").trim())?"":inner; });
+  return body.replace(/\{\{([\w.]+)\}\}/g,(_,k)=>get(k));
 }
 function sheetHTML(o, forceClean){
+  if(grpSplit(o)&&grpRows(o.values).some(r=>r.emp)) o={...o,values:grpSplitOne(o,0).values};
   const tpl=TEMPLATES.find(t=>t.id===o.tplId); const f=firm(o.firmId); const v=o.values||{};
   const clean=forceClean||o.status==="signed";
   return `<div class="sheet ${clean?"clean":""}" id="sheet">
     <div class="org">${esc(f?.form?f.form+" ":"")}${esc(f?.name||"")}</div>
     <div class="orgm">${[f?.inn&&"СТИР "+f.inn, f?.address, f&&accLine(f)].filter(Boolean).map(esc).join(" · ")}</div>
-    <h2>БУЙРУҚ</h2>
+    <h2>${esc(tpl.custom?(v.dtype||"БУЙРУҚ"):"БУЙРУҚ")}</h2>
     <div class="meta"><span>${v.date?fmtDate(v.date):"__.__.____"} й.</span><span>№ ${esc(v.number||"___")}</span><span>${esc(f?.city||"")}</span></div>
-    <div class="subj">${esc(tpl.title)}</div>
+    <div class="subj">${tpl.custom?(v.subject?esc(v.subject):(clean?"":'<span class="fill miss">[мавзусини киритинг]</span>')):esc(v.group==="1"?String(tpl.title).replace(/^Ходимга/,"Ходимларга").replace(/^Ходимни/,"Ходимларни"):tpl.title)}</div>
     ${fillBody(tpl,v,f,clean)}
     <div class="sign"><span>${esc(f?.directorTitle||"Раҳбар")}</span><span class="ln"></span><span class="nm">${esc(f?.director||"")}</span>
       <span>Танишдим: бош бухгалтер</span><span class="ln"></span><span class="nm">${esc(f?.chiefAccountant||"")}</span></div>
     ${o.status==="signed"?`<div class="stamp">${ICON.signed.replace('fill="currentColor"','fill="currentColor" width="18" height="18"')}Имзоланган ${fmtStamp(o.signedAt)}</div>`:""}
+    ${S.orders.some(x=>x.id===o.id)?docQrBlock("order",o):""}
   </div>`;
 }
 
@@ -5457,12 +6049,17 @@ function vOrder(){
     <form class="card side" id="orderForm" novalidate>
       <div class="auto"><b>Фирмадан автомат</b><span>${esc(f?.name||"")}, СТИР ${esc(f?.inn||"—")}</span><span>${esc(f?.directorTitle||"Раҳбар")}: ${esc(f?.director||"—")}</span></div>
       <fieldset ${locked?"disabled":""}><legend>Буйруқ реквизитлари</legend>
-      ${tpl.fields.map(([k,l,type,opt])=>`<div class="field"><label for="of_${k}">${l}</label>${type==="emp"
+      ${grpOk(tpl)?`<label class="checkline grptog"><input type="checkbox" id="grpToggle" ${grpOn(o)?"checked":""}> Бир нечта ходимни рўйхат билан киритиш</label>`:""}${tpl.fields.filter(([k,,type])=>!grpOn(o)||(type!=="emp"&&!grpCols(tpl).some(c=>c[0]===k))).map(([k,l,type,opt])=>`<div class="field ${["textarea","list","salchg"].includes(type)?"wide":""}"><label for="of_${k}">${l}</label>${type==="emp"
         ?`<select id="of_${k}" name="${k}"><option value="">— ходимни танланг —</option>${firmEmps(o.firmId).filter(e=>e.status!=="fired"||e.id===o.values[k]||tpl.hr==="hire").map(e=>`<option value="${esc(e.id)}" ${o.values[k]===e.id?"selected":""}>${esc(e.fio||"")}${e.position?" — "+esc(e.position):""}</option>`).join("")}</select>`
         :type==="select"
         ?`<select id="of_${k}" name="${k}">${opt.map(x=>`<option ${o.values[k]===x?"selected":""}>${esc(x)}</option>`).join("")}</select>`
-        :`<input id="of_${k}" name="${k}" type="${type}" value="${esc(o.values[k]||"")}">`}</div>`).join("")}
+        :type==="textarea"||type==="list"
+        ?`<textarea id="of_${k}" name="${k}" rows="${type==="list"?6:3}" placeholder="${type==="list"?"1-банд матни\n2-банд матни\n…":""}">${esc(o.values[k]||"")}</textarea>`
+        :type==="salchg"
+        ?salChgEditor(o)
+        :`<input id="of_${k}" name="${k}" type="${type}" value="${esc(o.values[k]||"")}">`}</div>`).join("")}${grpOn(o)?`<div class="field wide"><label>Ходимлар (${grpRows(o.values).filter(r=>r.emp).length})</label>${grpEditor(o)}</div>`:""}
       </fieldset>
+      ${utplBox(o,tpl)}
       <div class="statusbar">
         <div class="row" style="justify-content:space-between;align-items:center"><span class="label">Ҳужжат ҳолати</span><button type="button" class="btn ghost" data-act="print">${PRINT_ICON}Чоп этиш / PDF</button></div>
         ${locked?`<span class="hint">Имзоланган буйруқ ўзгартирилмайди.</span>`:`
@@ -5472,7 +6069,7 @@ function vOrder(){
         <span class="hint">«Сақлаш» — черновикка ўтказади.</span>`}
         ${isNew?"":(V.confirm?`<div class="confirm">Буйруқ ўчирилсинми? <button type="button" class="btn danger" data-act="delOrder">Ҳа</button><button type="button" class="btn ghost" data-act="cancelDel">Йўқ</button></div>`:`<button type="button" class="btn ghost danger" data-act="askDel" style="align-self:flex-start">Буйруқни ўчириш</button>`)}
       </div>
-      ${isNew?"":attachBox("orders",o,"Имзоланган нусха ва иловалар (PDF, скан)")}
+      ${isNew?ordPendBox(o):attachBox("orders",o,"Имзоланган нусха ва иловалар (PDF, скан)")}
       ${isNew?"":histBox(o)}
     </form>
     <div class="sheetwrap" id="sheetWrap">${sheetHTML(o)}</div>
@@ -5486,7 +6083,7 @@ const PRINT_ICON='<svg viewBox="0 0 16 16" fill="none"><path d="M4 6V2h8v4M4 12H
 function render(){
   if(!$("#gate").hidden) return;
   renderRail();
-  const views={home:vHome,firm:vFirm,export:vExport,firmForm:vFirmForm,tpl:vTpl,order:vOrder,cps:vCps,gtd:()=>vGtd(null),handover:vHandover,restore:vRestore,ai:vAi};
+  const views={home:vHome,firm:vFirm,export:vExport,firmForm:vFirmForm,tpl:vTpl,order:vOrder,cps:vCps,gtd:()=>vGtd(null),handover:vHandover,restore:vRestore,ai:vAi,verify:vVerify};
   $("#main").innerHTML=(views[V.view]||vHome)()+colPanel();
   if(DRAFT_SEEN&&!draftSnapDirty()){ try{ localStorage.removeItem(DRAFT_LK); }catch(e){} }
   const fmOn=document.querySelector(".dstrip .ds.on"); if(fmOn&&render._tab!==V.tab){ render._tab=V.tab; const st=fmOn.parentElement; st.scrollLeft=fmOn.offsetLeft-st.clientWidth/2+fmOn.clientWidth/2; } if(false) fmOn.scrollIntoView({block:"nearest",inline:"center"});
@@ -5494,13 +6091,25 @@ function render(){
 /* ---------- events ---------- */
 document.addEventListener("click", async e=>{
   if(e.target.closest("a[href]")) return;
-  const t=e.target.closest("#addFirmBtn,[data-firm],[data-tab],[data-filter],[data-act],[data-tpl],[data-order],[data-set],[data-loan],[data-ck],[data-cktpl],[data-ckitem],[data-ckkey],[data-ckfilter],[data-ct],[data-ctdir],[data-ctf],[data-ctgtpl],[data-cp],[data-cpf],[data-gocontract],[data-gtd],[data-gf],[data-gogtd],[data-emp],[data-hrsub],[data-ef],[data-hrorder],[data-pos],[data-doclang],[data-vporder],[data-ndmonth],[data-fclear],[data-ckauto],[data-trkind],[data-trp],[data-fredit],[data-ch],[data-chnew],[data-godoc],[data-impsub],[data-fc],[data-fcsub],[data-fcdoc],[data-fcadd],[data-colcfg],[data-letdir],[data-let],[data-attdel],[data-cc]");
+  if(e.target.id==="selFiles"){ V.selFiles=e.target.checked; return; }
+  if(e.target.id==="grpToggle"){ grpToggle(e.target.checked); return; }
+  const acb=e.target.closest(".attcb"); if(acb){ const k=acb.dataset.attk, i=+acb.dataset.i; if(!V.attSel||V.attSel.k!==k) V.attSel={k,idx:[]}; V.attSel.idx=acb.checked?[...new Set([...V.attSel.idx,i])]:V.attSel.idx.filter(x=>x!==i); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
+  const scb=e.target.closest(".selcb"); if(scb){ const y=window.scrollY;
+    if(scb.dataset.selall){ const k=scb.dataset.selall; V.sel={key:k,ids:scb.checked?[...(SEL_ROWS[k]||[])]:[]}; }
+    else { const k=scb.dataset.selk; const st=selOf(k)||(V.sel={key:k,ids:[]}); const id=scb.dataset.selid; st.ids=scb.checked?[...new Set([...st.ids,id])]:st.ids.filter(x=>x!==id); }
+    render(); window.scrollTo(0,y); return; }
+  if(e.target.closest("td.selc,th.selc")) return;
+  const t=e.target.closest("#addFirmBtn,[data-firm],[data-tab],[data-filter],[data-act],[data-tpl],[data-order],[data-set],[data-loan],[data-ck],[data-cktpl],[data-ckitem],[data-ckkey],[data-ckfilter],[data-ct],[data-ctdir],[data-ctf],[data-ctgtpl],[data-cp],[data-cpf],[data-gocontract],[data-gtd],[data-gf],[data-gogtd],[data-emp],[data-hrsub],[data-ef],[data-hrorder],[data-pos],[data-doclang],[data-vporder],[data-ndmonth],[data-fclear],[data-ckauto],[data-trkind],[data-trp],[data-fredit],[data-ch],[data-chnew],[data-godoc],[data-impsub],[data-fc],[data-fcsub],[data-fcdoc],[data-fcadd],[data-colcfg],[data-letdir],[data-let],[data-attdel],[data-cc],[data-qr],[data-utpl],[data-lease],[data-lesub]");
   if(!t) return;
-  if(t.dataset.firm){ Object.assign(V,{ccId:null,ccEdit:null,ccImport:null,ccCard:"",ccM:"",ccCat:"",ccQ:"",letEdit:null,letId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,trEdit:null, trImport:null, frEdit:null, frImport:null, chEdit:null, chImport:null, chId:null}); V.ckAuto=null; if(t.dataset.gond){ V.gReg="ndopen"; V.gMonth=""; V.gQ=""; } return go({view:"firm",firmId:t.dataset.firm,tab:t.dataset.gotab||"overview",filter:"all",loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,ctQ:"",gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null,eQ:""}); }
-  if(t.dataset.tab){ return go({tab:t.dataset.tab,ccId:null,ccEdit:null,ccImport:null,letEdit:null,letId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,vpEdit:null,vpConfirm:false,ckAuto:null,trEdit:null,trImport:null,frEdit:null,frImport:null,chEdit:null,chImport:null,chId:null,loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null}); }
+  if(t.dataset.firm){ Object.assign(V,{sel:null,ccId:null,ccEdit:null,ccImport:null,ccCard:"",ccM:"",ccCat:"",ccQ:"",letEdit:null,letId:null,leEdit:null,leId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,trEdit:null, trImport:null, frEdit:null, frImport:null, chEdit:null, chImport:null, chId:null}); V.ckAuto=null; if(t.dataset.gond){ V.gReg="ndopen"; V.gMonth=""; V.gQ=""; } return go({view:"firm",firmId:t.dataset.firm,tab:t.dataset.gotab||"overview",filter:"all",loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,ctQ:"",gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null,eQ:""}); }
+  if(t.dataset.tab){ return go({tab:t.dataset.tab,sel:null,ccId:null,ccEdit:null,ccImport:null,letEdit:null,letId:null,leEdit:null,leId:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,vpEdit:null,vpConfirm:false,ckAuto:null,trEdit:null,trImport:null,frEdit:null,frImport:null,chEdit:null,chImport:null,chId:null,loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null}); }
   if(t.dataset.ctdir){ return go({ctDir:t.dataset.ctdir,ctId:null}); }
   if(t.dataset.ctf){ V[t.dataset.ctf]=t.dataset.v; if(t.dataset.ctf==="gReg") V.gLimit=200; return render(); }
   if(t.dataset.letdir){ return go({letDir:t.dataset.letdir,letId:null,letEdit:null}); }
+  if(t.dataset.lease){ return go({leId:t.dataset.lease,leEdit:null,leSub:"info",leYear:"all"}); }
+  if(t.dataset.lesub){ V.leSub=t.dataset.lesub; return render(); }
+  if(t.dataset.utpl){ const d=utplDraft(t.dataset.utpl); if(d) return go({view:"order",draft:d}); return; }
+  if(t.dataset.qr){ const [k,...x]=t.dataset.qr.split("|"); qrModal(k,x.join("|")); return; }
   if(t.dataset.cc){ if(e.target.closest("a")) return; return go({ccId:t.dataset.cc,ccEdit:null}); }
   if(t.dataset.let){ const l=S.recs.find(x=>x.id===t.dataset.let); return go({letId:t.dataset.let,letDir:l?.dir||V.letDir,letEdit:null}); }
   if(t.dataset.attdel){ const [kind,id,i]=t.dataset.attdel.split("|"); if(!confirmTwice(t,"Файлни рўйхатдан олиб ташлаш учун яна бир марта босинг (Drive'даги нусха қолади)")) return;
@@ -5556,6 +6165,7 @@ document.addEventListener("click", async e=>{
       else if(k==="date") values[k]=today();
       else if(k==="number") values[k]=String(firmOrders(V.firmId).length+1);
     });
+    if(tpl.fixed) Object.assign(values,tpl.fixed); if(tpl.init&&f) tpl.init(values,f); if(tpl.hr==="staff") await ensureEmp();
     return go({view:"order",draft:{id:uid(),firmId:V.firmId,tplId:tpl.id,title:tpl.title,status:"draft",values,createdAt:Date.now()}});
   }
   if(t.dataset.order){ const o=S.orders.find(x=>x.id===t.dataset.order); if(o) go({view:"order",draft:JSON.parse(JSON.stringify(o))}); return; }
@@ -5567,17 +6177,37 @@ document.addEventListener("click", async e=>{
     if(!saved) note = st==="draft"?"Яратилди (черновик)":st==="signing"?"Яратилди ва имзолашга юборилди":"Яратилди ва имзоланган деб белгиланди";
     else if(st===saved.status) note = changed?"Реквизитлар таҳрирланди":"Қайта сақланди";
     else note = (changed?"Таҳрирланди, ":"") + (st==="draft"?"черновикка қайтарилди":st==="signing"?"имзолаш жараёнига ўтказилди":"имзоланган деб белгиланди");
-    o.status=st; if(st==="signed") o.signedAt=Date.now();
+    { const T1=TEMPLATES.find(x=>x.id===o.tplId); if(T1?.custom) o.title=String(o.values?.subject||"").trim()||"Ихтиёрий "+String(o.values?.dtype||"буйруқ").toLowerCase(); if(o.tplId==="k-staff"&&saved?.status!=="signed"&&firm(o.firmId)) o.values.snap=JSON.stringify(posSnap(o.firmId)); }
+    if(grpSplit(o)) return grpSplitSave(o,st,t);
+    if(o.values?.group==="1"&&st!=="draft"&&!grpRows(o.values).some(r=>r.emp)){ toast("Буйруққа камида битта ходим қўшинг"); return; }
+    o.status=st; if(st==="signed"){ const ff=firm(o.firmId); o.signedAt=Date.now(); o.signedBy=ME.email; o.signedName=ff?.director||""; o.signedTitle=ff?.directorTitle||"Директор"; }
     t.disabled=true;
     try{ V.draft = await putItem("orders", o, note); toast(st==="draft"?"Черновикка сақланди":st==="signing"?"Ҳолат: имзолаш жараёнида":"Буйруқ имзоланган деб белгиланди"); }
     catch(err){ t.disabled=false; if(saved) o.status=saved.status; toast(explain(err)); if(err instanceof ConflictErr) go({view:"firm",tab:"orders"}); return; }
+    try{ await ordPendFlush(V.draft); }catch(er){ toast("Файлларни юклаб бўлмади: "+explain(er)); }
     const hrT=TEMPLATES.find(x=>x.id===o.tplId)?.hr;
-    if(hrT&&st==="signed"&&o.values?.emp){ await ensureEmp(); await hrApply(V.draft); }
+    if(hrT&&st==="signed"&&(o.values?.emp||o.values?.group==="1")){ await ensureEmp(); await hrApply(V.draft); }
     if(hrT==="vplan"&&st==="signed"){ await ensureEmp(); await vpApprove(V.draft); }
+    if(o.tplId==="k-staffsal"&&st==="signed"&&saved?.status!=="signed"){ await ensureEmp(); try{ const n=await staffSalApply(V.draft); if(n) toast(`Штат жадвали ва ${n.emp} та ходим маоши янгиланди (${n.pos} та лавозим)`); }catch(er){ toast("Штат жадвалини янгилаб бўлмади: "+explain(er)); } }
     if(st==="draft"){ render(); } else if(hrT==="vplan") go({view:"firm",tab:"staff",hrSub:"plan",vpYear:o.values?.year||V.vpYear,empId:null}); else if(hrT&&o.values?.emp) go({view:"firm",tab:"staff",empId:o.values.emp}); else go({view:"firm",tab:"orders"});
     return;
   }
   const a=t.dataset.act||(t.id==="addFirmBtn"?"addFirm":"");
+  if(a&&a.startsWith("grp")&&grpAct(a,t)) return;
+  if(a==="leNew"){ const f=firm(V.firmId); if(f) return go({leEdit:leNew(f),leId:null}); return; }
+  if(a==="leBack"){ if(V.leEdit&&S.recs.some(x=>x.id===V.leEdit.id)) return go({leEdit:null}); return go({leEdit:null,leId:null}); }
+  if(a==="leEditOpen"){ const l=S.recs.find(x=>x.id===V.leId); if(l) return go({leEdit:JSON.parse(JSON.stringify(l))}); return; }
+  if(a==="leDel"){ const l=S.recs.find(x=>x.id===V.leId); if(!l) return; if(!confirmTwice(t,"Ижарани ўчириш учун яна бир марта босинг")) return; try{ await delItem("recs",l.id,"Ижара ўчирилди: "+(l.lessorName||"")); toast("Ўчирилди"); }catch(er){ toast(explain(er)); return; } return go({leId:null}); }
+  if(a==="leAi"){ const p=(V.leEdit?.pending||[]).find(x=>aiCanRead(x.file)); if(p) await leReadFile(p.file,true); return; }
+  if(a==="leTaxXlsx"){ const l=S.recs.find(x=>x.id===V.leId); const f=firm(V.firmId); if(l&&f) try{ await leTaxXlsx(f,l); }catch(er){ toast("Excel тузиб бўлмади: "+(er?.message||er)); } return; }
+  if(a==="leTaxPrint"){ const l=S.recs.find(x=>x.id===V.leId); const f=firm(V.firmId); if(l&&f){ $("#printArea").innerHTML=leTaxSheet(f,l); window.print(); } return; }
+  if(a==="utplAsk"){ V.utplSave=V.draft?.id; render(); $("#utplName")?.select(); return; }
+  if(a==="utplCancel"){ V.utplSave=null; return render(); }
+  if(a==="utplSave"){ return utplSave(); }
+  if(a==="utplDel"){ const x=userTpls().find(y=>y.id===t.dataset.id); if(!x) return; if(!confirmTwice(t,"«"+x.name+"» шаблонини ўчириш учун яна бир марта босинг")) return; try{ await delItem("recs",x.id,"Буйруқ шаблони ўчирилди: "+x.name); toast("Шаблон ўчирилди"); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="empFire"){ V.empFire=V.empId; return render(); }
+  if(a==="empFireNo"){ V.empFire=null; return render(); }
+  if(a==="ordPendDel"){ V.ordPend?.files.splice(+t.dataset.i,1); return render(); }
   if(a&&a.startsWith("vp")){ const f=firm(V.firmId); if(!f) return; const y=String(V.vpYear||new Date().getFullYear()); const P=vplanOf(f.id,y); const d=V.vpEdit;
     const empsA=()=>firmEmps(f.id).filter(e=>e.status!=="fired");
     if(a==="vpNew"){ V.vpEdit=vpNew(f,y); return render(); }
@@ -5636,6 +6266,19 @@ document.addEventListener("click", async e=>{
   if(a==="letAi"&&V.letEdit){ const d=V.letEdit; try{ const p=(d.pending||[]).find(x=>aiCanRead(x.file)); await letAiFill(await aiFileOf(p?.file,(d.files||[])[0]?.file)); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
   if(a==="certAi"){ const f=firm(V.firmId); const k=t.dataset.k; const ref=f?.docs?.[k]?.file; if(!ref) return; t.disabled=true; toast("✦ Claude гувоҳномани ўқимоқда…"); try{ await certAi(f,k,await aiFileOf(null,ref,"guvohnoma.pdf")); toast("Гувоҳнома ўқилди"); }catch(e){ toast("Claude: "+(e.message||e)); } return render(); }
   if(a==="certApply"){ const f=firm(V.firmId); const k=t.dataset.k; const ai=f?.docs?.[k]?.ai; if(!ai) return; let n=0; try{ await attPut("firms",f.id,o=>{ CERT_MAP.forEach(([fk,ak])=>{ if(ai[ak]&&!String(o[fk]??"").trim()){ o[fk]=String(ai[ak]); n++; } }); },"Гувоҳномадан реквизитлар тўлдирилди (Claude)"); toast(n+" та реквизит тўлдирилди"); }catch(e){ toast(explain(e)); } return render(); }
+  if(a==="selPrint"){ const k=t.dataset.k; const st=selOf(k); if(!st) return; await printRefs(selFileRefs(k,st.ids),"chop_etish_"+fileStamp()+".pdf",t); return; }
+  if(a==="selPrintOrders"){ const st=selOf("orders"); if(!st) return; const os=sortD(S.orders.filter(o=>st.ids.includes(o.id)),o=>(o.values?.date||"")+p6(o.values?.number),"asc"); $("#printArea").innerHTML=os.map(o=>`<div class="pageblock">${sheetHTML(o,true)}</div>`).join(""); window.print(); return; }
+  if(a==="attPrint"){ const [kind,...rest]=t.dataset.k.split("|"); const id=rest.join("|"); const o=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; if(!o) return; const idx=V.attSel&&V.attSel.k===t.dataset.k?V.attSel.idx:[]; const files=o.files||[];
+    const refs=idx.length?idx.sort((a,b)=>a-b).map(i=>files[i]?.file&&{...files[i].file,name:files[i].name||files[i].file.name}).filter(Boolean):[o.file,...files.map(x=>x.file&&{...x.file,name:x.name||x.file.name})].filter(Boolean); await printRefs(refs,"chop_etish_"+fileStamp()+".pdf",t); return; }
+  if(a==="qrClose"){ $("#qrModal")?.remove(); return; }
+  if(a==="qrCopy"){ try{ await navigator.clipboard.writeText(t.dataset.url); toast("Ҳавола нусхаланди"); }catch(e){ toast(t.dataset.url); } return; }
+  if(a==="qrPng"||a==="qrLabel"){ const h=docIndex().find(x=>x.k===t.dataset.k&&String(x.r.id)===t.dataset.id); if(!h) return; await ensureQr().catch(()=>{}); const url=docQrUrl(h.k,h.r);
+    if(a==="qrPng"){ const g=qrGif(url,10); if(!g){ toast("QR кутубхонаси юкланмади"); return; } const im=new Image(); im.onload=()=>{ const c=document.createElement("canvas"); c.width=im.width; c.height=im.height; const x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0); c.toBlob(b=>saveBlob(b,"QR_"+h.code.replace(/[^\wА-Яа-яЁё-]/g,"_")+".png"),"image/png"); }; im.src=g; return; }
+    const f=firm(h.fid); const r=h.r; $("#printArea").innerHTML=`<div class="qrlabel">${qrSvg(url)}<div><b>${esc(f?.name||"")}</b><span>${esc(DOC_NAME[h.k]||"")} ${esc(r.values?.number||r.number||r.no||r.regNo||"")} ${fmtDate(r.values?.date||r.date||r.regDate||"")}</span><b class="mono">ИД ${esc(h.code)}</b><i>Ҳақиқийликни текшириш учун сканер қилинг</i></div></div>`; window.print(); return; }
+  if(a==="verifyClose"){ return go({view:"home",verify:null}); }
+  if(a==="selClear"){ const y=window.scrollY; V.sel=null; render(); window.scrollTo(0,y); return; }
+  if(a==="selDel"){ const k=t.dataset.k; const st=selOf(k); if(!st||!SEL_MAP[k]||!st.ids.length) return; if(!confirmTwice(t,`${st.ids.length} та ёзувни ўчириш учун яна бир марта босинг`)) return; t.disabled=true; await selDelete(k,st.ids.slice(),!!V.selFiles); return; }
+  if(a==="ccDupSel"){ const f=firm(V.firmId); const ids=ccDupGroups(f.id).flatMap(g=>g.slice(1).map(r=>r.id)); V.sel={key:"cc",ids:[...new Set(ids)]}; V.ccD="dup"; toast(ids.length+" та ортиқча нусха белгиланди — текшириб, «Белгиланганларни ўчириш»ни босинг"); return render(); }
   if(a==="ccNew"){ const f=firm(V.firmId); return go({ccEdit:ccNewDraft(f),ccId:null}); }
   if(a==="ccBack"){ if(V.ccEdit){ const id=V.ccEdit.id; return go({ccEdit:null,ccId:S.recs.some(x=>x.id===id)?id:null}); } return go({ccId:null}); }
   if(a==="ccEditOpen"){ const r=S.recs.find(x=>x.id===V.ccId); if(r) return go({ccEdit:ccFromRec(firm(V.firmId),r)}); return; }
@@ -5682,15 +6325,7 @@ document.addEventListener("click", async e=>{
   if(a==="trXlsx"){ try{ await trXlsx(firm(V.firmId)); }catch(er){ toast("Excel тузиб бўлмади: "+(er?.message||er)); } return; }
   if(a==="trImpCancel") return go({trImport:null});
   if(a==="trImpDel"&&V.trImport){ V.trImport.items.splice(+t.dataset.i,1); if(!V.trImport.items.length) V.trImport=null; return render(); }
-  if(a==="trImpSave"&&V.trImport&&!V.trImport.saving){ const f=firm(V.firmId); const I=V.trImport; I.saving=true; render(); let ok=0,bad=0;
-    for(const it of I.items){ if(it.status!=="ok") continue; it.status="saving"; render();
-      try{ for(let attempt=0;attempt<2;attempt++){ const ex=trRec(f.id,it.kind,it.period); const d=ex?JSON.parse(JSON.stringify(ex)):trNew(f,it.kind,it.period);
-          if(attempt===0||!it.up) it.up=(await uploadPending(f,[{file:it.file,name:it.fname}],trName(it.kind)+" "+it.period,attLoc("recs",{type:"taxrep",firmId:f.id,kind:it.kind,period:it.period})))[0];
-          d.files=(d.files||[]).concat([it.up]); if(it.accrued&&!d.accrued) d.accrued=String(num(it.accrued)); if(it.payable&&!d.payable) d.payable=String(num(it.payable)); if(d.status==="draft") d.status="submitted"; if(!d.subDate) d.subDate=localToday(); d.xls=it.found||"";
-          try{ await putItem("recs",d,`${trName(d.kind)} ${trPerLabel(d.period)}: файлдан юкланди (${it.fname})`); break; }catch(err){ if(err instanceof ConflictErr&&attempt===0) continue; throw err; } }
-        it.status="saved"; ok++; }
-      catch(err){ it.status="err"; it.msg=explain(err); bad++; if(err instanceof AuthErr) break; } render(); }
-    I.saving=false; toast(ok+" та ҳисобот сақланди"+(bad?", "+bad+" тасида хато":"")); I.items=I.items.filter(x=>x.status!=="saved"); if(!I.items.length) V.trImport=null; return render(); }
+  if(a==="trImpSave") return trImpSaveAll();
   if(a==="frBack") return go({frEdit:null});
   if(a==="frImpCancel") return go({frImport:null});
   if(a==="frImpDel"&&V.frImport){ V.frImport.items.splice(+t.dataset.i,1); if(!V.frImport.items.length) V.frImport=null; return render(); }
@@ -5896,8 +6531,13 @@ document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches("t
 document.addEventListener("input",e=>{ if(e.target.dataset?.attach!=null||e.target.type==="file") return; if(e.target.closest("#hoForm")){ hoInput(e.target); return; } DRAFT_SEEN=true; draftSave();
   if(e.target.closest("#letForm")&&e.target.name&&V.letEdit){ V.letEdit[e.target.name]=e.target.value; }
   if(e.target.closest("#ccForm")&&e.target.name&&V.ccEdit){ V.ccEdit[e.target.name]=e.target.value; V.ccEdit.dupOk=false; if(e.target.name==="vatRate"&&V.ccEdit.vatAuto!==false){ const d=V.ccEdit; const v=$("#cc_vat"); if(v&&(!d.vat||d.vatAutoSet)){ d.vat=num(d.vatRate)>0&&num(d.amount)>0?String(Math.round(num(d.amount)*num(d.vatRate)/(100+num(d.vatRate))*100)/100):""; d.vatAutoSet=true; v.value=d.vat; } } if(e.target.name==="vat") V.ccEdit.vatAutoSet=false; }
+  if(e.target.dataset?.sal!=null&&V.draft){ const rows=chgRows(V.draft.values); const r=rows[+e.target.dataset.sal]; if(r){ r.newsal=e.target.value.replace(/[^\d]/g,""); V.draft.values.chg=JSON.stringify(rows); const sw=$("#sheetWrap"); if(sw) sw.innerHTML=sheetHTML(V.draft); } return; }
+  if(e.target.closest("#leForm")&&e.target.name&&V.leEdit){ V.leEdit[e.target.name]=e.target.type==="checkbox"?(e.target.checked?"1":""):e.target.value; if(e.target.name==="lessorType"||e.target.name==="free"){ render(); } return; }
+  if(e.target.closest("#leTaxForm")) return;
+  if(e.target.dataset?.gcell!=null&&V.draft){ grpInput(e.target); return; }
+  if(e.target.dataset?.grow!=null) return;
   const form=e.target.closest("#orderForm");
-  if(form){ V.draft.values[e.target.name]=e.target.value; hrOrderInput(e.target); $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
+  if(form&&e.target.name){ V.draft.values[e.target.name]=e.target.value; hrOrderInput(e.target); $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
   if(e.target.closest("#firmForm")) onFirmInput(e.target,false);
   if(e.target.closest("#loanForm")) onLoanInput(e.target);
   if(e.target.closest("#ckForm")) onCkInput(e.target);
@@ -5973,13 +6613,18 @@ document.addEventListener("change",e=>{ if(e.target.dataset?.attach!=null||e.tar
   if(e.target.dataset?.gimpfirm!=null&&V.gImport){ const it=V.gImport.items[+e.target.dataset.gimpfirm]; if(it){ it.firmId=e.target.value; if(it.status==="nofirm"||it.status==="ok") it.status=it.firmId?"ok":"nofirm"; gtdImpRefresh(); } }
   if(e.target.id==="rep_month"&&e.target.value){ V.loanRep=e.target.value; render(); }
   if(e.target.id==="rep_no"){ V.repNo=e.target.value.trim(); render(); }
-  if(e.target.closest("#orderForm")){ V.draft.values[e.target.name]=e.target.value; if(hrOrderInput(e.target,true)) return; $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
+  if(e.target.closest("#orderForm")&&e.target.name){ V.draft.values[e.target.name]=e.target.value; if(hrOrderInput(e.target,true)) return; $("#sheetWrap").innerHTML=sheetHTML(V.draft); }
 });
+document.addEventListener("change",async e=>{ const cb=e.target.closest?.(".lepaid"); if(cb&&V.leId){ const ym=cb.dataset.ym, on=cb.checked; try{ await attPut("recs",V.leId,o=>{ o.paid=o.paid||{}; if(on) o.paid[ym]=localToday(); else delete o.paid[ym]; },`Ижара ЖШДС ${ym}: ${on?"бюджетга ўтказилди":"белги олиб ташланди"}`); }catch(er){ toast(explain(er)); } const y=window.scrollY; render(); window.scrollTo(0,y); } });
+document.addEventListener("change",e=>{ if(e.target.dataset?.grow!=null&&V.draft) grpPick(e.target); if(e.target.id==="utplPick"&&e.target.value) utplApply(e.target.value); });
 document.addEventListener("change",async e=>{
   const el=e.target; if(el.type!=="file") return;
+  if(el.id==="leFile"&&V.firmId){ const fl=el.files[0]; el.value=""; const f=firm(V.firmId); if(!fl||!f) return; const d=leNew(f); d.pending=[{file:fl,name:fl.name}]; go({leEdit:d,leId:null}); await leReadFile(fl); return; }
+  if(el.id==="leMore"&&V.leEdit){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const d=V.leEdit; const first=!(d.pending||[]).length&&!(d.files||[]).length; d.pending=(d.pending||[]).concat(fs.map(x=>({file:x,name:x.name}))); render(); if(first&&!d.lessorName){ const rf=fs.find(x=>/\.pdf$/i.test(x.name)||aiCanRead(x)); if(rf) await leReadFile(rf); } return; }
+  if(el.id==="ordPending"&&V.draft){ const fs=[...el.files]; el.value=""; if(!V.ordPend||V.ordPend.id!==V.draft.id) V.ordPend={id:V.draft.id,files:[]}; fs.forEach(x=>{ if(!V.ordPend.files.some(y=>y.name===x.name&&y.size===x.size)) V.ordPend.files.push(x); }); return render(); }
   if(el.id==="restoreFile"){ const fl=el.files[0]; el.value=""; if(!fl) return; toast("Архив ўқилмоқда…"); try{ const R=await restoreRead(fl); return go({view:"restore",restore:R}); }catch(er){ toast("Архивни ўқиб бўлмади: "+(er?.message||"хато")); } return; }
   if(el.dataset.attach){ const [kind,id]=el.dataset.attach.split("|"); const fs=[...el.files]; el.value=""; if(!fs.length) return; const f=firm(V.firmId)||firm(V.draft?.firmId); let ok=0;
-    for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
+    for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); if((o0?.files||[]).some(x=>x.file?.id===file.id)){ toast(fl.name+": бу файл аллақачон бириктирилган"); continue; } await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
     if(ok) toast(ok+" та файл бириктирилди"); if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
   if((el.id==="ccFiles"||el.id==="ccMore")&&V.firmId){ const fs=[...el.files]; el.value=""; if(fs.length) ccReadFiles(fs,el.id==="ccMore"); return; }
   if(el.id==="ccFile"&&V.ccEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; const d=V.ccEdit; d.pending=fl; d.pendingName=fl.name; toast("Чек ўқилмоқда…");
@@ -6109,6 +6754,10 @@ document.addEventListener("submit",async e=>{
     try{ const o=await putItem("recs", d, isNew?`Займ шартномаси № ${d.number||""} қўшилди (${d.person}, ${m0(num(d.amount))} сўм)`:`Займ шартномаси № ${d.number||""} таҳрирланди`); toast("Шартнома сақланди"); go({loanEdit:null, loanId:o.id}); }
     catch(er){ btn.disabled=false; err.textContent=explain(er); if(er instanceof ConflictErr) setTimeout(()=>go({loanEdit:null}),2500); }
   }
+  if(e.target.id==="leForm"){ e.preventDefault(); return leSave(e.target); }
+  if(e.target.id==="leTaxForm"){ e.preventDefault(); const fd=new FormData(e.target); const nn=k=>{ const v=String(fd.get(k)||"").replace(/\s/g,"").replace(",","."); return v?String(num(v)):""; };
+    try{ await attPut("recs",V.leId,o=>{ o.monthly=nn("monthly"); o.area=nn("area"); o.minRate=nn("minRate"); o.coef=nn("coef")||"1"; o.taxRate=nn("taxRate")||String(LE_TAX_DEF); o.relative=fd.get("relative")?"1":""; },"Ижара ЖШДС параметрлари ўзгартирилди"); toast("Қайта ҳисобланди ва сақланди"); }catch(er){ toast(explain(er)); } return render(); }
+  if(e.target.id==="empFireForm"){ e.preventDefault(); return empFireSubmit(e.target); }
   if(e.target.id==="empForm"){
     e.preventDefault(); const d=V.empEdit; if(!d) return; const err=$("#empErr");
     Object.keys(d).forEach(k=>{ if(typeof d[k]==="string") d[k]=d[k].trim(); });
@@ -6119,7 +6768,10 @@ document.addEventListener("submit",async e=>{
     if(d.card){ const cd=digits(d.card); if(cd.length!==16){ err.textContent="Карта рақами 16 та рақамдан иборат бўлиши керак ("+cd.length+" та киритилди)."; $("#ef_card").focus(); return; } d.card=cd; if(!d.cardType) d.cardType=guessCard(cd); }
     if(d.pinfl&&S.emp.some(x=>x.id!==d.id&&x.firmId===d.firmId&&x.pinfl===d.pinfl)){ err.textContent="Бу ЖШШИР билан ходим шу фирмада аллақачон бор."; return; }
     const isNew=!S.emp.some(x=>x.id===d.id); const btn=e.target.querySelector("[type=submit]"); btn.disabled=true;
-    try{ const o=await putItem("emp",d,isNew?`Ходим қўшилди: ${d.fio}, ${d.position}`:`Ходим маълумотлари ўзгартирилди: ${d.fio}`); toast("Сақланди"); go({empEdit:null,empId:o.id}); }
+    const autoOrd=isNew&&!!$("#ef_autoOrd")?.checked;
+    try{ const o=await putItem("emp",d,isNew?`Ходим қўшилди: ${d.fio}, ${d.position}`:`Ходим маълумотлари ўзгартирилди: ${d.fio}`);
+      if(autoOrd){ try{ const ord=await autoHireOrder(o); toast("Ходим сақланди ва ишга қабул буйруғи (черновик) яратилди — текшириб, «Имзоланган»ни босинг"); return go({view:"order",empEdit:null,empId:o.id,draft:JSON.parse(JSON.stringify(ord))}); }catch(er){ toast("Ходим сақланди, лекин буйруқ яратилмади: "+explain(er)); } }
+      else toast("Сақланди"); go({empEdit:null,empId:o.id}); }
     catch(er){ btn.disabled=false; err.textContent=explain(er); }
   }
   if(e.target.id==="posForm"){
@@ -6171,11 +6823,18 @@ function showGate(state, msg){
   const brand = `<div class="gbrand">Фирмалар<small>Реквизитлар ва буйруқлар</small></div>`;
   let body = "";
   if(state==="loading") body = `<p class="hint">Юкланмоқда…</p>`;
-  if(state==="login") body = `
+  if(state==="login"){ const last=ls.get(LSK.email)||""; const rem=ls.get(LSK.remember)!=="0"; body = `
     <h1>Дастурга кириш</h1>
-    <p>Иш Gmail ҳисобингиз билан киринг. Фақат раҳбар рухсат берган ҳисоблар кира олади.</p>
+    ${VERIFY?`<div class="vnote"><b>QR орқали ҳужжатни текшириш.</b> Реестрдаги асл нусхани кўриш учун базага рухсати бор ҳисоб билан киринг. Рухсатингиз бўлмаса, ҳужжатни берган ташкилотдан текширишни сўранг.</div>`:""}
     ${err}
-    <button type="button" class="btn primary big" data-g="login">${GICON}Google орқали кириш</button>`;
+    <div class="glogin">
+      <label for="gEmail">Логин (иш Gmail почтаси)</label>
+      <input id="gEmail" type="email" autocomplete="username" inputmode="email" placeholder="masalan@gmail.com" value="${esc(last)}">
+      <label class="checkline"><input type="checkbox" id="gRemember" ${rem?"checked":""}><span>Шу компьютерда мени эслаб қол <i class="hint">(бегона компьютерда белгиламанг)</i></span></label>
+      <button type="button" class="btn primary big" data-g="login">${GICON}Кириш</button>
+    </div>
+    <p class="hint">Парол дастурда сўралмайди ва сақланмайди — у фақат Google'нинг ўз ойнасида, биринчи марта ёки Google'дан чиққан бўлсангиз сўралади. Кейинги сафар «Кириш»ни боссангиз, дастур ўзи очилади. Фақат раҳбар рухсат берган ҳисоблар кира олади.</p>
+    ${last?`<button type="button" class="back" data-g="other">← Бошқа ҳисоб билан кириш</button>`:""}`; }
   if(state==="setup") body = `
     <h1>Базани танланг</h1>
     <p>Сиз: <b>${esc(ME.name)}</b> <span class="hint">${esc(ME.email)}</span></p>
@@ -6208,6 +6867,9 @@ function showApp(){
     (DEMO ? "" : `<a href="${esc(sheetUrl())}" target="_blank" rel="noopener">Базани Google Sheets'да очиш</a><button type="button" class="linkbtn" data-g="switch">Базани алмаштириш</button><button type="button" class="linkbtn" data-g="logout">Чиқиш</button>`) +
     `<span class="hint" id="syncLine"></span>`;
   l.hidden = false; setSync(); render();
+  ensureQr().then(()=>{ if(["order","verify","firm"].includes(V.view)) render(); }).catch(()=>{});
+  if(VERIFY&&!VERIFY.done){ VERIFY.done=true; try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+    const need=VERIFY.k==="gtd"?ensureGtd():(VERIFY.k==="emp"||VERIFY.k==="vplan")?ensureEmp():Promise.resolve(); go({view:"verify",verify:VERIFY}); need.then(()=>{ if(V.view==="verify") render(); }).catch(()=>{}); }
 }
 
 async function afterLogin(){
@@ -6242,7 +6904,10 @@ document.addEventListener("click", async e=>{
   const t = e.target.closest("[data-g]"); if(!t) return;
   const a = t.dataset.g;
   try{
-    if(a==="login"){ await requestToken("select_account"); showGate("loading"); await afterLogin(); }
+    if(a==="login"||a==="other"){ const em=(a==="other"?"":($("#gEmail")?.value||"").trim().toLowerCase()); const rm=$("#gRemember"); if(rm) ls.set(LSK.remember,rm.checked?"1":"0");
+      if(a==="login"&&em&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ showGate("login","Почта манзилини тўғри киритинг (масалан: ism@gmail.com)"); return; }
+      ME.email=em; await requestToken(em?"":"select_account"); showGate("loading"); await afterLogin(); ls.set(LSK.email,ME.email);
+      if(em&&ME.email.toLowerCase()!==em) toast(`Google'да бошқа ҳисоб танланди: ${ME.email}`); }
     if(a==="reauth"){ await requestToken(""); toast("Давом этишингиз мумкин"); poll(); }
     if(a==="reload"){ location.reload(); }
     if(a==="create"){
@@ -6260,14 +6925,15 @@ document.addEventListener("click", async e=>{
     if(a==="switch"){ DB_ID=null; ls.del(LSK.db); showGate("setup"); }
     if(a==="logout"){
       try{ if(TOKEN) google.accounts.oauth2.revoke(TOKEN,()=>{}); }catch(err){}
-      TOKEN=null; ss.del(LSK.tok); ME.email=""; showGate("login");
+      TOKEN=null; ss.del(LSK.tok); ls.del(LSK.tok); ME.email=""; showGate("login");
     }
   }catch(err){
-    if(a==="login"||a==="create"||a==="pick") showGate(a==="login"?"login":"setup", err.message);
+    if(a==="login"||a==="other"||a==="create"||a==="pick") showGate(a==="login"||a==="other"?"login":"setup", err.message);
     else toast(err.message);
   }
 });
 
+document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.id==="gEmail"){ e.preventDefault(); document.querySelector('[data-g="login"]')?.click(); } });
 /* ---------- boot ---------- */
 (async()=>{
   if(DEMO){
@@ -6281,7 +6947,7 @@ document.addEventListener("click", async e=>{
   try{ await loadScript("https://accounts.google.com/gsi/client"); }
   catch(e){ showGate("error","Google хизматлари юкланмади. Интернетни текширинг."); return; }
   loadPicker().catch(()=>{});
-  try{ const t=JSON.parse(ss.get(LSK.tok)||"null"); if(t && t.e>Date.now()){ TOKEN=t.t; TOKEN_EXP=t.e; scheduleExpiry(); } }catch(e){}
+  try{ const t=JSON.parse(ss.get(LSK.tok)||ls.get(LSK.tok)||"null"); if(t && t.e>Date.now()){ TOKEN=t.t; TOKEN_EXP=t.e; scheduleExpiry(); } else { ls.del(LSK.tok); } }catch(e){}
   if(TOKEN){ try{ await afterLogin(); return; }catch(e){} }
   showGate("login");
 })();
