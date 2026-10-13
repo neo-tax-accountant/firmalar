@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f6e5c'/%3E%3Cpath d='M20 16h18l8 8v24H20z' fill='%23fff'/%3E%3Cpath d='M26 32h14M26 38h14M26 44h8' stroke='%230f6e5c' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Tinos:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 html{-webkit-text-size-adjust:100%}
 body{margin:0}
@@ -29,7 +29,7 @@ body{margin:0}
   --danger:#b3261e;
   --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
   --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-doc:"PT Serif",Georgia,"Times New Roman",serif;
+  --f-doc:"Times New Roman",Tinos,"Liberation Serif",serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
   --r:10px;
 }
@@ -794,7 +794,7 @@ details.alerts[open]>ul{max-height:340px;overflow-y:auto;scrollbar-width:thin;an
 .uibk.due{border-color:#f59e0b;background:rgba(245,158,11,.08)}
 .uibk-a{display:flex;flex-wrap:wrap;gap:6px}.uibk-a .btn{padding:6px 10px;font-size:13px}
 /* ================= Расмий ҳужжат (бланк) ================= */
-.sheet.ofdoc{font-family:"PT Serif","Times New Roman",Georgia,serif;font-size:15px;line-height:1.55;color:#111;background:#fff}
+.sheet.ofdoc{font-family:"Times New Roman",Tinos,"Liberation Serif",serif;font-size:15px;line-height:1.55;color:#111;background:#fff}
 .ofhead{display:flex;align-items:center;justify-content:center;gap:14px}
 .ofmono{flex:none;display:block;line-height:0}img.oflogo{flex:none;max-height:62px;max-width:170px;object-fit:contain}img.reglogo{max-height:96px;max-width:240px;object-fit:contain}
 .ofhn{text-align:center;min-width:0}
@@ -844,7 +844,7 @@ table.regtab tfoot td{font-weight:700;background:#efe8d6;border:1px solid #d6d0c
 .pdfpg.frame .pdfsheet{margin:16px 20px!important}
 .pdfpg.frame::before{content:"";position:absolute;inset:2px;border:2.4px solid #14213d;pointer-events:none}
 .pdfpg.frame::after{content:"";position:absolute;inset:7px;border:1px solid #b08d3c;pointer-events:none}
-.pdffoot{position:absolute;left:0;right:0;bottom:0;height:20px;display:flex;justify-content:space-between;align-items:flex-end;font:10px/1.2 "PT Serif",Georgia,serif;color:#6b7280;border-top:.6px solid #d6d0c2;padding-top:3px}
+.pdffoot{position:absolute;left:0;right:0;bottom:0;height:20px;display:flex;justify-content:space-between;align-items:flex-end;font:10px/1.2 "Times New Roman",Tinos,"Liberation Serif",serif;color:#6b7280;border-top:.6px solid #d6d0c2;padding-top:3px}
 .pdfpg.frame .pdffoot{left:20px;right:20px;bottom:12px}
 /* факсимиле карточкаси */
 .fmarks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;padding:8px 16px 12px}
@@ -902,6 +902,21 @@ th.tfth:hover .tfbtn,.tfbtn:focus-visible{opacity:1;border-color:var(--line);bac
 .auscore{display:flex;align-items:center;gap:14px;padding:14px 16px}.auscore b{font-size:26px}.aubar{flex:1;height:12px;border-radius:999px;background:var(--bg);overflow:hidden;min-width:120px}.aubar i{display:block;height:100%;background:var(--c);border-radius:999px}.aubar.sm{display:inline-block;width:120px;height:8px;vertical-align:middle;flex:none}
 .aurow{display:flex;gap:12px;align-items:center;padding:8px 16px;border-top:1px solid var(--line)}.aurow>div{flex:1;display:flex;flex-direction:column;gap:2px}.auic{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:800;flex:none;background:var(--bg);color:var(--muted)}.aurow.ok .auic{background:rgba(16,185,129,.15);color:#059669}.aurow.bad .auic{background:rgba(239,68,68,.15);color:#dc2626}
 .docqr.pub .qrimg svg,.docqr.pub .qrimg img{width:34mm!important;height:34mm!important}
+
+/* ҳужжатлар — Times New Roman */
+.sheet,.sheet *,.pdfpg,.pdfpg *,.pubdoc,.pubdoc *{font-family:"Times New Roman",Tinos,"Liberation Serif",serif!important}
+.pubdoc p.phd{text-align:center;margin:12px 0 6px}.pubdoc p.ptr{font-size:13px;border-bottom:1px dotted #ccc;padding:2px 0;margin:0}
+.pdfview{padding:10px;display:flex;flex-direction:column;align-items:center;gap:10px;background:color-mix(in srgb,var(--ink) 6%,var(--card,transparent));margin-top:14px;min-height:120px}
+.pdfview .pvpage,.pdfview .pvimg{max-width:100%;height:auto;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);border-radius:2px}
+.pdfview .pvbar{align-self:stretch;display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--muted)}.pdfview .pvload{color:var(--muted);font-size:13px;padding:30px}
+.fasrc{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px;vertical-align:middle;margin-left:6px}.fasrc.up{background:#e0f2fe;color:#075985}.fasrc.tpl{background:#ede9fe;color:#5b21b6}
+#fa_body{width:100%;min-height:140px;resize:vertical;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.fahole{color:#b91c1c;font-style:italic}.fcxtra{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+.ct3{grid-template-columns:repeat(3,1fr)}@media(max-width:720px){.ct3{grid-template-columns:1fr}}
+.poab{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 8px;white-space:nowrap;border:0;cursor:default;font-family:inherit}.poab.ok{background:#dcfce7;color:#15803d;box-shadow:0 0 0 1px #86efac}.poab.no{background:#f1f5f9;color:#64748b;box-shadow:0 0 0 1px #cbd5e1}button.poab{cursor:pointer}
+.ppbox{max-width:680px!important;align-items:stretch!important;text-align:left;max-height:90vh;display:flex!important;flex-direction:column;overflow:hidden}.ppbox>*{flex:none}.ppbox .pplist{flex:1 1 auto!important;min-height:80px}.pplist{overflow:auto;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px}
+.ppdoc{border-bottom:1px dashed var(--line);padding-bottom:6px}.ppg{margin:4px 0 2px 22px}.ppgh{font-size:13px;color:var(--muted);font-weight:600}.ppgh i{font-style:normal;font-size:11px;background:var(--bg);border-radius:6px;padding:0 5px;margin-left:4px}.ppi{display:block;margin-left:22px;font-size:13px;word-break:break-word}.pph,.ppgh,.ppi,.ppall label{cursor:pointer}.ppbox .actions{justify-content:flex-start;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -953,7 +968,7 @@ function uiPanelOpen(){ uiPanelClose(); const u=uiGet(); const th=u.theme||"auto
   <div class="uirow"><span class="k">Ҳарф ўлчами</span>${seg("fs",u.fs||"m",[["s","Кичик"],["m","Ўрта"],["l","Катта"]])}</div>
   <div class="uirow"><span class="k">Фон безаги</span>${seg("bg",u.bg===false?"0":"1",[["1","Рангли фон"],["0","Оддий фон"]])}</div>
   <div class="uirow"><span class="k">Ҳужжатлар тартиби</span>${seg("sort",SORT_DIR,[["desc","Янгиси аввал"],["asc","Эскиси аввал"]])}</div>
-  <div class="uirow"><span class="k">Юкланадиган PDF ва расмларга QR муҳри</span>${seg("qrs",u.qrStamp===false?"0":"1",[["1","Қўйилсин"],["0","Қўйилмасин"]])}<span class="hint">ЭРИ (электрон имзо) қўйилган PDF'лар ўзгартирилмайди</span></div>
+  <div class="uirow"><span class="k">Юкланадиган PDF ва расмларга QR муҳри (сканер қилганда ҳужжат фақат кўриш учун очилади; ходимларнинг шахсий ҳужжатларига қўйилмайди)</span>${seg("qrs",u.qrStamp===false?"0":"1",[["1","Қўйилсин"],["0","Қўйилмасин"]])}<span class="hint">ЭРИ (электрон имзо) қўйилган PDF'лар ўзгартирилмайди</span></div>
   ${typeof S!=="undefined"&&S.ready?uiBackupRow():""}
   <div class="uirow"><span class="k">Созламалар</span><div class="uilinks">
     <button type="button" data-ui="go:ai">✦ Claude AI созламалари ва харажатлари</button>
@@ -2579,6 +2594,7 @@ function vContracts(f){
   if(V.ctEdit) return ctForm(f,V.ctEdit);
   const all=firmContracts(f.id);
   if(V.ctId){ const C=all.find(x=>x.id===V.ctId); if(C) return ctDetail(f,C); }
+  if(V.ctDir==="poa") return poaView(f);
   const dir=V.ctDir||"in";
   const cs=all.filter(c=>(c.dir||"in")===dir);
   const sums={}; cs.filter(c=>c.status!=="closed").forEach(c=>{ const k=c.currency||"UZS"; sums[k]=(sums[k]||0)+num(c.amount); });
@@ -2586,8 +2602,8 @@ function vContracts(f){
   const soon=cs.filter(c=>ctState(c).cls==="soon").length, bad=cs.filter(c=>ctState(c).cls==="bad").length;
   const tab=k=>{ const P=CT_DIR[k]; const n=all.filter(c=>(c.dir||"in")===k).length; return `<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t} шартномалар</b><span>${P.s}</span><i>${n}</i></button>`; };
   const chip=(grp,k,t)=>`<button type="button" class="chip" data-ctf="${grp}" data-v="${k}" aria-pressed="${(V[grp]||"all")===k}">${t}</button>`;
-  return `<div class="cttabs">${tab("in")}${tab("out")}</div>
-  <div class="toolbar"><div class="actions"><label class="btn primary ctup">${PDF_ICON}PDF юклаш<input type="file" id="ctFiles" accept="application/pdf,.pdf" multiple hidden></label><button type="button" class="btn" data-act="ctGen">${LPLUS}Шаблондан тузиш</button><button type="button" class="btn" data-act="newContract">${LPLUS}Қўлда қўшиш</button>${all.length?`<button type="button" class="btn" data-act="ctXlsx">${DL_ICON}Excel</button>`:""}</div>
+  return `${ctTabsHTML(f,dir)}
+  <div class="toolbar"><div class="actions"><label class="btn primary ctup" title="Бир нечта шартнома PDF ёки сканини бирга белгилаб танланг — ҳар бири ўқилади. Ишончномалар ўзи «Ишончномалар» бўлимига ўтказилади.">${PDF_ICON}PDF / скан юклаш (бир нечтаси)<input type="file" id="ctFiles" accept="application/pdf,.pdf,image/*" multiple hidden></label><button type="button" class="btn" data-act="ctGen">${LPLUS}Шаблондан тузиш</button><button type="button" class="btn" data-act="newContract">${LPLUS}Қўлда қўшиш</button>${all.length?`<button type="button" class="btn" data-act="ctXlsx">${DL_ICON}Excel</button>`:""}</div>
     <input type="search" id="ct_q" class="ctsearch" placeholder="Қидириш: контрагент, СТИР, рақам…" value="${esc(V.ctQ||"")}"></div>
   ${cs.length?`<div class="lstats">
     <div class="lstat" style="--c:${CT_DIR[dir].c};--cl:${CT_DIR[dir].l}"><span class="k">${CT_DIR[dir].t} шартномалар</span><span class="v">${cs.length} та</span><span class="s">${cs.filter(c=>c.status!=="closed").length} таси очиқ</span></div>
@@ -2616,7 +2632,7 @@ function ctForm(f,d){
 function ctDupe(firmId,d,selfId){ return firmContracts(firmId).find(c=>c.id!==selfId&&c.number&&d.number&&String(c.number).trim()===String(d.number).trim()&&(c.date||"")===(d.date||"")&&(!d.cp?.inn||!c.cp?.inn||c.cp.inn===d.cp.inn)); }
 function ctImportView(f){
   const I=V.ctImport; const items=I.items;
-  const st={read:["","PDF ўқилмоқда…"],ocr:["act","Сканер — матн танилмоқда (OCR)"],ok:["ok","Маълумотлар олинди"],scan:["soon","Матн топилмади (сканер қилинган) — қўлда тўлдиринг"],err:["bad","Хато"],saving:["act","Сақланмоқда…"],saved:["ok","Сақланди"]};
+  const st={poa:["ok","Ишончнома — «Ишончномалар» бўлимига ўтказилмоқда"],read:["","PDF ўқилмоқда…"],ocr:["act","Сканер — матн танилмоқда (OCR)"],ok:["ok","Маълумотлар олинди"],scan:["soon","Матн топилмади (сканер қилинган) — қўлда тўлдиринг"],err:["bad","Хато"],saving:["act","Сақланмоқда…"],saved:["ok","Сақланди"]};
   const ready=items.filter(x=>x.status==="ok"||x.status==="scan"||x.status==="err"&&x.d).length; const busyR=items.some(x=>x.status==="read"||x.status==="ocr");
   return `<button type="button" class="back" data-act="ctImpCancel" ${I.saving?"disabled":""}>← Шартномалар</button>
   <div class="head"><div><h1 style="font-size:22px">PDF шартномаларни юклаш</h1><div class="sub">${items.length} та файл. Ҳар бир шартнома маълумотини текширинг, кейин «Ҳаммасини сақлаш»ни босинг. PDF нусхаси ${DEMO?"(демода фақат шу сессияда)":"Google Drive'ингиздаги «Фирмалар базаси — шартномалар (PDF)» папкасига"} сақланади.</div></div>
@@ -2626,7 +2642,8 @@ function ctImportView(f){
   ${items.map((it,i)=>{ const s=st[it.status]||["",""]; const dup=it.d&&ctDupe(f.id,it.d);
     return `<section class="card ctimp ctform" data-impid="${it.id}">
       <div class="ctimp-h">${PDF_ICON}<b>${esc(it.fname)}</b><span class="hint">${(it.size/1024/1024).toFixed(2)} МБ${it.pages?" · "+it.pages+" бет":""}</span><span class="lpill ${s[0]}">${it.ocr&&it.status==="ok"?"Сканердан ўқилди (OCR)":s[1]}${it.status==="ok"?" ("+it.auto.size+" та)":""}</span>
-        <span class="ctimp-a">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener">кўриш</a>`:""}${it.status!=="saving"&&it.status!=="saved"?`<button type="button" class="linkbtn danger" data-act="ctImpDel" data-i="${i}">олиб ташлаш</button>`:""}</span></div>
+        <span class="ctimp-a">${it.url?`<a href="${esc(it.url)}" target="_blank" rel="noopener">кўриш</a>`:""}${i>0&&it.status!=="saving"&&it.status!=="saved"&&it.status!=="poa"?`<button type="button" class="linkbtn" data-act="ctImpMerge" data-i="${i}" title="Бу файл алоҳида шартнома эмас — юқоридаги шартноманинг давоми / иловаси">↑ олдинги шартномага қўшиш</button>`:""}${it.status!=="saving"&&it.status!=="saved"?`<button type="button" class="linkbtn danger" data-act="ctImpDel" data-i="${i}">олиб ташлаш</button>`:""}</span></div>
+      ${(it.extra||[]).length?`<p class="hint" style="padding:0 16px">Шу шартномага қўшилган файллар: ${it.extra.map(x=>"📄 "+esc(x.name)).join(", ")}</p>`:""}
       <div style="padding:0 16px">${aiTag(it,"ctAi",i)}</div>
       ${it.status==="ocr"?`<p class="ocrp hint">${esc(it.msg2||"")}</p>`:""}
       ${it.ocr&&it.status==="ok"?`<p class="hint">OCR сканердан ўқиганда хато қилиши мумкин — рақам ва суммаларни айниқса текширинг.</p>`:""}
@@ -2652,6 +2669,7 @@ function ctDetail(f,C){
   ${(()=>{ const nrm=x=>String(x||"").trim().toLowerCase(); const gl=S.gtd.filter(r=>r.firmId===C.firmId&&r.contract&&nrm(r.contract.no)===nrm(C.number)); if(!gl.length) return "";
     const pay={}; gl.forEach(r=>Object.entries(r.pay||{}).forEach(([k,v])=>pay[k]=(pay[k]||0)+v)); const inv=gl.reduce((a,r)=>a+(r.invoice||0),0);
     return `<div class="card"><div class="label" style="padding:12px 16px 0">${GH(`Шу шартнома бўйича ГТДлар (${gl.length} та)`,"import",30)}</div><p class="hint" style="padding:6px 16px 0">Фактура жами: <b>${m2(inv)} ${esc(gl[0].currency||"")}</b>${C.amount?` · шартнома суммасининг ${Math.round(inv/num(C.amount)*1000)/10}%`:""} · ${esc(gPayTxt(pay))}</p><div class="tablewrap"><table class="ltable"><thead><tr><th>ГТД №</th><th>Сана</th><th class="r">Фактура</th><th class="r">Тўловлар</th></tr></thead><tbody>${gl.map(r=>`<tr data-gogtd="${esc(r.id)}" tabindex="0"><td class="num">${esc(r.no)}</td><td class="num">${fmtDate(r.date)}</td><td class="num r">${m2(r.invoice)} ${esc(r.currency||"")}</td><td class="num r">${m2(r.payTotal)}</td></tr>`).join("")}</tbody></table></div></div>`; })()}
+  ${ctPoaCard(C)}
   <div class="card ctfilebox">${PDF_ICON}<div>${C.file?`<b>${esc(C.file.name||"PDF")}</b><span class="hint">${C.file.size?(C.file.size/1024/1024).toFixed(2)+" МБ · ":""}${C.file.by?"юклаган: "+esc(nameOf(C.file.by))+" · ":""}${C.file.at?fmtStamp(C.file.at):""}${C.file.demo&&!u?" · демо режимда файл қайта юклангандан кейин сақланмайди":""}</span>`:`<b>PDF бириктирилмаган</b><span class="hint">Шартноманинг сканер ёки PDF нусхасини бириктиринг.</span>`}</div>
     <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">Очиш</a>`:""}<label class="btn">${C.file?"Алмаштириш":"PDF бириктириш"}<input type="file" id="ctAttach" accept="application/pdf,.pdf" hidden></label></div></div>
   ${attachBox("recs",C,"Бириктирилган файллар (PDF, скан, Excel)")}${histBox(C)}`;
@@ -2693,7 +2711,7 @@ async function ensurePdfjs(){
 async function pdfToText(file){
   await ensurePdfjs();
   const doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise; const pages=[];
-  for(let p=1;p<=Math.min(doc.numPages,15);p++){ const pg=await doc.getPage(p); const vp=pg.getViewport({scale:1}); const tc=await pg.getTextContent(); pages.push({items:tc.items,width:vp.width}); }
+  for(let p=1;p<=Math.min(doc.numPages,40);p++){ const pg=await doc.getPage(p); const vp=pg.getViewport({scale:1}); const tc=await pg.getTextContent(); pages.push({items:tc.items,width:vp.width}); }
   return {text:ctLayout(pages),pages:doc.numPages};
 }
 function ctNewDraft(firmId){ return {id:uid(),firmId,type:"contract",dir:V.ctDir||"in",number:"",date:"",endDate:"",status:"open",subj:"",subject:"",amount:"",currency:"UZS",cp:{},note:"",createdAt:Date.now()}; }
@@ -2704,27 +2722,30 @@ function ctApplyParsed(d,p,onlyEmpty){
 }
 async function ctReadFiles(files){
   const f=firm(V.firmId); if(!f) return;
-  const list=[...files].filter(x=>/\.pdf$/i.test(x.name)||x.type==="application/pdf");
-  if(!list.length){ toast("Фақат PDF файллар юкланади"); return; }
+  const list=[...files].filter(x=>/\.(pdf|jpe?g|png)$/i.test(x.name)||x.type==="application/pdf"||/^image\/(jpeg|png)$/.test(x.type));
+  if(!list.length){ toast("Фақат PDF ёки расм (JPG, PNG) файллар юкланади"); return; } const poaQ=[];
   V.ctImport={items:list.map(x=>({id:uid(),file:x,fname:x.name,size:x.size,status:"read",url:URL.createObjectURL(x),auto:new Set(),d:null})),saving:false};
   V.ctId=null; V.ctEdit=null; render(); window.scrollTo(0,0);
   for(const it of V.ctImport.items){
     if(!V.ctImport) return;
     const d=ctNewDraft(f.id);
     if(it.size>25*1024*1024){ it.status="err"; it.msg="Файл 25 МБ дан катта"; it.d=null; render(); continue; }
-    try{ const r=await pdfToText(it.file); it.pages=r.pages;
+    try{ if(/^image\//.test(it.file.type)||/\.(jpe?g|png)$/i.test(it.fname)){ it.file=await ccImgToPdf(it.file); it.url=URL.createObjectURL(it.file); }
+      const r=await pdfToText(it.file); it.pages=r.pages;
       let text=r.text;
       if(text.replace(/\s/g,"").length<40){
         it.status="ocr"; it.msg2="сканер қилинган PDF — матн танилмоқда…"; render();
         try{ const o=await pdfOcr(it.file,m=>{ it.msg2=m; const el=document.querySelector(`[data-impid="${it.id}"] .ocrp`); if(el) el.textContent=m; }); text=o.text; it.ocr=true; }
         catch(e){ text=""; it.msg="OCR ишламади: "+(e?.message||e)+". Маълумотни қўлда киритинг."; }
       }
+      if(poaLooks(text)){ it.status="poa"; it.d=null; poaQ.push(it); render(); continue; }
       if(text.replace(/\s/g,"").length<40){ it.status="scan"; it.d=d; }
       else{ const p=ctParse(text,f); it.auto=ctApplyParsed(d,p,false); it.d=d; it.status="ok"; }
     }catch(e){ it.status="err"; it.msg="PDF'ни ўқиб бўлмади: "+(e?.message||e); it.d=d; }
     if(V.ctImport&&it.d&&aiAuto(it.status!=="ok"||it.ocr||it.auto.size<6)) await ctAiItem(f,it);
     if(V.ctImport&&V.tab==="contracts") render();
   }
+  if(poaQ.length){ await poaImport(f,poaQ.map(x=>x.file)); if(V.ctImport){ V.ctImport.items=V.ctImport.items.filter(x=>x.status!=="poa"); if(!V.ctImport.items.length) V.ctImport=null; } render(); }
 }
 /* Google Drive: PDF nusxasini saqlash */
 const DRIVE="https://www.googleapis.com/drive/v3/files", DRIVE_UP="https://www.googleapis.com/upload/drive/v3/files";
@@ -2749,15 +2770,16 @@ async function driveShareWithBase(fileId){
   }catch(e){ SHARE_SYNC[fileId]=0; }
 }
 async function driveUpload(file,name,loc){
-  const fh=await fileHash(file);
-  { const st=await qrStampFile(file,loc,fh); if(st!==file){ file=st; name=String(name||"").replace(/\.(jpe?g|png)$/i,".pdf"); } }
+  const fh=await fileHash(file); let preId=null;
+  if(DEMO){ if(qrPubAllowed(loc,name)){ const st=await qrStampFile(file,loc,fh,fileQrUrl(fh)); if(st!==file){ file=st; name=String(name||"").replace(/\.(jpe?g|png)$/i,".pdf"); } } }
   if(DEMO){ if(fh&&DEMO_HASH[fh]&&DEMO_FILES[DEMO_HASH[fh].id]) return {...DEMO_HASH[fh],dupOf:true}; const id="demo-"+uid(); DEMO_FILES[id]=URL.createObjectURL(file); const ref={id,name,size:file.size,demo:true,by:ME.email,at:Date.now(),hash:fh||undefined}; if(fh) DEMO_HASH[fh]=ref; return ref; }
   if(fh){ try{ const q=encodeURIComponent(`trashed=false and appProperties has { key='fbhash' and value='${fh}' } and appProperties has { key='fbdb' and value='${DB_ID}' }`); const ex=await api("GET",`${DRIVE}?q=${q}&fields=files(id,name,size,webViewLink)&spaces=drive&pageSize=1`); const j0=ex.files?.[0]; if(j0) return {id:j0.id,name:j0.name||name,size:+j0.size||file.size,link:j0.webViewLink||`https://drive.google.com/file/d/${j0.id}/view`,by:ME.email,at:Date.now(),hash:fh,dupOf:true}; }catch(e){ if(e instanceof AuthErr) throw e; } }
   const root=await driveFolderId(); await driveShareWithBase(root); const folder=await drivePath(loc);
+  if(qrStampOn()&&qrPubAllowed(loc,name)&&/\.(pdf|jpe?g|png)$/i.test(String(file.name||name))){ preId=await drivePreId(); if(preId){ const st=await qrStampFile(file,loc,fh,`https://drive.google.com/file/d/${preId}/view`); if(st!==file){ file=st; name=String(name||"").replace(/\.(jpe?g|png)$/i,".pdf"); } else preId=null; } }
   if(!TOKEN||Date.now()>TOKEN_EXP){ needAuth(); throw new AuthErr("Сессия тугаган"); }
   const ext=(String(file.name||name).match(/\.(\w+)$/)||[])[1]?.toLowerCase(); const MIME={pdf:"application/pdf",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",xls:"application/vnd.ms-excel",csv:"text/csv",doc:"application/msword",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png"};
   const mime=file.type||MIME[ext]||"application/pdf"; if(ext&&!/\.\w+$/.test(name)) name+="."+ext; else if(ext&&ext!=="pdf"&&/\.pdf$/i.test(name)) name=name.replace(/\.pdf$/i,"."+ext);
-  const meta={name,parents:[folder],mimeType:mime,appProperties:{fbdb:DB_ID,...(fh?{fbhash:fh}:{})}};
+  const meta={name,parents:[folder],mimeType:mime,appProperties:{fbdb:DB_ID,...(fh?{fbhash:fh}:{})}}; if(preId){ meta.id=preId; meta.copyRequiresWriterPermission=true; }
   let r;
   try{
     if(file.size<=4.5*1024*1024){
@@ -2773,8 +2795,8 @@ async function driveUpload(file,name,loc){
   }catch(e){ if(e instanceof AuthErr) throw e; throw new Error(e?.message&&!/fetch/i.test(e.message)?e.message:"Интернет алоқаси йўқ"); }
   if(r.status===401){ TOKEN=null; needAuth(); throw new AuthErr("Сессия тугаган"); }
   if(!r.ok){ let m=""; try{ m=(await r.json()).error?.message||""; }catch(e){} throw new Error("Файл Drive'га юкланмади: "+(m||r.status)); }
-  const j=await r.json();
-  return {id:j.id,name:j.name||name,size:+j.size||file.size,link:j.webViewLink||`https://drive.google.com/file/d/${j.id}/view`,by:ME.email,at:Date.now(),hash:fh||undefined};
+  const j=await r.json(); const pub=preId&&j.id===preId?await drivePublicView(preId):false;
+  return {id:j.id,name:j.name||name,size:+j.size||file.size,link:j.webViewLink||`https://drive.google.com/file/d/${j.id}/view`,by:ME.email,at:Date.now(),hash:fh||undefined,...(pub?{pub:1}:{})};
 }
 const ctFileName=(f,d,orig)=>`${safeName(f.name)} — ${d.dir==="out"?"чиқувчи":"кирувчи"} № ${String(d.number||"").replace(/[\\/:*?"<>|]/g,"-")} ${fmtDate(d.date)} ${String(d.cp?.name||"").replace(/[«»"\\/:*?<>|]/g,"")}`.replace(/\s+/g," ").trim().slice(0,150)+".pdf";
 function ctClean(d){
@@ -2831,6 +2853,7 @@ function ctgDefaults(tpl,firmId){
   Object.assign(d,{dir:"out",number:String(n),date:localToday(),endDate:yr+"-12-31",subj:CTG[tpl].subj,subject:"",gen:{tpl,lang:"uz",city:"Тошкент ш.",vat:"incl",amtMode:tpl==="lease"||tpl==="service"?"monthly":"total",prepay:tpl==="sale"?"30":"0",payDays:"5",delDays:"10",svcPeriod:"",objAddr:"",area:"",purpose:"офис",payDay:"10"}});
   return d;
 }
+const recHas=id=>S.recs.some(x=>x.id===id);
 function ctgSheet(f,d,clean){
   const g=d.gen||{}, T=CTG[g.tpl]||CTG.sale, L=g.lang==="ru"?"ru":"uz", R=T.roles[L];
   const our=ctgOur(f), cp=Object.assign({name:"",address:"",inn:"",account:"",bank:"",mfo:"",phone:"",director:"",title:"Директор"},d.cp||{});
@@ -2910,7 +2933,7 @@ function ctgSheet(f,d,clean){
     ${S.map((s,i)=>`<p class="ctg-h">${i+1}. ${s[0]}</p>${s[1].map((x,j)=>`<p>${i+1}.${j+1}. ${x}</p>`).join("")}`).join("")}
     <p class="ctg-h">${S.length+1}. ${L==="uz"?"ТОМОНЛАРНИНГ МАНЗИЛЛАРИ ВА БАНК РЕКВИЗИТЛАРИ":"АДРЕСА И БАНКОВСКИЕ РЕКВИЗИТЫ СТОРОН"}</p>
     <table class="ctg-req"><tr>${blk(r0,A)}${blk(r1,B)}</tr></table>
-    ${S.recs.some(x=>x.id===d.id)?docQrBlock("contract",d):""}
+    ${recHas(d.id)?docQrBlock("contract",d):""}
   </div>`;
 }
 function ctgPicker(f){
@@ -3998,6 +4021,7 @@ function docGo(k,id,fid){
   if(k==="faact"){ const a=S.recs.find(r=>r.type==="fa"&&(r.acts||[]).some(x=>x.id===id)); const x=a&&(a.acts||[]).find(y=>y.id===id); if(a) return go({...base,tab:"av",faId:a.id,faReg:null,faEdit:null,faAct:{faId:a.id,act:JSON.parse(JSON.stringify(x)),isNew:false}}); }
   if(k==="ccheck") return go({...base,tab:"cards",ccId:id,ccEdit:null,ccImport:null});
   if(k==="letter"){ const l=S.recs.find(x=>x.id===id); return go({...base,tab:"office",letDir:l?.dir||"in",letId:id,letEdit:null}); }
+  if(k==="poa"){ const p=S.recs.find(x=>x.id===id); return go({...base,tab:"contracts",ctDir:"poa",ctId:null,ctEdit:null,ctImport:null,poaEdit:p?JSON.parse(JSON.stringify(p)):null}); }
   if(k==="fcontract") return go({...base,tab:"import",impSub:"fc",fcId:id,fcSub:"info",gId:null});
   if(k==="spec"||k==="act"||k==="addendum"){ const c=S.recs.find(r=>r.type==="fcontract"&&(r[k==="spec"?"specs":k==="act"?"acts":"addenda"]||[]).some(x=>x.id===id)); if(c) return go({...base,tab:"import",impSub:"fc",fcId:c.id,fcSub:k==="addendum"?"add":k,gId:null}); }
 }
@@ -4457,7 +4481,7 @@ function vFContracts(f){
   const rows=all.map(c=>({c,k:fcCalc(c)})).map(x=>({...x,s:fcState(x.c,x.k)}));
   const list=rows.filter(x=>(dr==="all"||x.c.dir===dr)&&(st==="all"||(st==="bad"?x.s.cls==="bad":st==="soon"?x.s.cls==="soon":x.s.cls==="ok"))&&qhit(q,[x.c.idn,x.c.number,x.c.seller?.name,x.c.buyer?.name,x.c.supplier?.name,x.c.subject,docCode(x.c)]));
   const sumBy=(fn)=>{ const o={}; rows.forEach(x=>{ const v=fn(x); if(v) o[x.c.currency||"?"]=(o[x.c.currency||"?"]||0)+v; }); return Object.entries(o).map(([k,v])=>m0(v)+" "+k).join(" + ")||"0"; };
-  return `<div class="toolbar"><span class="hint">Ташқи савдо контрактлари: спецификация, акт, қўшимча келишувлар ва тўловлар назорати (олдиндан тўлов — 180 кун, фактда тўлов — 180 ёки 365 кун).</span><div class="actions">${all.length?`<button type="button" class="btn" data-act="fcXlsx">${DL_ICON}Excel</button>`:""}<label class="btn ctup" title="Контракт PDF ёки ЕЭИСВО (E-CONTRACT) карточкаси — маълумотлар ўзи тўлдирилади">${UP_ICON}Контракт / E-CONTRACT PDF'дан<input type="file" id="fcNewFile" accept=".pdf,application/pdf,image/*" hidden></label><button type="button" class="btn primary" data-act="fcNew">${LPLUS}Контракт қўшиш</button></div></div>
+  return `<div class="toolbar"><span class="hint">Ташқи савдо контрактлари: спецификация, акт, қўшимча келишувлар ва тўловлар назорати (олдиндан тўлов — 180 кун, фактда тўлов — 180 ёки 365 кун).</span><div class="actions">${all.length?`<button type="button" class="btn" data-act="fcXlsx">${DL_ICON}Excel</button>`:""}<label class="btn ctup" title="Контракт PDF ёки ЕЭИСВО (E-CONTRACT) карточкаси — маълумотлар ўзи тўлдирилади">${UP_ICON}Контракт / E-CONTRACT PDF'дан<input type="file" id="fcNewFile" accept=".pdf,application/pdf,image/*" multiple hidden></label><button type="button" class="btn primary" data-act="fcNew">${LPLUS}Контракт қўшиш</button></div></div>
   ${all.length?`<div class="lstats">
     <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Контрактлар</span><span class="v">${all.length} та</span><span class="s">импорт ${all.filter(c=>c.dir!=="exp").length} · экспорт ${all.filter(c=>c.dir==="exp").length}</span></div>
     <div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Аванс (олдиндан тўлов)</span><span class="v">${sumBy(x=>x.k.advance)}</span><span class="s">етказиб берилмаган қисм</span></div>
@@ -4483,7 +4507,7 @@ function fcForm(f,d){
   <div class="label">Ташиш ва етказиб бериш</div>
   <div class="lgrid">${sel("incoterms","Инкотермс 2020",INCOTERMS.map(([k,t])=>[k,k+" — "+t.split(" — ")[1]]))}${fld("shipPoint","Жўнатиш пункти")}${fld("deliveryPoint","Етказиб бериш пункти")}${sel("transport","Транспорт тури",[["",""],["авто","Автомобиль"],["темир йўл","Темир йўл"],["авиа","Ҳаво"],["денгиз","Денгиз"],["аралаш","Аралаш"]])}</div>
   <div class="lgrid">${sel("status","Ҳолати",[["open","Амалда"],["closed","Ёпилган"]])}${fld("note","Изоҳ","text","wide")}</div>
-  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcAi",d.file||d.pendingFile)}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"Контракт PDF'ини алмаштириш":"Контракт PDF'ини бириктириш"}<input type="file" id="fcFile" accept="application/pdf,.pdf" hidden></label></div>
+  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">PDF: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcAi",d.file||d.pendingFile)}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"Контракт PDF'(лар)ини алмаштириш":"Контракт PDF'(лар)ини бириктириш"}<input type="file" id="fcFile" accept="application/pdf,.pdf,image/*" multiple hidden></label></div>${(d.pendingExtra||[]).length?`<div class="fcxtra"><span class="hint">Қўшимча файллар (сақланганда контракт файллари қаторига юкланади):</span>${d.pendingExtra.map((x,i)=>`<span class="trfile">📄 ${esc(x.name)}<button type="button" class="linkbtn danger" data-act="fcXtraDel" data-i="${i}" aria-label="Олиб ташлаш">✕</button></span>`).join("")}</div>`:""}<p class="hint">Контракт бир нечта PDF'дан иборат бўлса (асосий матн, иловалар, E-CONTRACT карточкаси), уларни бирга белгилаб танланг — ҳаммаси ўқилади.</p>
   <p class="err" id="fcErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="fcBack">Бекор қилиш</button></div></form>`;
 }
@@ -4494,15 +4518,15 @@ function fcDetail(f,c){
   let body="";
   if(sub==="info"){ const party=(k2,t)=>{ const p=c[k2]||{}; if(!p.name) return ""; return `<div class="card"><div class="label" style="padding:12px 16px 0">${t}</div><div class="reqs">${FC_PF.filter(([pk])=>p[pk]).map(([pk,pl])=>kv(pl,p[pk],/account|swift|regNo/.test(pk))).join("")}</div></div>`; };
     body=`<div class="card"><div class="reqs">${[["Йўналиш",FC_DIR[c.dir||"imp"].t],["Контракт ИДН",c.idn],["Контракт рақами ва санаси",fcLbl(c)],["Амалдаги сумма",m2(e.amount)+" "+(c.currency||"")+(e.amount!==num(c.amount)?" (дастлабки "+m2(num(c.amount))+")":"")],["ГТДлар бўйича келган товарлар",(()=>{ const o=fcOver(c); return o.gN?m2(o.gtd)+" "+(c.currency||"")+" ("+o.gN+" та ГТД"+(o.amount?", "+Math.round(o.gtd/o.amount*100)+"%":"")+")"+(o.gMis?" · "+o.gMis+" таси бошқа валютада":""):"ГТД топилмади"; })()],["Спецификациялар жами",(()=>{ const o=fcOver(c); return o.sN?m2(o.spec)+" "+(c.currency||"")+" ("+o.sN+" та)":""; })()],["Амал қилиш муддати",fmtDate(e.end)],["Предмети",(c.subj||"")+(c.subject?": "+c.subject:"")],["Тўлов шарти",FC_PAY[c.payType]+(c.payType==="mixed"&&c.prepayPct?", олдиндан "+c.prepayPct+"%":"")],["Муддатлар",(c.payType!=="post"?"олдиндан тўлов — "+(c.prepayDays||180)+" кун":"")+(c.payType!=="prepay"?(c.payType==="mixed"?"; ":"")+"фактда тўлов — "+(c.postDays||180)+" кун":"")],["Инкотермс",c.incoterms?(c.incoterms+" — "+(INCOTERMS.find(x=>x[0]===c.incoterms)?.[1]||"")):""],["Жўнатиш пункти",c.shipPoint],["Етказиб бериш пункти",c.deliveryPoint],["Транспорт",c.transport],["Изоҳ",c.note]].map(([a,b])=>kv(a,b||"")).join("")}</div></div>
-    ${FC_PARTIES.map(([k2,t,en])=>party(k2,t+" / "+en)).join("")}${attachBox("recs",c,"Бошқа ҳужжатлар (инвойс, CMR, сертификат, ёзишмалар)")}${histBox(c)}`; }
+    ${FC_PARTIES.map(([k2,t,en])=>party(k2,t+" / "+en)).join("")}${attachBox("recs",c,"Контракт файллари ва бошқа ҳужжатлар (иловалар, инвойс, CMR, сертификат, ёзишмалар)")}${histBox(c)}`; }
   if(sub==="spec"||sub==="act"){ const key=sub==="spec"?"specs":"acts", nm=sub==="spec"?"Спецификация":"Акт"; const list=(c[key]||[]).slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
     const tot=list.reduce((s,x)=>s+fcDocTotal(x),0);
     const spStats=sub==="spec"&&list.length?`<div class="lstats"><div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Контракт суммаси</span><span class="v">${m2(e.amount)}</span><span class="s">${esc(c.currency||"")}</span></div><div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Спецификациялар жами</span><span class="v">${m2(tot)}</span><span class="s">${list.length} та спецификация${e.amount?" · "+Math.round(tot/e.amount*1000)/10+"%":""}</span></div><div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">ГТДлар бўйича келган</span><span class="v">${m2(fcOver(c).gtd)}</span><span class="s">${fcOver(c).gN} та ГТД</span></div><div class="lstat" style="--c:${e.amount&&tot>e.amount?"#f87171;--cl:#fecaca":"#34d399;--cl:#a7f3d0"}"><span class="k">${e.amount&&tot>e.amount?"Контракт суммасидан ошиб кетди":"Қолдиқ (спецификация қилинмаган)"}</span><span class="v">${m2(Math.abs(e.amount-tot))}</span><span class="s">${e.amount&&tot>e.amount?"қўшимча келишув керак":esc(c.currency||"")}</span></div></div>`:"";
     body=spStats+`<div class="toolbar"><span class="hint">${sub==="spec"?"Спецификацияни шу ерда тузинг ёки мавжуд PDF'ни юкланг — рақам, сана, товарлар ва сумма ўзи ўқилади.":"Бажарилган иш / кўрсатилган хизмат ёки қабул қилиш актлари. «Етказиб бериш ҳисобига ўтсин» белгиланган актлар тўлов назоратида ҳисобга олинади."}</span><div class="actions"><label class="btn ctup">${PDF_ICON}PDF'дан юклаш<input type="file" id="fcDocFiles" data-kind="${sub}" accept="application/pdf,.pdf" multiple hidden></label><button type="button" class="btn primary" data-act="fcDocNew" data-kind="${sub}">${LPLUS}${nm} яратиш</button></div></div>
     <div class="card">${list.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>№</th><th>Сана</th><th class="r">Позициялар</th><th class="r">Сумма</th><th class="r">Жамғарма (ўсиб борувчи)</th><th>Изоҳ</th><th>Файл</th><th>ИД</th><th></th></tr></thead><tbody>${list.map((x,ix)=>`<tr data-fcdoc="${sub}|${esc(x.id)}" tabindex="0"><td class="num"><b>${esc(x.no||"—")}</b></td><td class="num">${fmtDate(x.date)}</td><td class="num r">${(x.items||[]).length}</td><td class="num r">${m2(fcDocTotal(x))} ${esc(x.currency||c.currency||"")}</td><td class="num r">${m2(list.slice(0,ix+1).reduce((s,y)=>s+fcDocTotal(y),0))}</td><td>${esc(x.note||"")}${sub==="act"&&x.counts?`<div class="ctsub">етказиб бериш ҳисобида</div>`:""}</td><td>${x.file?`<a class="ctpdf" href="${esc(ctFileUrl(x.file))}" target="_blank" rel="noopener">${PDF_ICON}</a>`:""}</td><td><span class="did">${docCode(x,sub)}</span></td><td><button type="button" class="linkbtn" data-act="fcDocPrint" data-kind="${sub}" data-id="${esc(x.id)}">${PRINT_ICON} PDF</button></td></tr>`).join("")}</tbody><tfoot><tr><td colspan="3">Жами</td><td class="num r">${m2(tot)} ${esc(c.currency||"")}</td><td></td><td colspan="4">${sub==="spec"&&e.amount?`контракт суммасининг ${Math.round(tot/e.amount*1000)/10}%`:""}</td></tr></tfoot></table></div>`:`<div class="empty"><b>${nm}лар йўқ</b></div>`}</div>`; }
   if(sub==="add"){ const list=(c.addenda||[]).slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
-    body=`<div class="toolbar"><span class="hint">Қўшимча келишувда янги сумма ёки муддат киритилса, контрактнинг амалдаги суммаси ва муддати ўзи янгиланади.</span><div class="actions"><label class="btn ctup">${PDF_ICON}PDF'дан юклаш<input type="file" id="fcAddFiles" accept="application/pdf,.pdf" multiple hidden></label><button type="button" class="btn primary" data-act="fcAddNew">${LPLUS}Қўшимча келишув</button></div></div>
-    <div class="card">${list.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>№</th><th>Сана</th><th>Мазмуни</th><th class="r">Янги сумма</th><th>Янги муддат</th><th>Файл</th><th>ИД</th></tr></thead><tbody>${list.map(x=>`<tr data-fcadd="${esc(x.id)}" tabindex="0"><td class="num"><b>${esc(x.no||"—")}</b></td><td class="num">${fmtDate(x.date)}</td><td>${esc(x.content||"")}</td><td class="num r">${num(x.newAmount)?m2(num(x.newAmount))+" "+esc(c.currency||""):""}</td><td class="num">${fmtDate(x.newEnd)}</td><td>${x.file?`<a class="ctpdf" href="${esc(ctFileUrl(x.file))}" target="_blank" rel="noopener">${PDF_ICON}</a>`:""}</td><td><span class="did">${docCode(x,"addendum")}</span></td></tr>`).join("")}</tbody></table></div>`:`<div class="empty"><b>Қўшимча келишувлар йўқ</b></div>`}</div>`; }
+    body=`<div class="toolbar"><span class="hint">📎 — юкланган келишув (дастурда унинг асл файли кўрсатилади), ✎ — дастурда шаблон асосида яратилган. Янги сумма ёки муддат киритилса, контрактнинг амалдаги суммаси ва муддати ўзи янгиланади.</span><div class="actions"><label class="btn ctup">${PDF_ICON}PDF'дан юклаш<input type="file" id="fcAddFiles" accept="application/pdf,.pdf" multiple hidden></label><button type="button" class="btn primary" data-act="fcAddNew">${LPLUS}Қўшимча келишув яратиш (шаблон)</button></div></div>
+    <div class="card">${list.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>№</th><th>Сана</th><th>Мазмуни</th><th class="r">Янги сумма</th><th>Янги муддат</th><th>Файл</th><th>ИД</th></tr></thead><tbody>${list.map(x=>`<tr data-fcadd="${esc(x.id)}" tabindex="0"><td class="num"><b>${esc(x.no||"—")}</b></td><td class="num">${fmtDate(x.date)}</td><td><span class="fasrc ${fcAddIsUp(x)?"up":"tpl"}" title="${fcAddIsUp(x)?"Юкланган ҳужжат":"Дастурда шаблон асосида яратилган"}">${fcAddIsUp(x)?"📎":"✎"}</span> ${esc(x.content||fcAddBodyPts(x)[0]||"")}</td><td class="num r">${num(x.newAmount)?m2(num(x.newAmount))+" "+esc(c.currency||""):""}</td><td class="num">${fmtDate(x.newEnd)}</td><td>${x.file?`<a class="ctpdf" href="${esc(ctFileUrl(x.file))}" target="_blank" rel="noopener">${PDF_ICON}</a>`:""}</td><td><span class="did">${docCode(x,"addendum")}</span></td></tr>`).join("")}</tbody></table></div>`:`<div class="empty"><b>Қўшимча келишувлар йўқ</b></div>`}</div>`; }
   if(sub==="pay"){ const gt=fcGtds(c);
     const lots=(arr,lbl,days)=>arr.length?`<div class="tablewrap"><table class="sched"><thead><tr><th>${lbl}</th><th>Сана</th><th class="r">Қолдиқ, ${esc(c.currency||"")}</th><th>Муддат (${days} кун)</th><th>Ҳолати</th></tr></thead><tbody>${arr.map(l=>`<tr class="norow"><td>${esc(l.ref?.no||"")}</td><td class="num">${fmtDate(l.d)}</td><td class="num r">${m2(l.a)}</td><td class="num">${fmtDate(l.due)}</td><td><span class="lpill ${l.left<0?"bad":l.left<=30?"soon":"ok"}">${l.left<0?(-l.left)+" кун ўтди":l.left+" кун қолди"}</span></td></tr>`).join("")}</tbody></table></div>`:"";
     body=`<div class="lstats">
@@ -4534,7 +4558,7 @@ function fcDocForm(f,c,D){
   ${(d.items||[]).map((it,i)=>`<tr class="norow"><td class="num">${i+1}</td><td><input data-fit="${i}" data-k="name" value="${esc(it.name||"")}" aria-label="Номи"></td>${kind==="spec"?`<td><input data-fit="${i}" data-k="hs" value="${esc(it.hs||"")}" class="num" aria-label="ТИФ ТН"></td>`:""}<td><input data-fit="${i}" data-k="unit" value="${esc(it.unit||"")}" list="fcUnits" class="vpdays" aria-label="Ўлчов"></td><td><input data-fit="${i}" data-k="qty" value="${esc(it.qty||"")}" inputmode="decimal" class="r" aria-label="Миқдори"></td><td><input data-fit="${i}" data-k="price" value="${esc(it.price||"")}" inputmode="decimal" class="r" aria-label="Нархи"></td><td><input data-fit="${i}" data-k="sum" value="${esc(it.sum||"")}" inputmode="decimal" class="r" aria-label="Суммаси"></td><td><button type="button" class="linkbtn danger" data-act="fcItemDel" data-i="${i}" aria-label="Ўчириш">✕</button></td></tr>`).join("")}
   </tbody><tfoot><tr><td></td><td colspan="${kind==="spec"?5:4}">Жами</td><td class="num r" id="fdTotal">${m2(fcDocTotal(d))}</td><td></td></tr></tfoot></table></div><datalist id="fcUnits">${FC_UNITS.map(u=>`<option value="${u}">`).join("")}</datalist>
   <button type="button" class="btn addrow" data-act="fcItemAdd">＋ Позиция қўшиш</button>
-  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:D.pendingFile?`<span class="hint">PDF: ${esc(D.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcDocAi",D.pendingFile||d.file)}<label class="btn ctup">${PDF_ICON}${d.file||D.pendingFile?"PDF'ни алмаштириш":"PDF'дан ўқиш / бириктириш"}<input type="file" id="fcDocFile" accept="application/pdf,.pdf" hidden></label></div>
+  <div class="lgrid">${d.file?`<span class="hint">PDF: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:D.pendingFile?`<span class="hint">PDF: ${esc(D.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}${aiFormBtn("fcDocAi",D.pendingFile||d.file)}<label class="btn ctup">${PDF_ICON}${d.file||D.pendingFile?"PDF'ни алмаштириш":"PDF'дан ўқиш / бириктириш"}<input type="file" id="fcDocFile" accept="application/pdf,.pdf" multiple hidden></label></div>
   <p class="err" id="fdErr"></p>
   <div class="actions"><button type="submit" class="btn primary">Сақлаш</button>${isNew?"":`<button type="button" class="btn" data-act="fcDocPrint" data-kind="${kind}" data-id="${esc(d.id)}">${PRINT_ICON}PDF'га чиқариш</button><button type="button" class="btn" data-act="fcDocWord" data-kind="${kind}" data-id="${esc(d.id)}">${DL_ICON}Word</button>`}<button type="button" class="btn ghost" data-act="fcDocBack">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-act="fcDocDel">Ўчириш</button>`}</div></form>`;
 }
@@ -4592,7 +4616,7 @@ async function fcXlsx(f){
   XLSX.writeFile(wb,safeName(f.name)+"_tashqi_savdo_kontraktlari_"+fileStamp()+".xlsx");
 }
 
-function fcAddForm(f,c,d){
+function fcAddFormOld(f,c,d){
   const isNew=!(c.addenda||[]).some(x=>x.id===d.id);
   return `<button type="button" class="back" data-act="fcAddBack">← Қўшимча келишувлар</button>
   <form id="fcAddForm" class="card lform" novalidate><h2>${isNew?"Янги қўшимча келишув":"Қўшимча келишув № "+esc(d.no||"")} · контракт ${esc(fcLbl(c))}</h2>${isNew?"":didChip(d,"addendum")}${d.auto?`<div class="note-box">PDF'дан ${d.auto} та маълумот ўқилди — текширинг.</div>`:""}
@@ -4640,7 +4664,7 @@ const COLS={
     {k:"subj",t:"Предмети",d:1,v:c=>`${c.subj?`<span class="ctsj ${c.subj==="товар"?"g":c.subj==="иш"?"w":"s"}">${CT_SUBJ[c.subj]||c.subj}</span>`:""}${c.subject?`<div class="ctsub">${esc(c.subject)}</div>`:""}`},
     {k:"amount",t:"Сумма",r:1,d:1,v:c=>`<span class="num">${esc(ctMoney(c))}</span>`},
     {k:"end",t:"Тугаш санаси",d:1,v:c=>`<span class="num">${fmtDate(c.endDate)||"—"}</span>`},
-    {k:"state",t:"Ҳолати",d:1,v:c=>{ const s=ctState(c); return `<span class="lpill ${s.cls}">${s.t}</span>`; }},
+    {k:"state",t:"Ҳолати",d:1,v:c=>{ const s=ctState(c); return `<span class="lpill ${s.cls}">${s.t}</span><div style="margin-top:4px">${ctPoaBadge(c)}</div>`; }},
     {k:"pdf",t:"PDF",d:1,v:c=>{ const u=ctFileUrl(c.file); return u?`<a class="ctpdf" href="${esc(u)}" target="_blank" rel="noopener" title="${esc(c.file.name||"PDF")}">${PDF_ICON}</a>`:""; }},
     {k:"inn",t:"Контрагент СТИР",v:c=>`<span class="num">${esc(c.cp?.inn||"")}</span>`},
     {k:"director",t:"Контрагент раҳбари",v:c=>esc(c.cp?.director||"")},
@@ -4969,6 +4993,7 @@ function attLoc(kind,o){ o=o||{}; const fid=o.firmId;
   if(t==="loan") return {firmId:fid,sec:"loans",sub:["№ "+(o.number||"")+" "+(o.person||"")]};
   if(t==="check") return {firmId:fid,sec:"check",sub:[o.name||""]};
   if(t==="contract") return {firmId:fid,sec:"contracts",sub:[(o.dir||"in")==="out"?"Чиқувчи":"Кирувчи"]};
+  if(t==="poa") return {firmId:fid,sec:"contracts",sub:["Ишончномалар"]};
   if(t==="charter") return {firmId:fid,sec:"charter",sub:[o.kind||"Устав"]};
   if(t==="fcontract") return {firmId:fid,sec:"import",sub:["Ташқи савдо контрактлари","Контракт "+(o.number||"")]};
   if(t==="ccheck") return {firmId:fid,sec:"cards",sub:[o.card?.last4?`${o.card.type||"Карта"} ${o.card.first4||""}-${o.card.last4}`:"Карта кўрсатилмаган",ymOf(o.date)]};
@@ -5700,7 +5725,7 @@ const selOf=key=>V.sel&&V.sel.key===key?V.sel:null;
 const selHas=(key,id)=>{ const s=selOf(key); return !!s&&s.ids.includes(id); };
 function selBar(key){ const s=selOf(key); const n=s?s.ids.length:0;
   if(!n) return `<span class="selhint">☐ — белгилаб, бирдан чоп этиш ёки ўчириш мумкин</span>`;
-  return `<div class="selbar"><b>${n} та белгиланди</b><label class="selfl"><input type="checkbox" id="selFiles" ${V.selFiles?"checked":""}> Google Drive'даги файлларини ҳам саватга (Trash) ташлаш</label><button type="button" class="btn sm" data-act="selPrint" data-k="${key}" title="Белгиланган ёзувларнинг барча PDF ва расм файллари битта ҳужжат бўлиб принтерга берилади">🖨 Файлларини бирлаштириб чоп этиш</button>${key==="orders"?`<button type="button" class="btn sm" data-act="selPrintOrders">🖨 Буйруқларни чоп этиш</button>`:""}<button type="button" class="btn danger sm" data-act="selDel" data-k="${key}">🗑 Белгиланганларни ўчириш (${n})</button><button type="button" class="btn ghost sm" data-act="selClear">Бекор қилиш</button></div>`; }
+  return `<div class="selbar"><b>${n} та белгиланди</b><label class="selfl"><input type="checkbox" id="selFiles" ${V.selFiles?"checked":""}> Google Drive'даги файлларини ҳам саватга (Trash) ташлаш</label><button type="button" class="btn sm" data-act="selPrint" data-k="${key}" title="Белгиланган ҳужжатларнинг ўзи ва ички бўлимларидаги (спецификация, акт, қўшимча келишув, ишончнома, ГТД, иловалар) барча PDF ва расм файлларини танлаб, битта ҳужжат қилиб чоп этиш">🖨 Файлларини танлаб, бирлаштириб чоп этиш</button>${key==="orders"?`<button type="button" class="btn sm" data-act="selPrintOrders">🖨 Буйруқларни чоп этиш</button>`:""}<button type="button" class="btn danger sm" data-act="selDel" data-k="${key}">🗑 Белгиланганларни ўчириш (${n})</button><button type="button" class="btn ghost sm" data-act="selClear">Бекор қилиш</button></div>`; }
 function fileInUse(id){ let used=false; const chk=o=>{ if(!used) walkFiles(JSON.parse(JSON.stringify(o)),x=>{ if(x.id===id) used=true; }); };
   S.firms.forEach(chk); S.orders.forEach(chk); S.recs.forEach(chk); S.gtd.forEach(chk); [...S.emp,...S.pos,...S.vplan].forEach(chk); return used; }
 async function driveTrash(ref){ if(!ref?.id||fileInUse(ref.id)) return false; if(ref.demo){ delete DEMO_FILES[ref.id]; return true; }
@@ -5722,7 +5747,7 @@ function ccDupGroups(fid){ const g={}; firmCC(fid).forEach(r=>{ const keys=[ccDu
 function selFileRefs(key,ids){ const M=SEL_MAP[key]; const out=[], seen=new Set(); ids.forEach(id=>{ const o=ROWS[M.kind]?.[id]?.obj; if(!o) return; walkFiles(JSON.parse(JSON.stringify(o)),x=>{ if(!seen.has(x.id)){ seen.add(x.id); out.push(x); } }); }); return out; }
 async function printMerge(refs,onP){ await ensurePdfLib(); const out=await PDFLib.PDFDocument.create(); let n=0; const skip=[];
   for(let i=0;i<refs.length;i++){ const r=refs[i]; const nm=String(r.name||"файл"); onP&&onP(`Файллар тайёрланмоқда: ${i+1} / ${refs.length}`);
-    let bytes; try{ bytes=new Uint8Array(await (await driveFetch(r)).arrayBuffer()); }catch(e){ if(e instanceof AuthErr) throw e; skip.push(nm+" (юклаб бўлмади)"); continue; }
+    let bytes; try{ bytes=r.gen?new Uint8Array(await pdfBytes(r.gen,r.opt||{})):new Uint8Array(await (await driveFetch(r)).arrayBuffer()); }catch(e){ if(e instanceof AuthErr) throw e; skip.push(nm+" (юклаб бўлмади)"); continue; }
     const isPdf=bytes[0]===0x25&&bytes[1]===0x50&&bytes[2]===0x44&&bytes[3]===0x46, isPng=bytes[0]===0x89&&bytes[1]===0x50, isJpg=bytes[0]===0xFF&&bytes[1]===0xD8;
     try{ if(isPdf){ const src=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true}); (await out.copyPages(src,src.getPageIndices())).forEach(p=>out.addPage(p)); n++; }
       else if(isPng||isJpg){ const img=isPng?await out.embedPng(bytes):await out.embedJpg(bytes); const W=595.28,H=841.89,m=28; const sc=Math.min((W-2*m)/img.width,(H-2*m)/img.height,1); const pg=out.addPage([W,H]); pg.drawImage(img,{x:(W-img.width*sc)/2,y:H-m-img.height*sc,width:img.width*sc,height:img.height*sc}); n++; }
@@ -5751,6 +5776,7 @@ function qrSvg(text){ if(!window.qrcode) return ""; try{ const q=qrcode(0,String
 function qrGif(text,cell){ if(!window.qrcode) return ""; try{ const q=qrcode(0,String(text).length>300?"L":"M"); q.addData(text); q.make(); return q.createDataURL(cell||4,8); }catch(e){ return ""; } }
 /* ҳужжат ичига қўйиладиган QR блок (чоп этиш учун) */
 function docQrBlock(k,r,forWord){ if(!r?.id) return ""; const url=docQrUrl(k,r); const code=docCode(r,k); const pub=url.includes("&p=");
+  if(!pub){ const fid=r.firmId||(k==="firm"?r.id:"")||V.firmId||""; return `<div class="docqr pub pubq" data-qk="${esc(k)}" data-qt="${esc(DOC_NAME[k]||"Ҳужжат")}" data-qu="${esc(url)}" data-qc="${esc(code)}" data-qh="${esc(docSig(k,r))}" data-qf="${esc(firm(fid)?.name||"")}" data-qw="${forWord?1:0}"><span class="qrimg"></span><span class="qrtx"><b>ИД ${esc(code)}</b><span>QR-кодни телефон камераси билан сканер қилинг — ҳужжат матни дастурга ва серверга кирмасдан, фақат кўриш учун очилади. Назорат коди: ${esc(docSig(k,r))}.</span><i>QR — фақат кўриш ва текшириш воситаси; ҳуқуқий кучни имзо беради.</i></span></div>`; }
   const g=forWord?qrGif(url,pub?2:3):""; const img=forWord?(g?`<img src="${g}" width="${pub?130:96}" height="${pub?130:96}" alt="QR">`:""):qrSvg(url);
   return `<div class="docqr ${pub?"pub":""}">${img?`<span class="qrimg">${img}</span>`:""}<span class="qrtx"><b>ИД ${esc(code)}</b>${k==="order"&&r.status==="signed"&&r.signedAt?`<span>Электрон реестрда «имзоланган»: ${fmtStamp(r.signedAt)}${r.editedAt?` · охирги таҳрир: ${fmtStamp(r.editedAt)}`:""}</span>`:""}<span>${pub?`QR-кодни телефон камераси билан сканер қилинг — ҳужжат матни дастурга ва серверга кирмасдан, фақат кўриш учун очилади. Назорат коди: ${docSig(k,r)}.`:"Ҳужжат ҳақиқийлигини текшириш учун QR-кодни сканер қилинг: реестрдаги асл нусха ва ким, қачон имзолагани очилади."}</span><i>QR — фақат текшириш воситаси; ҳуқуқий кучни имзо беради.</i></span></div>`; }
 /* QR ойнаси: ИД чипи босилганда */
@@ -6782,7 +6808,7 @@ function fcOver(c){ const cur=c.currency||""; const G=fcGtds(c); const gtd=G.fil
   return {gtd,gN:G.length,gMis,spec,sN:(c.specs||[]).length,amount,max,need:amount>0&&max>amount+0.004,by:gtd>=spec?"gtd":"spec",suggest:Math.ceil(max/1000)*1000}; }
 function fcOverBanner(c){ const o=fcOver(c); if(!o.need) return ""; const cur=esc(c.currency||"");
   return `<div class="note-box warn fcover"><b>Контракт суммаси етмаяпти.</b> ${o.by==="gtd"?`ГТДлар бўйича келган товарлар (${o.gN} та ГТД) — <b>${m2(o.gtd)} ${cur}</b>`:`Спецификациялар жами (${o.sN} та) — <b>${m2(o.spec)} ${cur}</b>`}, контрактнинг амалдаги суммаси эса ${m2(o.amount)} ${cur}. Фарқ: <b>${m2(o.max-o.amount)} ${cur}</b>. Контракт умумий суммасини ошириш учун қўшимча келишув тузинг ва уни ЕЭИСВО'да рўйхатдан ўтказинг. <button type="button" class="btn sm primary" data-act="fcAddAuto">Қўшимча келишув тузиш (${m2(o.suggest)} ${cur})</button></div>`; }
-function fcAddSheet(f,c,d,forWord){ const cur=c.currency||""; const e=fcEff({...c,addenda:(c.addenda||[]).filter(x=>x.id!==d.id&&String(x.date||"")<=String(d.date||""))}); const cd=c.date||"";
+function fcAddSheetOld(f,c,d,forWord){ const cur=c.currency||""; const e=fcEff({...c,addenda:(c.addenda||[]).filter(x=>x.id!==d.id&&String(x.date||"")<=String(d.date||""))}); const cd=c.date||"";
   const pts=[]; if(num(d.newAmount)) pts.push(`Увеличить общую сумму Контракта № ${esc(c.number||"")} от ${fmtDate(c.date)} с ${spM(e.amount)} ${esc(cur)} до <b>${spM(d.newAmount)} ${esc(cur)}</b> (${esc(CUR_WORD[cur]||cur)}).`); if(d.newEnd) pts.push(`Продлить срок действия Контракта до ${fmtDate(d.newEnd)}.`); if(d.content&&!num(d.newAmount)&&!d.newEnd) pts.push(esc(d.content)); pts.push("Остальные условия Контракта остаются без изменений."); pts.push("Настоящее Дополнительное соглашение является неотъемлемой частью Контракта, составлено в двух экземплярах, имеющих одинаковую юридическую силу, и вступает в силу с момента его подписания Сторонами.");
   const S_=c.seller||{}, B=c.buyer||{};
   return `<div class="sheet clean fcspec"><h3 style="text-align:center;margin:0 0 6px">Дополнительное соглашение № ${esc(d.no||"")}</h3><p style="text-align:center;margin:0 0 12px">к Контракту № ${esc(c.number||"")} от «${cd.slice(8,10)}» ${cd?RU_MON1[+cd.slice(5,7)-1]:""} ${cd.slice(0,4)}г.</p>
@@ -6796,7 +6822,7 @@ function fcAddSheet(f,c,d,forWord){ const cur=c.currency||""; const e=fcEff({...
 const FORM_FULL={"МЧЖ":"Масъулияти чекланган жамият","АЖ":"Акциядорлик жамияти","ХК":"Хусусий корхона","ОК":"Оилавий корхона","ЯТТ":"Якка тартибдаги тадбиркор","ҚК":"Қўшма корхона","ДУК":"Давлат унитар корхонаси","ФХ":"Фермер хўжалиги","ХК (хорижий)":"Хорижий корхона"};
 function ofInit(f){ const s=String(f?.name||"").replace(/\([^)]*\)/g," ").replace(/[«»"'“”„]/g," ").trim(); const w=s.split(/\s+/).filter(x=>x&&!/^(МЧЖ|АЖ|ХК|ОК|ООО|LLC|MCHJ)$/i.test(x)); if(!w.length) return "Ф"; return (w.length>1?w[0][0]+w[1][0]:w[0].slice(0,2)).toUpperCase(); }
 function ofMono(f,size){ const t=ofInit(f); size=size||58;
-  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="#14213d" stroke-width="3"/><circle cx="50" cy="50" r="41.5" fill="none" stroke="#b08d3c" stroke-width="1.5"/><circle cx="50" cy="50" r="37" fill="#14213d"/><text x="50" y="61" text-anchor="middle" font-family="PT Serif,Georgia,serif" font-size="${t.length>1?30:36}" font-weight="700" fill="#f3e6c4">${esc(t)}</text></svg>`; }
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="#14213d" stroke-width="3"/><circle cx="50" cy="50" r="41.5" fill="none" stroke="#b08d3c" stroke-width="1.5"/><circle cx="50" cy="50" r="37" fill="#14213d"/><text x="50" y="61" text-anchor="middle" font-family="Times New Roman,Tinos,serif" font-size="${t.length>1?30:36}" font-weight="700" fill="#f3e6c4">${esc(t)}</text></svg>`; }
 function ofHead(f){ if(!f) return ""; const fm=FORM_FULL[f.form]||f.form||""; const acc=typeof mainAccount==="function"?mainAccount(f):null;
   const req=[f.inn?"СТИР "+f.inn:"", f.address||"", acc?.num?"ҳ/р "+acc.num+(acc.bank?", "+acc.bank:"")+(acc.mfo?", МФО "+acc.mfo:""):"", f.phone?"тел.: "+f.phone:"", f.email||""].filter(Boolean);
   const lg=fLogo(f); return `<div class="ofhead">${lg?`<img class="oflogo" src="${lg}" alt="">`:`<span class="ofmono">${ofMono(f)}</span>`}<div class="ofhn">${fm?`<div class="ofform">${esc(fm)}</div>`:""}<div class="offirm">${esc(f.name||"")}</div></div></div><div class="ofreq">${req.map(esc).join(" &nbsp;·&nbsp; ")}</div><div class="ofrule"></div>`; }
@@ -6862,7 +6888,7 @@ function pdfPages(html,opt){ const land=!!opt.land, pw=land?297:210, ph=land?210
   newPage(); [...sheet.children].forEach(place);
   pages.forEach((P,i)=>{ P.ft.innerHTML=`<span>${opt.foot?esc(opt.foot):""}</span><span>${pages.length>1?`${i+1} / ${pages.length}`:""}</span>`; });
   return {host,pages,pw,ph,m}; }
-async function pdfSave(html,name,opt={}){ toast("PDF тайёрланмоқда…");
+async function pdfSave(html,name,opt={}){ toast("PDF тайёрланмоқда…"); try{ html=await qrFillHtml(html,false); }catch(e){}
   try{ await ensurePdfGen(); }catch(e){ toast("PDF кутубхонаси юкланмади — интернетни текширинг ёки «Чоп этиш» → «PDF сифатида сақлаш»дан фойдаланинг"); return null; }
   try{ await document.fonts?.ready; }catch(e){}
   const P=pdfPages(html,opt);
@@ -6940,7 +6966,7 @@ const PUB=(()=>{ const m=/[#&]p=([A-Za-z0-9_-]+)/.exec(location.hash||""); retur
 async function pubInflate(s){ const u=b64uDec(s);
   if(typeof DecompressionStream==="function"){ try{ const out=await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer(); return JSON.parse(new TextDecoder().decode(out)); }catch(e){} }
   await ensurePako(); return JSON.parse(new TextDecoder().decode(pako.inflateRaw(u))); }
-function pubHTML(P){ if(!P||P.k!=="order") return `<div class="pubwrap"><div class="pubbar bad"><b>QR маълумоти ўқилмади</b><span>Код шикастланган ёки тўлиқ сканер қилинмаган. Қайта сканер қилинг.</span></div></div>`;
+function pubHTML(P){ if(P&&P.v===2) return pubHTML2(P); if(!P||P.k!=="order") return `<div class="pubwrap"><div class="pubbar bad"><b>QR маълумоти ўқилмади</b><span>Код шикастланган ёки тўлиқ сканер қилинмаган. Қайта сканер қилинг.</span></div></div>`;
   const L=(P.b||[]).map(l=>l[0]==="#"?`<div class="order">${esc(l.slice(1))}</div>`:/^\d+\. /.test(l)?`<p class="pli">${esc(l)}</p>`:l.startsWith("| ")?`<p class="ptr">${esc(l.slice(2))}</p>`:`<p>${esc(l)}</p>`).join("");
   const F={name:P.f?.n||"",inn:P.f?.i||"",address:P.f?.a||""}; const st=P.s==="signed"?"✓ Имзоланган":P.s==="signing"?"Имзолаш жараёнида":"Черновик";
   return `<div class="pubwrap"><div class="pubbar"><b>🔒 Ҳужжатнинг электрон нусхаси — фақат кўриш учун</b><span>Бу саҳифа ҳеч қандай базага, дастурга ёки серверга уланмайди: ҳужжат матни QR-коднинг ўзида сақланган. Бу ерда уни таҳрирлаб ёки бошқа маълумот кўриб бўлмайди.</span></div>
@@ -7092,15 +7118,15 @@ async function qrLabelPng(url,h,loc){ const q=qrcode(0,"M"); q.addData(url); q.m
   const S=4, cell=Math.max(3,Math.floor(170/n)), qs=cell*n, W=620, H=qs+28; const c=document.createElement("canvas"); c.width=W*S/2; c.height=H*S/2; const x=c.getContext("2d"); x.scale(S/2,S/2);
   x.fillStyle="rgba(255,255,255,0.94)"; x.fillRect(0,0,W,H); x.strokeStyle="#14213d"; x.lineWidth=2; x.strokeRect(1,1,W-2,H-2);
   x.fillStyle="#000"; for(let r=0;r<n;r++) for(let k=0;k<n;k++) if(q.isDark(r,k)) x.fillRect(14+k*cell,14+r*cell,cell,cell);
-  const tx=14+qs+18, f=loc?.firmId?firm(loc.firmId):null; x.fillStyle="#14213d"; x.font="bold 30px Georgia,serif"; x.fillText("ИД "+docCode({id:String(h).slice(0,16)},"file"),tx,52);
-  x.font="22px Georgia,serif"; x.fillStyle="#222"; const lines=[f?.name||"",(f?.inn?"СТИР "+f.inn+" · ":"")+"реестрга киритилди: "+fmtDate(localToday()),"QR — ҳужжатни электрон реестрда текшириш"]; lines.forEach((l,i)=>{ let s=l; while(x.measureText(s).width>W-tx-12&&s.length>4) s=s.slice(0,-2); if(s!==l) s=s.slice(0,-1)+"…"; x.fillText(s,tx,92+i*32); });
+  const tx=14+qs+18, f=loc?.firmId?firm(loc.firmId):null; x.fillStyle="#14213d"; x.font="bold 30px 'Times New Roman',Tinos,serif"; x.fillText("ИД "+docCode({id:String(h).slice(0,16)},"file"),tx,52);
+  x.font="22px 'Times New Roman',Tinos,serif"; x.fillStyle="#222"; const lines=[f?.name||"",(f?.inn?"СТИР "+f.inn+" · ":"")+"реестрга киритилди: "+fmtDate(localToday()),"QR — сканер қилинг: ҳужжат фақат кўриш учун очилади"]; lines.forEach((l,i)=>{ let s=l; while(x.measureText(s).width>W-tx-12&&s.length>4) s=s.slice(0,-2); if(s!==l) s=s.slice(0,-1)+"…"; x.fillText(s,tx,92+i*32); });
   const b=await new Promise(ok=>c.toBlob(ok,"image/png")); return new Uint8Array(await b.arrayBuffer()); }
-async function qrStampFile(file,loc,fh){ if(!qrStampOn()||!fh) return file; const nm=String(file.name||""); const isPdf=/pdf$/i.test(file.type)||/\.pdf$/i.test(nm); const isImg=/^image\/(jpeg|png)$/i.test(file.type)||/\.(jpe?g|png)$/i.test(nm);
+async function qrStampFile(file,loc,fh,url){ if(!qrStampOn()||!fh||!url) return file; const nm=String(file.name||""); const isPdf=/pdf$/i.test(file.type)||/\.pdf$/i.test(nm); const isImg=/^image\/(jpeg|png)$/i.test(file.type)||/\.(jpe?g|png)$/i.test(nm);
   if(!isPdf&&!isImg) return file; if(file.size>20*1024*1024) return file;
   try{ await ensureQr(); await ensurePdfLib(); if(!window.qrcode) return file;
     if(isPdf){ const head=new TextDecoder("latin1").decode(new Uint8Array(await file.arrayBuffer())); if(/\/ByteRange\s*\[/.test(head)) return file; }
     const src=isImg?await ccImgToPdf(file):file; const doc=await PDFLib.PDFDocument.load(new Uint8Array(await src.arrayBuffer()),{ignoreEncryption:true});
-    const png=await doc.embedPng(await qrLabelPng(fileQrUrl(fh),fh,loc)); const pg=doc.getPages()[0]; const {width}=pg.getSize(); const w=Math.min(170,width*0.34), h=w*png.height/png.width;
+    const png=await doc.embedPng(await qrLabelPng(url,fh,loc)); const pg=doc.getPages()[0]; const {width}=pg.getSize(); const w=Math.min(170,width*0.34), h=w*png.height/png.width;
     pg.drawImage(png,{x:width-w-12,y:10,width:w,height:h}); const bytes=await doc.save();
     const out=new File([bytes],nm.replace(/\.(jpe?g|png)$/i,".pdf")||"file.pdf",{type:"application/pdf"}); return out; }
   catch(e){ console.warn("QR stamp:",e); return file; } }
@@ -7739,6 +7765,236 @@ document.addEventListener("change",async e=>{ const el=e.target;
   if(el.id==="finFile"){ const fl=el.files[0]; el.value=""; const f=firm(V.firmId); if(!fl||!f) return; toast("✦ Claude ҳисоботни ўқимоқда…"); try{ const r=await aiDoc(fl,f,AI_SPEC.fin,fl.name); const x=r.x||{}; const v={...(V.finEdit||finRecs(f.id).find(q=>q.period===(V.finP||finRecs(f.id).at(-1)?.period))?.v||{})}; Object.keys(AI_SPEC.fin.props).forEach(k=>{ if(x[k]!=null&&x[k]!=="") v[k]=String(x[k]); }); V.finEdit=v; if(!V.finEditP) V.finEditP=V.finP||finRecs(f.id).at(-1)?.period||String(new Date().getFullYear()-1); toast(`✦ Claude ўқиди · ${aiCents(r.usd)} — текшириб «Сақлаш»ни босинг`); }catch(er){ toast("Claude: "+(er.message||er)); } return render(); }
 });
 
+
+/* ================= QR: ҳамма учун фақат кўриш (ҳужжат матни QR ичида) ================= */
+function qrPubLines(sheet){ const cl=sheet.cloneNode(true); cl.querySelectorAll(".docqr,script,style,button,.pdffoot,.noprint,input,select,textarea,.did").forEach(x=>x.remove());
+  let lines=[]; try{ lines=htmlLines(cl.innerHTML); }catch(e){} const out=[]; let tot=0; for(const l of lines){ if(tot>7000) break; out.push(l); tot+=l.length; } return out; }
+function qrFill(root,forWord){ if(!window.qrcode||!window.pako||!root) return false;
+  root.querySelectorAll(".docqr.pubq:not([data-done])").forEach(q=>{ const sh=q.closest(".sheet")||q.closest("body")||root; let p="";
+    try{ const P={v:2,k:q.dataset.qk,ti:q.dataset.qt||"Ҳужжат",f:{n:q.dataset.qf||""},b:qrPubLines(sh),id:q.dataset.qc||"",h:q.dataset.qh||""}; p=pubEnc(P); }catch(e){}
+    const url=q.dataset.qu+(p?"&p="+p:""); const w=forWord||q.dataset.qw==="1"; const im=q.querySelector(".qrimg");
+    if(im){ if(w){ const g=qrGif(url,2); im.innerHTML=g?`<img src="${g}" width="130" height="130" alt="QR">`:""; } else im.innerHTML=qrSvg(url); }
+    q.setAttribute("data-done","1"); });
+  return true; }
+async function qrFillHtml(html,forWord){ if(!/pubq/.test(html)) return html; try{ await ensureQr(); await ensurePako(); }catch(e){ return html; }
+  const full=/<html[\s>]/i.test(html); const doc=new DOMParser().parseFromString(full?html:`<!doctype html><html><body>${html}</body></html>`,"text/html"); qrFill(doc,forWord);
+  return full?doc.documentElement.outerHTML:doc.body.innerHTML; }
+{ const _sb=saveBlob; saveBlob=function(blob,name){ if(blob&&/msword/.test(blob.type||"")){ blob.text().then(async t=>{ let h=t.replace(/^﻿/,""); try{ h=await qrFillHtml(h,true); }catch(e){} _sb(new Blob(["﻿",h],{type:blob.type}),name); }); return; } return _sb(blob,name); }; }
+function pubHTML2(P){ const L=(P.b||[]).map(l=>{ const t=String(l); if(t.startsWith("| ")) return `<p class="ptr">${esc(t.slice(2))}</p>`; if(t[0]==="#") return `<div class="order">${esc(t.slice(1))}</div>`;
+    const up=t.length<110&&t===t.toUpperCase()&&/[А-ЯЎҚҒҲA-Z]{3}/.test(t); return up?`<p class="phd"><b>${esc(t)}</b></p>`:`<p>${esc(t)}</p>`; }).join("");
+  return `<div class="pubwrap"><div class="pubbar"><b>🔒 Ҳужжатнинг электрон нусхаси — фақат кўриш учун</b><span>Бу саҳифа ҳеч қандай базага, дастурга ёки серверга уланмайди: ҳужжат матни QR-коднинг ўзида сақланган. Бу ерда уни таҳрирлаб ёки бошқа маълумот кўриб бўлмайди.</span></div>
+  <div class="pubstat"><b>${esc(P.ti||"Ҳужжат")}</b>${P.f?.n?` · ${esc(P.f.n)}`:""}<span>ИД ${esc(P.id||"")}</span></div>
+  <div class="sheet ofdoc clean pubdoc">${L}${P.tr?`<p class="hint">… матн QR ҳажми сабабли қисқартирилган — тўлиқ матн асл ҳужжатда.</p>`:""}</div>
+  <div class="pubfoot"><span>Назорат коди: <b>${esc(P.h||"")}</b> — у асл ҳужжатдаги QR ёнидаги код билан бир хил бўлиши керак.</span><div class="actions"><button type="button" class="btn" data-pub="print">🖨 Чоп этиш</button><button type="button" class="btn ghost" data-pub="app">Ташкилот ходимиман — реестрда текшириш</button></div></div></div>`; }
+/* юкланган файл: Drive'да «ҳавола орқали фақат кўриш» */
+const qrPubAllowed=(loc,name)=>loc?.sec!=="staff"&&!/паспорт|passport|pasport|id[\s\-]?карт|шахсий\s+гувоҳнома/i.test(String(name||""));
+async function drivePreId(){ try{ const g=await api("GET",`${DRIVE}/generateIds?count=1&space=drive&type=files`); return g.ids?.[0]||null; }catch(e){ if(e instanceof AuthErr) throw e; return null; } }
+async function drivePublicView(id){ try{ await api("POST",`${DRIVE}/${id}/permissions?fields=id&sendNotificationEmail=false`,{type:"anyone",role:"reader",allowFileDiscovery:false}); return true; }catch(e){ console.warn("public view:",e); return false; } }
+
+/* ================= PDF'ни дастур ичида кўрсатиш ================= */
+const PV_SRC={}, PV_CACHE={};
+function pvBox(key,src,h){ if(src) PV_SRC[key]=src; return `<div class="card pdfview" data-pv="${esc(key)}"${h?` style="${h}"`:""}><div class="pvload">Ҳужжат юкланмоқда…</div></div>`; }
+async function pvRender(el){ if(el.dataset.pvs) return; el.setAttribute("data-pvs","1"); const key=el.dataset.pv, s=PV_SRC[key];
+  if(!s||(!s.file&&!s.ref)){ el.innerHTML=`<p class="hint" style="padding:14px">Файл бириктирилмаган</p>`; return; }
+  try{ let bytes=PV_CACHE[key], isImg=false; const nm=String(s.file?.name||s.ref?.name||"");
+    if(!bytes){ const blob=s.file||await driveFetch(s.ref); isImg=/^image\//.test(blob.type||"")||/\.(jpe?g|png)$/i.test(nm); bytes=new Uint8Array(await blob.arrayBuffer()); PV_CACHE[key]=bytes; PV_CACHE[key+"#img"]=isImg; } else isImg=!!PV_CACHE[key+"#img"];
+    if(isImg){ const u=URL.createObjectURL(new Blob([bytes])); el.innerHTML=`<img src="${u}" class="pvimg" alt="${esc(nm)}">`; return; }
+    await ensurePdfjs(); const doc=await pdfjsLib.getDocument({data:bytes.slice()}).promise; el.innerHTML=`<div class="pvbar"><span>${esc(nm)}</span><span>${doc.numPages} бет</span></div>`;
+    const W=Math.max(320,Math.min(900,(el.clientWidth||800)-24)); const k=Math.min(2,window.devicePixelRatio||1);
+    for(let p=1;p<=Math.min(doc.numPages,40);p++){ const pg=await doc.getPage(p); const v0=pg.getViewport({scale:1}); const vp=pg.getViewport({scale:W/v0.width*k}); const cv=document.createElement("canvas"); cv.width=Math.round(vp.width); cv.height=Math.round(vp.height); cv.className="pvpage"; cv.style.width=W+"px"; await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise; if(!el.isConnected) return; el.appendChild(cv); } }
+  catch(e){ el.innerHTML=`<p class="hint" style="padding:14px">Файлни дастурда кўрсатиб бўлмади (${esc(e.message||e)}).${s.ref?` <a href="${esc(ctFileUrl(s.ref))}" target="_blank" rel="noopener">Файлни очиш</a>`:""}</p>`; } }
+{ let raf=0; const tick=()=>{ raf=0; if(document.querySelector(".docqr.pubq:not([data-done])")){ if(window.qrcode&&window.pako) qrFill(document,false); else Promise.all([ensureQr(),ensurePako()]).then(()=>qrFill(document,false)).catch(()=>{}); }
+    document.querySelectorAll(".pdfview[data-pv]:not([data-pvs])").forEach(pvRender); };
+  new MutationObserver(()=>{ if(!raf) raf=requestAnimationFrame(tick); }).observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener("beforeprint",()=>{ try{ qrFill(document,false); }catch(e){} });
+  setTimeout(()=>{ ensureQr().catch(()=>{}); ensurePako().catch(()=>{}); },1500); }
+
+/* ================= Ташқи савдо: қўшимча келишув — юкланган ёки шаблон асосида ================= */
+const fcAddIsUp=d=>d.src==="up"||(d.src!=="tpl"&&!!(d.file||d.pendingFile));
+function fcAddBodyPts(d){ return String(d.body||"").split(/\n+/).map(s=>s.trim().replace(/^\d+[.)]\s*/,"")).filter(Boolean); }
+function fcAddForm(f,c,d){
+  const isNew=!(c.addenda||[]).some(x=>x.id===d.id), up=fcAddIsUp(d), cur=esc(c.currency||"");
+  const fld=(n,l,t,cls,extra)=>`<div class="field ${cls||""}"><label for="fa_${n}">${l}</label><input id="fa_${n}" name="${n}" ${t?`type="${t}"`:""} value="${esc(d[n]||"")}" ${extra||""}></div>`;
+  const back=`<button type="button" class="back" data-act="fcAddBack">← Қўшимча келишувлар</button>`;
+  const fileLink=d.file?`<a class="btn" href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${PDF_ICON}Файлни очиш</a>`:"";
+  if(up){ const key="fa-"+d.id+(d.pendingFile?"-"+(d.pendingFile.name||"")+d.pendingFile.size:"");
+    return back+`<form id="fcAddForm" class="card lform" novalidate><h2>Қўшимча келишув № ${esc(d.no||"")} · контракт ${esc(fcLbl(c))} <span class="fasrc up">📎 юкланган ҳужжат</span></h2>${isNew?"":didChip(d,"addendum")}${d.auto?`<div class="note-box">PDF'дан ${d.auto} та маълумот ўқилди — текширинг.</div>`:""}
+    <div class="lgrid">${fld("no","№")}${fld("date","Санаси","date")}${fld("newAmount","Янги контракт суммаси, "+cur,"","",'inputmode="decimal"')}${fld("newEnd","Янги амал қилиш муддати","date")}${fld("content","Қисқача мазмуни (рўйхат учун)","","wide")}</div>
+    <p class="hint">Бу келишув ташқаридан юкланган — дастурда унинг асл файли кўрсатилади, дастур ўзи бошқа матн ясамайди. Янги сумма ёки муддат киритилса, контрактнинг амалдаги суммаси ва муддати шунга кўра ҳисобланади.</p>
+    <p class="err" id="faErr"></p>
+    <div class="actions"><button type="submit" class="btn primary">Сақлаш</button>${fileLink}${aiFormBtn("fcAddAi",d.pendingFile||d.file)}<label class="btn ctup">${PDF_ICON}Файлни алмаштириш<input type="file" id="fcAddFile" accept="application/pdf,.pdf,image/*" hidden></label><button type="button" class="btn ghost" data-act="fcAddBack">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-act="fcAddDel">Ўчириш</button>`}</div></form>
+    ${pvBox(key,d.pendingFile?{file:d.pendingFile}:{ref:d.file})}`; }
+  const prev=(c.addenda||[]).filter(x=>x.id!==d.id).sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+  return back+`<form id="fcAddForm" class="card lform" novalidate><h2>${isNew?"Янги қўшимча келишув":"Қўшимча келишув № "+esc(d.no||"")} · контракт ${esc(fcLbl(c))} <span class="fasrc tpl">✎ шаблон асосида</span></h2>${isNew?"":didChip(d,"addendum")}
+  <div class="lgrid">${fld("no","№")}${fld("date","Санаси","date")}<div class="field"><label for="fa_base">Нимага қўшимча</label><select id="fa_base" name="base"><option value="">Контрактнинг ўзига</option>${prev.map(x=>`<option value="${esc(x.id)}" ${d.base===x.id?"selected":""}>Қўшимча келишув № ${esc(x.no||"")} (${fmtDate(x.date)})</option>`).join("")}</select></div>${fld("newAmount","Янги контракт суммаси, "+cur+" (ихтиёрий)","","",'inputmode="decimal"')}${fld("newEnd","Янги амал қилиш муддати (ихтиёрий)","date")}</div>
+  <div class="field wide"><label for="fa_body">Келишув мазмуни — ҳар бир банд янги қатордан</label><textarea id="fa_body" name="body" rows="7" placeholder="Масалан:&#10;Пункт 3.2 Контракта изложить в следующей редакции: «…»&#10;Изменить банковские реквизиты Продавца: …">${esc(d.body||"")}</textarea><span class="hint">Сарлавҳа, тарафлар, контракт рақами ва санаси, якуний бандлар, реквизитлар ва имзо жойлари шаблондан ўзгармасдан қўйилади. Сумма ва муддат киритилса, улар бўйича бандлар ҳам ўзи ёзилади.</span></div>
+  <div class="lgrid">${fld("content","Қисқача мазмуни (рўйхат учун, бўш қолса 1-банддан олинади)","","wide")}</div>
+  <div class="lgrid">${d.file?`<span class="hint">Имзоланган нусха: <a href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${esc(d.file.name||"файл")}</a></span>`:d.pendingFile?`<span class="hint">Имзоланган нусха: ${esc(d.pendingFile.name)} — сақланганда Drive'га юкланади</span>`:""}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"Имзоланган нусхани алмаштириш":"Имзоланган нусхани бириктириш"}<input type="file" id="fcAddFile" accept="application/pdf,.pdf,image/*" hidden></label></div>
+  <p class="err" id="faErr"></p>
+  <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn" data-act="fcAddPrint">${PRINT_ICON}PDF</button><button type="button" class="btn" data-act="fcAddWord">${DL_ICON}Word</button><button type="button" class="btn ghost" data-act="fcAddBack">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-act="fcAddDel">Ўчириш</button>`}</div></form>
+  <div class="sheetwrap" id="fcAddSheetW" style="margin-top:14px">${fcAddSheet(f,c,d)}</div>`;
+}
+function fcAddSheet(f,c,d,forWord){ const cur=c.currency||""; const e=fcEff({...c,addenda:(c.addenda||[]).filter(x=>x.id!==d.id&&String(x.date||"")<=String(d.date||""))}); const cd=c.date||"";
+  const ruD=s=>s?`«${s.slice(8,10)}» ${RU_MON1[+s.slice(5,7)-1]||""} ${s.slice(0,4)}г.`:"«___» ________ 20__г.";
+  const base=d.base&&(c.addenda||[]).find(x=>x.id===d.base);
+  const pts=[]; if(num(d.newAmount)) pts.push(`${num(d.newAmount)>=e.amount?"Увеличить":"Изменить"} общую сумму Контракта № ${esc(c.number||"")} от ${fmtDate(c.date)} с ${spM(e.amount)} ${esc(cur)} до <b>${spM(d.newAmount)} ${esc(cur)}</b> (${esc(CUR_WORD[cur]||cur)}).`);
+  if(d.newEnd) pts.push(`Продлить срок действия Контракта до ${fmtDate(d.newEnd)}.`);
+  fcAddBodyPts(d).forEach(x=>pts.push(esc(x)));
+  if(!fcAddBodyPts(d).length&&d.content&&!num(d.newAmount)&&!d.newEnd) pts.push(esc(d.content));
+  if(!pts.length) pts.push(`<span class="fahole">[мазмуни киритилмаган]</span>`);
+  pts.push(base?`Остальные условия Контракта и Дополнительного соглашения № ${esc(base.no||"")} от ${fmtDate(base.date)} остаются без изменений.`:"Остальные условия Контракта остаются без изменений.");
+  pts.push("Настоящее Дополнительное соглашение является неотъемлемой частью Контракта, составлено в двух экземплярах, имеющих одинаковую юридическую силу, и вступает в силу с момента его подписания Сторонами.");
+  const S_=c.seller||{}, B=c.buyer||{};
+  return `<div class="sheet clean fcspec"><h3 style="text-align:center;margin:0 0 6px">Дополнительное соглашение № ${esc(d.no||"")}</h3>${base?`<p style="text-align:center;margin:0">к Дополнительному соглашению № ${esc(base.no||"")} от ${ruD(base.date||"")}</p>`:""}<p style="text-align:center;margin:0 0 12px">к Контракту № ${esc(c.number||"")} от ${ruD(cd)}</p>
+  <div class="meta"><span>${c.dir==="exp"?esc(f.city||"г. Ташкент"):"г. Ташкент"}</span><span>${fmtDate(d.date)}г.</span></div>
+  <p><b>${esc(S_.name||"")}</b>${S_.country?" ("+esc(S_.country)+")":""}, именуемое в дальнейшем «Продавец», в лице директора ${esc(S_.director||"________")}, с одной стороны, и <b>${esc(B.name||f.name||"")}</b>, именуемое в дальнейшем «Покупатель», в лице директора ${esc(B.director||f.director||"________")}, с другой стороны, заключили настоящее Дополнительное соглашение${base?` к Дополнительному соглашению № ${esc(base.no||"")}`:""} о нижеследующем:</p>
+  ${pts.map((x,i)=>`<p>${i+1}. ${x}</p>`).join("")}
+  <table class="fcreq" style="width:100%;margin-top:18px;border-collapse:collapse"><tr><td style="width:50%;vertical-align:top;padding-right:10px"><p style="text-align:center"><b>«Продавец»</b></p>${fcPartyReq(f,c,"seller")}<br><br>______________________ ${esc(S_.director||"")}</td><td style="vertical-align:top;padding-left:10px"><p style="text-align:center"><b>«Покупатель»</b></p>${fcPartyReq(f,c,"buyer")}<br><br>______________________ ${esc(B.director||f.director||"")}</td></tr></table>
+  ${docQrBlock("addendum",{...d,cid:c.id,firmId:c.firmId},forWord)}</div>`; }
+
+/* ================= Спецификациялар: бир нечта PDF / битта PDF ичида бир нечта спецификация ================= */
+function fcSpecSplit(text){ const T=String(text||""); const re=/(?:^|\n)[^\n]{0,40}?(?:спецификаци[яи]|specification)\s*(?:№|No\.?|N\s)\s*([A-Za-zА-Яа-я0-9\-\/]+)/gi; const hits=[]; let m;
+  while((m=re.exec(T))){ const at=m.index+(m[0][0]==="\n"?1:0); if(!hits.length||hits[hits.length-1].no!==m[1]) hits.push({at,no:m[1]}); }
+  const nos=new Set(hits.map(h=>h.no)); if(nos.size<2) return [T];
+  const out=[]; hits.forEach((h,i)=>{ if(i&&hits[i-1].no===h.no) return; const next=hits.slice(i+1).find(x=>x.no!==h.no); out.push(T.slice(i?h.at:0,next?next.at:T.length)); }); return out; }
+async function fcSpecBatch(c,f,fs,kind){ const key=kind==="spec"?"specs":"acts", nm=kind==="spec"?"Спецификация":"Акт"; let ok=0, dup=0, bad=0; const L0=attLoc("recs",c);
+  const have=new Set((c[key]||[]).map(x=>String(x.no||"").trim()+"|"+(x.date||"")));
+  for(let i=0;i<fs.length;i++){ const fl=fs[i]; toast(`${nm}лар ўқилмоқда ${i+1}/${fs.length}: ${fl.name}`);
+    try{ let parts=[]; if(kind==="spec"){ let t=""; try{ t=await fcReadPdf(fl); }catch(e){} const ch=fcSpecSplit(t); if(ch.length>1) parts=ch.map(x=>fcDocParse(x,kind)).filter(p=>p.no||(p.items||[]).length); }
+      if(!parts.length){ parts=[await fcDocRead(fl,kind)]; }
+      const fresh=parts.filter(p=>{ const k=String(p.no||"").trim()+"|"+(p.date||""); if(p.no&&have.has(k)){ dup++; return false; } have.add(k); return true; }); if(!fresh.length) continue;
+      const file=await driveUpload(fl,`${safeName(f.name)} — контракт ${String(c.number||"").replace(/[\/:*?"<>|]/g,"-")} — ${fl.name}`.slice(0,180),{...L0,sub:[...L0.sub,kind==="spec"?"Спецификациялар":"Актлар"]});
+      await fcPut(c.id,cc=>{ cc[key]=cc[key]||[]; fresh.forEach(p=>{ const its=(p.items||[]); const tot=p.total||(its.length?String(Math.round(its.reduce((s,x)=>s+num(x.sum),0)*100)/100):""); cc[key].push({id:uid(),no:p.no||"",date:p.date||"",currency:p.currency||cc.currency,items:its,total:tot,note:fresh.length>1?`PDF'дан юкланди (${fl.name}, ${fresh.length} та спецификация)`:"PDF'дан юкланди",counts:kind==="act"&&cc.subj!=="товар",file}); }); },`${nm} PDF'дан қўшилди (${fl.name}${fresh.length>1?", "+fresh.length+" та":""})`);
+      ok+=fresh.length; }catch(er){ bad++; toast(fl.name+": "+explain(er)); } }
+  toast(`${ok} та ${nm.toLowerCase()} қўшилди${dup?` · ${dup} таси аввал киритилган (ўтказиб юборилди)`:""}${bad?` · ${bad} та файлда хато`:""} — маълумотларни текширинг`); }
+
+
+/* ================= Шартномалар: ишончномалар (доверенности) ================= */
+DOC_PFX.poa="ИШ"; DOC_NAME.poa="Ишончнома (доверенность)";
+AI_SPEC.poa={tool:"save_power_of_attorney",sec:"contracts",desc:"Save the data of a power of attorney (доверенность / ишончнома) for receiving goods.",prompt:"This is a power of attorney (доверенность / ишончнома). Usually it is issued by a buyer organisation to its employee to receive goods (товарно-материальные ценности) from a supplier under a contract. Extract the issuing organisation, the authorised person, the contract it refers to and the list of goods.",
+  props:{number:AI_S("Power of attorney number"),date:AI_S("Issue date"),valid_to:AI_S("Valid until date"),issuer:AI_PARTY(),supplier:{type:"object",properties:{name:AI_S("Supplier (from whom goods are received) name"),inn:AI_S("Supplier СТИР/ИНН")}},holder:{type:"object",properties:{name:AI_S("Full name of the authorised person"),position:AI_S("Position"),passport:AI_S("Passport series and number")}},contract_number:AI_S("Number of the contract (договор/шартнома) the power of attorney refers to"),contract_date:AI_S("Date of that contract"),
+    items:{type:"array",items:{type:"object",properties:{name:AI_S(),unit:AI_S(),qty:AI_N()}}}}};
+const poaNorm=x=>String(x||"").toLowerCase().replace(/[№#\s]/g,"").replace(/[–—]/g,"-").replace(/^n(?=\d)/,"");
+const firmPoas=fid=>S.recs.filter(r=>r.firmId===fid&&r.type==="poa").sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.createdAt||0)-(a.createdAt||0));
+function poaMatch(fid,p){ const cs=firmContracts(fid); if(p.ctId){ const c=cs.find(x=>x.id===p.ctId); if(c) return c; }
+  if(p.ctId==="none") return null; const no=poaNorm(p.contract?.no), inn=String(p.issuer?.inn||"").replace(/\D/g,""), dt=p.contract?.date||"";
+  let cand=cs.filter(c=>{ if(no&&poaNorm(c.number)!==no) return false; if(!no) return false; if(dt&&c.date&&c.date!==dt) return false; const ci=String(c.cp?.inn||"").replace(/\D/g,""); if(inn&&ci&&ci!==inn) return false; return true; });
+  if(!cand.length&&!no&&inn){ cand=cs.filter(c=>String(c.cp?.inn||"").replace(/\D/g,"")===inn&&c.status!=="closed"); if(cand.length!==1) cand=[]; }
+  cand.sort((a,b)=>((b.dir==="out")-(a.dir==="out"))); return cand[0]||null; }
+function poaByContract(fid){ const m={}; firmPoas(fid).forEach(p=>{ const c=poaMatch(fid,p); if(c) (m[c.id]=m[c.id]||[]).push(p); }); return m; }
+function poaState(p){ const t=localToday(); if(p.validTo&&p.validTo<t) return {cls:"bad",t:"Муддати ўтган"}; if(p.validTo){ const d=Math.round((new Date(p.validTo)-new Date(t))/864e5); if(d<=3) return {cls:"soon",t:d+" кун қолди"}; } return {cls:"ok",t:"Амалда"}; }
+function ctPoaBadge(c){ const ps=firmPoas(c.firmId); const key=c.firmId+"|"+S.recs.length+"|"+ps.map(p=>p.id+(p.ctId||"")+(p.contract?.no||"")+(p.contract?.date||"")+(p.issuer?.inn||"")).join(","); const C0=poaByContract._c; const M=C0&&C0.key===key?C0.m:(poaByContract._c={key,m:poaByContract(c.firmId)}).m; const L=M[c.id]||[];
+  return L.length?`<span class="poab ok" title="${esc(L.map(p=>"№ "+(p.no||"")+" "+fmtDate(p.date)).join(", "))}">✓ Ишончнома бор${L.length>1?" ("+L.length+")":""}</span>`:`<span class="poab no">Ишончнома йўқ</span>`; }
+function poaParse(text,f){ const T=String(text||"").replace(/ /g," "); const d={issuer:{},holder:{},contract:{},items:[]}; let n=0; const D=s=>{ const m=/(\d{2})[.\/](\d{2})[.\/](\d{4})/.exec(s||""); return m?`${m[3]}-${m[2]}-${m[1]}`:""; };
+  const no=/(?:доверенност\S*|ишончнома\S*|ishonchnoma\S*)\s*(?:№|No\.?|N)\s*([A-Za-zА-Яа-я0-9\-\/]+)/i.exec(T); if(no){ d.no=no[1]; n++; }
+  const dt=/(?:дата\s+выдачи|берилган\s+сана\S*|санаси)[^\d]{0,20}(\d{2}[.\/]\d{2}[.\/]\d{4})/i.exec(T)||/(\d{2}[.\/]\d{2}[.\/]\d{4})/.exec(T); if(dt){ d.date=D(dt[1]); n++; }
+  const vt=/(?:действительн\S*|амал\s+қилади|амал\s+қилиш\s+муддати|до\s+\d{2}\.)[^\d]{0,30}(\d{2}[.\/]\d{2}[.\/]\d{4})/i.exec(T); if(vt){ d.validTo=D(vt[1]); n++; }
+  const ct=/(?:договор\S*|контракт\S*|шартнома\S*)\s*(?:№|No\.?|N)\s*([A-Za-zА-Яа-я0-9\-\/]+)(?:[^\d\n]{0,12}(\d{2}[.\/]\d{2}[.\/]\d{4}))?/i.exec(T); if(ct){ d.contract.no=ct[1]; if(ct[2]) d.contract.date=D(ct[2]); n++; }
+  const inns=[...T.matchAll(/(?:ИНН|СТИР|STIR|INN)[^\d]{0,6}(\d{9})\b/gi)].map(m=>m[1]).filter(x=>x!==String(f?.inn||"")); if(inns[0]){ d.issuer.inn=inns[0]; n++; }
+  const on=/((?:ООО|МЧЖ|АО|АЖ|ЧП|ХК|ОК|ИП|СП|ҚК)\s*[«"][^»"\n]{2,80}[»"]|[«"][^»"\n]{2,80}[»"]\s*(?:ООО|МЧЖ|АО|АЖ|ХК|ОК|ҚК))/.exec(T); if(on){ d.issuer.name=on[1].trim(); n++; }
+  const h=/(?:[Вв]ыдан[аоы]|[Бб]ерилди|ишониб\s+топширилади)[:\s]+([А-ЯЁЎҚҒҲA-Z][а-яёўқғҳa-z]+\s+[А-ЯЁЎҚҒҲA-Z][а-яёўқғҳa-z]+(?:\s+[А-ЯЁЎҚҒҲA-Z][а-яёўқғҳa-z]+)?)/.exec(T); if(h){ d.holder.name=h[1]; n++; }
+  d.auto=n; return d; }
+const poaLooks=t=>/^[\s\S]{0,600}(доверенност|ишончнома|ishonchnoma)/i.test(String(t||""));
+function poaNew(f){ return {id:uid(),type:"poa",firmId:f.id,no:"",date:localToday(),validTo:"",issuer:{},holder:{},contract:{},items:[],ctId:"",note:"",createdAt:Date.now()}; }
+function poaApply(d,x){ const set=(k,v)=>{ if(v==null||v==="") return; setPath(d,k,String(v)); };
+  set("no",x.number); set("date",x.date); set("validTo",x.valid_to); set("issuer.name",x.issuer?.name); set("issuer.inn",x.issuer?.inn); set("holder.name",x.holder?.name); set("holder.position",x.holder?.position); set("holder.passport",x.holder?.passport); set("contract.no",x.contract_number); set("contract.date",x.contract_date); set("supplier",x.supplier?.name);
+  if((x.items||[]).length) d.items=x.items.map(i=>({name:i.name||"",unit:i.unit||"",qty:aiNum(i.qty)})); }
+async function poaReadOne(f,fl,useAi){ let t=""; try{ t=await fcReadPdf(fl); }catch(e){} const d=poaNew(f); const p=poaParse(t,f); Object.assign(d,{no:p.no||"",date:p.date||d.date,validTo:p.validTo||"",issuer:p.issuer,holder:p.holder,contract:p.contract}); d.auto=p.auto;
+  const weak=!d.no||!d.contract.no||!d.issuer.inn; if((useAi||aiAuto(weak))&&aiCanRead(fl)){ try{ toast("✦ Claude ишончномани ўқимоқда…"); const r=await aiDoc(fl,f,AI_SPEC.poa,fl.name); poaApply(d,r.x); d.ai=r.usd; d.auto=Math.max(d.auto||0,Object.keys(r.x).length); toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }catch(e){ toast("Claude: "+(e.message||e)); } }
+  return d; }
+async function poaImport(f,fs){ let ok=0, lk=0; const L0={firmId:f.id,sec:"contracts",sub:["Ишончномалар"]};
+  for(let i=0;i<fs.length;i++){ const fl=fs[i]; toast(`Ишончнома ўқилмоқда ${i+1}/${fs.length}: ${fl.name}`);
+    try{ const d=await poaReadOne(f,fl); d.file=await driveUpload(fl,`${safeName(f.name)} — ишончнома ${String(d.no||"").replace(/[\/:*?"<>|]/g,"-")} ${fmtDate(d.date)} — ${fl.name}`.slice(0,180),L0); delete d.auto;
+      await putItem("recs",d,`Ишончнома № ${d.no||"—"} (${d.issuer?.name||""}) PDF'дан қўшилди`); ok++; if(poaMatch(f.id,d)) lk++; }catch(er){ toast(fl.name+": "+explain(er)); if(er instanceof AuthErr) break; } }
+  toast(`${ok} та ишончнома қўшилди · ${lk} таси шартномага боғланди${ok-lk?` · ${ok-lk} таси учун шартнома топилмади`:""}`); render(); }
+function ctTabsHTML(f,dir){ const all=firmContracts(f.id); const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
+  return `<div class="cttabs ct3">${tab("in",{...CT_DIR.in,t:CT_DIR.in.t+" шартномалар"},all.filter(c=>(c.dir||"in")==="in").length)}${tab("out",{...CT_DIR.out,t:CT_DIR.out.t+" шартномалар"},all.filter(c=>c.dir==="out").length)}${tab("poa",{t:"Ишончномалар",s:"доверенности · шартномага боғланади",c:"#34d399",l:"#a7f3d0"},firmPoas(f.id).length)}</div>`; }
+function poaView(f){ if(V.poaEdit) return poaForm(f,V.poaEdit);
+  const L=firmPoas(f.id), q=(V.poaQ||"").trim().toLowerCase(); const rows=L.filter(p=>!q||[p.no,p.issuer?.name,p.issuer?.inn,p.holder?.name,p.contract?.no,docCode(p,"poa")].some(x=>String(x||"").toLowerCase().includes(q)));
+  const lk=L.filter(p=>poaMatch(f.id,p)).length, exp=L.filter(p=>poaState(p).cls==="bad").length; const M=poaByContract(f.id); const outNo=firmContracts(f.id).filter(c=>c.dir==="out"&&c.status!=="closed"&&!M[c.id]).length;
+  return `${ctTabsHTML(f,"poa")}
+  <div class="toolbar"><span class="hint">Ишончнома (доверенность) PDF ёки сканини юкланг — рақами, санаси, берган ташкилот, ишончли шахс ва қайси шартнома бўйичалиги ўзи ўқилади${aiCfg().key?" (Claude ёрдамида)":""}. Шартнома рақами, санаси ва контрагент СТИРи мос келса, ишончнома шу шартномага боғланади ва шартномалар жадвалида <span class="poab ok">✓ Ишончнома бор</span> деб кўрсатилади.</span>
+    <div class="actions"><label class="btn primary ctup">${PDF_ICON}PDF / скан юклаш<input type="file" id="poaFiles" accept="application/pdf,.pdf,image/*" multiple hidden></label><button type="button" class="btn" data-pa="new">${LPLUS}Қўлда қўшиш</button></div></div>
+  ${L.length?`<div class="lstats"><div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Ишончномалар</span><span class="v">${L.length} та</span><span class="s">${lk} таси шартномага боғланган</span></div><div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">Шартнома топилмади</span><span class="v">${L.length-lk} та</span><span class="s">қўлда боғлаш мумкин</span></div><div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">Муддати ўтган</span><span class="v">${exp} та</span><span class="s">ишончнома муддати</span></div><div class="lstat" style="--c:#f472b6;--cl:#fbcfe8"><span class="k">Ишончномасиз очиқ чиқувчи шартномалар</span><span class="v">${outNo} та</span><span class="s">харидордан ишончнома сўранг</span></div></div>`:""}
+  <div class="toolbar"><input type="search" id="poa_q" class="ctsearch" placeholder="Қидириш: рақам, ташкилот, шахс, шартнома…" value="${esc(V.poaQ||"")}"></div>
+  <div class="card">${rows.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>№</th><th>Сана</th><th>Амал қилади</th><th>Берган ташкилот</th><th>Ишончли шахс</th><th>Шартнома (ишончномада)</th><th>Боғланиш</th><th>Ҳолати</th><th>Файл</th><th>ИД</th></tr></thead><tbody>${rows.map(p=>{ const c=poaMatch(f.id,p), s=poaState(p);
+    return `<tr data-poa="${esc(p.id)}" tabindex="0"><td class="num"><b>${esc(p.no||"—")}</b></td><td class="num">${fmtDate(p.date)}</td><td class="num">${fmtDate(p.validTo)||"—"}</td><td><b>${esc(p.issuer?.name||"")}</b>${p.issuer?.inn?`<br><span class="num hint">СТИР ${esc(p.issuer.inn)}</span>`:""}</td><td>${esc(p.holder?.name||"")}${p.holder?.position?`<div class="ctsub">${esc(p.holder.position)}</div>`:""}</td><td class="num">${p.contract?.no?"№ "+esc(p.contract.no):"—"}${p.contract?.date?" · "+fmtDate(p.contract.date):""}</td><td>${c?`<button type="button" class="poab ok" data-gocontract="${esc(c.id)}">✓ Шартнома № ${esc(c.number||"")} (${CT_DIR[c.dir||"in"].t.toLowerCase()})</button>`:`<span class="poab no">Шартнома топилмади</span>`}</td><td><span class="lpill ${s.cls}">${s.t}</span></td><td>${p.file?`<a class="ctpdf" href="${esc(ctFileUrl(p.file))}" target="_blank" rel="noopener">${PDF_ICON}</a>`:""}</td><td><span class="did">${docCode(p,"poa")}</span></td></tr>`; }).join("")}</tbody></table></div>`:`<div class="empty"><b>Ишончномалар йўқ</b>«PDF / скан юклаш» орқали ишончномаларни юкланг — бир нечтасини бирга белгилаш мумкин.</div>`}</div>`; }
+function poaForm(f,d){ const isNew=!S.recs.some(x=>x.id===d.id); const c=poaMatch(f.id,d); const cs=firmContracts(f.id);
+  const F=(p,l,t,cls)=>`<div class="field ${cls||""}"><label for="pa_${p.replace(".","_")}">${l}</label><input id="pa_${p.replace(".","_")}" data-pf="${p}" ${t?`type="${t}"`:""} value="${esc(getPath(d,p)||"")}"></div>`;
+  return `<button type="button" class="back" data-pa="back">← Ишончномалар</button>
+  <div class="card lform"><h2>${isNew?"Янги ишончнома":"Ишончнома № "+esc(d.no||"")}</h2>${isNew?"":didChip(d,"poa")}${d.auto?`<div class="note-box">Файлдан ${d.auto} та маълумот ўқилди — текширинг.</div>`:""}
+  <div class="lgrid">${F("no","Ишончнома №")}${F("date","Берилган сана","date")}${F("validTo","Амал қилиш муддати","date")}</div>
+  <div class="label">Берган ташкилот (харидор)</div><div class="lgrid">${F("issuer.name","Номи","","wide")}${F("issuer.inn","СТИР")}</div>
+  <div class="label">Ишончли шахс</div><div class="lgrid">${F("holder.name","Ф.И.Ш.","","wide")}${F("holder.position","Лавозими")}${F("holder.passport","Паспорт")}</div>
+  <div class="label">Шартнома</div><div class="lgrid">${F("contract.no","Ишончномадаги шартнома №")}${F("contract.date","Шартнома санаси","date")}<div class="field wide"><label for="pa_ct">Боғланган шартнома</label><select id="pa_ct" data-pf="ctId"><option value="" ${!d.ctId?"selected":""}>Автомат (рақам, сана ва СТИР бўйича)${!d.ctId&&c?" — № "+esc(c.number||""):""}</option>${cs.map(x=>`<option value="${esc(x.id)}" ${d.ctId===x.id?"selected":""}>${CT_DIR[x.dir||"in"].t}: № ${esc(x.number||"—")} · ${fmtDate(x.date)} · ${esc(x.cp?.name||"")}</option>`).join("")}<option value="none" ${d.ctId==="none"?"selected":""}>Ҳеч бир шартномага боғламаслик</option></select></div></div>
+  <p class="${c?"ndok":"err"}" style="margin:6px 0">${c?`✓ Шартнома № ${esc(c.number||"")} (${fmtDate(c.date)}, ${esc(c.cp?.name||"")}) билан боғланди`:"Мос шартнома топилмади — шартнома рақами, санаси ва СТИРни текширинг ёки рўйхатдан танланг."}</p>
+  ${(d.items||[]).length?`<div class="label">Олинадиган товарлар</div><div class="tablewrap"><table class="sched"><thead><tr><th>№</th><th>Номи</th><th>Ўлчов</th><th class="r">Миқдори</th></tr></thead><tbody>${d.items.map((it,i)=>`<tr class="norow"><td class="num">${i+1}</td><td>${esc(it.name||"")}</td><td>${esc(it.unit||"")}</td><td class="num r">${esc(it.qty||"")}</td></tr>`).join("")}</tbody></table></div>`:""}
+  <div class="lgrid">${F("note","Изоҳ","","wide")}</div>
+  <p class="err" id="paErr"></p>
+  <div class="actions"><button type="button" class="btn primary" data-pa="save">Сақлаш</button>${d.file?`<a class="btn" href="${esc(ctFileUrl(d.file))}" target="_blank" rel="noopener">${PDF_ICON}Файлни очиш</a>`:""}${aiFormBtn("poaAi",d.pendingFile||d.file)}<label class="btn ctup">${PDF_ICON}${d.file||d.pendingFile?"Файлни алмаштириш":"Файл бириктириш"}<input type="file" id="poaOne" accept="application/pdf,.pdf,image/*" hidden></label><button type="button" class="btn ghost" data-pa="back">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-pa="del">Ўчириш</button>`}</div></div>
+  ${d.file||d.pendingFile?pvBox("poa-"+d.id+(d.pendingFile?"-"+d.pendingFile.size:""),d.pendingFile?{file:d.pendingFile}:{ref:d.file}):""}`; }
+function ctPoaCard(C){ const L=poaByContract(C.firmId)[C.id]||[];
+  return `<div class="card"><div class="label" style="padding:12px 16px 0">Ишончномалар (доверенности) ${L.length?`<span class="poab ok">✓ ${L.length} та</span>`:`<span class="poab no">йўқ</span>`}</div>${L.length?`<div class="tablewrap"><table class="sched"><thead><tr><th>№</th><th>Сана</th><th>Амал қилади</th><th>Ишончли шахс</th><th>Ҳолати</th></tr></thead><tbody>${L.map(p=>{ const s=poaState(p); return `<tr data-poa="${esc(p.id)}" tabindex="0"><td class="num">${esc(p.no||"")}</td><td class="num">${fmtDate(p.date)}</td><td class="num">${fmtDate(p.validTo)}</td><td>${esc(p.holder?.name||"")}</td><td><span class="lpill ${s.cls}">${s.t}</span></td></tr>`; }).join("")}</tbody></table></div>`:`<p class="hint" style="padding:6px 16px 14px">Бу шартнома бўйича ишончнома юкланмаган. «Ишончномалар» бўлимида юкланса, ўзи боғланади.</p>`}</div>`; }
+document.addEventListener("click",async e=>{ const t=e.target.closest("[data-pa],[data-poa]"); if(!t||!document.getElementById("main")?.contains(t)) return; e.stopPropagation(); e.preventDefault?.(); const f=firm(V.firmId); if(!f) return;
+  if(t.dataset.poa){ const p=S.recs.find(x=>x.id===t.dataset.poa); if(p) return go({tab:"contracts",ctDir:"poa",ctId:null,poaEdit:JSON.parse(JSON.stringify(p))}); return; }
+  const a=t.dataset.pa;
+  if(a==="new") return go({poaEdit:poaNew(f)});
+  if(a==="back") return go({poaEdit:null});
+  if(a==="del"&&V.poaEdit){ if(!confirm("Ишончнома ўчирилсинми?")) return; try{ await delItem("recs",V.poaEdit.id,`Ишончнома № ${V.poaEdit.no||""} ўчирилди`); toast("Ўчирилди"); }catch(er){ toast(explain(er)); } return go({poaEdit:null}); }
+  if(a==="save"&&V.poaEdit){ const d=V.poaEdit; if(!String(d.no||"").trim()&&!d.contract?.no&&!d.issuer?.name){ $("#paErr").textContent="Ишончнома рақами ёки берган ташкилотни киритинг."; return; } t.disabled=true;
+    try{ if(d.pendingFile){ d.file=await driveUpload(d.pendingFile,`${safeName(f.name)} — ишончнома ${String(d.no||"").replace(/[\/:*?"<>|]/g,"-")} ${fmtDate(d.date)}.pdf`.slice(0,180),{firmId:f.id,sec:"contracts",sub:["Ишончномалар"]}); }
+      const o=JSON.parse(JSON.stringify({...d,pendingFile:undefined,auto:undefined})); delete o.pendingFile; delete o.auto; const isNew=!S.recs.some(x=>x.id===o.id);
+      await putItem("recs",o,`Ишончнома № ${o.no||"—"} ${isNew?"қўшилди":"ўзгартирилди"}`); toast("Сақланди"+(poaMatch(f.id,o)?" · шартномага боғланди":"")); V.poaEdit=null; }
+    catch(er){ t.disabled=false; $("#paErr").textContent=explain(er); return; } return render(); }
+},true);
+document.addEventListener("click",async e=>{ const t=e.target.closest('[data-act="poaAi"]'); if(!t||!V.poaEdit) return; e.stopPropagation(); const d=V.poaEdit, f=firm(V.firmId);
+  try{ const fl=await aiFileOf(d.pendingFile,d.file,"ishonchnoma.pdf"); toast("✦ Claude ишончномани ўқимоқда…"); const r=await aiDoc(fl,f,AI_SPEC.poa,fl.name); poaApply(d,r.x); d.auto=Object.keys(r.x).length; toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }catch(er){ toast("Claude: "+(er.message||er)); } render(); },true);
+document.addEventListener("input",e=>{ const el=e.target; if(el.id==="poa_q"){ V.poaQ=el.value; clearTimeout(poaView._t); poaView._t=setTimeout(()=>{ const p=el.selectionStart; render(); const n=$("#poa_q"); if(n){ n.focus(); try{ n.setSelectionRange(p,p); }catch(e){} } },250); return; }
+  if(el.dataset.pf&&V.poaEdit&&el.tagName!=="SELECT"){ setPath(V.poaEdit,el.dataset.pf,el.value); } },true);
+document.addEventListener("change",async e=>{ const el=e.target; if(el.dataset?.pf&&V.poaEdit){ setPath(V.poaEdit,el.dataset.pf,el.value); if(el.tagName==="SELECT"||el.dataset.pf.startsWith("contract")||el.dataset.pf==="issuer.inn") render(); return; }
+  if(el.id==="poaFiles"){ const fs=[...el.files]; el.value=""; const f=firm(V.firmId); if(fs.length&&f) await poaImport(f,fs); return; }
+  if(el.id==="poaOne"&&V.poaEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; const f=firm(V.firmId); const d=V.poaEdit; d.pendingFile=fl; render(); const x=await poaReadOne(f,fl); ["no","date","validTo"].forEach(k=>{ if(!d[k]||k==="date"&&!S.recs.some(r=>r.id===d.id)) d[k]=x[k]||d[k]; }); ["issuer","holder","contract"].forEach(k=>{ d[k]={...(x[k]||{}),...Object.fromEntries(Object.entries(d[k]||{}).filter(([,v])=>v))}; }); if(!(d.items||[]).length&&(x.items||[]).length) d.items=x.items; d.auto=x.auto; render(); }
+},true);
+
+/* ================= Белгиланганларни чоп этиш: ички бўлимлардаги файллар билан ================= */
+async function pdfBytes(html,opt={}){ await ensurePdfGen(); try{ await document.fonts?.ready; }catch(e){} try{ html=await qrFillHtml(html,false); }catch(e){}
+  const P=pdfPages(html,opt); try{ const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:"mm",format:"a4",orientation:opt.land?"landscape":"portrait",compress:true});
+    for(let i=0;i<P.pages.length;i++){ const el=P.pages[i].p; const c=await html2canvas(el,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false,scrollX:0,scrollY:-window.scrollY,windowWidth:Math.max(document.documentElement.clientWidth,el.offsetWidth+40)});
+      if(i) doc.addPage(); doc.addImage(c.toDataURL("image/jpeg",0.93),"JPEG",P.m[3],P.m[0],P.pw-P.m[1]-P.m[3],P.ph-P.m[0]-P.m[2]); }
+    return doc.output("arraybuffer"); } finally{ P.host.remove(); } }
+const PP_LBL={file:"Асосий ҳужжат",files:"Бириктирилган файллар",specs:"Спецификациялар",acts:"Актлар",addenda:"Қўшимча келишувлар",forms:"Шакллар",licenses:"Лицензиялар",payments:"Тўловлар",repays:"Тўловлар",pending:"Файллар"};
+function ppGroups(key,o){ const G={}, seen=new Set(); const add=(g,ref,nm)=>{ const id=ref.gen?("gen:"+nm):ref.id; if(!id||seen.has(id)) return; seen.add(id); (G[g]=G[g]||[]).push({ref,name:nm||ref.name||"файл"}); };
+  const f=firm(o.firmId);
+  Object.keys(o).forEach(k=>{ const v=o[k]; if(!v||typeof v!=="object") return; const g=PP_LBL[k]||(k==="values"?"Илова файллари":"Бошқа файллар");
+    if(k==="file"&&v.id){ add(PP_LBL.file,v,v.name); return; }
+    if(["specs","acts","addenda"].includes(k)&&Array.isArray(v)&&o.type==="fcontract"){ v.slice().sort((a,b)=>(a.date||"").localeCompare(b.date||"")).forEach(x=>{ const nm=(k==="specs"?"Спецификация":k==="acts"?"Акт":"Қўшимча келишув")+" № "+(x.no||"")+" "+fmtDate(x.date);
+        if(x.file&&(k!=="addenda"||fcAddIsUp(x))) add(g,x.file,nm+" — "+(x.file.name||"файл"));
+        else if(f){ try{ add(g,{gen:k==="addenda"?fcAddSheet(f,o,x):fcDocSheet(f,o,k==="specs"?"spec":"act",x)},nm+" (дастурда тузилган матн)"); }catch(e){} if(x.file) add(g,x.file,nm+" — имзоланган нусха"); } }); return; }
+    const tmp=[]; walkFiles(JSON.parse(JSON.stringify(v)),x=>{ tmp.push(x); }); tmp.forEach(x=>add(g,x,x.name)); });
+  if(o.type==="contract"&&!o.file&&o.gen&&f){ try{ add(PP_LBL.file,{gen:ctgSheet(f,o,true)},"Шартнома матни (дастурда тузилган)"); }catch(e){} }
+  if(o.type==="contract"){ (poaByContract(o.firmId)[o.id]||[]).forEach(p=>{ if(p.file) add("Ишончномалар",p.file,"Ишончнома № "+(p.no||"")+" "+fmtDate(p.date)); }); }
+  if(o.type==="fcontract"){ try{ fcGtds(o).forEach(r=>walkFiles(JSON.parse(JSON.stringify(r)),x=>{ add("ГТДлар",x,"ГТД "+(r.no||"")+" — "+(x.name||"")); })); }catch(e){} }
+  const order=[PP_LBL.file,"Бириктирилган файллар","Спецификациялар","Актлар","Қўшимча келишувлар","Ишончномалар","ГТДлар"]; return Object.keys(G).sort((a,b)=>((order.indexOf(a)+1)||99)-((order.indexOf(b)+1)||99)).map(g=>({g,items:G[g]})); }
+let PP=null;
+function ppOpen(key,ids){ const M=SEL_MAP[key]; const docs=[]; ids.forEach(id=>{ const row=ROWS[M.kind]?.[id]; const o=row?.obj; if(!o||row.deleted) return; const raw=key==="fc"?o:key==="loans"?o:o; const groups=ppGroups(key,o); docs.push({id,lbl:(()=>{ try{ return M.lbl(o); }catch(e){ return docTitle(M.kind,o); } })(),groups}); });
+  let n=0; docs.forEach(d=>d.groups.forEach(g=>g.items.forEach(it=>{ it.i=n++; it.on=true; }))); PP={key,docs}; ppShow(); }
+function ppShow(){ $("#ppModal")?.remove(); if(!PP) return; const all=PP.docs.flatMap(d=>d.groups.flatMap(g=>g.items)); const on=all.filter(x=>x.on).length;
+  const d=document.createElement("div"); d.id="ppModal"; d.className="qrmask";
+  d.innerHTML=`<div class="qrbox ppbox" role="dialog" aria-label="Чоп этиш"><button type="button" class="linkbtn qrx" data-pp="close" aria-label="Ёпиш">✕</button>
+  <b>Чоп этиладиган файлларни белгиланг</b><span class="hint">${PP.docs.length} та ҳужжат · ${all.length} та файл (ички бўлимлардагилари билан) · белгиланган: <b>${on}</b></span>
+  <div class="ppall"><label><input type="checkbox" data-pp="all" ${on===all.length&&all.length?"checked":""}> Ҳаммасини белгилаш</label></div>
+  <div class="pplist">${PP.docs.map((dc,di)=>`<div class="ppdoc"><label class="pph"><input type="checkbox" data-pp="doc" data-d="${di}" ${dc.groups.every(g=>g.items.every(x=>x.on))&&dc.groups.length?"checked":""}> <b>${esc(dc.lbl)}</b></label>${dc.groups.length?dc.groups.map((g,gi)=>`<div class="ppg"><label class="ppgh"><input type="checkbox" data-pp="grp" data-d="${di}" data-g="${gi}" ${g.items.every(x=>x.on)?"checked":""}> ${esc(g.g)} <i>${g.items.length}</i></label>${g.items.map(it=>`<label class="ppi"><input type="checkbox" data-pp="it" data-i="${it.i}" ${it.on?"checked":""}> ${it.ref.gen?"📝":/\.(jpe?g|png)$/i.test(it.name)?"🖼":"📄"} ${esc(it.name)}</label>`).join("")}</div>`).join(""):`<p class="hint">Файл йўқ</p>`}</div>`).join("")}</div>
+  <div class="actions"><button type="button" class="btn primary" data-pp="print" ${on?"":"disabled"}>🖨 Белгиланганларни битта ҳужжат қилиб чоп этиш (${on})</button><button type="button" class="btn" data-pp="pdf" ${on?"":"disabled"}>⬇ PDF қилиб юклаб олиш</button></div></div>`;
+  d.addEventListener("click",e=>{ if(e.target===d){ d.remove(); PP=null; } });
+  d.addEventListener("change",e=>{ const el=e.target, a=el.dataset.pp, v=el.checked; if(!a) return; const items=all;
+    if(a==="all") items.forEach(x=>x.on=v); if(a==="doc") PP.docs[+el.dataset.d].groups.forEach(g=>g.items.forEach(x=>x.on=v)); if(a==="grp") PP.docs[+el.dataset.d].groups[+el.dataset.g].items.forEach(x=>x.on=v); if(a==="it"){ const x=items.find(y=>y.i===+el.dataset.i); if(x) x.on=v; }
+    const sc=d.querySelector(".pplist")?.scrollTop||0; ppShow(); const l=$("#ppModal .pplist"); if(l) l.scrollTop=sc; });
+  d.addEventListener("click",async e=>{ const b=e.target.closest("button[data-pp]"); if(!b) return; const a=b.dataset.pp; if(a==="close"){ d.remove(); PP=null; return; }
+    const refs=all.filter(x=>x.on).map(x=>x.ref.gen?{gen:x.ref.gen,name:x.name}:{...x.ref,name:x.ref.name||x.name}); b.disabled=true;
+    try{ const r=await printMerge(refs,m=>toast(m)); toast(`${r.n} та файл (${r.pages} бет) тайёр${r.skip.length?` · ўтказиб юборилди: ${r.skip.join(", ")}`:""}`); if(a==="pdf") saveBlob(new Blob([r.bytes],{type:"application/pdf"}),"chop_etish_"+fileStamp()+".pdf"); else printPdfBytes(r.bytes,"chop_etish_"+fileStamp()+".pdf");  d.remove(); PP=null; return; }
+    catch(er){ toast(er.message||String(er)); } b.disabled=false; });
+  document.body.appendChild(d); }
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
@@ -8059,8 +8315,8 @@ document.addEventListener("click", async e=>{
   const t=e.target.closest("#addFirmBtn,[data-firm],[data-tab],[data-filter],[data-act],[data-tpl],[data-order],[data-set],[data-loan],[data-ck],[data-cktpl],[data-ckitem],[data-ckkey],[data-ckfilter],[data-ct],[data-ctdir],[data-ctf],[data-ctgtpl],[data-cp],[data-cpf],[data-gocontract],[data-gtd],[data-gf],[data-gogtd],[data-emp],[data-hrsub],[data-ef],[data-hrorder],[data-pos],[data-doclang],[data-vporder],[data-ndmonth],[data-fclear],[data-ckauto],[data-trkind],[data-trp],[data-fredit],[data-ch],[data-chnew],[data-godoc],[data-impsub],[data-fc],[data-fcsub],[data-fcdoc],[data-fcadd],[data-colcfg],[data-letdir],[data-let],[data-attdel],[data-cc],[data-qr],[data-utpl],[data-lease],[data-lesub],[data-credit],[data-lnsub],[data-fa],[data-fasub],[data-faact],[data-faview],[data-cssub],[data-cssrc],[data-csgo],[data-polk],[data-pol]");
   if(!t) return;
   if(t.dataset.firm){ Object.assign(V,{sel:null,ccId:null,ccEdit:null,ccImport:null,ccCard:"",ccM:"",ccCat:"",ccQ:"",letEdit:null,letId:null,leEdit:null,leId:null,crEdit:null,crId:null,faId:null,faEdit:null,faAct:null,faReg:null,csEdit:null,csDirty:false,csCfg:null,polId:null,polEdit:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,trEdit:null, trImport:null, frEdit:null, frImport:null, chEdit:null, chImport:null, chId:null}); V.ckAuto=null; if(t.dataset.gond){ V.gReg="ndopen"; V.gMonth=""; V.gQ=""; } return go({view:"firm",firmId:t.dataset.firm,tab:t.dataset.gotab||"overview",filter:"all",loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,ctQ:"",gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null,eQ:""}); }
-  if(t.dataset.tab){ return go({tab:t.dataset.tab,sel:null,ccId:null,ccEdit:null,ccImport:null,letEdit:null,letId:null,leEdit:null,leId:null,crEdit:null,crId:null,faId:null,faEdit:null,faAct:null,faReg:null,csEdit:null,csDirty:false,csCfg:null,polId:null,polEdit:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,vpEdit:null,vpConfirm:false,ckAuto:null,trEdit:null,trImport:null,frEdit:null,frImport:null,chEdit:null,chImport:null,chId:null,loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null}); }
-  if(t.dataset.ctdir){ return go({ctDir:t.dataset.ctdir,ctId:null}); }
+  if(t.dataset.tab){ return go({tab:t.dataset.tab,poaEdit:null,sel:null,ccId:null,ccEdit:null,ccImport:null,letEdit:null,letId:null,leEdit:null,leId:null,crEdit:null,crId:null,faId:null,faEdit:null,faAct:null,faReg:null,csEdit:null,csDirty:false,csCfg:null,polId:null,polEdit:null,licOpen:false,fcEdit:null,fcId:null,fcDoc:null,fcAdd:null,vpEdit:null,vpConfirm:false,ckAuto:null,trEdit:null,trImport:null,frEdit:null,frImport:null,chEdit:null,chImport:null,chId:null,loanId:null,loanEdit:null,loanRep:null,ckId:null,ckEdit:null,ckKey:null,ctId:null,ctEdit:null,ctImport:null,gId:null,gImport:null,empId:null,empEdit:null,posEdit:null,empDoc:null,hrImport:null}); }
+  if(t.dataset.ctdir){ return go({ctDir:t.dataset.ctdir,ctId:null,poaEdit:null}); }
   if(t.dataset.ctf){ V[t.dataset.ctf]=t.dataset.v; if(t.dataset.ctf==="gReg") V.gLimit=200; return render(); }
   if(t.dataset.letdir){ return go({letDir:t.dataset.letdir,letId:null,letEdit:null}); }
   if(t.dataset.polk){ return go({polK:t.dataset.polk,polId:null,polEdit:null}); }
@@ -8281,7 +8537,7 @@ document.addEventListener("click", async e=>{
   if(a==="letAi"&&V.letEdit){ const d=V.letEdit; try{ const p=(d.pending||[]).find(x=>aiCanRead(x.file)); await letAiFill(await aiFileOf(p?.file,(d.files||[])[0]?.file)); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
   if(a==="certAi"){ const f=firm(V.firmId); const k=t.dataset.k; const ref=f?.docs?.[k]?.file; if(!ref) return; t.disabled=true; toast("✦ Claude гувоҳномани ўқимоқда…"); try{ await certAi(f,k,await aiFileOf(null,ref,"guvohnoma.pdf")); toast("Гувоҳнома ўқилди"); }catch(e){ toast("Claude: "+(e.message||e)); } return render(); }
   if(a==="certApply"){ const f=firm(V.firmId); const k=t.dataset.k; const ai=f?.docs?.[k]?.ai; if(!ai) return; let n=0; try{ await attPut("firms",f.id,o=>{ CERT_MAP.forEach(([fk,ak])=>{ if(ai[ak]&&!String(o[fk]??"").trim()){ o[fk]=String(ai[ak]); n++; } }); },"Гувоҳномадан реквизитлар тўлдирилди (Claude)"); toast(n+" та реквизит тўлдирилди"); }catch(e){ toast(explain(e)); } return render(); }
-  if(a==="selPrint"){ const k=t.dataset.k; const st=selOf(k); if(!st) return; await printRefs(selFileRefs(k,st.ids),"chop_etish_"+fileStamp()+".pdf",t); return; }
+  if(a==="selPrint"){ const k=t.dataset.k; const st=selOf(k); if(!st) return; ppOpen(k,st.ids); return; }
   if(a==="selPrintOrders"){ const st=selOf("orders"); if(!st) return; const os=sortD(S.orders.filter(o=>st.ids.includes(o.id)),o=>(o.values?.date||"")+p6(o.values?.number),"asc"); $("#printArea").innerHTML=os.map(o=>`<div class="pageblock">${sheetHTML(o,true)}</div>`).join(""); window.print(); return; }
   if(a==="attPrint"){ const [kind,...rest]=t.dataset.k.split("|"); const id=rest.join("|"); const o=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; if(!o) return; const idx=V.attSel&&V.attSel.k===t.dataset.k?V.attSel.idx:[]; const files=o.files||[];
     const refs=idx.length?idx.sort((a,b)=>a-b).map(i=>files[i]?.file&&{...files[i].file,name:files[i].name||files[i].file.name}).filter(Boolean):[o.file,...files.map(x=>x.file&&{...x.file,name:x.name||x.file.name})].filter(Boolean); await printRefs(refs,"chop_etish_"+fileStamp()+".pdf",t); return; }
@@ -8334,11 +8590,12 @@ document.addEventListener("click", async e=>{
     const html=`<html><head><meta charset="utf-8"><style>@page{size:A4;margin:1.5cm}body{font-family:"Times New Roman",serif;font-size:11pt}table.btab{width:100%;border-collapse:collapse}.btab td,.btab th{border:1px solid #000;padding:3pt;font-size:10pt}.r{text-align:right}.fcreq td{font-size:9.5pt}</style></head><body>${fcDocSheet(firm(V.firmId),c,kind,d,true)}</body></html>`;
     saveBlob(new Blob(["\ufeff",html],{type:"application/msword"}),safeName(`${kind==="spec"?"Specifikaciya":"Akt"}_${d.no||""}_k_kontraktu_${c.number||""}`)+".doc"); toast("Word файл юклаб олинди"); return; }
   if(a==="fcDocPrint"){ const c=S.recs.find(x=>x.id===V.fcId); const kind=t.dataset.kind; const d=V.fcDoc&&V.fcDoc.d.id===t.dataset.id?V.fcDoc.d:(c?.[kind==="spec"?"specs":"acts"]||[]).find(x=>x.id===t.dataset.id); if(!c||!d) return; $("#printArea").innerHTML=fcDocSheet(firm(V.firmId),c,kind,d); toast("Чоп этиш ойнасида «Сохранить как PDF» ни танланг"); window.print(); return; }
-  if(a==="fcAddAuto"){ const c=S.recs.find(x=>x.id===V.fcId); if(!c) return; const o=fcOver(c); return go({fcSub:"add",fcAdd:{id:uid(),no:String((c.addenda||[]).length+1),date:localToday(),content:`Контракт умумий суммасини ${m2(o.amount)} дан ${m2(o.suggest)} ${c.currency||""} га ошириш (${o.by==="gtd"?"ГТДлар бўйича келган товарлар "+m2(o.gtd):"спецификациялар жами "+m2(o.spec)})`,newAmount:String(o.suggest),newEnd:"",auto:0}}); }
-  if(a==="fcAddPrint"||a==="fcAddWord"){ const c=S.recs.find(x=>x.id===V.fcId); const f=firm(V.firmId); const d=V.fcAdd; if(!c||!d||!f) return; if(a==="fcAddPrint"){ $("#printArea").innerHTML=fcAddSheet(f,c,d); toast("Чоп этиш ойнасида «Сохранить как PDF» ни танланг"); window.print(); return; }
+  if(a==="fcAddAuto"){ const c=S.recs.find(x=>x.id===V.fcId); if(!c) return; const o=fcOver(c); return go({fcSub:"add",fcAdd:{id:uid(),src:"tpl",body:"",base:"",no:String((c.addenda||[]).length+1),date:localToday(),content:`Контракт умумий суммасини ${m2(o.amount)} дан ${m2(o.suggest)} ${c.currency||""} га ошириш (${o.by==="gtd"?"ГТДлар бўйича келган товарлар "+m2(o.gtd):"спецификациялар жами "+m2(o.spec)})`,newAmount:String(o.suggest),newEnd:"",auto:0}}); }
+  if(a==="fcAddPrint"||a==="fcAddWord"){ const c=S.recs.find(x=>x.id===V.fcId); const f=firm(V.firmId); const d=V.fcAdd; if(!c||!d||!f) return; if(a==="fcAddPrint"){ await pdfSave(fcAddSheet(f,c,d),safeName(`Dop_soglashenie_${d.no||""}_k_kontraktu_${c.number||""}`),{title:"Дополнительное соглашение № "+(d.no||"")}); return; }
     const html=`<html><head><meta charset="utf-8"><style>@page{size:A4;margin:2cm 1.5cm}body{font-family:"Times New Roman",serif;font-size:12pt}p{text-align:justify;margin:0 0 6pt}.fcreq td{font-size:10pt;vertical-align:top}</style></head><body>${fcAddSheet(f,c,d,true)}</body></html>`;
     saveBlob(new Blob(["\ufeff",html],{type:"application/msword"}),safeName(`Dop_soglashenie_${d.no||""}_k_kontraktu_${c.number||""}`)+".doc"); toast("Word файл юклаб олинди"); return; }
-  if(a==="fcAddNew"){ const c=S.recs.find(x=>x.id===V.fcId); if(c) return go({fcAdd:{id:uid(),no:String((c.addenda||[]).length+1),date:localToday(),content:"",newAmount:"",newEnd:""}}); return; }
+  if(a==="fcAddNew"){ const c=S.recs.find(x=>x.id===V.fcId); if(c) return go({fcAdd:{id:uid(),src:"tpl",no:String((c.addenda||[]).length+1),date:localToday(),content:"",body:"",base:"",newAmount:"",newEnd:""}}); return; }
+  if(a==="fcXtraDel"&&V.fcEdit){ (V.fcEdit.pendingExtra||[]).splice(+t.dataset.i,1); return render(); }
   if(a==="fcAddBack") return go({fcAdd:null});
   if(a==="fcAddDel"&&V.fcAdd){ const d=V.fcAdd; try{ await fcPut(V.fcId,c=>{ c.addenda=(c.addenda||[]).filter(x=>x.id!==d.id); },`Қўшимча келишув № ${d.no||""} ўчирилди`); toast("Ўчирилди"); }catch(er){ toast(explain(er)); } return go({fcAdd:null}); }
   if(a==="fcPayDel"){ const i=+t.dataset.i; try{ await fcPut(V.fcId,c=>{ c.payments.splice(i,1); },"Тўлов ўчирилди"); }catch(er){ toast(explain(er)); } return render(); }
@@ -8465,12 +8722,14 @@ document.addEventListener("click", async e=>{
   if(a==="ctBack"){ const ed=V.ctEdit; if(ed&&S.recs.some(x=>x.id===ed.id)) return go({ctEdit:null,ctEditFile:null,ctEditAuto:null,ctId:ed.id}); return go({ctEdit:null,ctEditFile:null,ctEditAuto:null,ctId:null}); }
   if(a==="ctImpCancel"){ if(V.ctImport?.saving) return; return go({ctImport:null}); }
   if(a==="ctImpDel"){ const I=V.ctImport; if(!I) return; I.items.splice(+t.dataset.i,1); if(!I.items.length) return go({ctImport:null}); return render(); }
+  if(a==="ctImpMerge"){ const I=V.ctImport; if(!I) return; const i=+t.dataset.i; let j=i-1; while(j>=0&&!I.items[j].d) j--; if(j<0) return; const it=I.items[i], pr=I.items[j]; pr.extra=(pr.extra||[]).concat([it.file],it.extra||[]); if(pr.d&&it.d){ Object.entries({number:"",date:"",endDate:"",amount:"",subject:""}).forEach(([k])=>{ if(!pr.d[k]&&it.d[k]) pr.d[k]=it.d[k]; }); ["name","inn","director","address","bank","account","mfo","phone"].forEach(k=>{ if(!pr.d.cp?.[k]&&it.d.cp?.[k]) (pr.d.cp=pr.d.cp||{})[k]=it.d.cp[k]; }); } I.items.splice(i,1); toast("Файл олдинги шартномага қўшилди"); return render(); }
   if(a==="ctImpSave"){ const I=V.ctImport; if(!I||I.saving) return; const f=firm(V.firmId); if(!f) return;
     let bad=0; I.items.forEach(it=>{ if(!it.d||it.status==="saved") return; ctClean(it.d); const m=ctValidate(it.d); it.msg=m; if(m) bad++; });
     if(bad){ render(); toast(bad+" та шартномада маълумот етишмайди — қизил ёзувга қаранг"); return; }
     I.saving=true; let ok=0;
     for(const it of I.items){ if(!it.d||it.status==="saved") continue; it.status="saving"; render();
       try{ if(!it.d.file&&it.file) it.d.file=await driveUpload(it.file,ctFileName(f,it.d),attLoc("recs",it.d));
+        if((it.extra||[]).length){ const up=await uploadPending(f,it.extra.map(x=>({file:x,name:x.name})),"шартнома "+String(it.d.number||"").replace(/[\/:*?"<>|]/g,"-")+" иловаси",attLoc("recs",it.d)); it.d.files=(it.d.files||[]).concat(up); it.extra=[]; }
         await putItem("recs",it.d,`Шартнома № ${it.d.number||"—"} (${it.d.cp.name}) PDF'дан қўшилди`); it.status="saved"; it.msg=""; ok++; }
       catch(err){ it.status="err"; it.msg=explain(err); if(err instanceof AuthErr) break; } }
     I.saving=false; I.items=I.items.filter(x=>x.status!=="saved");
@@ -8694,22 +8953,28 @@ document.addEventListener("change",async e=>{
     return render(); }
   if(el.id==="lic_file"){ const fl=el.files[0]; if(!fl||!aiAuto(true)||!aiCanRead(fl)) return; toast("✦ Claude лицензияни ўқимоқда…"); try{ const r=await aiDoc(fl,firm(V.firmId),AI_SPEC.license,fl.name); const x=r.x; const put=(id,v)=>{ const e=$("#"+id); if(e&&!e.value&&v) e.value=v; }; put("lic_title",x.title); put("lic_no",x.no); put("lic_by",x.issued_by); put("lic_issued",x.issued); put("lic_exp",x.expires); toast(`✦ Claude ўқиди · ${aiCents(r.usd)}`); }catch(e){ toast("Claude: "+(e.message||e)); } return; }
   if(el.id==="letFile"&&V.letEdit){ const fs=[...el.files]; el.value=""; if(fs.length){ V.letEdit.pending=(V.letEdit.pending||[]).concat(fs.map(x=>({file:x,name:x.name}))); render(); const rf=fs.find(aiCanRead); if(rf&&aiAuto(!V.letEdit.corr||!V.letEdit.subject)) await letAiFill(rf); } return; }
-  if((el.id==="fcFile"&&V.fcEdit)||el.id==="fcNewFile"){ const fl=el.files[0]; el.value=""; if(!fl) return; const f=firm(V.firmId); if(el.id==="fcNewFile") go({fcEdit:fcNew(f),fcId:null}); const isNew=!S.recs.some(x=>x.id===V.fcEdit.id); V.fcEdit.pendingFile=fl; render();
-    if(await fcCardFill(fl,isNew)) return;
-    let weak=true; try{ const t=await fcReadPdf(fl); const x=fcTextParse(t,f); const n=Object.values(x).filter(v=>v&&(typeof v!=="object"||Object.keys(v).length)).length; aiFcApply(V.fcEdit,x,f,isNew); if(isNew&&x.direction) V.fcEdit.dir=x.direction; weak=!(x.number&&x.date&&x.amount&&x.seller?.name); toast(n>3?`Контрактдан ${n} та маълумот олинди${weak?" — қолганини текширинг":""}`:"Контракт матнидан маълумот кам топилди"); render(); }catch(e){}
-    if(aiAuto(weak)&&aiCanRead(fl)) await fcAiFill(fl); return; }
+  if((el.id==="fcFile"&&V.fcEdit)||el.id==="fcNewFile"){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const f=firm(V.firmId); if(el.id==="fcNewFile") go({fcEdit:fcNew(f),fcId:null}); const isNew=!S.recs.some(x=>x.id===V.fcEdit.id);
+    const fl=fs[0]; V.fcEdit.pendingFile=fl; V.fcEdit.pendingExtra=(V.fcEdit.pendingExtra||[]).concat(fs.slice(1)); render();
+    let card=false; const texts=[]; for(const x of fs){ let t=""; try{ if(fs.length>1) toast(`Ўқилмоқда ${texts.length+1}/${fs.length}: ${x.name}`); t=await fcReadPdf(x); }catch(e){} if(fcIsCard(t)){ if(await fcCardFill(x,isNew&&!card)) card=true; } else texts.push({x,t}); }
+    if(card&&!texts.length) return;
+    let weak=true; try{ const t=texts.map(z=>z.t).join("\n"); const x=fcTextParse(t,f); const n=Object.values(x).filter(v=>v&&(typeof v!=="object"||Object.keys(v).length)).length; aiFcApply(V.fcEdit,x,f,isNew&&!card); if(isNew&&!card&&x.direction) V.fcEdit.dir=x.direction; const d=V.fcEdit; weak=!(d.number&&d.date&&d.amount&&d.seller?.name); toast(n>3?`${fs.length>1?fs.length+" та файлдан":"Контрактдан"} ${n} та маълумот олинди${weak?" — қолганини текширинг":""}`:"Контракт матнидан маълумот кам топилди"); render(); }catch(e){}
+    for(const z of texts){ const d=V.fcEdit; if(!d) break; weak=!(d.number&&d.date&&d.amount&&d.seller?.name); if(!(aiAuto(weak)&&aiCanRead(z.x))) break; await fcAiFill(z.x); } return; }
+  if(el.id==="fcDocFile"&&V.fcDoc&&el.files.length>1&&V.fcId){ const fs=[...el.files]; el.value=""; const c=S.recs.find(x=>x.id===V.fcId), f=firm(V.firmId), kind=V.fcDoc.kind; if(!c||!f) return; V.fcDoc=null; V.fcSub=kind; render(); await fcSpecBatch(c,f,fs,kind); return render(); }
   if(el.id==="fcDocFile"&&V.fcDoc){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcDoc.pendingFile=fl; toast("PDF ўқилмоқда…");
     try{ const p=await fcDocRead(fl,V.fcDoc.kind); const d=V.fcDoc.d; let n=0; ["no","date","currency","total"].forEach(k=>{ if(p[k]){ d[k]=p[k]; n++; } }); if(p.items.length&&!(d.items||[]).some(x=>x.name)){ d.items=p.items; n++; } V.fcDoc.auto=n; toast(n?n+" та маълумот PDF'дан олинди":"PDF'дан маълумот топилмади — қўлда киритинг"); }catch(er){ toast("PDF'ни ўқиб бўлмади"); } return render(); }
   if((el.id==="fcDocFiles"||el.id==="fcAddFiles")&&V.fcId){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const kind=el.id==="fcAddFiles"?"add":el.dataset.kind; const c=S.recs.find(x=>x.id===V.fcId); const f=firm(V.firmId); if(!c) return;
+    if(fs.length===1&&kind==="spec"){ let t=""; try{ t=await fcReadPdf(fs[0]); }catch(e){} if(fcSpecSplit(t).length>1){ await fcSpecBatch(c,f,fs,kind); return render(); } }
     if(fs.length===1){ const fl=fs[0]; toast("PDF ўқилмоқда…"); let p={items:[]}; try{ p=await fcDocRead(fl,kind); }catch(e){}
-      if(kind==="add"){ return go({fcAdd:{id:uid(),no:p.no||String((c.addenda||[]).length+1),date:p.date||localToday(),content:p.content||"",newAmount:p.newAmount||"",newEnd:p.newEnd||"",pendingFile:fl,auto:p.auto}}); }
+      if(kind==="add"){ return go({fcAdd:{id:uid(),src:"up",no:p.no||String((c.addenda||[]).length+1),date:p.date||localToday(),content:p.content||"",newAmount:p.newAmount||"",newEnd:p.newEnd||"",pendingFile:fl,auto:p.auto}}); }
       const D=fcDocNew(c,kind); Object.assign(D.d,{no:p.no||D.d.no,date:p.date||D.d.date,currency:p.currency||D.d.currency,total:p.total||""}); if(p.items.length) D.d.items=p.items; D.pendingFile=fl; D.auto=p.auto; return go({fcDoc:D}); }
+    if(kind!=="add"){ await fcSpecBatch(c,f,fs,kind); return render(); }
     let ok=0; for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const p=await fcDocRead(fl,kind); const file=await driveUpload(fl,`${safeName(f.name)} — контракт ${String(c.number||"").replace(/[\/:*?"<>|]/g,"-")} — ${fl.name}`.slice(0,180),{...attLoc("recs",c),sub:[...attLoc("recs",c).sub,kind==="add"?"Қўшимча келишувлар":kind==="spec"?"Спецификациялар":"Актлар"]});
-        if(kind==="add") await fcPut(c.id,cc=>{ (cc.addenda=cc.addenda||[]).push({id:uid(),no:p.no||"",date:p.date||"",content:p.content||"",newAmount:p.newAmount||"",newEnd:p.newEnd||"",file}); },`Қўшимча келишув PDF'дан қўшилди (${fl.name})`);
+        if(kind==="add") await fcPut(c.id,cc=>{ (cc.addenda=cc.addenda||[]).push({id:uid(),src:"up",no:p.no||"",date:p.date||"",content:p.content||"",newAmount:p.newAmount||"",newEnd:p.newEnd||"",file}); },`Қўшимча келишув PDF'дан қўшилди (${fl.name})`);
         else { const key=kind==="spec"?"specs":"acts"; await fcPut(c.id,cc=>{ (cc[key]=cc[key]||[]).push({id:uid(),no:p.no||"",date:p.date||"",currency:p.currency||cc.currency,items:p.items,total:p.total||"",note:"PDF'дан юкланди",counts:kind==="act"&&cc.subj!=="товар",file}); },`${kind==="spec"?"Спецификация":"Акт"} PDF'дан қўшилди (${fl.name})`); }
         ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
     toast(ok+" та ҳужжат қўшилди — маълумотларини текширинг"); return render(); }
-  if(el.id==="fcAddFile"&&V.fcAdd){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcAdd.pendingFile=fl; try{ const p=await fcDocRead(fl,"add"); ["no","date","newAmount","newEnd","content"].forEach(k=>{ if(p[k]&&!V.fcAdd[k]) V.fcAdd[k]=p[k]; }); V.fcAdd.auto=p.auto; }catch(e){} return render(); }
+  if(el.id==="fcAddFile"&&V.fcAdd&&!fcAddIsUp(V.fcAdd)){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcAdd.pendingFile=fl; toast("Имзоланган нусха бириктирилди — «Сақлаш»ни босинг"); return render(); }
+  if(el.id==="fcAddFile"&&V.fcAdd){ const fl=el.files[0]; el.value=""; if(!fl) return; V.fcAdd.pendingFile=fl; V.fcAdd.src="up"; try{ const p=await fcDocRead(fl,"add"); ["no","date","newAmount","newEnd","content"].forEach(k=>{ if(p[k]&&!V.fcAdd[k]) V.fcAdd[k]=p[k]; }); V.fcAdd.auto=p.auto; }catch(e){} return render(); }
   if(el.id==="trFiles"){ const fs=[...el.files]; el.value=""; const f=firm(V.firmId); if(fs.length&&f) await trReadFiles(f,fs,trOn(f).some(d=>d.k===V.trKind)?V.trKind:trOn(f)[0]?.k); return; }
   if(el.id==="trOne"&&V.trEdit){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const d=V.trEdit; d.pending=(d.pending||[]).concat(fs.map(x=>({file:x,name:x.name})));
     for(const x of fs){ try{ const {text,rows}=await fileText(x); const p=trParse(text,rows,firm(V.firmId)); let n=0; if(p.accrued!=null&&!d.accrued){ d.accrued=String(p.accrued); n++; } if(p.payable!=null&&!d.payable){ d.payable=String(p.payable); n++; } if(n) toast(n+" та сумма файлдан олинди — текширинг"); }catch(e){} }
@@ -8763,8 +9028,9 @@ document.addEventListener("submit",async e=>{
   if(e.target.id==="fcForm"){ e.preventDefault(); const d=V.fcEdit; const f=firm(V.firmId); if(!d||!f) return; const err=$("#fcErr");
     if(!String(d.number||"").trim()){ err.textContent="Контракт рақамини киритинг."; $("#fc_number").focus(); return; } if(!d.date){ err.textContent="Контракт санасини киритинг."; return; }
     const btn=e.target.querySelector("[type=submit]"); btn.disabled=true;
-    try{ if(d.pendingFile) d.file=await driveUpload(d.pendingFile,`${safeName(f.name)} — ташқи савдо контракти ${String(d.number).replace(/[\/:*?"<>|]/g,"-")} ${fmtDate(d.date)}.pdf`.slice(0,180),attLoc("recs",d));
-      const o=JSON.parse(JSON.stringify({...d,pendingFile:undefined})); delete o.pendingFile; if(o.amount) o.amount=String(num(o.amount)); const isNew=!S.recs.some(x=>x.id===o.id);
+    try{ if(d.pendingFile) d.file=await driveUpload(d.pendingFile,`${safeName(f.name)} — ташқи савдо контракти ${String(d.number).replace(/[\/:*?"<>|]/g,"-")} ${fmtDate(d.date)}.pdf`.slice(0,180),attLoc("recs",d)); d.pendingFile=null;
+      if((d.pendingExtra||[]).length){ const up=await uploadPending(f,d.pendingExtra.map(x=>({file:x,name:x.name})),"ташқи савдо контракти "+String(d.number).replace(/[\/:*?"<>|]/g,"-"),attLoc("recs",d)); d.files=(d.files||[]).concat(up.map(u=>({...u,part:1}))); d.pendingExtra=[]; }
+      const o=JSON.parse(JSON.stringify({...d,pendingFile:undefined,pendingExtra:undefined})); delete o.pendingFile; delete o.pendingExtra; if(o.amount) o.amount=String(num(o.amount)); const isNew=!S.recs.some(x=>x.id===o.id);
       if(!isNew){ const cur=S.recs.find(x=>x.id===o.id); ["specs","acts","addenda","payments"].forEach(k=>o[k]=cur[k]||[]); }
       await putItem("recs",o,`Ташқи савдо контракти ${fcLbl(o)} ${isNew?"қўшилди":"ўзгартирилди"}`); toast("Сақланди"); V.fcEdit=null; V.fcId=o.id; V.fcSub=isNew?"spec":(V.fcSub||"info"); }
     catch(er){ btn.disabled=false; err.textContent=explain(er); return; } return render(); }
@@ -8776,7 +9042,7 @@ document.addEventListener("submit",async e=>{
       toast("Сақланди"); V.fcDoc=null; V.fcSub=D.kind; }
     catch(er){ btn.disabled=false; $("#fdErr").textContent=explain(er); return; } return render(); }
   if(e.target.id==="fcAddForm"){ e.preventDefault(); const d=V.fcAdd; const f=firm(V.firmId); if(!d||!f) return; const btn=e.target.querySelector("[type=submit]"); btn.disabled=true;
-    try{ const o=JSON.parse(JSON.stringify({...d,pendingFile:undefined,auto:undefined})); delete o.pendingFile; delete o.auto; if(d.pendingFile) o.file=await driveUpload(d.pendingFile,`${safeName(f.name)} — қўшимча келишув ${o.no||""} — ${d.pendingFile.name}`.slice(0,180),(()=>{ const c=S.recs.find(x=>x.id===V.fcId)||{firmId:f.id}; const L=attLoc("recs",c); return {...L,sub:[...L.sub,"Қўшимча келишувлар"]}; })()); if(o.newAmount) o.newAmount=String(num(o.newAmount));
+    try{ const src=fcAddIsUp(d)?"up":"tpl"; const o=JSON.parse(JSON.stringify({...d,pendingFile:undefined,auto:undefined})); delete o.pendingFile; delete o.auto; o.src=src; if(src==="tpl"&&!String(o.content||"").trim()){ const b0=fcAddBodyPts(o)[0]; o.content=b0?b0.slice(0,140):[num(o.newAmount)?"Сумма: "+m2(num(o.newAmount)):"",o.newEnd?"Муддат: "+fmtDate(o.newEnd):""].filter(Boolean).join("; "); } if(d.pendingFile) o.file=await driveUpload(d.pendingFile,`${safeName(f.name)} — қўшимча келишув ${o.no||""} — ${d.pendingFile.name}`.slice(0,180),(()=>{ const c=S.recs.find(x=>x.id===V.fcId)||{firmId:f.id}; const L=attLoc("recs",c); return {...L,sub:[...L.sub,"Қўшимча келишувлар"]}; })()); if(o.newAmount) o.newAmount=String(num(o.newAmount));
       await fcPut(V.fcId,c=>{ c.addenda=c.addenda||[]; const i=c.addenda.findIndex(x=>x.id===o.id); if(i>=0) c.addenda[i]=o; else c.addenda.push(o); },`Қўшимча келишув № ${o.no||""} сақланди`); toast("Сақланди"); V.fcAdd=null; V.fcSub="add"; }
     catch(er){ btn.disabled=false; $("#faErr").textContent=explain(er); return; } return render(); }
   if(e.target.id==="fcPayForm"){ e.preventDefault(); const fm=e.target; const amt=num(fm.amount.value); if(!fm.date.value||!amt){ toast("Сана ва суммани киритинг"); return; }
