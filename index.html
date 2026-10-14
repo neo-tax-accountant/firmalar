@@ -919,6 +919,11 @@ th.tfth:hover .tfbtn,.tfbtn:focus-visible{opacity:1;border-color:var(--line);bac
 .ppdoc{border-bottom:1px dashed var(--line);padding-bottom:6px}.ppg{margin:4px 0 2px 22px}.ppgh{font-size:13px;color:var(--muted);font-weight:600}.ppgh i{font-style:normal;font-size:11px;background:var(--bg);border-radius:6px;padding:0 5px;margin-left:4px}.ppi{display:block;margin-left:22px;font-size:13px;word-break:break-word}.pph,.ppgh,.ppi,.ppall label{cursor:pointer}.ppbox .actions{justify-content:flex-start;flex-wrap:wrap}
 
 .attl .trfile{flex-wrap:wrap}.attl .trfile .attai{order:9}.attai{display:block;flex-basis:100%;font-size:12px;color:#b45309;margin:2px 0 0 26px;line-height:1.35}.attai i{display:block;font-style:normal;color:var(--muted)}.attaib{font-size:12px;color:#c2410c}
+
+.sgpill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}.sg-dr{background:#f1f5f9;color:#475569;box-shadow:0 0 0 1px #cbd5e1}.sg-se{background:#e0f2fe;color:#0369a1;box-shadow:0 0 0 1px #7dd3fc}.sg-si{background:#dcfce7;color:#15803d;box-shadow:0 0 0 1px #86efac}.sg-ca{background:#fee2e2;color:#b91c1c;box-shadow:0 0 0 1px #fca5a5;text-decoration:line-through}
+.sgbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 12px}.sgbtn{border:0;border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;opacity:.55}.sgbtn.on{opacity:1;outline:2px solid currentColor;outline-offset:1px}.sgbtn.sg-ca{text-decoration:none}
+.ckcard{margin-bottom:14px}.ckcard>summary{display:flex;gap:10px;align-items:center;padding:12px 16px;cursor:pointer;list-style:none;flex-wrap:wrap}.ckcard>summary::-webkit-details-marker{display:none}.ckscore{min-width:38px;height:38px;border-radius:50%;display:inline-grid;place-items:center;font-weight:800;color:#fff}.ckscore.ok{background:#16a34a}.ckscore.soon{background:#d97706}.ckscore.bad{background:#dc2626}
+.cklist{list-style:none;margin:0;padding:0 16px 12px;display:flex;flex-direction:column;gap:6px}.cklist li{display:flex;gap:8px;align-items:flex-start;font-size:13.5px}.cklist li>span{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;margin-top:1px}.cklist li.bad>span{background:#dc2626}.cklist li.warn>span{background:#d97706}.cklist li.info>span{background:#64748b}
 </style>
 </head>
 <body>
@@ -2524,6 +2529,7 @@ const CT_DIR={in:{t:"Кирувчи",s:"сотиб олиш · етказиб б
 const CT_SUBJ={"товар":"Товар","хизмат":"Хизмат","иш":"Иш (пудрат)"};
 const firmContracts=id=>S.recs.filter(r=>r.firmId===id&&r.type==="contract").sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.createdAt||0)-(a.createdAt||0));
 function ctState(C){
+  if(C.sign==="cancelled") return {cls:"off",t:"Бекор қилинган"};
   if(C.status==="closed") return {cls:"off",t:"Ёпиқ"};
   const e=dnum(C.endDate); if(e==null) return {cls:"ok",t:"Очиқ"};
   const left=e-tdNum();
@@ -2533,7 +2539,7 @@ function ctState(C){
 }
 function ctAlerts(f){
   const out=[];
-  firmContracts(f.id).forEach(C=>{ if(C.status==="closed") return; const e=dnum(C.endDate); if(e==null) return; const left=e-tdNum();
+  firmContracts(f.id).forEach(C=>{ if(C.status==="closed"||C.sign==="cancelled") return; const e=dnum(C.endDate); if(e==null) return; const left=e-tdNum();
     const nm=`Шартнома № ${C.number||"—"} (${C.cp?.name||""})`;
     if(left<0) out.push({lvl:"bad",tab:"contracts",t:`${nm}: муддати ${-left} кун олдин тугаган, лекин «Очиқ» турибди — узайтиринг ёки ёпинг`});
     else if(left<=30) out.push({lvl:"soon",tab:"contracts",t:`${nm}: ${left} кундан кейин муддати тугайди (${fmtDate(C.endDate)})`}); });
@@ -2560,6 +2566,7 @@ function ctFields(d,pfx,auto,firmId){
     ${inp("number","Шартнома рақами")}
     ${inp("date","Шартнома санаси","date")}
     ${inp("endDate","Тугаш санаси","date")}
+    <div class="field"><label for="${id("sign")}">Имзо ҳолати</label><select id="${id("sign")}" name="${pfx}|sign">${Object.entries(CT_SIGN).map(([k,o])=>`<option value="${k}" ${ctSign(d)===k?"selected":""}>${o.t}</option>`).join("")}</select></div>
     ${sel("status","Ҳолати",[["open","Очиқ (амалда)"],["closed","Ёпиқ (якунланган)"]])}
     ${sel("subj","Предмети",[["","— танланг —"],["товар","Товар"],["хизмат","Хизмат"],["иш","Иш (пудрат)"]])}
     ${inp("amount","Шартнома суммаси","text",'inputmode="decimal" placeholder="0"')}
@@ -2584,6 +2591,7 @@ function ctTableHTML(f){
   let cs=firmContracts(f.id).filter(c=>(c.dir||"in")===dir);
   if(st!=="all") cs=cs.filter(c=>st==="open"?c.status!=="closed":st==="closed"?c.status==="closed":ctState(c).cls==="bad"||ctState(c).cls==="soon");
   if(sj!=="all") cs=cs.filter(c=>c.subj===sj);
+  if(V.ctSg&&V.ctSg!=="all") cs=cs.filter(c=>ctSign(c)===V.ctSg);
   if(V.ctY) cs=cs.filter(c=>String(c.date||"").startsWith(V.ctY));
   if(q) cs=cs.filter(c=>[c.number,c.cp?.name,c.cp?.inn,c.subject,c.note,docCode(c)].some(x=>String(x||"").toLowerCase().includes(q)));
   if(!cs.length) return `<div class="empty"><b>Шартнома топилмади</b>${firmContracts(f.id).some(c=>(c.dir||"in")===dir)?"Филтр ёки қидирувни ўзгартиринг.":"«PDF юклаш» орқали шартномаларни юкланг ёки «Шартнома қўшиш» билан қўлда киритинг."}</div>`;
@@ -2599,7 +2607,7 @@ function vContracts(f){
   if(V.ctDir==="poa") return poaView(f);
   const dir=V.ctDir||"in";
   const cs=all.filter(c=>(c.dir||"in")===dir);
-  const sums={}; cs.filter(c=>c.status!=="closed").forEach(c=>{ const k=c.currency||"UZS"; sums[k]=(sums[k]||0)+num(c.amount); });
+  const sums={}; cs.filter(c=>c.status!=="closed"&&c.sign!=="cancelled").forEach(c=>{ const k=c.currency||"UZS"; sums[k]=(sums[k]||0)+num(c.amount); });
   const sumTxt=Object.entries(sums).filter(([,v])=>v).map(([k,v])=>m0(v)+(k==="UZS"?"":" "+k)).join(" + ")||"0";
   const soon=cs.filter(c=>ctState(c).cls==="soon").length, bad=cs.filter(c=>ctState(c).cls==="bad").length;
   const tab=k=>{ const P=CT_DIR[k]; const n=all.filter(c=>(c.dir||"in")===k).length; return `<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t} шартномалар</b><span>${P.s}</span><i>${n}</i></button>`; };
@@ -2613,7 +2621,7 @@ function vContracts(f){
     <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">30 кун ичида тугайди</span><span class="v">${soon} та</span><span class="s">узайтириш керакми?</span></div>
     <div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">Муддати ўтган, очиқ</span><span class="v">${bad} та</span><span class="s">ёпиш ёки узайтириш</span></div>
   </div>`:""}
-  <div class="ctfilters"><div class="chips">${chip("ctSt","all","Ҳаммаси")}${chip("ctSt","open","Очиқ")}${chip("ctSt","closed","Ёпиқ")}${chip("ctSt","due","Муддати яқин / ўтган")}</div><div class="chips">${chip("ctSj","all","Барча предмет")}${chip("ctSj","товар","Товар")}${chip("ctSj","хизмат","Хизмат")}${chip("ctSj","иш","Иш")}</div><div class="chips">${fsel("ctY",yearOpts(firmContracts(f.id).map(c=>c.date)),"Барча йиллар")}${fclear(["ctSt","ctSj","ctY","ctQ"])}</div></div>
+  <div class="ctfilters"><div class="chips">${chip("ctSt","all","Ҳаммаси")}${chip("ctSt","open","Очиқ")}${chip("ctSt","closed","Ёпиқ")}${chip("ctSt","due","Муддати яқин / ўтган")}</div><div class="chips">${chip("ctSj","all","Барча предмет")}${chip("ctSj","товар","Товар")}${chip("ctSj","хизмат","Хизмат")}${chip("ctSj","иш","Иш")}</div><div class="chips">${chip("ctSg","all","Ҳар қандай ҳолат")}${Object.entries(CT_SIGN).map(([k,o])=>chip("ctSg",k,o.t)).join("")}</div><div class="chips">${fsel("ctY",yearOpts(firmContracts(f.id).map(c=>c.date)),"Барча йиллар")}${fclear(["ctSt","ctSj","ctY","ctQ","ctSg"])}</div></div>
   <div class="card" id="ctTable">${ctTableHTML(f)}</div>`;
 }
 function ctForm(f,d){
@@ -2626,6 +2634,7 @@ function ctForm(f,d){
       <label class="btn">${fl||V.ctEditFile?"PDF'ни алмаштириш":"PDF бириктириш"}<input type="file" id="ctOneFile" accept="application/pdf,.pdf" hidden></label></div>
     ${V.ctEditAuto?.size?`<p class="hint"><span class="autolg"></span> рангли майдонлар PDF'дан автомат олинди — текшириб чиқинг.</p>`:""}
     ${ctFields(d,"ct",V.ctEditAuto,f.id)}
+    ${itemsEditor(d,"ct",false,d.currency&&d.currency!=="UZS"?d.currency:"сўм")}
     ${ctCpDatalist(f.id)}
     <p class="err" id="ctErr" role="alert"></p>
     <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="ctBack">Бекор қилиш</button></div>
@@ -2660,9 +2669,10 @@ function ctDetail(f,C){
   const cp=C.cp||{};
   const cpi=[["Фирма номи",cp.name],["СТИР",cp.inn],["Раҳбари",cp.director],["Манзили",cp.address],["Банк",cp.bank],["Ҳисоб рақами",cp.account],["МФО",cp.mfo],["Телефон",cp.phone]];
   return `<button type="button" class="back" data-act="ctBack">← Шартномалар</button>
-  <div class="toolbar"><div class="lhead"><h2>Шартнома № ${esc(C.number||"—")}</h2>${didChip(C)}<span class="ctdirp" style="--c:${P.c};--cl:${P.l}">${P.t}</span><span class="lpill ${s.cls}">${s.t}</span></div>
+  <div class="toolbar"><div class="lhead"><h2>Шартнома № ${esc(C.number||"—")}</h2>${didChip(C)}<span class="ctdirp" style="--c:${P.c};--cl:${P.l}">${P.t}</span>${ctSignPill(C)}<span class="lpill ${s.cls}">${s.t}</span></div>
     <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${PDF_ICON}PDF'ни очиш</a>`:""}${C.gen?`<button type="button" class="btn" data-act="ctgPrint">${PRINT_ICON}Матнни чоп этиш</button><button type="button" class="btn" data-act="ctgWord">${DL_ICON}Word</button>`:""}<button type="button" class="btn" data-act="ctToggle">${C.status==="closed"?"Қайта очиш":"Ёпиш"}</button><button type="button" class="btn" data-act="editContract">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="askDel">Ўчириш</button></div></div>
   ${V.confirm?`<div class="confirm">Шартнома № ${esc(C.number||"")} (${esc(cp.name||"")}) рўйхатдан ўчирилади. PDF файл Google Drive'да қолади. <button type="button" class="btn danger" data-act="delContract">Ҳа, ўчириш</button><button type="button" class="btn ghost" data-act="cancelDel">Бекор қилиш</button></div>`:""}
+  ${ctSignBar(C)}${checkCard("ct",C,ctChecks(C))}
   <div class="lcols">
     <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Шартнома маълумотлари","contracts",30)}</div><div class="reqs">${info.map(([k,v])=>kv(k,v,false)).join("")}</div></div>
     <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Контрагент реквизитлари","firm",30)}</div><div class="reqs">${cpi.map(([k,v])=>kv(k,v||"",/СТИР|рақами|МФО/.test(k))).join("")}</div>
@@ -2671,7 +2681,7 @@ function ctDetail(f,C){
   ${(()=>{ const nrm=x=>String(x||"").trim().toLowerCase(); const gl=S.gtd.filter(r=>r.firmId===C.firmId&&r.contract&&nrm(r.contract.no)===nrm(C.number)); if(!gl.length) return "";
     const pay={}; gl.forEach(r=>Object.entries(r.pay||{}).forEach(([k,v])=>pay[k]=(pay[k]||0)+v)); const inv=gl.reduce((a,r)=>a+(r.invoice||0),0);
     return `<div class="card"><div class="label" style="padding:12px 16px 0">${GH(`Шу шартнома бўйича ГТДлар (${gl.length} та)`,"import",30)}</div><p class="hint" style="padding:6px 16px 0">Фактура жами: <b>${m2(inv)} ${esc(gl[0].currency||"")}</b>${C.amount?` · шартнома суммасининг ${Math.round(inv/num(C.amount)*1000)/10}%`:""} · ${esc(gPayTxt(pay))}</p><div class="tablewrap"><table class="ltable"><thead><tr><th>ГТД №</th><th>Сана</th><th class="r">Фактура</th><th class="r">Тўловлар</th></tr></thead><tbody>${gl.map(r=>`<tr data-gogtd="${esc(r.id)}" tabindex="0"><td class="num">${esc(r.no)}</td><td class="num">${fmtDate(r.date)}</td><td class="num r">${m2(r.invoice)} ${esc(r.currency||"")}</td><td class="num r">${m2(r.payTotal)}</td></tr>`).join("")}</tbody></table></div></div>`; })()}
-  ${ctPoaCard(C)}
+  ${itemsCard(C,"ct")}${pdfOpenBox(C,"Шартнома PDF")}${ctPoaCard(C)}
   <div class="card ctfilebox">${PDF_ICON}<div>${C.file?`<b>${esc(C.file.name||"PDF")}</b><span class="hint">${C.file.size?(C.file.size/1024/1024).toFixed(2)+" МБ · ":""}${C.file.by?"юклаган: "+esc(nameOf(C.file.by))+" · ":""}${C.file.at?fmtStamp(C.file.at):""}${C.file.demo&&!u?" · демо режимда файл қайта юклангандан кейин сақланмайди":""}</span>`:`<b>PDF бириктирилмаган</b><span class="hint">Шартноманинг сканер ёки PDF нусхасини бириктиринг.</span>`}</div>
     <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">Очиш</a>`:""}<label class="btn">${C.file?"Алмаштириш":"PDF бириктириш"}<input type="file" id="ctAttach" accept="application/pdf,.pdf" hidden></label></div></div>
   ${attachBox("recs",C,"Бириктирилган файллар (PDF, скан, Excel)")}${histBox(C)}`;
@@ -2805,6 +2815,7 @@ function ctClean(d){
   ["number","subject","note"].forEach(k=>{ if(typeof d[k]==="string") d[k]=d[k].trim(); });
   d.cp=d.cp||{}; Object.keys(d.cp).forEach(k=>{ if(typeof d.cp[k]==="string") d.cp[k]=d.cp[k].trim(); });
   if(d.amount) d.amount=String(num(d.amount));
+  if(Array.isArray(d.items)) d.items=d.items.filter(i=>String(i.name||"").trim()||num(i.sum)).map(i=>({...i,sum:i.sum||(num(i.qty)&&num(i.price)?String(Math.round(num(i.qty)*num(i.price)*100)/100):"")}));
 }
 function ctValidate(d){
   if(!d.cp?.name) return "Контрагент (фирма номи)ни киритинг.";
@@ -4519,8 +4530,8 @@ function fcDetail(f,c){
   const cnt={spec:(c.specs||[]).length,act:(c.acts||[]).length,add:(c.addenda||[]).length,pay:(c.payments||[]).length};
   let body="";
   if(sub==="info"){ const party=(k2,t)=>{ const p=c[k2]||{}; if(!p.name) return ""; return `<div class="card"><div class="label" style="padding:12px 16px 0">${t}</div><div class="reqs">${FC_PF.filter(([pk])=>p[pk]).map(([pk,pl])=>kv(pl,p[pk],/account|swift|regNo/.test(pk))).join("")}</div></div>`; };
-    body=`<div class="card"><div class="reqs">${[["Йўналиш",FC_DIR[c.dir||"imp"].t],["Контракт ИДН",c.idn],["Контракт рақами ва санаси",fcLbl(c)],["Амалдаги сумма",m2(e.amount)+" "+(c.currency||"")+(e.amount!==num(c.amount)?" (дастлабки "+m2(num(c.amount))+")":"")],["ГТДлар бўйича келган товарлар",(()=>{ const o=fcOver(c); return o.gN?m2(o.gtd)+" "+(c.currency||"")+" ("+o.gN+" та ГТД"+(o.amount?", "+Math.round(o.gtd/o.amount*100)+"%":"")+")"+(o.gMis?" · "+o.gMis+" таси бошқа валютада":""):"ГТД топилмади"; })()],["Спецификациялар жами",(()=>{ const o=fcOver(c); return o.sN?m2(o.spec)+" "+(c.currency||"")+" ("+o.sN+" та)":""; })()],["Амал қилиш муддати",fmtDate(e.end)],["Предмети",(c.subj||"")+(c.subject?": "+c.subject:"")],["Тўлов шарти",FC_PAY[c.payType]+(c.payType==="mixed"&&c.prepayPct?", олдиндан "+c.prepayPct+"%":"")],["Муддатлар",(c.payType!=="post"?"олдиндан тўлов — "+(c.prepayDays||180)+" кун":"")+(c.payType!=="prepay"?(c.payType==="mixed"?"; ":"")+"фактда тўлов — "+(c.postDays||180)+" кун":"")],["Инкотермс",c.incoterms?(c.incoterms+" — "+(INCOTERMS.find(x=>x[0]===c.incoterms)?.[1]||"")):""],["Жўнатиш пункти",c.shipPoint],["Етказиб бериш пункти",c.deliveryPoint],["Транспорт",c.transport],["Изоҳ",c.note]].map(([a,b])=>kv(a,b||"")).join("")}</div></div>
-    ${FC_PARTIES.map(([k2,t,en])=>party(k2,t+" / "+en)).join("")}${attachBox("recs",c,"Контракт файллари ва бошқа ҳужжатлар (иловалар, инвойс, CMR, сертификат, ёзишмалар)")}${histBox(c)}`; }
+    body=`${checkCard("fc",c,fcChecks(c))}<div class="card"><div class="reqs">${[["Йўналиш",FC_DIR[c.dir||"imp"].t],["Контракт ИДН",c.idn],["Контракт рақами ва санаси",fcLbl(c)],["Амалдаги сумма",m2(e.amount)+" "+(c.currency||"")+(e.amount!==num(c.amount)?" (дастлабки "+m2(num(c.amount))+")":"")],["ГТДлар бўйича келган товарлар",(()=>{ const o=fcOver(c); return o.gN?m2(o.gtd)+" "+(c.currency||"")+" ("+o.gN+" та ГТД"+(o.amount?", "+Math.round(o.gtd/o.amount*100)+"%":"")+")"+(o.gMis?" · "+o.gMis+" таси бошқа валютада":""):"ГТД топилмади"; })()],["Спецификациялар жами",(()=>{ const o=fcOver(c); return o.sN?m2(o.spec)+" "+(c.currency||"")+" ("+o.sN+" та)":""; })()],["Амал қилиш муддати",fmtDate(e.end)],["Предмети",(c.subj||"")+(c.subject?": "+c.subject:"")],["Тўлов шарти",FC_PAY[c.payType]+(c.payType==="mixed"&&c.prepayPct?", олдиндан "+c.prepayPct+"%":"")],["Муддатлар",(c.payType!=="post"?"олдиндан тўлов — "+(c.prepayDays||180)+" кун":"")+(c.payType!=="prepay"?(c.payType==="mixed"?"; ":"")+"фактда тўлов — "+(c.postDays||180)+" кун":"")],["Инкотермс",c.incoterms?(c.incoterms+" — "+(INCOTERMS.find(x=>x[0]===c.incoterms)?.[1]||"")):""],["Жўнатиш пункти",c.shipPoint],["Етказиб бериш пункти",c.deliveryPoint],["Транспорт",c.transport],["Изоҳ",c.note]].map(([a,b])=>kv(a,b||"")).join("")}</div></div>
+    ${pdfOpenBox(c,"Контракт PDF")}${FC_PARTIES.map(([k2,t,en])=>party(k2,t+" / "+en)).join("")}${attachBox("recs",c,"Контракт файллари ва бошқа ҳужжатлар (иловалар, инвойс, CMR, сертификат, ёзишмалар)")}${histBox(c)}`; }
   if(sub==="spec"||sub==="act"){ const key=sub==="spec"?"specs":"acts", nm=sub==="spec"?"Спецификация":"Акт"; const list=(c[key]||[]).slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
     const tot=list.reduce((s,x)=>s+fcDocTotal(x),0);
     const spStats=sub==="spec"&&list.length?`<div class="lstats"><div class="lstat" style="--c:#818cf8;--cl:#c7d2fe"><span class="k">Контракт суммаси</span><span class="v">${m2(e.amount)}</span><span class="s">${esc(c.currency||"")}</span></div><div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Спецификациялар жами</span><span class="v">${m2(tot)}</span><span class="s">${list.length} та спецификация${e.amount?" · "+Math.round(tot/e.amount*1000)/10+"%":""}</span></div><div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">ГТДлар бўйича келган</span><span class="v">${m2(fcOver(c).gtd)}</span><span class="s">${fcOver(c).gN} та ГТД</span></div><div class="lstat" style="--c:${e.amount&&tot>e.amount?"#f87171;--cl:#fecaca":"#34d399;--cl:#a7f3d0"}"><span class="k">${e.amount&&tot>e.amount?"Контракт суммасидан ошиб кетди":"Қолдиқ (спецификация қилинмаган)"}</span><span class="v">${m2(Math.abs(e.amount-tot))}</span><span class="s">${e.amount&&tot>e.amount?"қўшимча келишув керак":esc(c.currency||"")}</span></div></div>`:"";
@@ -4666,7 +4677,7 @@ const COLS={
     {k:"subj",t:"Предмети",d:1,v:c=>`${c.subj?`<span class="ctsj ${c.subj==="товар"?"g":c.subj==="иш"?"w":"s"}">${CT_SUBJ[c.subj]||c.subj}</span>`:""}${c.subject?`<div class="ctsub">${esc(c.subject)}</div>`:""}`},
     {k:"amount",t:"Сумма",r:1,d:1,v:c=>`<span class="num">${esc(ctMoney(c))}</span>`},
     {k:"end",t:"Тугаш санаси",d:1,v:c=>`<span class="num">${fmtDate(c.endDate)||"—"}</span>`},
-    {k:"state",t:"Ҳолати",d:1,v:c=>{ const s=ctState(c); return `<span class="lpill ${s.cls}">${s.t}</span><div style="margin-top:4px">${ctPoaBadge(c)}</div>`; }},
+    {k:"state",t:"Ҳолати",d:1,v:c=>{ const s=ctState(c); return `${ctSignPill(c)} <span class="lpill ${s.cls}">${s.t}</span>${c.sign==="cancelled"?"":`<div style="margin-top:4px">${ctPoaBadge(c)}</div>`}`; }},
     {k:"pdf",t:"PDF",d:1,v:c=>{ const u=ctFileUrl(c.file); return u?`<a class="ctpdf" href="${esc(u)}" target="_blank" rel="noopener" title="${esc(c.file.name||"PDF")}">${PDF_ICON}</a>`:""; }},
     {k:"inn",t:"Контрагент СТИР",v:c=>`<span class="num">${esc(c.cp?.inn||"")}</span>`},
     {k:"director",t:"Контрагент раҳбари",v:c=>esc(c.cp?.director||"")},
@@ -8056,6 +8067,89 @@ async function ctAttachAi(C,fl){ const weak=!num(C.amount)||!C.cp?.inn||!C.endDa
   try{ toast("✦ Claude шартномани ўқимоқда…"); const r=await aiDoc(fl,firm(C.firmId),AI_SPEC.contract,fl.name); const m=aiCtMap(r.x); const cur=S.recs.find(x=>x.id===C.id); if(!cur) return; const o=JSON.parse(JSON.stringify(cur)); let n=0;
     Object.entries(m).forEach(([k,v])=>{ if(k==="dir") return; if(!getPath(o,k)&&v){ setPath(o,k,v); n++; } }); if(n){ await putItem("recs",o,`Claude шартнома PDF'идан ${n} та бўш майдонни тўлдирди`); toast(`✦ Claude ${n} та бўш майдонни тўлдирди · ${aiCents(r.usd)}`); } }
   catch(er){ toast("Claude: "+(er.message||er)); } }
+
+
+/* ================= Шартномалар: имзо ҳолати, товарлар, PDF кўриниши, тўлиқлик текшируви ================= */
+const CT_SIGN={draft:{t:"Хомаки",c:"sg-dr"},sent:{t:"Юборилган",c:"sg-se"},signed:{t:"Имзоланган",c:"sg-si"},cancelled:{t:"Бекор қилинган",c:"sg-ca"}};
+const ctSign=c=>CT_SIGN[c?.sign]?c.sign:(c?.gen&&!c?.file?"draft":"signed");
+const ctSignPill=c=>{ const k=ctSign(c); return `<span class="sgpill ${CT_SIGN[k].c}">${CT_SIGN[k].t}</span>`; };
+function ctSignBar(C){ const k=ctSign(C); return `<div class="sgbar" role="group" aria-label="Шартнома ҳолати"><span class="hint">Ҳолати:</span>${Object.entries(CT_SIGN).map(([v,o])=>`<button type="button" class="sgbtn ${o.c} ${k===v?"on":""}" data-cx="sign|${esc(C.id)}|${v}" aria-pressed="${k===v}">${o.t}</button>`).join("")}</div>`; }
+/* товарлар (контракт предмети) */
+AI_SPEC.contract.props.items={type:"array",description:"Goods / works / services lines ONLY if the contract text itself lists them with quantity, unit price or line amount. Leave empty if goods are determined later (by specifications, invoices, orders).",items:{type:"object",properties:{name:AI_S(),unit:AI_S(),qty:AI_N(),price:AI_N(),sum:AI_N()}}};
+AI_SPEC.contract.props.items_note=AI_S("If goods are NOT listed in the contract: one short sentence in Uzbek Cyrillic on how they are determined (e.g. «спецификация ва ҳисоб-фактуралар асосида»)");
+AI_SPEC.contract.max=Math.max(AI_SPEC.contract.max||2000,3500);
+const itMap=a=>(a||[]).map(i=>({name:String(i.name||""),hs:String(i.hs||""),unit:String(i.unit||""),qty:aiNum(i.qty),price:aiNum(i.price),sum:aiNum(i.sum??(num(i.qty)*num(i.price)||""))})).filter(i=>i.name||num(i.sum));
+{ const _m=aiCtMap; aiCtMap=function(x){ const o=_m(x); const its=itMap(x.items); if(its.length) o.items=its; if(x.items_note) o.itemsNote=String(x.items_note); return o; }; }
+const itRows=d=>(d?.items||[]).filter(i=>String(i.name||"").trim()||num(i.sum));
+const itSum=i=>num(i.sum)||Math.round(num(i.qty)*num(i.price)*100)/100;
+const itTotal=d=>Math.round(itRows(d).reduce((s,i)=>s+itSum(i),0)*100)/100;
+function itemsEditor(d,pfx,withHs,cur){ const L=d.items||[];
+  return `<div class="label">Контракт предмети — товарлар / ишлар / хизматлар <span class="hint">(контрактнинг ўзида миқдор ёки нарх кўрсатилган бўлса)</span></div>
+  <div class="tablewrap"><table class="sched vpet fcitems"><thead><tr><th>№</th><th>Номи</th>${withHs?"<th>ТИФ ТН</th>":""}<th>Ўлчов</th><th class="r">Миқдори</th><th class="r">Нархи</th><th class="r">Суммаси</th><th></th></tr></thead><tbody>
+  ${L.map((it,i)=>`<tr class="norow"><td class="num">${i+1}</td><td><input data-it="${pfx}|${i}|name" value="${esc(it.name||"")}" aria-label="Номи"></td>${withHs?`<td><input data-it="${pfx}|${i}|hs" value="${esc(it.hs||"")}" class="num" aria-label="ТИФ ТН"></td>`:""}<td><input data-it="${pfx}|${i}|unit" value="${esc(it.unit||"")}" class="vpdays" aria-label="Ўлчов"></td><td><input data-it="${pfx}|${i}|qty" value="${esc(it.qty||"")}" inputmode="decimal" class="r" aria-label="Миқдори"></td><td><input data-it="${pfx}|${i}|price" value="${esc(it.price||"")}" inputmode="decimal" class="r" aria-label="Нархи"></td><td><input data-it="${pfx}|${i}|sum" value="${esc(it.sum||"")}" inputmode="decimal" class="r" placeholder="${num(it.qty)&&num(it.price)?m2(num(it.qty)*num(it.price)):""}" aria-label="Суммаси"></td><td><button type="button" class="linkbtn danger" data-itx="${pfx}|del|${i}" aria-label="Ўчириш">✕</button></td></tr>`).join("")}
+  </tbody>${L.length?`<tfoot><tr><td></td><td colspan="${withHs?5:4}">Жами</td><td class="num r" id="${pfx}ItTot">${m2(itTotal(d))} ${esc(cur||"")}</td><td></td></tr></tfoot>`:""}</table></div>
+  <div class="lgrid"><button type="button" class="btn addrow" data-itx="${pfx}|add">＋ Позиция қўшиш</button><div class="field wide"><label for="${pfx}_itn">Товарлар кўрсатилмаган бўлса — қандай аниқланади</label><input id="${pfx}_itn" data-itn="${pfx}" value="${esc(d.itemsNote||"")}" placeholder="масалан: спецификациялар ва ҳисоб-фактуралар асосида"></div></div>`; }
+const itDraft=pfx=>pfx==="fc"?V.fcEdit:pfx==="ct"?V.ctEdit:null;
+document.addEventListener("input",e=>{ const el=e.target; if(el.dataset.it){ const [p,i,k]=el.dataset.it.split("|"); const d=itDraft(p); if(!d) return; const it=(d.items=d.items||[])[+i]; if(!it) return; it[k]=el.value; const tot=document.getElementById(p+"ItTot"); if(tot) tot.textContent=m2(itTotal(d))+" "+(d.currency||""); return; }
+  if(el.dataset.itn){ const d=itDraft(el.dataset.itn); if(d) d.itemsNote=el.value; } },true);
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-itx]"); if(!b) return; e.stopPropagation(); e.preventDefault(); const [p,a,i]=b.dataset.itx.split("|"); const d=itDraft(p); if(!d) return; d.items=d.items||[];
+  if(a==="add") d.items.push({name:"",hs:"",unit:p==="fc"?"дона":"",qty:"",price:"",sum:""}); if(a==="del") d.items.splice(+i,1); render(); },true);
+function specAgg(c){ const m={}; (c.specs||[]).forEach(s=>(s.items||[]).forEach(i=>{ const k=String(i.name||"").trim().toLowerCase()+"|"+String(i.unit||"").trim().toLowerCase(); const x=m[k]=m[k]||{name:i.name||"",unit:i.unit||"",hs:i.hs||"",qty:0,sum:0,n:0}; x.qty+=num(i.qty); x.sum+=itSum(i); x.n++; })); return Object.values(m).sort((a,b)=>b.sum-a.sum); }
+function itemsCard(c,kind){ const L=itRows(c), cur=c.currency||(kind==="ct"?"сўм":""); const amt=kind==="fc"?fcEff(c).amount:num(c.amount); const tot=itTotal(c); const hs=kind==="fc"&&L.some(i=>i.hs);
+  const tbl=(rows,sumOnly)=>`<div class="tablewrap"><table class="sched"><thead><tr><th>№</th><th>Номи</th>${hs?"<th>ТИФ ТН</th>":""}<th>Ўлчов</th><th class="r">Миқдори</th>${sumOnly?"":`<th class="r">Нархи</th>`}<th class="r">Суммаси</th></tr></thead><tbody>${rows.map((i,n)=>`<tr class="norow"><td class="num">${n+1}</td><td>${esc(i.name||"")}</td>${hs?`<td class="num">${esc(i.hs||"")}</td>`:""}<td>${esc(i.unit||"")}</td><td class="num r">${i.qty?m2(num(i.qty)):""}</td>${sumOnly?"":`<td class="num r">${num(i.price)?m2(num(i.price)):""}</td>`}<td class="num r">${m2(sumOnly?i.sum:itSum(i))}</td></tr>`).join("")}</tbody><tfoot><tr><td colspan="${(hs?4:3)+(sumOnly?0:1)}">Жами</td><td class="num r">${m2(sumOnly?rows.reduce((s,i)=>s+i.sum,0):tot)} ${esc(cur)}</td></tr></tfoot></table></div>`;
+  const ai=c.file&&aiCfg().key?`<button type="button" class="btn sm" data-cx="${kind}fill|${esc(c.id)}">✦ Claude PDF'дан ўқисин</button>`:"";
+  if(L.length) return `<div class="card"><div class="label" style="padding:12px 16px 0">Контракт предмети — товарлар (${L.length} та позиция)</div>${tbl(L)}${amt&&Math.abs(tot-amt)>0.01?`<p class="${tot>amt?"err":"hint"}" style="padding:6px 16px 12px">${tot>amt?"Диққат: товарлар жами контракт суммасидан ":"Товарлар жами контракт суммасидан "}${m2(Math.abs(tot-amt))} ${esc(cur)} ${tot>amt?"кўп":"кам"} (контракт: ${m2(amt)}).</p>`:`<div style="height:10px"></div>`}</div>`;
+  const ag=kind==="fc"?specAgg(c):[];
+  return `<div class="card"><div class="label" style="padding:12px 16px 0">Контракт предмети — товарлар</div><p class="hint" style="padding:6px 16px 0">Контракт матнида товарлар (номи, миқдори, нархи) аниқ кўрсатилмаган${c.itemsNote?": "+esc(c.itemsNote):"."}${c.subject?` Предмети: «${esc(c.subject)}».`:""}</p>
+    ${ag.length?`<p class="hint" style="padding:4px 16px 0"><b>Спецификациялар бўйича жамланма</b> (${(c.specs||[]).length} та спецификация):</p>${tbl(ag,true)}`:kind==="fc"?`<p class="hint" style="padding:4px 16px 0">Спецификация ҳам киритилмаган — товарлар «Спецификациялар» бўлимида кўринади.</p>`:""}
+    <div class="actions" style="padding:6px 16px 14px">${ai}<button type="button" class="btn sm" data-cx="${kind}edit|${esc(c.id)}">Товарларни қўлда киритиш</button></div></div>`; }
+function pdfOpenBox(c,label){ if(!c.file) return ""; return `<div class="card"><div class="label" style="padding:12px 16px 0">${esc(label)} — ${esc(c.file.name||"PDF")} <a class="linkbtn" href="${esc(ctFileUrl(c.file))}" target="_blank" rel="noopener">алоҳида ойнада очиш ↗</a></div>${pvBox("open-"+c.id+"-"+c.file.id,{ref:c.file},"margin:8px 12px 12px")}</div>`; }
+/* тўлиқлик текшируви */
+function fcChecks(c){ const R=[], add=(lvl,t,fix)=>R.push({lvl,t,fix}); const e=fcEff(c), oth=c.dir==="exp"?c.buyer||{}:c.seller||{}, our=c.dir==="exp"?c.seller||{}:c.buyer||{}; const today=localToday();
+  if(!c.file) add("bad","Контракт PDF бириктирилмаган","edit"); if(!c.idn) add("warn","ИДН (ЕЭИСВО / E-CONTRACT рақами) киритилмаган — божхона ва банк учун керак","edit");
+  if(!e.amount) add("bad","Контракт суммаси кўрсатилмаган","fill"); if(!c.endDate) add("warn","Амал қилиш муддати кўрсатилмаган","fill"); else if(e.end&&e.end<today&&c.status!=="closed") add("bad",`Муддати тугаган (${fmtDate(e.end)}) — узайтириш учун қўшимча келишув тузинг ёки контрактни ёпинг`,"add");
+  else if(e.end&&(new Date(e.end)-new Date(today))/864e5<=45&&c.status!=="closed") add("warn",`Муддати ${fmtDate(e.end)} да тугайди — узайтиришни режалаштиринг`,"add");
+  if(!c.incoterms) add("warn","Инкотермс (етказиб бериш шарти) кўрсатилмаган","fill"); if(!c.payType) add("warn","Тўлов шарти кўрсатилмаган","fill");
+  if(!oth.name) add("bad","Контрагент номи кўрсатилмаган","fill"); else { const miss=[["country","давлати"],["address","манзили"],["bank","банки"],["account","ҳисоб рақами"],["swift","SWIFT"]].filter(([k])=>!oth[k]).map(x=>x[1]); if(miss.length) add("warn","Контрагент реквизитлари тўлиқ эмас: "+miss.join(", "),"fill"); }
+  if(!our.account) add("warn","Ўз фирмамизнинг ҳисоб рақами контрактда кўрсатилмаган","edit");
+  const sp=(c.specs||[]).reduce((s,x)=>s+fcDocTotal(x),0);
+  if(!(c.specs||[]).length&&c.status!=="closed") add("info","Спецификация ҳали киритилмаган — товарлар спецификация ва ГТД орқали аниқланади","");
+  if(e.amount&&sp>e.amount+0.01) add("bad",`Спецификациялар жами контракт суммасидан ${m2(sp-e.amount)} ${c.currency||""} ошган — қўшимча келишув керак`,"add");
+  try{ const o=fcOver(c); if(e.amount&&o.gtd>e.amount+0.01) add("bad",`ГТДлар бўйича келган товар (${m2(o.gtd)}) контракт суммасидан ошган`,"add"); }catch(er){}
+  try{ const k=fcCalc(c), cu=c.currency||""; if(k.overAdv>0.01) add("bad",`Муддати ўтган олдиндан тўлов: ${m2(k.overAdv)} ${cu} — ${c.prepayDays||180} кун ичида товар келмаган (валюта назорати)`,""); if(k.overDebt>0.01) add("bad",`Муддати ўтган қарз: ${m2(k.overDebt)} ${cu} — етказиб берилгандан ${c.postDays||180} кун ичида тўланмаган`,""); }catch(er){}
+  if(!c.subject) add("info","Контракт предмети (қисқача тавсифи) ёзилмаган","fill"); return R; }
+function ctChecks(C){ const R=[], add=(lvl,t,fix)=>R.push({lvl,t,fix}); const cp=C.cp||{}; const sg=ctSign(C); if(sg==="cancelled") return [{lvl:"info",t:"Шартнома бекор қилинган — текширув ўтказилмайди"}];
+  if(!C.file) add(sg==="signed"?"bad":"warn","Шартнома PDF (имзоланган нусха) бириктирилмаган","edit"); if(sg==="draft") add("warn","Шартнома ҳали хомаки — контрагентга юборилмаган","sign"); if(sg==="sent") add("warn","Шартнома юборилган, лекин имзоланган деб белгиланмаган","sign");
+  if(!num(C.amount)) add("warn","Шартнома суммаси кўрсатилмаган","fill"); if(!C.endDate) add("warn","Тугаш санаси кўрсатилмаган","fill");
+  if(!cp.name) add("bad","Контрагент номи кўрсатилмаган","fill"); else { const miss=[["inn","СТИР"],["account","ҳисоб рақами"],["mfo","МФО"],["bank","банки"],["director","раҳбари"]].filter(([k])=>!cp[k]).map(x=>x[1]); if(miss.length) add("warn","Контрагент реквизитлари тўлиқ эмас: "+miss.join(", "),"fill"); }
+  if(cp.inn&&!/^\d{9}$/.test(String(cp.inn).replace(/\s/g,""))&&!/^\d{14}$/.test(String(cp.inn).replace(/\s/g,""))) add("warn","Контрагент СТИР 9 рақамдан иборат эмас — текширинг","edit");
+  if(cp.account&&String(cp.account).replace(/\s/g,"").length!==20) add("warn","Ҳисоб рақами 20 хонали эмас — текширинг","edit");
+  if(C.subj==="товар"&&!itRows(C).length&&!C.itemsNote) add("info","Товарлар рўйхати кўрсатилмаган (ёки қандай аниқланиши ёзилмаган)","fill");
+  if(itRows(C).length&&num(C.amount)&&Math.abs(itTotal(C)-num(C.amount))>0.01) add("warn",`Товарлар жами (${m2(itTotal(C))}) шартнома суммасига (${m2(num(C.amount))}) тенг эмас`,"edit");
+  const s=ctState(C); if(s.cls==="bad") add("bad","Муддати ўтган, лекин «Очиқ» турибди — узайтиринг ёки ёпинг","edit");
+  if(C.dir==="out"&&C.subj==="товар"&&sg==="signed"&&!(poaByContract(C.firmId)[C.id]||[]).length) add("info","Ишончнома юкланмаган (товар бериш учун харидордан ишончнома керак)","");
+  return R; }
+function checkCard(kind,c,R){ const n={bad:0,warn:0,info:0}; R.forEach(r=>n[r.lvl]=(n[r.lvl]||0)+1); const score=Math.max(0,100-n.bad*20-n.warn*8-n.info*3);
+  const fixBtn=r=>r.fix==="fill"&&c.file&&aiCfg().key?`<button type="button" class="linkbtn" data-cx="${kind}fill|${esc(c.id)}">✦ Claude тўлдирсин</button>`:r.fix==="edit"?`<button type="button" class="linkbtn" data-cx="${kind}edit|${esc(c.id)}">тузатиш</button>`:r.fix==="add"&&kind==="fc"?`<button type="button" class="linkbtn" data-cx="fcadd|${esc(c.id)}">қўшимча келишув</button>`:"";
+  return `<details class="card ckcard" ${n.bad||n.warn?"open":""}><summary><span class="ckscore ${score>=85?"ok":score>=60?"soon":"bad"}">${score}</span><b>${kind==="fc"?"Контракт":"Шартнома"} тўлиқлиги текшируви</b><span class="hint">${R.length?`${n.bad?n.bad+" та жиддий, ":""}${n.warn?n.warn+" та огоҳлантириш, ":""}${n.info?n.info+" та тавсия":""}`.replace(/, $/,""):"✓ Камчилик топилмади"}</span></summary>
+    ${R.length?`<ul class="cklist">${R.map(r=>`<li class="${r.lvl}"><span>${r.lvl==="bad"?"✕":r.lvl==="warn"?"!":"i"}</span><div>${esc(r.t)} ${fixBtn(r)}</div></li>`).join("")}</ul>`:""}
+    ${c.file&&aiCfg().key&&R.some(r=>r.fix==="fill")?`<div class="actions" style="padding:0 16px 14px"><button type="button" class="btn sm primary" data-cx="${kind}fill|${esc(c.id)}">✦ Claude PDF'дан барча бўш жойларни тўлдирсин</button></div>`:""}</details>`; }
+async function ckAiFill(kind,id){ const c=S.recs.find(x=>x.id===id); if(!c?.file) return; const f=firm(c.firmId);
+  toast("✦ Claude "+(kind==="fc"?"контрактни":"шартномани")+" ўқимоқда…");
+  try{ const blob=await driveFetch(c.file); const fl=new File([blob],c.file.name||"contract.pdf",{type:blob.type&&blob.type!=="application/octet-stream"?blob.type:"application/pdf"});
+    const r=await aiDoc(fl,f,kind==="fc"?AI_SPEC.fcontract:AI_SPEC.contract,fl.name); const o=JSON.parse(JSON.stringify(c)); const before=JSON.stringify(o);
+    if(kind==="fc") aiFcApply(o,r.x,f,false); else { const m=aiCtMap(r.x); Object.entries(m).forEach(([k,v])=>{ if(k==="dir") return; const cur=getPath(o,k); if(k==="items"){ if(!itRows(o).length) o.items=v; return; } if(cur==null||cur==="") setPath(o,k,v); }); }
+    if(JSON.stringify(o)!==before){ await putItem("recs",o,`Claude PDF'дан бўш маълумотларни тўлдирди`); toast(`✦ Claude бўш жойларни тўлдирди${itRows(o).length&&!itRows(c).length?" · "+itRows(o).length+" та товар":""} · ${aiCents(r.usd)}`); }
+    else toast(`✦ Claude янги маълумот топмади · ${aiCents(r.usd)}`); }
+  catch(er){ toast("Claude: "+(er.message||er)); } render(); }
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-cx]"); if(!b) return; e.stopPropagation(); e.preventDefault(); const [a,id,v]=b.dataset.cx.split("|");
+  if(a==="sign"){ const c=S.recs.find(x=>x.id===id); if(!c||ctSign(c)===v) return; const o=JSON.parse(JSON.stringify(c)); o.sign=v; o.signAt=o.signAt||{}; o.signAt[v]=Date.now(); if(v==="cancelled") o.status="closed";
+    try{ await putItem("recs",o,`Шартнома ҳолати: ${CT_SIGN[v].t}`); toast("Ҳолат: "+CT_SIGN[v].t); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="fcfill"||a==="ctfill"){ b.disabled=true; return ckAiFill(a.slice(0,2),id); }
+  if(a==="fcedit"){ const c=S.recs.find(x=>x.id===id); if(c) return go({fcEdit:JSON.parse(JSON.stringify(c))}); return; }
+  if(a==="ctedit"){ const c=S.recs.find(x=>x.id===id); if(c) return go({ctEdit:JSON.parse(JSON.stringify(c)),ctEditFile:null,ctEditAuto:null}); return; }
+  if(a==="fcadd"){ return go({fcSub:"add"}); }
+},true);
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
