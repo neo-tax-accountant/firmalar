@@ -1635,7 +1635,8 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-function setSync(){ const el=$("#syncLine"); if(el) el.textContent = LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11) : ""; }
+const APP_VER="22.10.2026 · в61";
+function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
 const V = { view:"home", firmId:null, tab:"orders", filter:"all", orderId:null, tplId:null, draft:null, confirm:false };
