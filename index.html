@@ -8197,6 +8197,73 @@ async function gtdRecheck(firmId){ const L=gtdList(firmId||null).filter(r=>!(r.f
   for(const r of L){ const o=gtdFix(JSON.parse(JSON.stringify(r)),null,r.firmId); if(JSON.stringify([o.contract,o.partner])!==JSON.stringify([r.contract,r.partner])){ try{ await putItem("gtd",o,`ГТД ${r.no}: шартнома/ҳамкор контрактлар бўйича аниқланди`); n++; }catch(er){} } }
   toast(n?`${n} та ГТДда шартнома ёки ҳамкор аниқлаштирилди`:"Ўзгариш топилмади"); render(); }
 
+
+/* ================= Ташқи савдо: валюта тўловлари (банк кўчирмасидан) ================= */
+NEW_REC_T.add("bankfx");
+AI_SPEC.fxbank={tool:"save_currency_statement",sec:"import",max:6000,desc:"Save all operations of a foreign currency bank account statement.",
+  prompt:"This is a bank statement (выписка / банк кўчирмаси) of our company's FOREIGN CURRENCY account (USD, EUR, CNY, RUB…). List EVERY operation. For each one decide its kind: foreign = payment to / receipt from a foreign company under a foreign trade contract; conversion = currency purchase/sale; commission = bank fee; own = transfer between our own accounts; other. The contract number is usually written in the payment purpose (e.g. «по контракту № 1-2024 от 01.06.2024», «contract No 15/2025», «invoice … under contract …»).",
+  props:{account:AI_S("Account number"),currency:AI_S("Account currency ISO code"),period_from:AI_S(),period_to:AI_S(),
+    ops:{type:"array",items:{type:"object",properties:{date:AI_S("Value date YYYY-MM-DD"),amount:AI_N("Amount in the account currency, positive"),currency:AI_S("ISO code"),direction:{type:"string",enum:["out","in"],description:"out = debit (money left our account), in = credit"},kind:{type:"string",enum:["foreign","conversion","commission","own","other"]},counterparty:AI_S("Beneficiary (for out) or payer (for in) name exactly as written"),country:AI_S("Counterparty country"),swift:AI_S("Counterparty bank SWIFT"),doc_no:AI_S("Payment document / reference number"),contract_no:AI_S("Contract number found in the purpose, without №"),contract_date:AI_S("Contract date from the purpose, YYYY-MM-DD"),invoice:AI_S("Invoice number from the purpose"),purpose:AI_S("Payment purpose, max 200 chars")}}}}};
+async function aiDocAny(file,f,spec){ if(aiCanRead(file)) return aiDoc(file,f,spec,file.name);
+  const {text}=await fileText(file); if(text.replace(/\s/g,"").length<30) throw new AiErr("Файлдан матн топилмади");
+  const common=`Our company is "${String(f?.name||"").replace(/"/g,"'")}" (СТИР ${f?.inn||"unknown"}). Dates YYYY-MM-DD, amounts plain numbers. Extract only what is written.`;
+  const r=await aiCall([{type:"text",text:spec.prompt+"\n\n"+common+"\n\nSTATEMENT (exported from Excel, columns separated by |):\n"+text.slice(0,90000)+"\n\nCall the "+spec.tool+" tool with the result."}],{name:spec.tool,description:spec.desc,input_schema:{type:"object",properties:spec.props}},{firmId:f?.id,sec:spec.sec,fname:file.name,max:spec.max||4000});
+  return {x:r.input||{},usd:r.usd}; }
+const fxpNm=x=>String(x||"").toUpperCase().replace(/\b(LIMITED|LTD|LLC|CO|COMPANY|CORP|CORPORATION|INC|GMBH|TRADING|IMPORT|EXPORT|AND|THE|OOO|ООО|МЧЖ|MCHJ)\b/g," ").replace(/[^A-ZА-ЯЁЎҚҒҲ0-9]+/g," ").trim();
+function fxpNameScore(a,b){ const A=fxpNm(a).split(" ").filter(w=>w.length>2), B=new Set(fxpNm(b).split(" ").filter(w=>w.length>2)); if(!A.length||!B.size) return 0; const hit=A.filter(w=>B.has(w)).length; return hit/Math.min(A.length,B.size); }
+function fxpMatch(fid,op){ const dirC=op.dir==="in"?"exp":"imp"; const fcs=firmFC(fid).filter(c=>(c.dir||"imp")===dirC);
+  const hay=fcNorm((op.ctNo||"")+" "+(op.purpose||""));
+  let L=fcs.filter(c=>{ const n=fcNorm(c.number); return n.length>=3&&(fcNorm(op.ctNo)===n||hay.includes(n)); });
+  if(L.length>1&&op.ctDate){ const L2=L.filter(c=>!c.date||c.date===op.ctDate); if(L2.length) L=L2; }
+  if(L.length===1) return {c:L[0],by:"рақам"};
+  const P=(L.length?L:fcs).map(c=>({c,s:fxpNameScore(op.cp,(dirC==="exp"?c.buyer:c.seller)?.name)})).filter(x=>x.s>=0.5).sort((a,b)=>b.s-a.s);
+  const open=P.filter(x=>x.c.status!=="closed"); const Q=open.length?open:P;
+  if(Q.length===1||(Q.length>1&&Q[0].s>Q[1].s)) return {c:Q[0].c,by:"ҳамкор номи"}; return null; }
+function fxpKind(c,amt,date){ if(c.payType==="prepay") return "prepay"; if(c.payType==="post") return "post"; try{ const k=fcCalc(c); return k.del-k.paid>=amt-0.01?"post":"prepay"; }catch(e){ return "prepay"; } }
+const fxpDup=(c,op)=>(c.payments||[]).some(p=>p.opKey===op.key||(p.date===op.date&&Math.abs(num(p.amount)-op.amount)<0.01));
+async function fxpAddToContract(c,op,fid){ if(fxpDup(c,op)) return "dup";
+  await fcPut(c.id,cc=>{ (cc.payments=cc.payments||[]).push({id:uid(),date:op.date,amount:String(op.amount),kind:fxpKind(cc,op.amount,op.date),note:`Банк кўчирмаси${op.doc?" № "+op.doc:""}: ${op.cp||""}${op.purpose?" — "+op.purpose.slice(0,90):""}`.slice(0,200),by:ME.email,src:"bank",opKey:op.key}); },`Валюта тўлови банк кўчирмасидан қўшилди: ${m2(op.amount)} ${op.cur||c.currency||""} (${fmtDate(op.date)})`);
+  return "added"; }
+const fxpList=fid=>S.recs.filter(r=>r.type==="bankfx"&&r.firmId===fid).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+function fxpOps(fid){ const out=[]; fxpList(fid).forEach(st=>(st.ops||[]).forEach((o,i)=>out.push({...o,stId:st.id,i,fname:st.file?.name||st.fname||""}))); return out.sort((a,b)=>(b.date||"").localeCompare(a.date||"")); }
+function fxpState(fid,o){ if(o.kind&&o.kind!=="foreign") return {cls:"off",t:{conversion:"Конвертация",commission:"Банк комиссияси",own:"Ўз ҳисобларимиз",other:"Бошқа"}[o.kind]||"Бошқа"};
+  const c=o.fcId&&S.recs.find(x=>x.id===o.fcId); if(c&&(c.payments||[]).some(p=>p.opKey===o.key)) return {cls:"ok",t:"✓ Контрактга қўшилди",c};
+  if(c&&fxpDup(c,o)) return {cls:"ok",t:"✓ Контрактда бор",c}; if(o.skip) return {cls:"off",t:"Ўтказиб юборилди"}; return {cls:"bad",t:"Контракт топилмади"}; }
+function vFxPay(f){ const ops=fxpOps(f.id), fl=V.fxpF||"foreign"; const L=ops.filter(o=>fl==="all"||(fl==="foreign"?(!o.kind||o.kind==="foreign"):fl==="bad"?fxpState(f.id,o).cls==="bad":true));
+  const fo=ops.filter(o=>!o.kind||o.kind==="foreign"); const sum={}; fo.filter(o=>o.dir!=="in").forEach(o=>{ sum[o.cur||"?"]=(sum[o.cur||"?"]||0)+o.amount; }); const bad=fo.filter(o=>fxpState(f.id,o).cls==="bad").length;
+  const fcs=firmFC(f.id); const chip=(k,t)=>`<button type="button" class="chip" data-fxp="f|${k}" aria-pressed="${fl===k}">${t}</button>`;
+  return `<div class="toolbar"><span class="hint">Валюта ҳисоб рақамининг банк кўчирмасини (PDF, скан ёки Excel) юкланг — Claude ҳар бир операцияни ўқийди: чет эл фирмасига ўтказилган ёки ундан келган пул, сана, сумма, валюта, тўлов мақсади ва контракт рақами. Тўлов қайси контрагентга чиққан бўлса, шу контрагент билан тузилган ташқи савдо контрактининг «Тўловлар ва назорат» бўлимига ўзи қўшилади.</span>
+    <div class="actions"><label class="btn primary ctup">${PDF_ICON}Банк кўчирмасини юклаш<input type="file" id="fxpFiles" accept="application/pdf,.pdf,image/*,.xlsx,.xls,.csv" multiple hidden></label></div></div>
+  ${aiCfg().key?"":`<div class="note-box">Кўчирмани ўқиш учун Claude керак — чап менюдаги «Claude AI» бўлимида API калитни киритинг.</div>`}
+  ${fo.length?`<div class="lstats"><div class="lstat" style="--c:#f472b6;--cl:#fbcfe8"><span class="k">Чет элга ўтказилган</span><span class="v">${esc(Object.entries(sum).map(([k,v])=>m2(v)+" "+k).join(" + ")||"0")}</span><span class="s">${fo.filter(o=>o.dir!=="in").length} та тўлов</span></div><div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Контрактларга боғланди</span><span class="v">${fo.length-bad} та</span><span class="s">тўловлар бўлимига қўшилган</span></div><div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">Контракт топилмади</span><span class="v">${bad} та</span><span class="s">қўлда танланг</span></div><div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Юкланган кўчирмалар</span><span class="v">${fxpList(f.id).length} та</span><span class="s">${ops.length} та операция</span></div></div>`:""}
+  <div class="chips">${chip("foreign","Чет эл тўловлари")}${chip("bad","Контракт топилмаганлар")}${chip("all","Барча операциялар")}</div>
+  <div class="card">${L.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>Сана</th><th class="r">Сумма</th><th>Йўналиш</th><th>Контрагент</th><th>Тўлов мақсади</th><th>Контракт</th><th>Ҳолати</th></tr></thead><tbody>${L.map(o=>{ const s=fxpState(f.id,o);
+    return `<tr class="norow"><td class="num">${fmtDate(o.date)}</td><td class="num r"><b>${m2(o.amount)}</b> ${esc(o.cur||"")}</td><td>${o.dir==="in"?"↓ келди":"↑ чиқди"}</td><td><b>${esc(o.cp||"")}</b>${o.country?`<div class="ctsub">${esc(o.country)}</div>`:""}</td><td><div class="ctsub" style="max-width:320px">${esc(o.purpose||"")}</div>${o.ctNo?`<div class="hint">контракт: № ${esc(o.ctNo)}${o.ctDate?" · "+fmtDate(o.ctDate):""}</div>`:""}</td>
+      <td>${s.c?`<button type="button" class="linkbtn" data-godoc="fcontract|${esc(s.c.id)}|${esc(f.id)}">№ ${esc(s.c.number||"")}</button>${o.by?`<div class="hint">${esc(o.by)} бўйича</div>`:""}`:(!o.kind||o.kind==="foreign")&&s.cls==="bad"?`<select class="gsel" data-fxpsel="${esc(o.stId)}|${o.i}"><option value="">— контрактни танланг —</option>${fcs.filter(c=>(c.dir||"imp")===(o.dir==="in"?"exp":"imp")).map(c=>`<option value="${esc(c.id)}">№ ${esc(c.number||"")} · ${esc(((o.dir==="in"?c.buyer:c.seller)?.name||"").slice(0,40))}</option>`).join("")}</select>`:""}</td>
+      <td><span class="lpill ${s.cls}">${s.t}</span>${s.cls==="bad"?` <button type="button" class="linkbtn" data-fxp="skip|${esc(o.stId)}|${o.i}">ўтказиш</button>`:""}</td></tr>`; }).join("")}</tbody></table></div>`:`<div class="empty"><b>Операциялар йўқ</b>Валюта ҳисоб рақамининг банк кўчирмасини юкланг — бир нечта файлни бирга танлаш мумкин.</div>`}</div>
+  ${fxpList(f.id).length?`<div class="card"><div class="label" style="padding:12px 16px 0">Юкланган кўчирмалар</div><div class="tablewrap"><table class="sched"><thead><tr><th>Файл</th><th>Ҳисоб рақами</th><th>Давр</th><th class="r">Операциялар</th><th>Юклаган</th><th></th></tr></thead><tbody>${fxpList(f.id).map(st=>`<tr class="norow"><td>${st.file?`<a href="${esc(ctFileUrl(st.file))}" target="_blank" rel="noopener">${esc(st.file.name||"файл")}</a>`:esc(st.fname||"")}</td><td class="num">${esc(st.account||"")} ${esc(st.currency||"")}</td><td class="num">${fmtDate(st.from)}${st.to?" – "+fmtDate(st.to):""}</td><td class="num r">${(st.ops||[]).length}</td><td class="hint">${esc(nameOf(st.by||""))} · ${st.createdAt?fmtStamp(st.createdAt):""}</td><td><button type="button" class="linkbtn danger" data-fxp="del|${esc(st.id)}">ўчириш</button></td></tr>`).join("")}</tbody></table></div><p class="hint" style="padding:0 16px 12px">Кўчирмани ўчирсангиз, контрактларга қўшилган тўловлар ўчмайди — уларни контрактнинг «Тўловлар ва назорат» бўлимида ўчириш мумкин.</p></div>`:""}`; }
+async function fxpImport(f,fs){ if(!aiCfg().key){ toast("Аввал «Claude AI» бўлимида API калитни киритинг"); return; } let nOps=0, nAdd=0, nBad=0, nDup=0;
+  const seen=new Set(fxpOps(f.id).map(o=>o.key));
+  for(let i=0;i<fs.length;i++){ const fl=fs[i]; toast(`✦ Claude банк кўчирмасини ўқимоқда ${i+1}/${fs.length}: ${fl.name}`);
+    try{ const r=await aiDocAny(fl,f,AI_SPEC.fxbank); const x=r.x; const cur0=String(x.currency||"").toUpperCase();
+      const ops=(x.ops||[]).filter(o=>o.date&&num(o.amount)>0).map(o=>{ const op={date:String(o.date),amount:Math.round(num(o.amount)*100)/100,cur:String(o.currency||cur0).toUpperCase(),dir:o.direction==="in"?"in":"out",kind:o.kind||"foreign",cp:String(o.counterparty||""),country:String(o.country||""),swift:String(o.swift||""),doc:String(o.doc_no||""),ctNo:String(o.contract_no||"").replace(/^№\s*/,""),ctDate:String(o.contract_date||""),inv:String(o.invoice||""),purpose:String(o.purpose||"").slice(0,240)}; op.key=[op.date,op.amount,op.dir,fxpNm(op.cp).slice(0,20),op.doc].join("|"); return op; }).filter(o=>!seen.has(o.key));
+      ops.forEach(o=>seen.add(o.key));
+      for(const op of ops){ if(op.kind!=="foreign") continue; const m=fxpMatch(f.id,op); if(!m){ nBad++; continue; } op.fcId=m.c.id; op.by=m.by; if(m.c.currency&&op.cur&&m.c.currency!==op.cur) op.warn=`валюта ${op.cur}, контракт ${m.c.currency}`;
+        const res=await fxpAddToContract(S.recs.find(z=>z.id===m.c.id)||m.c,op,f.id); if(res==="added") nAdd++; else nDup++; }
+      if(!ops.length){ toast(fl.name+": бу кўчирмадаги операциялар аввал юкланган"); continue; }
+      let file=null; try{ file=await driveUpload(fl,`${safeName(f.name)} — валюта кўчирмаси — ${fl.name}`.slice(0,180),{firmId:f.id,sec:"import",sub:["Банк кўчирмалари (валюта)"]}); }catch(er){ if(er instanceof AuthErr) throw er; }
+      await putItem("recs",{id:uid(),type:"bankfx",firmId:f.id,fname:fl.name,file,account:String(x.account||""),currency:cur0,from:x.period_from||"",to:x.period_to||"",ops,usd:r.usd,by:ME.email,createdAt:Date.now()},`Валюта кўчирмаси ўқилди: ${fl.name} (${ops.length} та операция)`); nOps+=ops.length; }
+    catch(er){ toast(fl.name+": "+(er.message||explain(er))); if(er instanceof AuthErr) break; } }
+  toast(`✦ ${nOps} та операция ўқилди · ${nAdd} та тўлов контрактларга қўшилди${nDup?` · ${nDup} таси аввал бор эди`:""}${nBad?` · ${nBad} таси учун контракт топилмади`:""}`); render(); }
+document.addEventListener("change",async e=>{ const el=e.target;
+  if(el.id==="fxpFiles"){ const fs=[...el.files]; el.value=""; const f=firm(V.firmId); if(fs.length&&f) await fxpImport(f,fs); return; }
+  if(el.dataset?.fxpsel){ const [sid,i]=el.dataset.fxpsel.split("|"); const st=S.recs.find(x=>x.id===sid); const c=S.recs.find(x=>x.id===el.value); if(!st||!c) return; const op=st.ops[+i]; if(!op) return;
+    try{ const o=JSON.parse(JSON.stringify(st)); o.ops[+i].fcId=c.id; o.ops[+i].by="қўлда"; await putItem("recs",o,`Валюта тўлови контракт № ${c.number||""} га боғланди`); const res=await fxpAddToContract(S.recs.find(z=>z.id===c.id)||c,{...op,fcId:c.id},st.firmId); toast(res==="added"?`Тўлов контракт № ${c.number||""} га қўшилди`:"Бу тўлов контрактда аллақачон бор"); }catch(er){ toast(explain(er)); } render(); } },true);
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-fxp]"); if(!b) return; e.stopPropagation(); e.preventDefault(); const [a,x,i]=b.dataset.fxp.split("|");
+  if(a==="f"){ V.fxpF=x; return render(); }
+  if(a==="skip"){ const st=S.recs.find(z=>z.id===x); if(!st) return; const o=JSON.parse(JSON.stringify(st)); o.ops[+i].skip=1; try{ await putItem("recs",o,"Валюта операцияси ўтказиб юборилди"); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="del"){ const st=S.recs.find(z=>z.id===x); if(!st||!confirm(`«${st.fname||"кўчирма"}» рўйхатдан ўчирилсинми? Контрактларга қўшилган тўловлар қолади.`)) return; try{ await delItem("recs",x,`Валюта кўчирмаси ўчирилди: ${st.fname||""}`); }catch(er){ toast(explain(er)); } return render(); } },true);
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
@@ -8221,7 +8288,7 @@ function vFirm(){
   else if(V.tab==="audit"){ body=vAudit(f); }
   else if(V.tab==="policy"){ body=vPolicy(f); }
   else if(V.tab==="import"){ const sub=(V.gId||V.gImport)?"gtd":(V.impSub||"gtd"); const nG=S.gtd.filter(r=>r.firmId===f.id).length, nF=firmFC(f.id).length;
-    body=`<div class="chips hrtabs">${[["gtd","ГТД реестри",nG],["fc","Ташқи савдо контрактлари",nF]].map(([k,t,n])=>`<button type="button" class="chip" data-impsub="${k}" aria-pressed="${sub===k}">${t} <i class="cn">${n}</i></button>`).join("")}</div>`+(sub==="fc"?vFContracts(f):vGtd(f.id)); }
+    body=`<div class="chips hrtabs">${[["gtd","ГТД реестри",nG],["fc","Ташқи савдо контрактлари",nF],["fx","Валюта тўловлари (банк кўчирмаси)",fxpOps(f.id).filter(o=>!o.kind||o.kind==="foreign").length]].map(([k,t,n])=>`<button type="button" class="chip" data-impsub="${k}" aria-pressed="${sub===k}">${t} <i class="cn">${n}</i></button>`).join("")}</div>`+(sub==="fc"?vFContracts(f):sub==="fx"?vFxPay(f):vGtd(f.id)); }
   else if(V.tab==="staff"){ body=vStaff(f); }
   else if(V.tab==="orders"){
     const oTpl=o=>TEMPLATES.find(t=>t.id===o.tplId), isHr=o=>!!oTpl(o)?.hr;
