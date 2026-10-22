@@ -3188,7 +3188,7 @@ function vGtd(firmId){
   const months=[...new Set(gtdList(firmId).map(r=>(r.date||"").slice(0,7)).filter(Boolean))].sort().reverse();
   const list=gtdFiltered(firmId);
   return `${firmId?"":`<div class="head"><div><h1>ГТД реестри</h1><div class="sub">Барча фирмаларнинг юк божхона декларациялари. PDF юкланганда фирма СТИР бўйича ўзи аниқланади.</div></div></div>`}
-  <div class="toolbar"><div class="actions"><label class="btn primary ctup">${PDF_ICON}ГТД PDF юклаш<input type="file" id="gtdFiles" accept="application/pdf,.pdf" multiple hidden></label>${list.length?`<button type="button" class="btn" data-act="gtdXlsx">${DL_ICON}Excel</button>`:""}<button type="button" class="btn ghost" data-act="gtdReload" title="Бошқа ходимлар қўшган ГТДларни янгилаш">↻ Янгилаш</button></div>
+  <div class="toolbar"><div class="actions"><label class="btn primary ctup">${PDF_ICON}ГТД PDF юклаш<input type="file" id="gtdFiles" accept="application/pdf,.pdf" multiple hidden></label>${list.length?`<button type="button" class="btn" data-act="gtdXlsx">${DL_ICON}Excel</button>`:""}<button type="button" class="btn ghost" data-act="gtdReload" title="Бошқа ходимлар қўшган ГТДларни янгилаш">↻ Янгилаш</button>${list.length?`<button type="button" class="btn ghost" data-gx="recheck|" title="ГТДлардаги шартнома рақами ва хорижий ҳамкорни фирманинг ташқи савдо контрактлари билан солиштириб аниқлаштириш">✓ Шартномаларни текшириш</button>`:""}</div>
     <input type="search" id="g_q" class="ctsearch" placeholder="Қидириш: ГТД №, жўнатувчи, шартнома, ТИФ ТН коди…" value="${esc(V.gQ||"")}"></div>
   ${ndPanel(firmId)}
   <div class="ctfilters">${(()=>{ const b=gtdList(firmId||V.gFirm||null); const nN=b.filter(gIsNd).length, nO=ndOpen(b).length; return fchips("gReg",[["all","Ҳаммаси",b.length],["im","Импорт (ИМ)",b.filter(r=>!r.isEx&&!gIsNd(r)).length],...(nN?[["nd","НД",nN],["ndopen","НД · ИМ'га ўтказилмаган",nO]]:[]),["ex","Экспорт",b.filter(r=>r.isEx).length],...(b.some(r=>gUnpaidSum(r)>0)?[["unpaid","Без оплаты",b.filter(r=>gUnpaidSum(r)>0).length]]:[])]); })()}
@@ -3199,13 +3199,14 @@ function vGtd(firmId){
 function gtdDetail(r,firmId){
   const f=firm(r.firmId), u=ctFileUrl(r.file);
   const ct=r.contract&&S.recs.find(c=>c.type==="contract"&&c.firmId===r.firmId&&String(c.number||"").trim().toLowerCase()===String(r.contract.no).trim().toLowerCase());
-  const info=[["ГТД рақами",r.no],["Бланк №",r.form],["Режим",r.regime],["Рўйхатга олинган сана",fmtDate(r.date)],["Чиқариш санаси",fmtDate(r.release)],["Фирма",f?.name||""],["Жўнатувчи",r.sender?.name],["Жўнатувчи манзили",r.sender?.addr],["Олувчи",r.recipient?.name],["Декларант (брокер)",r.declarant?.name+(r.declarant?.inn?" · "+r.declarant.inn:"")],["Жўнатилган мамлакат",r.country],["Етказиб бериш шарти",r.terms],["Шартнома",r.contract?`№ ${r.contract.no} ${fmtDate(r.contract.date)}`:""],["Инвойслар",(r.invoices||[]).join(", ")],["Фактура қиймати",m2(r.invoice)+" "+(r.currency||"")],["Валюта курси",r.rate?m2(r.rate):""],["Божхона қиймати",(r.cv?m2(r.cv)+" "+(r.currency||"")+" · ":"")+m2(r.cvSum)+" сўм"],["Брутто / нетто, кг",`${m2(r.brutto)} / ${m2(r.netto)}${r.partial?" (тўлиқ эмас)":""}`]];
+  const info=[["ГТД рақами",r.no],["Бланк №",r.form],["Режим",r.regime],["Рўйхатга олинган сана",fmtDate(r.date)],["Чиқариш санаси",fmtDate(r.release)],["Фирма",f?.name||""],["Хорижий ҳамкор (контрагент)",r.partner||(r.isEx?r.recipient?.name:r.sender?.name)],["Жўнатувчи",r.sender?.name],...(r.sender?.shipper?[["Юк жўнатувчи (амалда)",r.sender.shipper]]:[]),["Жўнатувчи манзили",r.sender?.addr],["Олувчи",r.recipient?.name],["Декларант (брокер)",r.declarant?.name+(r.declarant?.inn?" · "+r.declarant.inn:"")],["Жўнатилган мамлакат",r.country],["Етказиб бериш шарти",r.terms],["Шартнома",r.contract?`№ ${r.contract.no} ${fmtDate(r.contract.date)}`:""],["Инвойслар",(r.invoices||[]).join(", ")],["Фактура қиймати",m2(r.invoice)+" "+(r.currency||"")],["Валюта курси",r.rate?m2(r.rate):""],["Божхона қиймати",(r.cv?m2(r.cv)+" "+(r.currency||"")+" · ":"")+m2(r.cvSum)+" сўм"],["Брутто / нетто, кг",`${m2(r.brutto)} / ${m2(r.netto)}${r.partial?" (тўлиқ эмас)":""}`]];
   return `<button type="button" class="back" data-act="gBack">← ГТДлар</button>
   <div class="toolbar"><div class="lhead"><h2>ГТД ${esc(r.no)}</h2>${didChip(r,"gtd")}<span class="greg ${gIsNd(r)?"nd":r.isEx?"ex":"im"}">${esc(r.regime)}</span></div>
     <div class="actions">${u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${PDF_ICON}PDF'ни очиш</a>`:""}${ct?`<button type="button" class="btn" data-gocontract="${esc(ct.id)}">Шартномага ўтиш</button>`:""}${(()=>{ const fc=r.contract&&firmFC(r.firmId).find(c=>fcNorm(c.number)===fcNorm(r.contract.no)); return fc?`<button type="button" class="btn" data-godoc="fcontract|${esc(fc.id)}|${esc(r.firmId)}">Контрактга ўтиш</button>`:""; })()}<button type="button" class="btn ghost danger" data-act="askDel">Ўчириш</button></div></div>
   ${V.confirm?`<div class="confirm">ГТД ${esc(r.no)} реестрдан ўчирилади (PDF Drive'да қолади). <button type="button" class="btn danger" data-act="delGtd">Ҳа, ўчириш</button><button type="button" class="btn ghost" data-act="cancelDel">Бекор қилиш</button></div>`:""}
   ${gIsNd(r)?ndBox(r):""}${(r.prev||[]).length?prevBox(r):""}
   ${gtdStats([r])}
+  ${gtdFixBox(r)}
   <div class="card"><div class="label" style="padding:12px 16px 0">${GH("ГТД маълумотлари","import",30)}</div><div class="reqs">${info.map(([k,v])=>kv(k,v||"",/рақами|Бланк|курси/.test(k))).join("")}</div></div>
   <div class="card"><div class="label" style="padding:12px 16px 0">${GH("Тўловлар (47-графа)","finance",30)}</div>${gUnpaidSum(r)?`<div class="ndpanel one" style="margin:10px 16px"><div class="ndh">${NI("alert",30)}<div><b>Без оплаты: ${m2(gUnpaidSum(r))} сўм тўланмаган</b><span>${Object.entries(r.unpaid).map(([k,v])=>`${GTD_PAY[k]||k} — ${m2(v)}`).join(" · ")}. Бу суммалар тўланмагани учун ҳисобга (зачёт) олинмайди.</span></div></div></div>`:""}
   <div class="tablewrap"><table class="sched"><thead><tr><th>Код</th><th>Тўлов тури</th>${(r.g47||[]).length?`<th>Ҳисоблаш асоси</th><th>Ставка</th><th>Тўлов усули (СП)</th><th>Ҳолати</th>`:""}<th class="r">Сумма, сўм</th></tr></thead><tbody>${(r.g47||[]).length?r.g47.map(x=>`<tr class="norow"><td class="num">${esc(x.type)}</td><td>${GTD_PAY[x.type]||""}</td><td class="num">${esc(x.base||"")}</td><td class="num">${esc(x.rate||"")}</td><td><b class="num">${esc(x.sp||"")}</b>${GTD_SP[x.sp]?`<div class="ctsub">${GTD_SP[x.sp]}</div>`:""}</td><td><span class="lpill ${x.paid?"ok":"bad"}">${x.paid?"Тўланган":"Без оплаты"}</span></td><td class="num r">${m2(x.sum)}</td></tr>`).join(""):Object.entries(r.pay||{}).map(([k,v])=>`<tr class="norow"><td class="num">${esc(k)}</td><td>${GTD_PAY[k]||""}</td><td class="num r">${m2(v)}</td></tr>`).join("")}</tbody><tfoot><tr><td colspan="${(r.g47||[]).length?6:2}">Жами тўланган</td><td class="num r">${m2(r.payTotal)}</td></tr></tfoot></table></div></div>
@@ -3222,7 +3223,7 @@ async function gtdReadFiles(files,firmId){
   for(const it of V.gImport.items){
     if(!V.gImport) return;
     try{
-      const {F}=await gtdFields(it.file); const d=gtdParse(F);
+      const {F}=await gtdFields(it.file); const d=gtdFix(gtdParse(F),F,firmId);
       if(!d){ it.status="err"; it.msg="ГТД майдонлари топилмади (сканер ёки бошқа ҳужжат)"; }
       else gtdAccept(it,d,firmId,seen);
     }catch(e){ it.status="err"; it.msg="PDF'ни ўқиб бўлмади: "+(e?.message||e); }
@@ -5704,7 +5705,7 @@ function gtdAccept(it,d,firmId,seen){ it.d=d;
   else it.status=it.firmId?"ok":"nofirm";
   seen.add(d.no); }
 async function gtdAiItem(it,firmId,seen){ it.aiBusy=true; it.aiErr=""; gtdImpRefresh();
-  try{ const r=await aiDoc(it.file,firm(firmId)||null,AI_SPEC.gtd,it.fname,{defer:true}); const d=gtdFromAi(r.x); it.ai=(it.ai||0)+r.usd;
+  try{ const r=await aiDoc(it.file,firm(firmId)||null,AI_SPEC.gtd,it.fname,{defer:true}); const d=gtdFix(gtdFromAi(r.x),null,firmId); it.ai=(it.ai||0)+r.usd;
     const fid=(d&&(firmByInn(d.inn)?.id))||firmId||it.firmId||""; aiLog(fid,r.entry);
     if(!d){ it.aiErr="Claude ГТД рақамини топмади"; } else { it.msg=""; gtdAccept(it,d,firmId,seen||new Set(V.gImport.items.filter(x=>x!==it&&x.d).map(x=>x.d.no))); if(it.status!=="dup") it.warn=(it.warn?it.warn+" · ":"")+"Сканердан Claude ўқиди — суммаларни текширинг"; } }
   catch(e){ it.aiErr=e.message||String(e); }
@@ -8150,6 +8151,51 @@ document.addEventListener("click",async e=>{ const b=e.target.closest("[data-cx]
   if(a==="ctedit"){ const c=S.recs.find(x=>x.id===id); if(c) return go({ctEdit:JSON.parse(JSON.stringify(c)),ctEditFile:null,ctEditAuto:null}); return; }
   if(a==="fcadd"){ return go({fcSub:"add"}); }
 },true);
+
+
+/* ================= ГТД: шартнома ва хорижий ҳамкорни аниқ аниқлаш ================= */
+const G_ORG=/\b(ltd|llc|l\.l\.c|co\.,?|corp\.?|corporation|inc\.?|gmbh|limited|company|s\.a\.|srl|s\.r\.l|spa|jsc|ojsc|pjsc|pte|plc|b\.v\.|ag|kft|ооо|оао|зао|тоо|мчж|mchj|ип|чп|фирма|trading|import|export|industr\w*|group|holding)\b/i;
+const G_ADDR=/(street|str\.|st\.|road|rd\.|avenue|ave\.|district|city|province|floor|unit|building|room|ул\.|улица|кўч|район|р-н|обл\.|д\.\s*\d|№\s*\d+\s*,)/i;
+function gtdAllText(F){ return Object.keys(F||{}).filter(k=>/^g44/.test(k)).map(k=>F[k]).join("\n")+"\n"+String(F?.__text||""); }
+function gtdDocsAll(txt){ const out=[]; const re=/(?:^|[\s;,])(\d{3,5})\s*[.)]?\s*([A-ZА-ЯЁЎҚҒҲ]{2,10})\.?\s*(?:№|No\.?|N(?=[\s\d]))?\s*([^\n]+?)\s+(?:от|from|dan|сана)\s+(\d{2}[.\/]\d{2}[.\/]\d{2,4})/gi; let m;
+  while((m=re.exec(txt))){ let d=m[4].replace(/\//g,"."); if(/\.\d{2}$/.test(d)) d=d.slice(0,6)+"20"+d.slice(6); out.push({code:m[1],type:m[2].toUpperCase(),no:gStr(m[3]).replace(/^№\s*/,""),date:gDate(d)}); } return out; }
+function gtdPickContract(docs){ const isK=x=>x.code==="301"||x.code==="03011"||/^(КНТ|КОНТ|КТР|ДОГ|CONT|SHART|ШАРТ)/.test(x.type); const L=docs.filter(isK); if(!L.length) return null;
+  const cnt={}; L.forEach(x=>{ const k=fcNorm(x.no)+"|"+x.date; cnt[k]=(cnt[k]||0)+1; }); L.sort((a,b)=>cnt[fcNorm(b.no)+"|"+b.date]-cnt[fcNorm(a.no)+"|"+a.date]); return {no:L[0].no,date:L[0].date}; }
+function gtdFix(d,F,firmId){ if(!d) return d;
+  if(F){ const n1=gStr(F.g2name||""), n2=gStr(F.g2address||"");
+    if(n2&&G_ORG.test(n2)&&!G_ADDR.test(n2)){ d.sender={...(d.sender||{}),name:n1,shipper:n2,addr:gStr(F.g2add||"")}; }
+    const k=gtdPickContract(gtdDocsAll(gtdAllText(F))); if(k&&(!d.contract?.no||fcNorm(k.no)!==fcNorm(d.contract.no))) d.contract=k; }
+  const fid=firmId||firmByInn(d.inn)?.id; const fcs=fid?firmFC(fid).filter(c=>(c.dir==="exp")===!!d.isEx&&fcNorm(c.number).length>=3):[];
+  const nm=x=>String(x||"").toUpperCase().replace(/[^A-ZА-ЯЁЎҚҒҲ0-9]/g,"");
+  if(fcs.length){ let c=d.contract&&fcs.find(z=>fcNorm(z.number)===fcNorm(d.contract.no));
+    if(!c){ const hay=fcNorm((F?gtdAllText(F):"")+" "+(d.contract?.no||"")); const cand=fcs.filter(z=>hay.includes(fcNorm(z.number))); if(cand.length===1){ c=cand[0]; d.contract={no:c.number,date:c.date||d.contract?.date||""}; d.fixed=(d.fixed||[]).concat("contract"); } }
+    if(!c){ const pn=[d.sender?.name,d.sender?.shipper,d.recipient?.name].map(nm).filter(x=>x.length>4); const cand=fcs.filter(z=>{ const s=nm((z.dir==="exp"?z.buyer:z.seller)?.name).slice(0,14); return s.length>4&&pn.some(p=>p.includes(s)||s.includes(p.slice(0,14))); }).filter(z=>z.status!=="closed"); if(cand.length===1&&!d.contract?.no){ c=cand[0]; d.contract={no:c.number,date:c.date||""}; d.fixed=(d.fixed||[]).concat("contract-by-partner"); } }
+    if(c){ const p=c.dir==="exp"?c.buyer:c.seller; if(p?.name) d.partner=p.name; } }
+  if(!d.partner) d.partner=d.isEx?(d.recipient?.name||""):(String(d.sender?.name||"").replace(/,\s*[А-ЯЁЎҚҒҲA-Z][а-яёўқғҳa-z]+$/,""));
+  return d; }
+/* Claude учун аниқ кўрсатма */
+AI_SPEC.gtd.props.contract={type:"object",description:"Foreign trade contract from graph 44: ONLY the line with document code 301 (abbreviation КНТ / контракт / договор). Number = text after № up to 'от'; date = after 'от'. NEVER use the invoice (220 / ИНВ), transport (207 СМГС / CMR / AWB), certificate (417 ССТ), previous declaration or the declaration's own number.",properties:{no:AI_S("Contract number exactly as printed"),date:AI_S("Contract date, YYYY-MM-DD")}};
+AI_SPEC.gtd.props.sender={type:"object",description:"Graph 2 (Отправитель/экспортер). For an import declaration graph 2 may list TWO organisations: the first line is the seller (party of the contract), the next organisation is the actual shipper. Put the first in name, the second (if any) in shipper; the street address in address.",properties:{name:AI_S(),shipper:AI_S(),address:AI_S(),inn:AI_S()}};
+AI_SPEC.gtd.props.partner=AI_S("Foreign partner = the counterparty of the contract: for import the seller (first organisation in graph 2), for export the buyer (graph 8). Name only, without country.");
+AI_SPEC.gtd.prompt=AI_SPEC.gtd.prompt+" Read graph 44 line by line; each line is «code. abbreviation № number от date».";
+{ const _g=gtdFromAi; gtdFromAi=function(x){ const d=_g(x); if(d){ if(x.sender?.shipper) d.sender.shipper=String(x.sender.shipper); if(x.partner) d.partner=String(x.partner); if(x.contract?.no) d.contract={no:String(x.contract.no).replace(/^№\s*/,""),date:x.contract.date||""}; } return d; }; }
+/* ГТД ичида қўлда тузатиш */
+function gtdFixBox(r){ if(V.gFix!==r.id) return `<div class="actions" style="margin:-6px 0 12px"><button type="button" class="btn sm" data-gx="open|${esc(r.id)}">✎ Шартнома ва хорижий ҳамкорни тузатиш</button>${r.fixed?.length?`<span class="hint">Шартнома рақами фирманинг ташқи савдо контрактлари бўйича аниқланди</span>`:""}</div>`;
+  const fcs=firmFC(r.firmId).filter(c=>(c.dir==="exp")===!!r.isEx);
+  return `<div class="card lform" style="margin-bottom:12px"><h2>Шартнома ва хорижий ҳамкор</h2>
+  ${fcs.length?`<div class="field wide"><label for="gx_fc">Фирманинг контрактидан танлаш</label><select id="gx_fc"><option value="">— танланг —</option>${fcs.map(c=>`<option value="${esc(c.id)}">№ ${esc(c.number||"")} · ${fmtDate(c.date)} · ${esc((c.dir==="exp"?c.buyer:c.seller)?.name||"")}</option>`).join("")}</select></div>`:""}
+  <div class="lgrid"><div class="field"><label for="gx_no">Шартнома рақами</label><input id="gx_no" value="${esc(r.contract?.no||"")}"></div><div class="field"><label for="gx_date">Шартнома санаси</label><input id="gx_date" type="date" value="${esc(r.contract?.date||"")}"></div><div class="field wide"><label for="gx_p">Хорижий ҳамкор (контрагент)</label><input id="gx_p" value="${esc(r.partner||(r.isEx?r.recipient?.name:r.sender?.name)||"")}"></div></div>
+  <div class="actions"><button type="button" class="btn primary" data-gx="save|${esc(r.id)}">Сақлаш</button><button type="button" class="btn ghost" data-gx="close|${esc(r.id)}">Бекор қилиш</button></div></div>`; }
+document.addEventListener("change",e=>{ if(e.target.id!=="gx_fc") return; const c=S.recs.find(x=>x.id===e.target.value); if(!c) return; $("#gx_no").value=c.number||""; $("#gx_date").value=c.date||""; $("#gx_p").value=(c.dir==="exp"?c.buyer:c.seller)?.name||""; },true);
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-gx]"); if(!b) return; e.stopPropagation(); e.preventDefault(); const [a,id]=b.dataset.gx.split("|");
+  if(a==="recheck"){ b.disabled=true; return gtdRecheck(V.view==="firm"?V.firmId:(V.gFirm||null)); }
+  if(a==="open") return go({gFix:id}); if(a==="close") return go({gFix:null});
+  if(a==="save"){ const r=S.gtd.find(x=>x.id===id); if(!r) return; const o=JSON.parse(JSON.stringify(r)); const no=$("#gx_no").value.trim(), dt=$("#gx_date").value, p=$("#gx_p").value.trim();
+    o.contract=no?{no,date:dt}:null; o.partner=p; o.fixed=["manual"]; try{ await putItem("gtd",o,`ГТД ${r.no}: шартнома (${no||"—"}) ва ҳамкор қўлда тузатилди`); toast("Сақланди"); }catch(er){ toast(explain(er)); } return go({gFix:null}); } },true);
+/* мавжуд ГТДларни контрактлар бўйича қайта текшириш */
+async function gtdRecheck(firmId){ const L=gtdList(firmId||null).filter(r=>!(r.fixed||[]).includes("manual")); let n=0;
+  for(const r of L){ const o=gtdFix(JSON.parse(JSON.stringify(r)),null,r.firmId); if(JSON.stringify([o.contract,o.partner])!==JSON.stringify([r.contract,r.partner])){ try{ await putItem("gtd",o,`ГТД ${r.no}: шартнома/ҳамкор контрактлар бўйича аниқланди`); n++; }catch(er){} } }
+  toast(n?`${n} та ГТДда шартнома ёки ҳамкор аниқлаштирилди`:"Ўзгариш топилмади"); render(); }
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
