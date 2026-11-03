@@ -1657,7 +1657,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="01.11.2026 · в66";
+const APP_VER="01.11.2026 · в67";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -8938,6 +8938,28 @@ document.addEventListener("click",e=>{ const b=e.target.closest('[data-mm="nodeb
     :`<p class="hint">💡 Қарз суммасини қўлда ёзмаслик учун 1С'дан <b>4010-счёт бўйича оборотно-сальдовая ведомость</b>ни (контрагентлар ва шартномалар кесимида) Excel қилиб сақлаб, «Қарз суммаларини файлдан олиш» орқали юкланг: охирги қолдиқ (Дт − Кт) ҳар бир ташкилотга ўзи қўйилади, рўйхатда йўқ қарздорлар қўшилади. PDF ёки расм бўлса — Claude ўқийди.</p>`;
   h=h.replace(/(<div class="card lform"><h2>1\. [\s\S]*?<\/div>)/,`$1${info}`);
   return h.replace(/(<tr class="norow [^"]*">)(<td class="num"><button type="button" class="linkbtn" data-mm="prev\|(\d+)")/g,(m,a,b,i)=>R[+i]?.debtSrc?a.replace('norow ','norow mmdebt ')+b:m); }; }
+
+/* ===== Claude учун PDF'ни тузатиш: бузилган / имзоли (p7s) / шифрланган PDF ===== */
+function pdfCut(u8){ const lim=Math.min(u8.length,4*1024*1024); let s=-1; for(let i=0;i<lim-4;i++){ if(u8[i]===0x25&&u8[i+1]===0x50&&u8[i+2]===0x44&&u8[i+3]===0x46){ s=i; break; } } if(s<0) return null;
+  let e=-1; for(let i=u8.length-5;i>s;i--){ if(u8[i]===0x25&&u8[i+1]===0x25&&u8[i+2]===0x45&&u8[i+3]===0x4F&&u8[i+4]===0x46){ e=i+5; break; } } return (s===0&&(e<0||e>=u8.length-2))?u8:u8.subarray(s,e>0?e:u8.length); }
+const pdfFile=(u8,name)=>new File([u8],String(name||"file").replace(/\.[^.]*$/,"")+".pdf",{type:"application/pdf"});
+async function pdfRepair(u8){ await ensurePdfLib(); const d=await PDFLib.PDFDocument.load(u8,{ignoreEncryption:true,throwOnInvalidObject:false}); return new Uint8Array(await d.save({useObjectStreams:false})); }
+async function pdfToJpegs(u8,maxP){ await ensurePdfjs(); const doc=await pdfjsLib.getDocument({data:u8.slice()}).promise; const out=[]; const n=Math.min(doc.numPages,maxP||8);
+  for(let p=1;p<=n;p++){ const pg=await doc.getPage(p); const v0=pg.getViewport({scale:1}); const sc=Math.min(2,1600/Math.max(v0.width,v0.height)); const v=pg.getViewport({scale:sc}); const c=document.createElement("canvas"); c.width=Math.ceil(v.width); c.height=Math.ceil(v.height); const x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height); await pg.render({canvasContext:x,viewport:v}).promise; out.push(c.toDataURL("image/jpeg",0.85).split(",")[1]); }
+  return {imgs:out,total:doc.numPages}; }
+const aiPdfBad=er=>/pdf.*(not valid|invalid|password|encrypt)|could not process|unable to (process|parse)/i.test(String(er?.message||er));
+{ const _ad=aiDoc; aiDoc=async function(file,f,spec,fname,opt){ const isPdf=file&&!/^image\//.test(file.type||"")&&(/\.pdf$/i.test(file.name||"")||file.type==="application/pdf"); if(!isPdf) return _ad(file,f,spec,fname,opt);
+    const raw=new Uint8Array(await file.arrayBuffer()); const cut=pdfCut(raw);
+    if(!cut){ const hd=String.fromCharCode(...raw.subarray(0,8)); throw new AiErr(hd.startsWith("PK")?"Бу файл аслида ZIP архив (номи .pdf бўлса ҳам) — уни очиб, ичидаги PDF'ни юкланг":/^\s*</.test(hd)?"Бу файл PDF эмас (HTML саҳифа) — ҳужжатни қайта юклаб олинг":"Файл PDF эмас ёки бузилган — уни очиб кўринг ва қайта юклаб олинг"); }
+    let cur=cut===raw?file:pdfFile(cut,file.name);
+    try{ return await _ad(cur,f,spec,fname||file.name,opt); }catch(er){ if(!aiPdfBad(er)) throw er; }
+    let fx=null; try{ fx=await pdfRepair(cut); }catch(er){}
+    if(fx){ try{ return await _ad(pdfFile(fx,file.name),f,spec,fname||file.name,opt); }catch(er){ if(!aiPdfBad(er)) throw er; } }
+    let J; try{ J=await pdfToJpegs(cut,8); }catch(er){ throw new AiErr("PDF бузилган, уни очиб бўлмади ("+(er.message||er)+"). Файлни қайта юклаб олинг ёки «Печать → PDF» қилиб қайта сақланг"); }
+    const common=`Our company (the client of the accountant) is "${String(f?.name||"").replace(/"/g,"'")}" with СТИР (INN) ${f?.inn||"unknown"}. The document may be in Uzbek (Cyrillic or Latin), Russian or English, and may be a scan. Extract only what is actually written; if a field is not present, omit it — never guess. Dates must be YYYY-MM-DD. Amounts are plain numbers (no spaces, dot as decimal separator). Free-text values that we describe as "short" should be written in Uzbek Cyrillic.`;
+    const blocks=[...J.imgs.map(d=>({type:"image",source:{type:"base64",media_type:"image/jpeg",data:d}})),{type:"text",text:`The ${J.imgs.length} images above are the pages of one PDF document${J.total>J.imgs.length?` (first ${J.imgs.length} of ${J.total} pages)`:""}.\n\n`+spec.prompt+"\n\n"+common+"\nCall the "+spec.tool+" tool with the result."}];
+    const r=await aiCall(blocks,{name:spec.tool,description:spec.desc,input_schema:{type:"object",properties:spec.props,...(spec.req?{required:spec.req}:{})}},{firmId:f?.id,sec:spec.sec,fname:fname||file.name,max:spec.max||2000,defer:opt?.defer});
+    return {x:r.input||{},usd:r.usd,model:r.model,entry:r.entry,viaImg:1}; }; }
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
