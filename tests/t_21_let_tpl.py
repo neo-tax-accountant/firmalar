@@ -1,0 +1,23 @@
+import os
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"harness.py")).read())
+with sync_playwright() as p:
+    b,pg=page(p); G=pg.evaluate
+    pg.on('dialog', lambda d: d.accept({'Шаблон номи:':'Тушунтириш (ДСИ)'}.get(d.message, '1') if d.type=='prompt' else None))
+    G('go({view:"firm",firmId:"namuna01",tab:"office",letDir:"in"})'); pg.wait_for_timeout(300)
+    print('tabs', G('[...document.querySelectorAll(".cttab b")].map(x=>x.textContent)'))
+    pg.click('[data-letdir="tpl"]'); pg.wait_for_timeout(300)
+    print('tpl rows', G('document.querySelectorAll("#main tbody tr").length'))
+    G('(async()=>{ await putItem("recs",{id:"inl1",type:"letter",firmId:"namuna01",dir:"in",regNo:"К-7",regDate:"2026-10-28",docNo:"12/345",docDate:"2026-10-27",corr:"Юнусобод тумани ДСИ",kind:"Текширув хабарномаси",subject:"Ҳужжатларни тақдим этиш ҳақида",status:"open",files:[]},"t"); })()'); pg.wait_for_timeout(300)
+    G('go({letDir:"in",letId:"inl1"})'); pg.wait_for_timeout(300); pg.click('[data-act=letReply]'); pg.wait_for_timeout(400)
+    pg.select_option('[data-rtsel="tpl"]','b1'); pg.wait_for_timeout(500)
+    print('body filled', G('document.querySelector("#letBody").textContent.slice(0,110)'), 'subject', G('V.letEdit.subject'))
+    pg.screenshot(path=OUT+'d1.png',full_page=True)
+    pg.click('[data-lt="fromedit"]'); pg.wait_for_timeout(800)
+    print('own tpl', G('ltList().map(t=>[t.name,t.cat,t.body.includes("{{кирувчи_рақам}}"),t.body.includes("{{фирма}}")])'))
+    G('go({letEdit:null,letId:null,letDir:"tpl"})'); pg.wait_for_timeout(300)
+    tid=G('ltList()[0].id'); pg.click(f'[data-lt="edit|{tid}"]'); pg.wait_for_timeout(300)
+    pg.fill('#lt_n','Тушунтириш хати (ДСИ)'); pg.click('#letBody'); pg.keyboard.press('End'); pg.select_option('[data-rtsel="var"]','директор'); pg.click('[data-lt="save"]'); pg.wait_for_timeout(500)
+    print('edited', G('ltList().map(t=>[t.name,t.body.includes("{{директор}}")])'))
+    pg.click(f'[data-lt="use|{tid}"]'); pg.wait_for_timeout(500)
+    print('use', G('V.letEdit&&[V.letEdit.dir,V.letEdit.subject,document.querySelector("#letBody").textContent.includes("Каримов")]'))
+    b.close(); ok()

@@ -1,0 +1,22 @@
+import os
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"harness.py")).read())
+with sync_playwright() as p:
+    b,pg=page(p); G=pg.evaluate
+    pg.on('dialog', lambda d: d.accept())
+    G('''(()=>{ localStorage.setItem(AI_LK,JSON.stringify({key:"sk-t"})); window.__n=0; aiCall=async(bl,tool,meta)=>{ __n++; if(tool.name==="save_bank_statement") return {input:{account:"20208840000000000002",currency:"USD",period_from:"2026-10-01",period_to:"2026-10-31",opening_balance:100,closing_balance:5100,ops:[{date:"2026-10-05",doc_no:"A1",direction:"in",amount:5000,counterparty:"BUYER LLC",purpose:"payment"}]},usd:0.02}; return {input:{},usd:0}; }; fxFetch=async(c,d)=>c==="USD"?12600:null; })()''')
+    G('go({view:"firm",firmId:"namuna01",tab:"bank"})'); pg.wait_for_timeout(300)
+    pg.set_input_files('#bkFiles',FIX+'bank.xlsx'); pg.wait_for_timeout(1500)
+    print('ai imp', G('JSON.stringify(V.bkImp.items.map(i=>[i.status,i.msg,i.acc,i.r&&i.r.src,i.chk&&i.chk.ok]))'), G('__n'))
+    pg.click('[data-bk="impsave"]'); pg.wait_for_timeout(1000)
+    print('accs', G('[...document.querySelectorAll(".bkacc")].map(x=>x.innerText.replace(/\\s+/g," "))'))
+    pg.screenshot(path=OUT+'b1.png',full_page=True)
+    G('go({tab:"contracts",ctDir:"act",actEdit:null})'); pg.wait_for_timeout(300)
+    pg.click('[data-act2="new|in"]'); pg.wait_for_timeout(300)
+    k=G('actCps(firm("namuna01")).find(c=>c.list.some(x=>x.kind==="fc")).key'); pg.select_option('#ac_cp',k); pg.wait_for_timeout(300)
+    pg.fill('#ac_from','2026-01-01'); G('document.querySelector("#ac_from").dispatchEvent(new Event("change",{bubbles:true}))'); pg.wait_for_timeout(300)
+    pg.click('[data-act2="rates"]'); pg.wait_for_timeout(800)
+    pg.fill('#ac_tb','1000'); G('document.querySelector("#ac_tb").dispatchEvent(new Event("change",{bubbles:true}))'); pg.wait_for_timeout(300)
+    print('fcact', G('document.querySelector(".actsheet").innerText.replace(/\\s+/g," ").slice(400,1100)'))
+    print('diff', G('document.querySelector(".gened .vpwarn,.gened .ndok")?.innerText.slice(0,200)'))
+    pg.screenshot(path=OUT+'a2.png',full_page=True)
+    b.close(); ok()
