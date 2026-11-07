@@ -20,8 +20,10 @@ body{margin:0}
 
 /* Layout: firm rail on the left (top on phones), working area on the right; order editor = form beside a paper sheet */
 :root{
-  --bg:#eef1f0; --panel:#ffffff; --ink:#15211f; --muted:#5b6b67; --line:#d5dcda;
-  --accent:#0f6e5c; --accent-ink:#ffffff; --accent-soft:#dcefe9;
+  --bg:#f3f4fb; --panel:#ffffff; --ink:#161930; --muted:#5a6078; --line:#dcdeec;
+  --accent:#7c3aed; --accent-ink:#ffffff; --accent-soft:#ede6ff;
+  --grad:linear-gradient(120deg,#7c3aed,#0891b2 55%,#059669); --glow:rgba(124,58,237,.26);
+  --aur2:rgba(14,165,233,.13); --aur3:rgba(16,185,129,.12); --aur4:rgba(236,72,153,.075);
   --paper:#fffdf8; --paper-ink:#1d1d1b;
   --draft:#6b7280; --draft-soft:#eceef1;
   --work:#e8750c; --work-soft:#fdebd8;
@@ -34,21 +36,25 @@ body{margin:0}
   --r:10px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0f1514; --panel:#172120; --ink:#e6ecea; --muted:#9aaaa6; --line:#2a3735;
-  --accent:#3cc3a4; --accent-ink:#06201a; --accent-soft:#16372f;
+  --bg:#06070c; --panel:#11131f; --ink:#f0f2fa; --muted:#8e93ae; --line:#222538;
+  --accent:#a78bfa; --accent-ink:#12082a; --accent-soft:#2a1d4a;
+  --grad:linear-gradient(120deg,#a78bfa,#22d3ee 55%,#34d399); --glow:rgba(167,139,250,.32);
+  --aur2:rgba(8,145,178,.20); --aur3:rgba(5,150,105,.17); --aur4:rgba(190,24,93,.12);
   --paper:#f7f4ec; --paper-ink:#1d1d1b;
-  --draft:#a4acb8; --draft-soft:#262d33;
-  --work:#ff9a3d; --work-soft:#3a2513;
-  --ok:#44d07a; --ok-soft:#153323;
-  --danger:#ff8a80; color-scheme:dark}}
+  --draft:#868ca6; --draft-soft:#1b1e2e;
+  --work:#fbbf24; --work-soft:#3a2a0e;
+  --ok:#34d399; --ok-soft:#10301f;
+  --danger:#fb7185; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0f1514; --panel:#172120; --ink:#e6ecea; --muted:#9aaaa6; --line:#2a3735;
-  --accent:#3cc3a4; --accent-ink:#06201a; --accent-soft:#16372f;
+  --bg:#06070c; --panel:#11131f; --ink:#f0f2fa; --muted:#8e93ae; --line:#222538;
+  --accent:#a78bfa; --accent-ink:#12082a; --accent-soft:#2a1d4a;
+  --grad:linear-gradient(120deg,#a78bfa,#22d3ee 55%,#34d399); --glow:rgba(167,139,250,.32);
+  --aur2:rgba(8,145,178,.20); --aur3:rgba(5,150,105,.17); --aur4:rgba(190,24,93,.12);
   --paper:#f7f4ec; --paper-ink:#1d1d1b;
-  --draft:#a4acb8; --draft-soft:#262d33;
-  --work:#ff9a3d; --work-soft:#3a2513;
-  --ok:#44d07a; --ok-soft:#153323;
-  --danger:#ff8a80; color-scheme:dark}
+  --draft:#868ca6; --draft-soft:#1b1e2e;
+  --work:#fbbf24; --work-soft:#3a2a0e;
+  --ok:#34d399; --ok-soft:#10301f;
+  --danger:#fb7185; color-scheme:dark}
 
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -690,23 +696,25 @@ tr.norow:hover td{background:transparent}
   @page{size:A4;margin:18mm 15mm 18mm 25mm}
 }
 /* ================= UI 2.0: фон, ранглар, ихчам режим, параметрлар ================= */
-:root{--bg:#edf1f3;--panel:#ffffff;--line:#d9e0e3;--glass:rgba(255,255,255,.78);--shadow:0 1px 2px rgba(16,32,40,.05),0 6px 22px rgba(16,40,60,.06);--fs:15px}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0b1117;--panel:#131c24;--line:#25323d;--ink:#e3eaf0;--muted:#93a3b1;--glass:rgba(19,28,36,.78);--shadow:0 1px 2px rgba(0,0,0,.35),0 8px 26px rgba(0,0,0,.35)}}
-:root[data-theme="dark"]{--bg:#0b1117;--panel:#131c24;--line:#25323d;--ink:#e3eaf0;--muted:#93a3b1;--glass:rgba(19,28,36,.78);--shadow:0 1px 2px rgba(0,0,0,.35),0 8px 26px rgba(0,0,0,.35)}
+:root{--bg:#f3f4fb;--panel:#ffffff;--line:#dcdeec;--glass:rgba(255,255,255,.74);--shadow:0 1px 2px rgba(28,32,72,.05),0 10px 30px -14px rgba(28,32,72,.18);--fs:15px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#06070c;--panel:#11131f;--line:#222538;--ink:#f0f2fa;--muted:#8e93ae;--glass:rgba(13,15,26,.74);--shadow:0 1px 2px rgba(0,0,0,.4),0 14px 36px -16px rgba(0,0,0,.7)}}
+:root[data-theme="dark"]{--bg:#06070c;--panel:#11131f;--line:#222538;--ink:#f0f2fa;--muted:#8e93ae;--glass:rgba(13,15,26,.74);--shadow:0 1px 2px rgba(0,0,0,.4),0 14px 36px -16px rgba(0,0,0,.7)}
 /* акцент палитралари */
+:root[data-accent="teal"]{--accent:#0f6e5c;--accent-soft:#dcefe9;--accent-ink:#fff}
 :root[data-accent="blue"]{--accent:#2563eb;--accent-soft:#dde8ff;--accent-ink:#fff}
 :root[data-accent="indigo"]{--accent:#4f46e5;--accent-soft:#e3e2ff;--accent-ink:#fff}
 :root[data-accent="violet"]{--accent:#7c3aed;--accent-soft:#ece3ff;--accent-ink:#fff}
 :root[data-accent="slate"]{--accent:#334155;--accent-soft:#e2e8f0;--accent-ink:#fff}
 :root[data-accent="amber"]{--accent:#b45309;--accent-soft:#fdecc8;--accent-ink:#fff}
+:root[data-theme="dark"][data-accent="teal"]{--accent:#3cc3a4;--accent-soft:#16372f;--accent-ink:#06201a}
 :root[data-theme="dark"][data-accent="blue"]{--accent:#60a5fa;--accent-soft:#132a4a;--accent-ink:#04122a}
 :root[data-theme="dark"][data-accent="indigo"]{--accent:#818cf8;--accent-soft:#1e1f4a;--accent-ink:#0b0c2a}
 :root[data-theme="dark"][data-accent="violet"]{--accent:#a78bfa;--accent-soft:#2a1d4a;--accent-ink:#12082a}
 :root[data-theme="dark"][data-accent="slate"]{--accent:#cbd5e1;--accent-soft:#1f2a37;--accent-ink:#0b1117}
 :root[data-theme="dark"][data-accent="amber"]{--accent:#fbbf24;--accent-soft:#3a2a0e;--accent-ink:#1f1302}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"])[data-accent="blue"]{--accent:#60a5fa;--accent-soft:#132a4a;--accent-ink:#04122a}:root:not([data-theme="light"])[data-accent="indigo"]{--accent:#818cf8;--accent-soft:#1e1f4a;--accent-ink:#0b0c2a}:root:not([data-theme="light"])[data-accent="violet"]{--accent:#a78bfa;--accent-soft:#2a1d4a;--accent-ink:#12082a}:root:not([data-theme="light"])[data-accent="slate"]{--accent:#cbd5e1;--accent-soft:#1f2a37;--accent-ink:#0b1117}:root:not([data-theme="light"])[data-accent="amber"]{--accent:#fbbf24;--accent-soft:#3a2a0e;--accent-ink:#1f1302}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"])[data-accent="teal"]{--accent:#3cc3a4;--accent-soft:#16372f;--accent-ink:#06201a}:root:not([data-theme="light"])[data-accent="blue"]{--accent:#60a5fa;--accent-soft:#132a4a;--accent-ink:#04122a}:root:not([data-theme="light"])[data-accent="indigo"]{--accent:#818cf8;--accent-soft:#1e1f4a;--accent-ink:#0b0c2a}:root:not([data-theme="light"])[data-accent="violet"]{--accent:#a78bfa;--accent-soft:#2a1d4a;--accent-ink:#12082a}:root:not([data-theme="light"])[data-accent="slate"]{--accent:#cbd5e1;--accent-soft:#1f2a37;--accent-ink:#0b1117}:root:not([data-theme="light"])[data-accent="amber"]{--accent:#fbbf24;--accent-soft:#3a2a0e;--accent-ink:#1f1302}}
 /* фон */
-body{font-size:var(--fs);background-color:var(--bg);background-image:radial-gradient(1100px 620px at -10% -15%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 62%),radial-gradient(900px 560px at 110% -5%,rgba(99,102,241,.11),transparent 60%),radial-gradient(900px 700px at 55% 120%,rgba(14,165,233,.10),transparent 60%);background-attachment:fixed}
+body{font-size:var(--fs);background-color:var(--bg);background-image:radial-gradient(980px 640px at -8% -14%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 60%),radial-gradient(840px 580px at 108% -6%,var(--aur2),transparent 58%),radial-gradient(920px 720px at 42% 118%,var(--aur3),transparent 60%),radial-gradient(540px 440px at 88% 90%,var(--aur4),transparent 62%);background-attachment:fixed}
 :root.nobg body{background-image:none}
 .card{box-shadow:var(--shadow)}
 .btn{transition:background .15s,border-color .15s,box-shadow .15s,transform .05s}.btn:active{transform:translateY(1px)}
@@ -975,24 +983,35 @@ window.addEventListener("resize",uiTb); new MutationObserver(uiTb).observe(docum
 const UI_LK="fb-ui";
 function uiGet(){ try{ return JSON.parse(localStorage.getItem(UI_LK)||"{}")||{}; }catch(e){ return {}; } }
 const uiDark=()=>{ const t=document.documentElement.getAttribute("data-theme"); return t==="dark"||(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches); };
+function uiTimeTheme(){ const h=new Date().getHours(); return (h>=7&&h<19)?"light":"dark"; }
+let UI_TMR=null;
+function uiTimeWatch(){ if(UI_TMR){ clearInterval(UI_TMR); UI_TMR=null; }
+  if(uiGet().theme!=="time") return;
+  UI_TMR=setInterval(()=>{ const r=document.documentElement, w=uiTimeTheme();
+    if(r.getAttribute("data-theme")!==w){ r.setAttribute("data-theme",w);
+      const mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.setAttribute("content",uiDark()?"#06070c":"#7c3aed");
+      const tb=document.getElementById("themeBtn"); if(tb) tb.innerHTML=uiDark()?UI_SUN:UI_MOON; } }, 600000); }
 function uiApply(){ const u=uiGet(), r=document.documentElement;
-  if(u.theme==="light"||u.theme==="dark") r.setAttribute("data-theme",u.theme); else r.removeAttribute("data-theme");
-  if(u.accent&&u.accent!=="teal") r.setAttribute("data-accent",u.accent); else r.removeAttribute("data-accent");
+  if(u.theme==="light"||u.theme==="dark") r.setAttribute("data-theme",u.theme);
+  else if(u.theme==="time") r.setAttribute("data-theme",uiTimeTheme());
+  else r.removeAttribute("data-theme");
+  if(u.accent&&u.accent!=="aurora") r.setAttribute("data-accent",u.accent); else r.removeAttribute("data-accent");
   r.classList.toggle("dense",u.dense!==false); r.classList.toggle("nobg",u.bg===false); r.classList.toggle("fs-s",u.fs==="s"); r.classList.toggle("fs-l",u.fs==="l");
-  const mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.setAttribute("content",uiDark()?"#0b1117":"#0f6e5c");
-  const tb=document.getElementById("themeBtn"); if(tb) tb.innerHTML=uiDark()?UI_SUN:UI_MOON; }
+  const mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.setAttribute("content",uiDark()?"#06070c":"#7c3aed");
+  const tb=document.getElementById("themeBtn"); if(tb) tb.innerHTML=uiDark()?UI_SUN:UI_MOON;
+  uiTimeWatch(); }
 function uiSet(p){ const u={...uiGet(),...p}; try{ localStorage.setItem(UI_LK,JSON.stringify(u)); }catch(e){} uiApply(); if(document.getElementById("uiPanel")) uiPanelOpen(); }
 const UI_GEAR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
 const UI_SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>';
 const UI_MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z"/></svg>';
 const UI_EXIT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v8"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></svg>';
-const UI_ACC=[["teal","#0f6e5c","Зумрад"],["blue","#2563eb","Денгиз"],["indigo","#4f46e5","Индиго"],["violet","#7c3aed","Бинафша"],["amber","#b45309","Каҳрабо"],["slate","#334155","Графит"]];
+const UI_ACC=[["aurora","#7c3aed","Аврора"],["teal","#0f6e5c","Зумрад"],["blue","#2563eb","Денгиз"],["indigo","#4f46e5","Индиго"],["violet","#7c3aed","Бинафша"],["amber","#b45309","Каҳрабо"],["slate","#334155","Графит"]];
 function uiPanelOpen(){ uiPanelClose(); const u=uiGet(); const th=u.theme||"auto"; const seg=(key,cur,opts)=>`<div class="seg">${opts.map(([v,t])=>`<button type="button" data-ui="${key}:${v}" aria-pressed="${cur===v}">${t}</button>`).join("")}</div>`;
   const m=document.createElement("div"); m.className="uimask"; m.id="uiMask"; m.setAttribute("data-ui","close");
   const p=document.createElement("div"); p.className="uipanel"; p.id="uiPanel"; p.setAttribute("role","dialog"); p.setAttribute("aria-label","Дастур параметрлари");
   p.innerHTML=`<h3><span>⚙ Дастур параметрлари</span><button type="button" class="iconbtn" data-ui="close" aria-label="Ёпиш">✕</button></h3>
-  <div class="uirow"><span class="k">Режим</span>${seg("theme",th,[["light","☀ Кундузги"],["dark","☾ Тунги"],["auto","◐ Тизим бўйича"]])}</div>
-  <div class="uirow"><span class="k">Асосий ранг</span><div class="swatches">${UI_ACC.map(([k,c,t])=>`<button type="button" data-ui="accent:${k}" title="${t}" aria-label="${t}" aria-pressed="${(u.accent||"teal")===k}" style="background:${c}"></button>`).join("")}</div></div>
+  <div class="uirow"><span class="k">Режим</span>${seg("theme",th,[["light","☀ Кундузги"],["dark","☾ Тунги"],["time","◑ Соат бўйича"],["auto","◐ Тизим"]])}<span class="hint">«Соат бўйича» — 07:00–19:00 кундузги, қолганида тунги.</span></div>
+  <div class="uirow"><span class="k">Асосий ранг</span><div class="swatches">${UI_ACC.map(([k,c,t])=>`<button type="button" data-ui="accent:${k}" title="${t}" aria-label="${t}" aria-pressed="${(u.accent||"aurora")===k}" style="background:${c}"></button>`).join("")}</div></div>
   <div class="uirow"><span class="k">Кўриниш</span>${seg("dense",u.dense===false?"0":"1",[["1","Ихчам"],["0","Кенг"]])}</div>
   <div class="uirow"><span class="k">Ҳарф ўлчами</span>${seg("fs",u.fs||"m",[["s","Кичик"],["m","Ўрта"],["l","Катта"]])}</div>
   <div class="uirow"><span class="k">Фон безаги</span>${seg("bg",u.bg===false?"0":"1",[["1","Рангли фон"],["0","Оддий фон"]])}</div>
@@ -1657,7 +1676,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="01.11.2026 · в70";
+const APP_VER="07.11.2026 · в71";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
