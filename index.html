@@ -694,6 +694,21 @@ tr.norow:hover td{background:transparent}
 .dc-s{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:1px 8px;margin-top:7px;justify-self:start}
 @media (prefers-reduced-motion: reduce){.dcard{transition:none}}
 /* compact dark strip on sub-pages */
+/* в76: чап панелда фирма бўлимлари рўйхати */
+.secnav{display:flex;flex-direction:column;gap:2px;list-style:none;margin:0;padding:0}
+.secnav button{width:100%;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:center;border:0;background:transparent;border-radius:9px;padding:7px 9px;text-align:left;color:var(--ink);font:inherit;font-size:13.3px}
+.secnav button:hover{background:var(--bg)}
+.secnav button[aria-current="true"]{background:var(--accent-soft);font-weight:700}
+.secnav .sn-i{width:24px;height:24px;display:block}
+.secnav .sn-i svg{width:100%;height:100%;display:block}
+.secnav .sn-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.secnav i{font-style:normal;font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.secnav button[aria-current="true"] i{color:var(--accent)}
+#secLabel{display:flex;flex-direction:column;gap:2px;align-items:flex-start}
+.curfirm{font-size:12.5px;font-weight:700;color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none;letter-spacing:0}
+@media (min-width:861px){:root.firmopen #firmList,:root.firmopen .firmsLbl,:root.firmopen .dstrip{display:none}
+ :root.firmopen #secList{flex:1;overflow-y:auto;min-height:60px;scrollbar-width:thin}}
+@media (max-width:860px){#secList,#secLabel{display:none}}
 .dstrip{display:flex;gap:4px;padding:8px;border-radius:14px;background:#0a1324;box-shadow:inset 0 0 0 1px rgba(140,170,255,.14);overflow-x:auto;scrollbar-width:thin}
 .ds{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;width:78px;padding:6px 4px 8px;border:0;border-radius:10px;background:none;color:#a9b8d4;position:relative}
 .ds:hover{background:rgba(140,170,255,.08);color:#e9f0ff}
@@ -1728,7 +1743,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в75";
+const APP_VER="07.11.2026 · в76";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -9524,6 +9539,42 @@ document.addEventListener("change",async e=>{ const el=e.target, d=V.actEdit; if
 
 DUP_SKIP.add("bankln"); DUP_SKIP.add("bankst");
 
+/* в76: фирма очилганда чап панелда бўлимлар рўйхати (компьютерда).
+   renderRail «ўраш» усули билан кенгайтирилди — эскиси ўз ҳолича ишлайверади. */
+const SECN={
+  reqs:f=>accountsOf(f).length, bank:f=>accountsOf(f).length,
+  orders:f=>firmOrders(f.id).length,
+  staff:f=>S.emp.filter(e=>e.firmId===f.id&&e.status!=="fired").length,
+  import:f=>S.gtd.filter(r=>r.firmId===f.id).length,
+  contracts:f=>firmContracts(f.id).length,
+  check:f=>firmChecks(f.id).length,
+  loans:f=>firmLoans(f.id).length+firmCredits(f.id).length,
+  cards:f=>recN(f.id,"ccheck"), taxrep:f=>recN(f.id,"taxrep"), finrep:f=>recN(f.id,"finrep"),
+  office:f=>firmLetters(f.id).length, charter:f=>firmCharters(f.id).length,
+  policy:f=>firmPol(f.id).length, lease:f=>firmLeases(f.id).length,
+  cash:f=>recN(f.id,"cashm"), av:f=>firmFa(f.id).length, finance:f=>finRecs(f.id).length,
+};
+function secCount(f,k){ try{ return SECN[k]?(SECN[k](f)||0):0; }catch(e){ return 0; } }
+/* чап панелда жой тор — узун номларнинг қисқа варианти (бошқа жойларда тўлиқ номи қолади) */
+const SEC_SHORT={av:"Асосий воситалар",orders:"Қарор-буйруқлар",contracts:"Шартномалар",import:"Импорт (ГТД)",
+  cards:"Карта чеклари",loans:"Қарз / кредитлар",finance:"Молиявий ҳолат",buyers:"Харидорлар",charter:"Устав ҳужжатлари"};
+{ const _old=renderRail;
+  renderRail=function(){
+    _old();
+    const rail=document.querySelector(".rail"); if(!rail) return;
+    const f=(V.view==="firm")?firm(V.firmId):null;
+    document.documentElement.classList.toggle("firmopen",!!f);
+    const lab=rail.querySelector(".label:not(#secLabel)"); if(lab) lab.classList.add("firmsLbl");
+    let sl=document.getElementById("secLabel"), su=document.getElementById("secList");
+    if(!f){ if(sl) sl.remove(); if(su) su.remove(); return; }
+    if(!sl){ sl=document.createElement("div"); sl.className="label"; sl.id="secLabel"; rail.insertBefore(sl,lab||null); }
+    if(!su){ su=document.createElement("ul"); su.className="secnav"; su.id="secList"; rail.insertBefore(su,lab||null); }
+    sl.innerHTML=`<button type="button" class="linkbtn backfirms" data-ui="go:home">← Фирмалар</button><div class="curfirm" title="${esc(f.name||"")}">${esc(f.name||"")}</div>`;
+    su.innerHTML=firmMenus(f).map(m=>{ const n=secCount(f,m.k);
+      return `<li><button type="button" data-tab="${esc(m.k)}" aria-current="${V.tab===m.k}" title="${esc(m.t)}"><span class="sn-i">${ICONC[m.k]||""}</span><span class="sn-t">${esc(SEC_SHORT[m.k]||m.t)}</span>${n?`<i>${n}</i>`:""}</button></li>`;
+    }).join("");
+  };
+}
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
