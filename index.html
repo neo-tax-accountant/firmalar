@@ -603,6 +603,22 @@ th.r,td.r{text-align:right}
 .glow.big{font-size:17px;padding:8px 18px}
 @keyframes glow{50%{box-shadow:0 0 0 2px rgba(0,200,90,.25),0 0 22px rgba(0,240,120,.8),0 0 44px rgba(0,240,120,.35)}}
 @media (prefers-reduced-motion: reduce){.glow{animation:none}}
+/* в73: 4 та алоҳида карточка */
+.fsum4{display:grid;grid-template-columns:repeat(auto-fit,minmax(218px,1fr));gap:12px}
+.fsc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:5px;min-width:0;box-shadow:var(--shadow)}
+.fsk{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.fsv{font-family:var(--f-display);font-weight:700;font-size:clamp(19px,2vw,25px);letter-spacing:-.03em;line-height:1.12}
+.fsa{font-size:14.5px;font-weight:600;line-height:1.32}
+.fss{font-size:12px;color:var(--muted)}
+.fss.w{color:var(--work);font-weight:600}.fss.r{color:var(--danger);font-weight:600}
+.linkbtn.r{color:var(--danger);font-weight:700}
+.fss.mono{font-family:var(--f-mono)}
+.fsbar{height:7px;border-radius:5px;background:color-mix(in srgb,var(--ink) 11%,transparent);overflow:hidden;margin:3px 0 1px}
+.fsbar i{display:block;height:100%;border-radius:5px;background:var(--grad)}
+.fsbar.soon i{background:var(--work)}.fsbar.bad i{background:var(--danger)}
+.fsc-rate{flex-direction:row;align-items:center;gap:14px}
+.fsc-rate .rmeta{display:flex;flex-direction:column;gap:3px;font-size:13px;min-width:0}
+.fsc-rate .rmeta span{color:var(--muted)}
 .fsum{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
 .fs-rate{display:flex;gap:14px;align-items:center}
 .fs-rate div{display:flex;flex-direction:column;gap:2px;font-size:13px}
@@ -661,20 +677,21 @@ tr.norow:hover td{background:transparent}
 .soonbox h2{font-family:var(--f-display);font-size:18px;margin:0 0 6px}
 .soonbox ul{margin:10px 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
 /* dark menu panel */
-.dpanel{--dbg:#0a1324;background-color:var(--dbg);background-image:linear-gradient(rgba(120,160,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.06) 1px,transparent 1px),radial-gradient(ellipse at 50% 0%,rgba(60,120,255,.22),transparent 60%);background-size:28px 28px,28px 28px,100% 100%;border-radius:18px;padding:22px clamp(12px,2.5vw,24px) 26px;box-shadow:0 10px 30px rgba(5,12,30,.35),inset 0 0 0 1px rgba(140,170,255,.12)}
-.dp-h{color:#e9f0ff;font-family:var(--f-display);font-weight:500;font-size:clamp(14px,1.8vw,18px);letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-bottom:18px;text-shadow:0 0 16px rgba(120,170,255,.45)}
-.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-.dcard{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px 12px 18px;border-radius:14px;background:linear-gradient(180deg,rgba(30,44,74,.92),rgba(16,26,48,.95));border:1px solid rgba(140,170,255,.16);color:#e9f0ff;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden}
-.dcard::after{content:"";position:absolute;left:14%;right:14%;bottom:0;height:3px;border-radius:3px;background:var(--cl);box-shadow:0 0 10px var(--c),0 0 22px var(--c)}
-.dcard:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 8px 26px rgba(0,0,0,.35),0 0 24px color-mix(in srgb,var(--c) 35%,transparent)}
-.dcard:focus-visible{outline:2px solid var(--cl);outline-offset:2px}
-.dc-i{width:88px;height:88px;display:block;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--c) 60%,transparent))}
+.dpanel{padding:2px 0 0}
+.dp-h{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:0 0 9px 2px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:11px}
+.dcard{position:relative;display:grid;grid-template-columns:42px minmax(0,1fr);align-items:start;gap:12px;text-align:left;padding:14px 15px 15px;border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--ink);box-shadow:var(--shadow);transition:transform .16s,box-shadow .16s,border-color .16s;overflow:hidden}
+.dcard::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 25%,transparent))}
+.dcard:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 55%,var(--line));box-shadow:0 14px 30px -16px color-mix(in srgb,var(--c) 65%,transparent)}
+.dcard:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.dcard>.dc-i{grid-row:1/4}.dcard>.dc-t,.dcard>.dc-d,.dcard>.dc-n,.dcard>.dc-s{grid-column:2}
+.dc-i{width:42px;height:42px;display:block;filter:drop-shadow(0 2px 6px color-mix(in srgb,var(--c) 42%,transparent))}
 .dc-i svg{width:100%;height:100%;display:block}
 .dc-i.big{width:96px;height:96px;flex:none}
-.dc-t{font-weight:800;font-size:13px;letter-spacing:.04em;text-transform:uppercase;line-height:1.25;margin-top:4px}
-.dc-d{font-size:12px;color:#a9b8d4;line-height:1.35}
-.dc-n{font-size:11.5px;font-weight:600;color:var(--cl);margin-top:2px}
-.dc-s{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7f91b3;border:1px solid rgba(140,170,255,.22);border-radius:99px;padding:1px 8px;margin-top:2px}
+.dc-t{font-weight:700;font-size:13.5px;letter-spacing:-.01em;line-height:1.25}
+.dc-d{font-size:11.8px;color:var(--muted);line-height:1.35;margin-top:2px}
+.dc-n{font-size:11.6px;font-weight:700;color:color-mix(in srgb,var(--c) 72%,var(--ink));margin-top:7px}
+.dc-s{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:1px 8px;margin-top:7px;justify-self:start}
 @media (prefers-reduced-motion: reduce){.dcard{transition:none}}
 /* compact dark strip on sub-pages */
 .dstrip{display:flex;gap:4px;padding:8px;border-radius:14px;background:#0a1324;box-shadow:inset 0 0 0 1px rgba(140,170,255,.14);overflow-x:auto;scrollbar-width:thin}
@@ -1265,14 +1282,43 @@ function onFirmInput(el, isChange){
 
 /* ---------- firm card (requisites tab) ---------- */
 function kv(l,v,mono){ return `<div class="req"><div class="k">${l}</div><div class="v ${mono?"mono":""} ${v?"":"none"}">${v?esc(v):"киритилмаган"}</div></div>`; }
-function firmSummary(f){
-  const vs=vatStatus(f); const tot=founderTotal(f);
-  return `<div class="fsum">
-    ${f.ratingCat?`<div class="fs-rate rn-${ratingGroup(f.ratingCat)}">${ratingCircle(f.ratingCat,70)}<div class="rmeta"><b>Солиқ рейтинги</b>${f.ratingScore?`<span class="rscore">${esc(f.ratingScore)}<small>балл</small></span>`:""}${f.ratingDate?`<span>${fmtDate(f.ratingDate)} ҳолатига</span>`:""}${(f.ratingHist||[]).length>1?`<span class="rhist">${f.ratingHist.slice(-5).map(h=>`<i class="rn-${ratingGroup(h.cat)}" title="${fmtDate(h.d)} · ${h.score} балл">${esc(h.cat)}</i>`).join("→")}</span>`:""}<button type="button" class="linkbtn" data-act="rateOne">↻ chamber.uz'дан янгилаш</button></div></div>`:`<div class="fs-rate"><span class="rn rn-none" style="--fs:40px">—</span><div class="rmeta"><b>Солиқ рейтинги</b><span>киритилмаган</span><button type="button" class="linkbtn" data-act="rateOne">↻ chamber.uz'дан олиш</button></div></div>`}
-    <div class="fs-main"><span class="badge ${vs.cls}">${esc(vs.t)}</span>${f.okedName||f.oked?`<div class="act"><span class="k">Фаолият тури</span><b>${esc(f.okedName||"")}</b>${f.oked?`<span class="mono">ОКЭД ${esc(f.oked)}</span>`:""}</div>`:""}</div>
-    ${f.charterFund?`<div class="fs-fund"><span class="k">Устав фонди</span><span class="glow big">${money(f.charterFund)} сўм</span>${f.founders?.length&&Math.abs(tot-100)>0.001?`<span class="warnt">Улушлар жами ${Math.round(tot*100)/100}%</span>`:""}</div>`:""}
-  </div>`;
+/* в73: фирманинг навбатдаги топширилмаган солиқ ҳисоботи */
+function firmNextTax(f){
+  const y=new Date().getFullYear(), td=localToday(); let next=null, over=0;
+  try{
+    trOn(f).forEach(d=>[y-1,y].forEach(yy=>trRows(f,d.k,yy).forEach(x=>{
+      if(f.regDate&&x.P.end<f.regDate) return;
+      if(x.st.cls==="ok"||x.st.cls==="off") return;
+      if(x.dl<td){ if(dnum(x.dl)>=tdNum()-365) over++; return; }
+      if(!next||x.dl<next.dl) next={n:d.n,dl:x.dl,st:x.st,end:x.P.end};
+    })));
+  }catch(e){}
+  return {next,over};
 }
+function firmSummary(f){
+  const vs=vatStatus(f); const tot=founderTotal(f); const {next:nt,over:nOver}=firmNextTax(f);
+  const rateCard=f.ratingCat
+    ? `<div class="fsc fsc-rate fs-rate rn-${ratingGroup(f.ratingCat)}">${ratingCircle(f.ratingCat,70)}<div class="rmeta"><b>Солиқ рейтинги</b>${f.ratingScore?`<span class="rscore">${esc(f.ratingScore)}<small>балл</small></span>`:""}${f.ratingDate?`<span>${fmtDate(f.ratingDate)} ҳолатига</span>`:""}${(f.ratingHist||[]).length>1?`<span class="rhist">${f.ratingHist.slice(-5).map(h=>`<i class="rn-${ratingGroup(h.cat)}" title="${fmtDate(h.d)} · ${h.score} балл">${esc(h.cat)}</i>`).join("→")}</span>`:""}<button type="button" class="linkbtn" data-act="rateOne">↻ chamber.uz'дан янгилаш</button></div></div>`
+    : `<div class="fsc fsc-rate fs-rate"><span class="rn rn-none" style="--fs:40px">—</span><div class="rmeta"><b>Солиқ рейтинги</b><span>киритилмаган</span><button type="button" class="linkbtn" data-act="rateOne">↻ chamber.uz'дан олиш</button></div></div>`;
+  let bar="";
+  if(nt){
+    const tot2=dnum(nt.dl)-dnum(nt.end), left=dnum(nt.dl)-tdNum();
+    const pct=tot2>0?Math.max(0,Math.min(100,Math.round((tot2-left)/tot2*100))):100;
+    bar=`<div class="fsbar ${nt.st.cls==="bad"?"bad":nt.st.cls==="soon"?"soon":""}"><i style="width:${pct}%"></i></div>`;
+  }
+  const vatCard=`<div class="fsc"><span class="fsk">Солиқ ҳолати</span><span class="badge ${vs.cls}">${esc(vs.t)}</span>${
+    nt?`<span class="fss">Навбатдаги: <b>${esc(nt.n)}</b> — ${fmtDate(nt.dl)}</span>${bar}<span class="fss ${nt.st.cls==="soon"?"w":""}">${esc(nt.st.t)}</span>`
+      :`<span class="fss">Яқин кунларда топшириш муддати йўқ</span>`}${
+    nOver?`<button type="button" class="linkbtn r" data-tab="taxrep">⚠ ${nOver} та муддати ўтган</button>`:""}</div>`;
+  const fundCard=f.charterFund
+    ? `<div class="fsc"><span class="fsk">Устав фонди</span><span class="fsv">${money(f.charterFund)}</span><span class="fss">сўм${f.founders?.length?" · "+f.founders.length+" та таъсисчи":""}</span>${f.founders?.length&&Math.abs(tot-100)>0.001?`<span class="warnt">Улушлар жами ${Math.round(tot*100)/100}%</span>`:""}</div>`
+    : "";
+  const actCard=(f.okedName||f.oked)
+    ? `<div class="fsc"><span class="fsk">Фаолият тури</span><span class="fsa">${esc(f.okedName||"")}</span>${f.oked?`<span class="fss mono">ОКЭД ${esc(f.oked)}</span>`:""}</div>`
+    : "";
+  return `<div class="fsum4">${rateCard}${vatCard}${fundCard}${actCard}</div>`;
+}
+
 function firmReqsView(f){
   const accs=accountsOf(f).slice().sort((a,b)=>(b.type==="Асосий")-(a.type==="Асосий"));
   const grp=(title,inner,k)=>`<div class="card"><div class="label" style="padding:12px 16px 0">${GH(title,k||GROUP_ICON[title],30)}</div>${inner}</div>`;
@@ -1682,7 +1728,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в72";
+const APP_VER="07.11.2026 · в74";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -1864,7 +1910,7 @@ function firmOverview(f,os){
     </button>`).join("");
   return `${firmSummary(f)}
     ${al.length?`<details class="alerts" data-alk="firm"${alOpen("firm")?" open":""}><summary class="al-h">${NI("alert",34)}<b>Эътибор беринг</b><span>${al.length} та огоҳлантириш</span>${alCounts(al)}<i class="al-car" aria-hidden="true"></i></summary><ul>${al.map(a=>`<li class="al-${a.lvl}"><button type="button" data-tab="${a.tab||"reqs"}"><span class="al-dot"></span><span class="al-t" style="grid-column:2/-1">${esc(a.t)}</span></button></li>`).join("")}</ul></details>`:""}
-    <section class="dpanel"><div class="dp-h">${esc(f.name||"")} · бўлимлар</div><div class="dgrid">${cards}</div></section>`;
+    <section class="dpanel"><div class="dp-h">Бўлимлар</div><div class="dgrid">${cards}</div></section>`;
 }
 function firmPlaceholder(m){
   return `<div class="card soonbox"><span class="dc-i big" style="--c:${ICOLOR[m.k]}">${ICONC[m.k]}</span><div><h2>${m.t}</h2><p class="hint">Бу бўлим ҳали тайёр эмас. Режадаги имкониятлар:</p><ul>${m.plan.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><p class="hint">Бу бўлимга нималар керак бўлса, Claude'га ёзинг, шунга қараб тўлдирилади.</p></div></div>`;
