@@ -69,6 +69,18 @@ with sync_playwright() as p:
     chk(pg.evaluate('V.tab')=="reqs","плитка босилганда бўлим очилмади")
     chk(pg.evaluate('document.body.innerText.length')>500,"бўлим бўш")
 
+    # 6. в75 — плиткалардаги жонли сонлар
+    pg.evaluate(f'go({{view:"firm",firmId:"{fid}",tab:"overview"}})'); pg.wait_for_timeout(700)
+    mp=pg.evaluate('Object.fromEntries([...document.querySelectorAll(".dcard")].map(c=>[c.dataset.tab,c.querySelector(".dc-n")?.textContent||""]))')
+    print("sonlar",{k:v for k,v in mp.items() if v})
+    for k in ("reqs","bank","orders","taxrep","office","charter","contracts","import","check","staff"):
+        chk(mp.get(k),f"«{k}» плиткасида сон йўқ")
+    chk("муддати ўтган" in mp.get("taxrep",""),"солиқ плиткасида муддати ўтганлар кўрсатилмади")
+    # маълумот йўқ бўлимда сон чиқмаслиги керак (бўш «0 та» бўлмасин)
+    for k,v in mp.items():
+        chk(not v.startswith("0 "),f"«{k}» да «0 та» кўрсатилган")
+    chk(pg.evaluate('typeof FINFO==="object" && Object.keys(FINFO).length>=18'),"FINFO рўйхати тўлиқ эмас")
+
     _v=pg.evaluate('APP_VER'); _n=int("".join(ch for ch in _v.split("в")[-1] if ch.isdigit()) or 0)
     print("VER",_v)
     chk(_n>=74,f"версия в74 ёки ундан юқори бўлиши керак, ҳозир: {_v}")

@@ -1728,7 +1728,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в74";
+const APP_VER="07.11.2026 · в75";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -1899,9 +1899,33 @@ function firmMenu(f,os){
   if(V.tab==="overview"||!firmMenus(f).some(m=>m.k===V.tab)) return "";
   return `<nav class="dstrip" aria-label="Фирма бўлимлари">${firmMenus(f).map(m=>`<button type="button" class="ds ${V.tab===m.k?"on":""}" data-tab="${m.k}" aria-current="${V.tab===m.k}" style="--c:${ICOLOR[m.k]};--cl:${ILIGHT[m.k]}" title="${esc(m.t)}"><span class="ds-i">${ICONC[m.k]}</span><span class="ds-t">${m.t}</span></button>`).join("")}</nav>`;
 }
+/* в75: ҳар бир плитка учун жонли сон. Янги маълумот йиғилмайди —
+   мавжуд рўйхат функциялари ишлатилади. Оғир ҳисоб-китоб (ички аудит,
+   курс фарқлари) атайин киритилмаган: улар ҳар чизишда қайта ҳисобланарди. */
+const recN=(fid,t)=>S.recs.filter(r=>r.type===t&&r.firmId===fid).length;
+const FINFO={
+  reqs:f=>`${accountsOf(f).length} та ҳисоб рақам · ${(f.founders||[]).length} та таъсисчи`,
+  bank:f=>{ const a=accountsOf(f).length, st=recN(f.id,"bankst"); return a?`${a} та ҳисоб рақам${st?" · "+st+" та кўчирма":" · кўчирма юкланмаган"}`:""; },
+  orders:(f,os)=>{ const sg=os.filter(o=>o.status==="signing").length; return `${os.length} та буйруқ${sg?" · "+sg+" та имзолашда":""}`; },
+  staff:f=>{ const n=S.emp.filter(e=>e.firmId===f.id&&e.status!=="fired").length; return n?`${n} та ходим`:""; },
+  import:f=>{ const n=S.gtd.filter(r=>r.firmId===f.id).length; return n?`${n} та ГТД`:""; },
+  cards:f=>ccInfo(f),
+  contracts:f=>{ const cs=firmContracts(f.id); if(!cs.length) return ""; const i=cs.filter(c=>(c.dir||"in")==="in").length; return `кирувчи ${i} · чиқувчи ${cs.length-i}`; },
+  check:f=>{ const cs=firmChecks(f.id); if(!cs.length) return ""; const due=ckAlerts(f).length; return `${cs.length} та чек лист${due?" · "+due+" та эслатма":""}`; },
+  loans:f=>{ const ls=firmLoans(f.id); if(!ls.length) return ""; const b=ls.reduce((a,L)=>a+loanCalc(L).balToday,0); return `${ls.length} та шартнома · қолдиқ ${m0(b)}`; },
+  taxrep:f=>{ const n=recN(f.id,"taxrep"); const o=firmNextTax(f).over; if(!n&&!o) return ""; return `${n} та ҳисобот${o?" · "+o+" та муддати ўтган":""}`; },
+  finrep:f=>{ const n=recN(f.id,"finrep"); return n?`${n} та ҳисобот`:""; },
+  office:f=>{ const L=firmLetters(f.id); if(!L.length) return ""; const i=L.filter(x=>x.dir==="in").length; return `кирувчи ${i} · чиқувчи ${L.length-i}`; },
+  charter:f=>{ const n=firmCharters(f.id).length; return n?`${n} та ҳужжат`:""; },
+  policy:f=>{ const n=firmPol(f.id).length; return n?`${n} та сиёсат`:""; },
+  lease:f=>{ const n=firmLeases(f.id).length; return n?`${n} та шартнома`:""; },
+  cash:f=>{ const n=recN(f.id,"cashm"); return n?`${n} ой киритилган`:""; },
+  av:f=>{ const n=firmFa(f.id).length; return n?`${n} та восита`:""; },
+  finance:f=>{ const n=finRecs(f.id).length; return n?`${n} та давр`:""; },
+};
 function firmOverview(f,os){
-  const al=firmAlerts(f); const c=s=>os.filter(o=>o.status===s).length;
-  const info=m=>m.k==="cards"?ccInfo(f):m.k==="staff"?(()=>{ const n=S.emp.filter(e=>e.firmId===f.id&&e.status!=="fired").length; return n?`${n} та ходим`:""; })():m.k==="import"?(()=>{ const n=S.gtd.filter(r=>r.firmId===f.id).length; return n?`${n} та ГТД`:""; })():m.k==="contracts"?(()=>{ const cs=firmContracts(f.id); if(!cs.length) return ""; const i=cs.filter(c=>(c.dir||"in")==="in").length; return `кирувчи ${i} · чиқувчи ${cs.length-i}`; })():m.k==="check"?(()=>{ const cs=firmChecks(f.id); if(!cs.length) return ""; const due=ckAlerts(f).length; return `${cs.length} та чек лист${due?" · "+due+" та эслатма":""}`; })():m.k==="loans"?(()=>{ const ls=firmLoans(f.id); if(!ls.length) return ""; const b=ls.reduce((a,L)=>a+loanCalc(L).balToday,0); return `${ls.length} та шартнома · қолдиқ ${m0(b)}`; })():m.k==="orders"?`${os.length} та буйруқ · ${c("signing")} та имзолашда`:m.k==="reqs"?`${accountsOf(f).length} та ҳисоб рақам · ${(f.founders||[]).length} та таъсисчи`:"";
+  const al=firmAlerts(f);
+  const info=m=>{ try{ return FINFO[m.k]?(FINFO[m.k](f,os)||""):""; }catch(e){ return ""; } };
   const cards=firmMenus(f).filter(m=>m.k!=="overview").map(m=>`<button type="button" class="dcard" data-tab="${m.k}" style="--c:${ICOLOR[m.k]};--cl:${ILIGHT[m.k]}">
       <span class="dc-i">${ICONC[m.k]}</span>
       <span class="dc-t">${m.t}</span>
