@@ -389,7 +389,15 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 @media print{.btab th,.btab td{font-size:10.5px;padding:3px 5px}.sheet.bref{font-size:12px}}
 .rhist{display:flex;gap:3px;align-items:center;font-size:11px}.rhist i{font-style:normal;font-weight:800;font-family:var(--f-display);color:var(--c)}
 /* HR */
-.hrtabs .chip{font-weight:600}
+/* в78: бўлим ичидаги вкладкалар — остига чизиқ тортилган кўриниш */
+.hrtabs{display:flex;gap:2px;flex-wrap:wrap;align-items:flex-end;border-bottom:1px solid var(--line);margin-bottom:2px}
+.hrtabs .chip{border:0;background:none;border-radius:0;padding:9px 13px;margin-bottom:-1px;font-weight:700;font-size:13.5px;
+ color:var(--muted);border-bottom:2px solid transparent;box-shadow:none}
+.hrtabs .chip:hover{color:var(--ink);background:none}
+.hrtabs .chip[aria-pressed="true"]{background:none;color:var(--ink);border-bottom-color:var(--accent);box-shadow:none}
+.hrtabs .chip .cn{font-style:normal;font-size:11px;font-family:var(--f-mono);background:var(--track,color-mix(in srgb,var(--ink) 8%,transparent));
+ border-radius:99px;padding:1px 7px;margin-left:5px;color:var(--muted)}
+.hrtabs .chip[aria-pressed="true"] .cn{background:var(--accent-soft);color:var(--accent)}
 .hrorders{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 16px}
 .vacbox{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 16px}
 .vacbox>div{display:flex;flex-direction:column;gap:2px;background:var(--bg);border-radius:10px;padding:10px 12px}
@@ -401,7 +409,6 @@ tr.old td{opacity:.6}tr.dupr td{opacity:.55}
 .sheet .fam{margin-top:22px;font-size:13.5px}
 /* filters, ND, vacation plan */
 .chip .cn{font-style:normal;opacity:.7;font-size:12px;margin-left:2px}
-.ctfilters .ctsearch.fq{flex:1 1 220px}
 .ctfilters{align-items:center}
 .nohit{text-align:center;color:var(--muted);padding:18px!important}
 .btn.sm{padding:4px 10px;font-size:12.5px;min-height:0}
@@ -522,7 +529,17 @@ tr.muted td{color:var(--muted)}
 .cttab.on::after{content:"";position:absolute;left:10%;right:10%;bottom:0;height:3px;border-radius:3px;background:var(--cl);box-shadow:0 0 10px var(--c),0 0 20px var(--c)}
 .cttab:not(.on){opacity:.75}.cttab:hover{opacity:1}
 .ctsearch{flex:1 1 240px;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
-.ctfilters{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between}
+/* в78: фильтрлар бир қаторга тизилади ва ихчамланади */
+.ctfilters{display:flex;flex-wrap:wrap;gap:7px 10px;align-items:center;justify-content:flex-start;
+ padding:8px 10px;border-radius:13px;background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+ border:1px solid var(--line)}
+.ctfilters>.chips{gap:4px}
+.ctfilters .chip{padding:4px 10px;font-size:12.3px}
+.ctfilters .gsel{padding:4px 7px;font-size:12.5px;border-radius:8px;height:30px;max-width:190px}
+.ctfilters .ctsearch.fq{flex:1 1 200px;min-width:150px;max-width:300px;padding:5px 10px;font-size:12.8px;border-radius:9px;margin-left:auto}
+.ctfilters .linkbtn{font-size:12.3px;white-space:nowrap}
+.ctfilters .cn{font-size:10.5px}
+@media (max-width:700px){.ctfilters .ctsearch.fq{margin-left:0;max-width:none}}
 .ctsj{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 7px}
 .ctsj.g{background:#dcfce7;color:#15803d}.ctsj.s{background:#dbeafe;color:#1d4ed8}.ctsj.w{background:#fef3c7;color:#b45309}
 .ctsub{font-size:12.5px;color:var(--muted);margin-top:3px;max-width:320px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -588,12 +605,16 @@ tr.muted td{color:var(--muted)}
 textarea{font:inherit}
 .field textarea{resize:vertical;line-height:1.5}
 /* loans */
-.lstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;padding:12px;border-radius:16px;background-color:#0a0a18;background-image:radial-gradient(ellipse at 18% 0%,rgba(124,58,237,.28),transparent 62%),radial-gradient(ellipse at 82% 10%,rgba(34,211,238,.18),transparent 60%),radial-gradient(ellipse at 55% 120%,rgba(16,185,129,.14),transparent 62%);box-shadow:inset 0 0 0 1px rgba(167,139,250,.18)}
-.lstat{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:12px 14px 14px;border-radius:12px;background:linear-gradient(180deg,rgba(38,34,72,.92),rgba(18,17,38,.95));border:1px solid rgba(167,139,250,.18);color:#edeefb;min-width:0;box-shadow:0 10px 26px -18px var(--c)}
-.lstat::after{content:"";position:absolute;left:12%;right:12%;bottom:0;height:3px;border-radius:3px;background:var(--cl);box-shadow:0 0 10px var(--c),0 0 20px var(--c)}
-.lstat .k{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#a8aecb}
-.lstat .v{font-family:var(--f-display);font-weight:700;font-style:italic;font-size:clamp(15px,1.45vw,19px);line-height:1.25;color:var(--cl);text-shadow:0 0 10px color-mix(in srgb,var(--c) 65%,transparent)}
-.lstat .s{font-size:11.5px;color:#949bbb}
+.lstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:11px;padding:0;background:none;box-shadow:none}
+.lstat{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:14px 16px 16px;border-radius:16px;
+ background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+ border:1px solid var(--line);color:var(--ink);min-width:0;
+ box-shadow:var(--shadow),0 16px 34px -24px color-mix(in srgb,var(--c) 85%,transparent)}
+.lstat::before{content:"";position:absolute;right:-30px;top:-38px;width:120px;height:120px;border-radius:50%;background:var(--c);filter:blur(42px);opacity:.14;pointer-events:none}
+.lstat::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 22%,transparent))}
+.lstat .k{position:relative;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lstat .v{position:relative;font-family:var(--f-display);font-weight:700;font-size:clamp(18px,1.75vw,24px);letter-spacing:-.035em;line-height:1.14;color:color-mix(in srgb,var(--c) 68%,var(--ink))}
+.lstat .s{position:relative;font-size:11.5px;color:var(--muted)}
 .lpill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
 .lpill.act{background:#dbeafe;color:#1d4ed8}.lpill.ok{background:var(--ok-soft);color:var(--ok)}.lpill.soon{background:var(--work-soft);color:var(--work)}.lpill.bad{background:#fde2e0;color:var(--danger)}
 .lrate{font-family:var(--f-display);font-weight:700;font-style:italic;font-size:12.5px;color:var(--accent)}
@@ -784,7 +805,10 @@ tr.norow:hover td{background:transparent}
 /* фон */
 body{font-size:var(--fs);background-color:var(--bg);background-image:radial-gradient(980px 640px at -8% -14%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 60%),radial-gradient(840px 580px at 108% -6%,var(--aur2),transparent 58%),radial-gradient(920px 720px at 42% 118%,var(--aur3),transparent 60%),radial-gradient(540px 440px at 88% 90%,var(--aur4),transparent 62%);background-attachment:fixed}
 :root.nobg body{background-image:none}
-.card{box-shadow:var(--shadow)}
+/* в78: шиша (glass) кўриниш — ҳужжат варақлари ва чоп этишга тегмайди */
+.card{box-shadow:var(--shadow);background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.card.sheet,.sheetwrap .card,#printArea .card,.pdfpg .card,.letpage,.soonbox{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none}
+@media print{.card{background:#fff!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}}
 .btn{transition:background .15s,border-color .15s,box-shadow .15s,transform .12s}.btn:active{transform:translateY(1px)}
 .btn.primary{box-shadow:0 6px 18px -4px color-mix(in srgb,var(--accent) 42%,transparent)}
 .btn.primary:hover{transform:translateY(-1px);box-shadow:0 10px 26px -6px color-mix(in srgb,var(--accent) 55%,transparent)}
@@ -830,7 +854,7 @@ body{font-size:var(--fs);background-color:var(--bg);background-image:radial-grad
 :root.dense .field input,:root.dense .field select,:root.dense .field textarea{padding:7px 9px}
 :root.dense .field label{font-size:12.5px}
 :root.dense .head h1{font-size:clamp(18px,2.2vw,22px)}
-:root.dense .lstats{gap:8px;padding:10px}:root.dense .lstat{padding:9px 11px 11px}:root.dense .lstat .v{font-size:clamp(14px,1.25vw,17px)}
+:root.dense .lstats{gap:9px}:root.dense .lstat{padding:11px 13px 13px}:root.dense .lstat .v{font-size:clamp(16px,1.5vw,21px)}
 :root.dense .rnav{padding:6px 9px;font-size:13px}:root.dense .firmlist button{padding:7px 9px}
 :root.dense .ds{width:70px}:root.dense .ds-i{width:32px;height:32px}
 :root.fs-s{--fs:13.5px}:root.fs-l{--fs:16px}
@@ -1788,7 +1812,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в77";
+const APP_VER="07.11.2026 · в78";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
