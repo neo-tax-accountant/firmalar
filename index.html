@@ -63,7 +63,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-.app{display:grid;grid-template-columns:280px 1fr;min-height:100%}
+.app{display:grid;grid-template-columns:280px 1fr;grid-template-rows:auto 1fr;min-height:100%}
+.rail{grid-column:1;grid-row:1/3}
+.appbar{grid-column:2;grid-row:1}
+.main{grid-column:2;grid-row:2}
 .rail{background:var(--panel);border-right:1px solid var(--line);padding:20px 16px;display:flex;flex-direction:column;gap:16px;min-width:0}
 .brand{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.2}
 .brand small{display:block;font-family:var(--f-body);font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.02em;margin-top:4px}
@@ -76,6 +79,34 @@ button{cursor:pointer}
 .label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
 .main{padding:24px clamp(16px,3vw,36px);min-width:0;display:flex;flex-direction:column;gap:20px}
+/* в77: юқори қатор — глобал қидирув, сана-соат, назорат маркази */
+.appbar{display:flex;gap:10px;align-items:center;padding:10px clamp(16px,3vw,36px);border-bottom:1px solid var(--line);
+ background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);position:sticky;top:var(--tb,0px);z-index:44;min-width:0}
+.absp{flex:1}
+.gsbox{position:relative;display:flex;gap:8px;align-items:center;flex:1 1 300px;max-width:420px;min-width:0;
+ border:1px solid var(--line);background:var(--panel);border-radius:11px;padding:7px 10px}
+.gsbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.gsic{color:var(--muted);font-size:16px;line-height:1}
+#gsq{flex:1;min-width:0;border:0;background:transparent;outline:0;font:inherit;font-size:13.5px;color:var(--ink)}
+#gsq::-webkit-search-cancel-button{display:none}
+.gskbd{border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.gsres{position:absolute;left:0;right:0;top:calc(100% + 6px);max-height:min(66vh,460px);overflow:auto;z-index:60;
+ background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 44px -18px rgba(10,14,40,.5);padding:6px}
+.gsg{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:8px 9px 4px}
+.gsr{width:100%;display:grid;grid-template-columns:22px minmax(0,1fr);gap:9px;align-items:center;border:0;background:transparent;
+ border-radius:9px;padding:7px 9px;text-align:left;color:var(--ink);font:inherit;font-size:13.2px}
+.gsr:hover,.gsr:focus-visible{background:var(--accent-soft)}
+.gsr .gi{width:22px;height:22px;display:block}.gsr .gi svg{width:100%;height:100%;display:block}
+.gsr b{font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gsr span{display:block;font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gsempty{padding:14px 10px;font-size:13px;color:var(--muted)}
+.abdate{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.abbell{position:relative;width:34px;height:34px;flex:none;border:1px solid var(--line);background:var(--panel);border-radius:10px;
+ display:grid;place-items:center;color:var(--muted)}
+.abbell svg{width:18px;height:18px}
+.abbell em{position:absolute;top:-5px;right:-5px;font-style:normal;font-size:9.5px;font-weight:800;color:#fff;background:var(--danger);
+ border-radius:99px;min-width:16px;height:16px;display:grid;place-items:center;padding:0 4px}
+@media (max-width:860px){.appbar{padding:8px 12px}.gskbd,.abdate{display:none}}
 .btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:9px 14px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
 .btn:hover{border-color:var(--muted)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
@@ -208,7 +239,10 @@ legend{font-family:var(--f-display);font-weight:500;font-size:14px;margin-bottom
 .confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--danger);border-radius:8px;padding:10px 12px;font-size:13.5px}
 
 @media (max-width:860px){
-  .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .app{grid-template-columns:1fr;grid-template-rows:auto auto 1fr}
+  .rail{grid-column:1;grid-row:1}
+  .appbar{grid-column:1;grid-row:2}
+  .main{grid-column:1;grid-row:3}
   .rail{border-right:0;border-bottom:1px solid var(--line);padding:14px 16px;gap:10px}
   .firmlist{flex-direction:row;overflow-x:auto;padding-bottom:4px}
   .firmlist li{flex:none;max-width:220px}
@@ -1009,6 +1043,17 @@ th.tfth:hover .tfbtn,.tfbtn:focus-visible{opacity:1;border-color:var(--line);bac
     <ul class="firmlist" id="firmList"></ul>
     <div class="railfoot"><div class="me" id="meLine" hidden></div><button type="button" class="logoutbtn" id="logoutBtn" data-g="logout"></button></div>
   </aside>
+  <header class="appbar" id="appBar">
+    <div class="gsbox">
+      <span class="gsic" aria-hidden="true">⌕</span>
+      <input id="gsq" type="search" autocomplete="off" spellcheck="false" placeholder="Ҳужжат, контрагент, СТИР, рақам…" aria-label="Барча фирмалар бўйича қидириш">
+      <kbd class="gskbd">/</kbd>
+      <div class="gsres" id="gsRes" hidden role="listbox"></div>
+    </div>
+    <span class="absp"></span>
+    <span class="abdate" id="abDate"></span>
+    <button type="button" class="abbell" id="abBell" data-ca="ctl" title="Назорат маркази" aria-label="Назорат маркази"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><em id="abBellN" hidden></em></button>
+  </header>
   <main class="main" id="main"></main>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -1743,7 +1788,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в76";
+const APP_VER="07.11.2026 · в77";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -9539,6 +9584,65 @@ document.addEventListener("change",async e=>{ const el=e.target, d=V.actEdit; if
 
 DUP_SKIP.add("bankln"); DUP_SKIP.add("bankst");
 
+/* ===== в77: юқори қатор — глобал қидирув, сана-соат, назорат маркази ===== */
+const GS_MAX=6;
+function gsFind(q){
+  q=String(q||"").trim().toLowerCase(); if(q.length<2) return [];
+  const fn=id=>firm(id)?.name||"", out=[];
+  const grp=(t,k,rows)=>{ if(rows.length) out.push({t,k,rows:rows.slice(0,GS_MAX),more:Math.max(0,rows.length-GS_MAX)}); };
+  grp("Фирмалар","reqs",S.firms.filter(f=>qhit(q,[f.name,f.inn,f.director,f.chiefAccountant]))
+    .map(f=>({ico:"reqs",b:f.name||"Номсиз фирма",s:"СТИР "+(f.inn||"—"),go:{view:"firm",firmId:f.id,tab:"overview"}})));
+  grp("Шартномалар","contracts",S.recs.filter(r=>r.type==="contract"&&firm(r.firmId)&&qhit(q,[r.number,r.subject,r.cp?.name,r.cp?.inn]))
+    .map(r=>({ico:"contracts",b:"№ "+(r.number||"—")+" · "+(r.cp?.name||""),s:fn(r.firmId)+(r.date?" · "+fmtDate(r.date):""),go:{view:"firm",firmId:r.firmId,tab:"contracts"}})));
+  grp("ГТД","import",S.gtd.filter(r=>firm(r.firmId)&&qhit(q,[r.no,r.num,r.inn,r.sender?.name,r.contract]))
+    .map(r=>({ico:"import",b:(r.num||r.no||"—")+" · "+(r.regime||""),s:fn(r.firmId)+(r.date?" · "+fmtDate(r.date):"")+(r.sender?.name?" · "+r.sender.name:""),go:{view:"firm",firmId:r.firmId,tab:"import"}})));
+  grp("Буйруқлар","orders",S.orders.filter(o=>firm(o.firmId)&&qhit(q,[o.values?.number,o.title,o.values?.fio]))
+    .map(o=>({ico:"orders",b:"№ "+(o.values?.number||"—")+" · "+(o.title||""),s:fn(o.firmId)+(o.values?.date?" · "+fmtDate(o.values.date):""),go:{view:"firm",firmId:o.firmId,tab:"orders"}})));
+  grp("Ходимлар","staff",S.emp.filter(e=>firm(e.firmId)&&qhit(q,[e.fio,e.position,e.pinfl,e.phone]))
+    .map(e=>({ico:"staff",b:e.fio||"—",s:fn(e.firmId)+(e.position?" · "+e.position:""),go:{view:"firm",firmId:e.firmId,tab:"staff"}})));
+  grp("Хатлар","office",S.recs.filter(r=>r.type==="letter"&&firm(r.firmId)&&qhit(q,[r.regNo,r.docNo,r.corr,r.subject]))
+    .map(r=>({ico:"office",b:(r.regNo||r.docNo||"—")+" · "+(r.corr||""),s:fn(r.firmId)+(r.regDate?" · "+fmtDate(r.regDate):""),go:{view:"firm",firmId:r.firmId,tab:"office"}})));
+  return out;
+}
+let GS_HITS=[];
+function gsShow(){
+  const box=document.getElementById("gsRes"), inp=document.getElementById("gsq"); if(!box||!inp) return;
+  const q=inp.value.trim();
+  if(q.length<2){ box.hidden=true; box.innerHTML=""; GS_HITS=[]; return; }
+  const gs=gsFind(q); GS_HITS=[];
+  if(!gs.length){ box.hidden=false; box.innerHTML=`<div class="gsempty">«${esc(q)}» бўйича ҳеч нарса топилмади.</div>`; return; }
+  box.innerHTML=gs.map(g=>`<div class="gsg">${esc(g.t)}${g.more?" · яна "+g.more+" та":""}</div>`+g.rows.map(r=>{
+    GS_HITS.push(r.go); return `<button type="button" class="gsr" data-gs="${GS_HITS.length-1}" role="option"><span class="gi">${ICONC[r.ico]||""}</span><span><b>${esc(r.b)}</b><span>${esc(r.s)}</span></span></button>`;
+  }).join("")).join("");
+  box.hidden=false;
+}
+function gsClose(){ const b=document.getElementById("gsRes"); if(b){ b.hidden=true; b.innerHTML=""; } GS_HITS=[]; }
+let GS_T=null;
+document.addEventListener("input",e=>{ if(e.target.id!=="gsq") return; clearTimeout(GS_T); GS_T=setTimeout(gsShow,160); });
+document.addEventListener("click",e=>{
+  const r=e.target.closest("[data-gs]");
+  if(r){ e.preventDefault(); e.stopPropagation(); const g=GS_HITS[+r.dataset.gs]; const i=document.getElementById("gsq"); if(i) i.value="";
+    gsClose(); if(g) go(g); return; }
+  if(!e.target.closest(".gsbox")) gsClose();
+},true);
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&!document.getElementById("gsRes")?.hidden){ gsClose(); return; }
+  if(e.key==="/"&&!/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)&&!e.target.isContentEditable){
+    const i=document.getElementById("gsq"); if(i){ e.preventDefault(); i.focus(); i.select(); } }
+});
+const AB_M=["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"];
+function abTick(){
+  const d=document.getElementById("abDate"); if(!d) return;
+  const n=new Date();
+  d.textContent=n.getDate()+"-"+AB_M[n.getMonth()]+" · "+p2(n.getHours())+":"+p2(n.getMinutes());
+}
+function abBell(){
+  const em=document.getElementById("abBellN"); if(!em) return;
+  const n=document.querySelector('[data-ca="ctl"] i')?.textContent||"";
+  em.textContent=n; em.hidden=!n;
+}
+setInterval(()=>{ abTick(); abBell(); },30000);
+
 /* в76: фирма очилганда чап панелда бўлимлар рўйхати (компьютерда).
    renderRail «ўраш» усули билан кенгайтирилди — эскиси ўз ҳолича ишлайверади. */
 const SECN={
@@ -9566,10 +9670,11 @@ const SEC_SHORT={av:"Асосий воситалар",orders:"Қарор-буй�
     document.documentElement.classList.toggle("firmopen",!!f);
     const lab=rail.querySelector(".label:not(#secLabel)"); if(lab) lab.classList.add("firmsLbl");
     let sl=document.getElementById("secLabel"), su=document.getElementById("secList");
-    if(!f){ if(sl) sl.remove(); if(su) su.remove(); return; }
+    if(!f){ if(sl) sl.remove(); if(su) su.remove(); queueMicrotask(()=>{ abTick(); abBell(); }); return; }
     if(!sl){ sl=document.createElement("div"); sl.className="label"; sl.id="secLabel"; rail.insertBefore(sl,lab||null); }
     if(!su){ su=document.createElement("ul"); su.className="secnav"; su.id="secList"; rail.insertBefore(su,lab||null); }
     sl.innerHTML=`<button type="button" class="linkbtn backfirms" data-ui="go:home">← Фирмалар</button><div class="curfirm" title="${esc(f.name||"")}">${esc(f.name||"")}</div>`;
+    queueMicrotask(()=>{ abTick(); abBell(); });
     su.innerHTML=firmMenus(f).map(m=>{ const n=secCount(f,m.k);
       return `<li><button type="button" data-tab="${esc(m.k)}" aria-current="${V.tab===m.k}" title="${esc(m.t)}"><span class="sn-i">${ICONC[m.k]||""}</span><span class="sn-t">${esc(SEC_SHORT[m.k]||m.t)}</span>${n?`<i>${n}</i>`:""}</button></li>`;
     }).join("");
