@@ -444,7 +444,7 @@ tr.ndrow td{background:rgba(249,115,22,.07)}
 #printArea .vpsheet{page:vpland}
 #printArea .vpsheet .btab{font-size:10.5pt}
 .ckbox{display:inline-flex;width:20px;height:20px;border-radius:6px;border:2px solid var(--line);align-items:center;justify-content:center;font-weight:800;font-size:13px}.ckbox.on{background:var(--ok);border-color:var(--ok);color:#fff}
-.ckcard.ckauto{background:linear-gradient(180deg,rgba(66,36,18,.95),rgba(30,20,14,.95))}
+.ckcard.ckauto{background:var(--glass);background-image:linear-gradient(180deg,color-mix(in srgb,var(--work) 13%,transparent),transparent 70%)}
 /* reports, charter, ids */
 .did{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;white-space:nowrap;vertical-align:middle}
 .lhead .did,.sub .did{margin-left:6px}
@@ -522,12 +522,19 @@ tr.muted td{color:var(--muted)}
 .ctg-req td{width:50%;vertical-align:top;padding:6px 8px 0 0;border:0;cursor:default}
 .ctg-req tr:hover td{background:none}
 /* contracts */
-.cttabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px;border-radius:16px;background:#0a1324;box-shadow:inset 0 0 0 1px rgba(140,170,255,.14)}
-.cttab{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;padding:12px 16px 14px;border-radius:12px;border:1px solid rgba(140,170,255,.16);background:linear-gradient(180deg,rgba(30,44,74,.7),rgba(16,26,48,.8));color:#a9b8d4;transition:all .18s}
-.cttab b{font-size:15px;color:#e9f0ff}.cttab span{font-size:12px;grid-column:1}.cttab i{grid-column:2;grid-row:1/3;font-style:italic;font-family:var(--f-display);font-weight:700;font-size:26px;color:var(--cl);text-shadow:0 0 12px color-mix(in srgb,var(--c) 60%,transparent)}
-.cttab.on{border-color:color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 0 22px color-mix(in srgb,var(--c) 30%,transparent);background:linear-gradient(180deg,rgba(40,58,96,.95),rgba(16,26,48,.95))}
-.cttab.on::after{content:"";position:absolute;left:10%;right:10%;bottom:0;height:3px;border-radius:3px;background:var(--cl);box-shadow:0 0 10px var(--c),0 0 20px var(--c)}
-.cttab:not(.on){opacity:.75}.cttab:hover{opacity:1}
+/* в79: бўлим ичидаги катта қора панеллар -> вкладкалар */
+.cttabs{display:flex;flex-wrap:wrap;gap:2px;align-items:flex-end;padding:0;border:0;border-radius:0;
+ background:none;box-shadow:none;border-bottom:1px solid var(--line)}
+.cttab{position:relative;display:inline-flex;align-items:center;gap:7px;padding:9px 13px;margin-bottom:-1px;
+ border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--muted);
+ font-weight:700;font-size:13.5px;white-space:nowrap;transition:color .14s,border-color .14s}
+.cttab b{font-size:13.5px;font-weight:700;color:inherit}
+.cttab span{display:none}
+.cttab i{font-style:normal;font-family:var(--f-mono);font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px;
+ background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--muted)}
+.cttab.on{color:var(--ink);border-bottom-color:var(--c);background:none;box-shadow:none}
+.cttab.on i{background:color-mix(in srgb,var(--c) 14%,transparent);color:color-mix(in srgb,var(--c) 70%,var(--ink))}
+.cttab:hover{color:var(--ink)}
 .ctsearch{flex:1 1 240px;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 /* в78: фильтрлар бир қаторга тизилади ва ихчамланади */
 .ctfilters{display:flex;flex-wrap:wrap;gap:7px 10px;align-items:center;justify-content:flex-start;
@@ -539,6 +546,9 @@ tr.muted td{color:var(--muted)}
 .ctfilters .ctsearch.fq{flex:1 1 200px;min-width:150px;max-width:300px;padding:5px 10px;font-size:12.8px;border-radius:9px;margin-left:auto}
 .ctfilters .linkbtn{font-size:12.3px;white-space:nowrap}
 .ctfilters .cn{font-size:10.5px}
+/* в79: кетма-кет фильтр қаторлари битта узлуксиз панелга бирлашади */
+.ctfilters+.ctfilters{margin-top:-20px;border-top:1px dashed var(--line);border-top-left-radius:0;border-top-right-radius:0}
+.ctfilters:has(+.ctfilters){border-bottom-left-radius:0;border-bottom-right-radius:0}
 @media (max-width:700px){.ctfilters .ctsearch.fq{margin-left:0;max-width:none}}
 .ctsj{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 7px}
 .ctsj.g{background:#dcfce7;color:#15803d}.ctsj.s{background:#dbeafe;color:#1d4ed8}.ctsj.w{background:#fef3c7;color:#b45309}
@@ -560,24 +570,24 @@ tr.muted td{color:var(--muted)}
 .ctfilebox .actions{margin-left:auto}
 @media (max-width:560px){.cttabs{grid-template-columns:1fr}}
 /* checklists */
-.ckpanel{padding:14px;border-radius:18px;background-color:#0a1324;background-image:linear-gradient(rgba(120,160,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,255,.06) 1px,transparent 1px),radial-gradient(ellipse at 50% 0%,rgba(60,120,255,.2),transparent 60%);background-size:28px 28px,28px 28px,100% 100%;box-shadow:inset 0 0 0 1px rgba(140,170,255,.12)}
+.ckpanel{padding:0;background:none;box-shadow:none}
 .ckgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
-.ckcard{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;text-align:left;padding:14px 14px 16px;border-radius:14px;background:linear-gradient(180deg,rgba(30,44,74,.92),rgba(16,26,48,.95));border:1px solid rgba(140,170,255,.16);color:#e9f0ff;transition:transform .18s,box-shadow .18s,border-color .18s}
-.ckcard::after{content:"";position:absolute;left:12%;right:12%;bottom:0;height:3px;border-radius:3px;background:var(--cl);box-shadow:0 0 10px var(--c),0 0 20px var(--c)}
-.ckcard:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 22px color-mix(in srgb,var(--c) 35%,transparent)}
+.ckcard{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;text-align:left;padding:14px 14px 16px;border-radius:16px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);color:var(--ink);box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,border-color .18s}
+.ckcard::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 22%,transparent))}
+.ckcard:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 55%,var(--line));box-shadow:0 14px 30px -16px color-mix(in srgb,var(--c) 65%,transparent)}
 .ckcard.paused{opacity:.6}
 .ck-top,.ck-bot{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ck-bot{justify-content:space-between}
-.ck-per{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--cl);border:1px solid color-mix(in srgb,var(--c) 55%,transparent);border-radius:99px;padding:2px 9px;box-shadow:0 0 8px color-mix(in srgb,var(--c) 30%,transparent)}
-.ck-per.off{color:#a9b8d4;border-color:rgba(140,170,255,.3);box-shadow:none}
+.ck-per{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--c) 70%,var(--ink));border:1px solid color-mix(in srgb,var(--c) 45%,transparent);border-radius:99px;padding:2px 9px;background:color-mix(in srgb,var(--c) 10%,transparent)}
+.ck-per.off{color:var(--muted);border-color:var(--line);background:none}
 .ck-mid{display:flex;align-items:center;gap:12px}
-.ck-tx{display:flex;flex-direction:column;gap:3px;min-width:0}.ck-tx b{font-size:15px;line-height:1.25}.ck-tx span{font-size:12.5px;color:#a9b8d4}.ck-tx .ck-n{color:var(--cl);font-weight:700;font-style:italic}
-.ck-dl{font-family:var(--f-mono);font-size:12px;color:#a9b8d4}
+.ck-tx{display:flex;flex-direction:column;gap:3px;min-width:0}.ck-tx b{font-size:15px;line-height:1.25}.ck-tx span{font-size:12.5px;color:var(--muted)}.ck-tx .ck-n{color:color-mix(in srgb,var(--c) 70%,var(--ink));font-weight:700}
+.ck-dl{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .ckring{flex:none;display:block}
-.ckhead{display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px;padding:18px;border-radius:18px;background:#0a1324;background-image:radial-gradient(ellipse at 20% 0%,color-mix(in srgb,var(--c) 25%,transparent),transparent 60%);box-shadow:inset 0 0 0 1px rgba(140,170,255,.14);color:#e9f0ff}
-.ckh-tx{display:flex;flex-direction:column;gap:6px;flex:1 1 280px;min-width:0;align-items:flex-start}.ckh-tx h2{margin:0;font-size:21px;color:#fff}
+.ckhead{display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px;padding:18px;border-radius:18px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);background-image:radial-gradient(ellipse at 20% 0%,color-mix(in srgb,var(--c) 14%,transparent),transparent 60%);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--ink)}
+.ckh-tx{display:flex;flex-direction:column;gap:6px;flex:1 1 280px;min-width:0;align-items:flex-start}.ckh-tx h2{margin:0;font-size:21px;color:var(--ink)}
 .ckh-act{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.cknav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.cknav b{font-family:var(--f-display);font-weight:700;font-style:italic;font-size:15px;color:var(--cl);text-shadow:0 0 10px color-mix(in srgb,var(--c) 60%,transparent)}
-.cknb{width:32px;height:32px;border-radius:50%;border:1px solid rgba(140,170,255,.3);background:rgba(140,170,255,.08);color:#e9f0ff;font-size:20px;line-height:1;display:grid;place-items:center}
+.cknav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.cknav b{font-family:var(--f-display);font-weight:700;font-size:15px;color:color-mix(in srgb,var(--c) 70%,var(--ink))}
+.cknb{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:20px;line-height:1;display:grid;place-items:center}
 .cknb:disabled{opacity:.3}.cknb:not(:disabled):hover{background:rgba(140,170,255,.18)}
 .ckhead .linkbtn{color:var(--cl)}
 .ckhead .btn:not(.danger){color:var(--ink)}.ckhead .btn.danger{background:transparent;border-color:rgba(255,138,128,.5);color:#ff8a80}
@@ -764,11 +774,11 @@ tr.norow:hover td{background:transparent}
 @media (min-width:861px){:root.firmopen #firmList,:root.firmopen .firmsLbl,:root.firmopen .dstrip{display:none}
  :root.firmopen #secList{flex:1;overflow-y:auto;min-height:60px;scrollbar-width:thin}}
 @media (max-width:860px){#secList,#secLabel{display:none}}
-.dstrip{display:flex;gap:4px;padding:8px;border-radius:14px;background:#0a1324;box-shadow:inset 0 0 0 1px rgba(140,170,255,.14);overflow-x:auto;scrollbar-width:thin}
-.ds{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;width:78px;padding:6px 4px 8px;border:0;border-radius:10px;background:none;color:#a9b8d4;position:relative}
-.ds:hover{background:rgba(140,170,255,.08);color:#e9f0ff}
-.ds.on{background:rgba(140,170,255,.12);color:#fff}
-.ds.on::after{content:"";position:absolute;left:18%;right:18%;bottom:1px;height:3px;border-radius:3px;background:var(--cl);box-shadow:0 0 8px var(--c),0 0 16px var(--c)}
+.dstrip{display:flex;gap:4px;padding:8px;border-radius:14px;background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:var(--shadow);overflow-x:auto;scrollbar-width:thin}
+.ds{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;width:78px;padding:6px 4px 8px;border:0;border-radius:10px;background:none;color:var(--muted);position:relative}
+.ds:hover{background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink)}
+.ds.on{background:var(--accent-soft);color:var(--ink)}
+.ds.on::after{content:"";position:absolute;left:18%;right:18%;bottom:1px;height:3px;border-radius:3px;background:var(--c)}
 .ds-i{width:38px;height:38px;display:block}
 .ds-i svg{width:100%;height:100%;display:block}
 .ds-t{font-size:10.5px;font-weight:600;line-height:1.2;text-align:center}
@@ -1050,7 +1060,7 @@ th.tfth:hover .tfbtn,.tfbtn:focus-visible{opacity:1;border-color:var(--line);bac
 .ctbulk{display:inline-flex;gap:4px;align-items:center}.ctbulk select{height:30px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px}
 .gfccard .gfch{display:flex;gap:8px;align-items:center;padding:12px 16px 4px}.letans{padding:4px 16px 12px;display:flex;flex-direction:column;gap:6px}.letans button{text-align:left}
 @media(max-width:640px){.letpage{padding:22px 18px!important;min-height:0}.laddr{margin-left:30%}}
-.cttabs.ct8{grid-template-columns:repeat(5,1fr)}@media(max-width:1300px){.cttabs.ct8{grid-template-columns:repeat(3,1fr)}}@media(max-width:1000px){.cttabs.ct8{grid-template-columns:1fr 1fr}}.ct8 .cttab{padding:10px 14px 12px}.ct8 .cttab b{font-size:14px}.ctdocf{justify-content:flex-start;gap:8px 18px}.ctdf{align-items:center}.ctdfl{font-size:12.5px;font-weight:700;color:var(--muted);margin-right:2px}.dupwarn{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.duppanel{width:min(760px,calc(100vw - 32px))}.dupgrp{border:1px solid var(--line);border-radius:10px;margin:6px 0;overflow:hidden}.dupit{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;font-size:13.5px;cursor:pointer}.dupit+.dupit{border-top:1px dashed var(--line)}.dupit.keep{background:var(--ok-soft)}.dupit input{margin-top:3px;width:17px;height:17px;accent-color:var(--danger)}.dupbtn{border-color:#f59e0b;color:#b45309}.saitems input{width:100%;min-width:60px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);font-size:13px}.saitems td:nth-child(2) input{min-width:220px}.saitems input.sau{min-width:60px;width:70px}.sacard .ltable td{vertical-align:top}.exbar{display:inline-block;vertical-align:middle;width:90px;height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin-right:6px}.exbar i{display:block;height:100%;background:#818cf8;border-radius:5px}.exbar.ok i{background:#22c55e}.exbar.soon i{background:#f59e0b}.exbar.bad i{background:#ef4444}.exbar.off i{background:#94a3b8}.excell{white-space:nowrap;margin-bottom:3px}.exhead{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:10px 16px}.exbig{font-family:var(--f-display);font-weight:700;font-size:34px;font-style:italic}.exhead .exbar{width:100%;height:12px}.excard .vpwarn,.excard .ndok{margin:8px 0}.exhead .lpill{display:inline-flex;width:auto}.exdocs{padding:6px 16px 14px}.exdocs summary{cursor:pointer;font-weight:600;font-size:13.5px}.bkaccs{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}.bkacc{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink)}.bkacc b{font-size:15px;letter-spacing:.02em}.bkacc span{font-size:12.5px}.bkacc.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.bktable td{vertical-align:top;font-size:13px}.bktable .bkp{max-width:340px;-webkit-line-clamp:3}.bksel{max-width:240px;font-size:12.5px}tr.bkin td:nth-child(3){color:var(--ok)}.bkpay{padding:6px 16px 14px}.bkimp{padding-bottom:6px;margin-bottom:10px}.actcts{display:flex;flex-direction:column;gap:2px;margin:4px 0}.actman{align-items:end;border-top:1px dashed var(--line);padding-top:6px}.acttab td,.acttab th{font-size:11.5px}.acttab tr.acth td{background:#f1f5f9}.acttab tr.actb td{font-weight:700}.acttab tr.actt td{font-weight:800;background:#e0f2fe}.acttab small{color:#555}.mmtbl input{width:100%;min-width:90px;padding:4px 6px;font-size:12.5px}.mmtbl td{padding:3px 4px}.mmtbl tr.mmon td{background:var(--accent-soft,#eef4ff)}.mmtbl tr.mmdebt td:nth-child(6) input{background:#ecfdf5;border-color:#34d399;font-weight:600}.mmcp{margin:10px 0;padding:10px;border:1px dashed var(--line,#ccd);border-radius:10px}</style>
+@media(max-width:860px){.cttabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}}.ctdocf{justify-content:flex-start;gap:8px 18px}.ctdf{align-items:center}.ctdfl{font-size:12.5px;font-weight:700;color:var(--muted);margin-right:2px}.dupwarn{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.duppanel{width:min(760px,calc(100vw - 32px))}.dupgrp{border:1px solid var(--line);border-radius:10px;margin:6px 0;overflow:hidden}.dupit{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;font-size:13.5px;cursor:pointer}.dupit+.dupit{border-top:1px dashed var(--line)}.dupit.keep{background:var(--ok-soft)}.dupit input{margin-top:3px;width:17px;height:17px;accent-color:var(--danger)}.dupbtn{border-color:#f59e0b;color:#b45309}.saitems input{width:100%;min-width:60px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);font-size:13px}.saitems td:nth-child(2) input{min-width:220px}.saitems input.sau{min-width:60px;width:70px}.sacard .ltable td{vertical-align:top}.exbar{display:inline-block;vertical-align:middle;width:90px;height:8px;border-radius:5px;background:var(--line);overflow:hidden;margin-right:6px}.exbar i{display:block;height:100%;background:#818cf8;border-radius:5px}.exbar.ok i{background:#22c55e}.exbar.soon i{background:#f59e0b}.exbar.bad i{background:#ef4444}.exbar.off i{background:#94a3b8}.excell{white-space:nowrap;margin-bottom:3px}.exhead{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:10px 16px}.exbig{font-family:var(--f-display);font-weight:700;font-size:34px;font-style:italic}.exhead .exbar{width:100%;height:12px}.excard .vpwarn,.excard .ndok{margin:8px 0}.exhead .lpill{display:inline-flex;width:auto}.exdocs{padding:6px 16px 14px}.exdocs summary{cursor:pointer;font-weight:600;font-size:13.5px}.bkaccs{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}.bkacc{display:flex;flex-direction:column;gap:3px;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink)}.bkacc b{font-size:15px;letter-spacing:.02em}.bkacc span{font-size:12.5px}.bkacc.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.bktable td{vertical-align:top;font-size:13px}.bktable .bkp{max-width:340px;-webkit-line-clamp:3}.bksel{max-width:240px;font-size:12.5px}tr.bkin td:nth-child(3){color:var(--ok)}.bkpay{padding:6px 16px 14px}.bkimp{padding-bottom:6px;margin-bottom:10px}.actcts{display:flex;flex-direction:column;gap:2px;margin:4px 0}.actman{align-items:end;border-top:1px dashed var(--line);padding-top:6px}.acttab td,.acttab th{font-size:11.5px}.acttab tr.acth td{background:#f1f5f9}.acttab tr.actb td{font-weight:700}.acttab tr.actt td{font-weight:800;background:#e0f2fe}.acttab small{color:#555}.mmtbl input{width:100%;min-width:90px;padding:4px 6px;font-size:12.5px}.mmtbl td{padding:3px 4px}.mmtbl tr.mmon td{background:var(--accent-soft,#eef4ff)}.mmtbl tr.mmdebt td:nth-child(6) input{background:#ecfdf5;border-color:#34d399;font-weight:600}.mmcp{margin:10px 0;padding:10px;border:1px dashed var(--line,#ccd);border-radius:10px}</style>
 </head>
 <body>
 <div class="topbar" id="demoBar" hidden>Демо режим: Google созламалари ҳали киритилмаган, маълумотлар фақат шу браузерда сақланади.</div>
@@ -1812,7 +1822,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в78";
+const APP_VER="07.11.2026 · в79";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -2813,7 +2823,7 @@ function vContracts(f){
   const sums={}; cs.filter(c=>c.status!=="closed"&&c.sign!=="cancelled").forEach(c=>{ const k=c.currency||"UZS"; sums[k]=(sums[k]||0)+ctEffAmt(c); });
   const sumTxt=Object.entries(sums).filter(([,v])=>v).map(([k,v])=>m0(v)+(k==="UZS"?"":" "+k)).join(" + ")||"0";
   const soon=cs.filter(c=>ctState(c).cls==="soon").length, bad=cs.filter(c=>ctState(c).cls==="bad").length;
-  const tab=k=>{ const P=CT_DIR[k]; const n=all.filter(c=>(c.dir||"in")===k).length; return `<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t} шартномалар</b><span>${P.s}</span><i>${n}</i></button>`; };
+  const tab=k=>{ const P=CT_DIR[k]; const n=all.filter(c=>(c.dir||"in")===k).length; return `<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}" title="${esc(P.t+(P.s?" — "+P.s:""))}"><b>${P.t} шартномалар</b><span>${P.s}</span><i>${n}</i></button>`; };
   const chip=(grp,k,t)=>`<button type="button" class="chip" data-ctf="${grp}" data-v="${k}" aria-pressed="${(V[grp]||"all")===k}">${t}</button>`;
   return `${ctTabsHTML(f,dir)}
   <div class="toolbar"><div class="actions"><label class="btn primary ctup" title="Бир нечта шартнома PDF ёки сканини бирга белгилаб танланг — ҳар бири ўқилади. Ишончномалар ўзи «Ишончномалар» бўлимига ўтказилади.">${PDF_ICON}PDF / скан юклаш (бир нечтаси)<input type="file" id="ctFiles" accept="application/pdf,.pdf,image/*" multiple hidden></label><button type="button" class="btn" data-act="ctGen">${LPLUS}Шаблондан тузиш</button><button type="button" class="btn" data-act="newContract">${LPLUS}Қўлда қўшиш</button>${all.length?`<button type="button" class="btn" data-act="ctXlsx">${DL_ICON}Excel</button>`:""}${aiOn()&&cs.some(c=>c.file&&ctWeak(c))?`<button type="button" class="btn" data-cxa="selweak|ct" title="Сумма, муддат ёки контрагент реквизитлари бўш қолган шартномаларни белгилайди — кейин бирданига Claude'га ўқитасиз">☑ Тўлиқ ўқилмаганлар (${cs.filter(c=>c.file&&ctWeak(c)).length})</button>`:""}</div>
@@ -8133,7 +8143,7 @@ async function poaImport(f,fs){ let ok=0, lk=0; const L0={firmId:f.id,sec:"contr
     try{ const d=await poaReadOne(f,fl); d.file=await driveUpload(fl,`${safeName(f.name)} — ишончнома ${String(d.no||"").replace(/[\/:*?"<>|]/g,"-")} ${fmtDate(d.date)} — ${fl.name}`.slice(0,180),L0); delete d.auto;
       await putItem("recs",d,`Ишончнома № ${d.no||"—"} (${d.issuer?.name||""}) PDF'дан қўшилди`); ok++; if(poaMatch(f.id,d)) lk++; }catch(er){ toast(fl.name+": "+explain(er)); if(er instanceof AuthErr) break; } }
   toast(`${ok} та ишончнома қўшилди · ${lk} таси шартномага боғланди${ok-lk?` · ${ok-lk} таси учун шартнома топилмади`:""}`); render(); }
-function ctTabsHTML(f,dir){ const all=firmContracts(f.id); const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
+function ctTabsHTML(f,dir){ const all=firmContracts(f.id); const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}" title="${esc(P.t+(P.s?" — "+P.s:""))}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
   return `<div class="cttabs ct3">${tab("in",{...CT_DIR.in,t:CT_DIR.in.t+" шартномалар"},all.filter(c=>(c.dir||"in")==="in").length)}${tab("out",{...CT_DIR.out,t:CT_DIR.out.t+" шартномалар"},all.filter(c=>c.dir==="out").length)}${tab("poa",{t:"Ишончномалар",s:"доверенности · шартномага боғланади",c:"#34d399",l:"#a7f3d0"},firmPoas(f.id).length)}</div>`; }
 function poaView(f){ if(V.poaEdit) return poaForm(f,V.poaEdit);
   const L=firmPoas(f.id), q=(V.poaQ||"").trim().toLowerCase(); const rows=L.filter(p=>!q||[p.no,p.issuer?.name,p.issuer?.inn,p.holder?.name,p.contract?.no,docCode(p,"poa")].some(x=>String(x||"").toLowerCase().includes(q)));
@@ -8619,7 +8629,7 @@ function ctDocBadges(c){ const B=k=>{ const L=ldByContract(c.firmId,k)[c.id]||[]
 function ctLdCard(C){ const sec=k=>{ const L=ldByContract(C.firmId,k)[C.id]||[]; const K=LD[k];
     return `<div class="ldsec"><div class="ldsech"><b>${K.tt}</b>${L.length?`<span class="poab ok">✓ ${L.length} та</span>`:`<span class="poab no">йўқ</span>`}</div>${L.length?`<div class="tablewrap"><table class="sched"><thead><tr><th>№</th><th>Сана</th><th>${k==="poa"?"Ишончли шахс":k==="sf"?"Контрагент":"Автомобиль / ҳайдовчи"}</th><th class="r">${k==="poa"?"Амал қилади":"Сумма"}</th><th>ИД</th></tr></thead><tbody>${L.map(p=>`<tr data-ldo="${k}|${esc(p.id)}" tabindex="0"><td class="num">${esc(p.no||"—")}</td><td class="num">${fmtDate(p.date)}</td><td>${esc(k==="poa"?p.holder?.name||"":k==="sf"?ldCpOf(p).name||"":[p.vehicle,p.driver].filter(Boolean).join(" · "))}</td><td class="num r">${k==="poa"?fmtDate(p.validTo):num(p.sum)?m2(num(p.sum)):""}</td><td><span class="did">${docCode(p,k)}</span></td></tr>`).join("")}</tbody></table></div>`:""}</div>`; };
   return `<div class="card"><div class="label" style="padding:12px 16px 0">Шартномага боғланган ҳужжатлар</div><p class="hint" style="padding:4px 16px 0">«Ишончномалар», «Ҳисоб-фактуралар» ва «ТТН» бўлимларида юкланган ҳужжатлар шартнома рақами ва контрагент СТИРи бўйича шу ерга ўзи боғланади.</p>${sec("poa")}${sec("sf")}${sec("ttn")}<div style="height:8px"></div></div>`; }
-ctTabsHTML=function(f,dir){ const all=firmContracts(f.id); const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
+ctTabsHTML=function(f,dir){ const all=firmContracts(f.id); const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}" title="${esc(P.t+(P.s?" — "+P.s:""))}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
   return `<div class="cttabs ct3">${tab("in",{...CT_DIR.in,t:CT_DIR.in.t+" шартномалар"},all.filter(c=>!c.exch&&(c.dir||"in")==="in").length)}${tab("out",{...CT_DIR.out,t:CT_DIR.out.t+" шартномалар"},all.filter(c=>!c.exch&&c.dir==="out").length)}${tab("exch",{t:"Биржа шартномалари",s:"товар-хом ашё биржаси · Claude ўқийди",c:"#a78bfa",l:"#ddd6fe"},all.filter(c=>c.exch).length)}${Object.entries(LD).map(([k,K])=>tab(k,{t:K.tt,s:K.s,c:K.c,l:K.l},ldList(f.id,k).length)).join("")}</div>`; }
 /* --- юклаш (оммавий, 250 тагача) --- */
 async function ldReadFiles(f,kind,files){ let list=[...files].filter(x=>/\.(pdf|jpe?g|png)$/i.test(x.name)||x.type==="application/pdf"||/^image\/(jpeg|png)$/.test(x.type));
@@ -9147,7 +9157,7 @@ const ldTabKey=(k,dir)=>k==="sf"||k==="ttn"?(dir==="in"?k+"in":k):k;
 const ldTabTitle=(k,dir)=>k==="sf"?(dir==="in"?"Кирувчи ҳисоб-фактуралар":"Чиқувчи ҳисоб-фактуралар"):k==="ttn"?(dir==="in"?"Кирувчи ТТН":"Чиқувчи ТТН"):LD[k].tt;
 function ldListV(fid,k){ const L=ldList(fid,k); if(k!=="sf"&&k!=="ttn") return L; const dir=V.ldDir||"out"; return L.filter(d=>d.dir===dir||!d.dir); }
 ctTabsHTML=function(f,dir){ const all=firmContracts(f.id); if((dir==="sf"||dir==="ttn")&&V.ldDir==="in") dir+="in";
-  const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
+  const tab=(k,P,n)=>`<button type="button" class="cttab ${dir===k?"on":""}" data-ctdir="${k}" style="--c:${P.c};--cl:${P.l}" aria-pressed="${dir===k}" title="${esc(P.t+(P.s?" — "+P.s:""))}"><b>${P.t}</b><span>${P.s}</span><i>${n}</i></button>`;
   const cnt=(k,d)=>ldList(f.id,k).filter(x=>x.dir===d||!x.dir).length;
   return `<div class="cttabs ct8">${tab("in",{...CT_DIR.in,t:CT_DIR.in.t+" шартномалар"},all.filter(c=>!c.exch&&(c.dir||"in")==="in").length)}${tab("out",{...CT_DIR.out,t:CT_DIR.out.t+" шартномалар"},all.filter(c=>!c.exch&&c.dir==="out").length)}${tab("exch",{t:"Биржа шартномалари",s:"товар-хом ашё биржаси",c:"#a78bfa",l:"#ddd6fe"},all.filter(c=>c.exch).length)}${tab("poa",{t:LD.poa.tt,s:LD.poa.s,c:LD.poa.c,l:LD.poa.l},ldList(f.id,"poa").length)}
     ${tab("sfin",{t:"Кирувчи ҳисоб-фактуралар",s:"етказиб берувчилардан олинган",c:"#f59e0b",l:"#fcd34d"},cnt("sf","in"))}${tab("sf",{t:"Чиқувчи ҳисоб-фактуралар",s:"харидорларга берилган",c:"#fbbf24",l:"#fde68a"},cnt("sf","out"))}${tab("ttnin",{t:"Кирувчи ТТН",s:"бизга келган юклар",c:"#3b82f6",l:"#93c5fd"},cnt("ttn","in"))}${tab("ttn",{t:"Чиқувчи ТТН",s:"биз жўнатган юклар",c:"#60a5fa",l:"#bfdbfe"},cnt("ttn","out"))}</div>`; };

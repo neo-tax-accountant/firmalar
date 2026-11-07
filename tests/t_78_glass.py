@@ -74,6 +74,41 @@ with sync_playwright() as p:
         pg.evaluate(f'go({{view:"{v}"}})'); pg.wait_for_timeout(700)
         chk(pg.evaluate('document.body.innerText.length')>400,f"«{v}» саҳифаси бўш қолди")
 
+    # 7. в79 — катта қора панеллар вкладкага айланди, қора фон қолмади
+    pg.evaluate(f'go({{view:"firm",firmId:"{fid}",tab:"contracts"}})'); pg.wait_for_timeout(1100)
+    ct=pg.evaluate('(()=>{const t=document.querySelector(".cttab.on");if(!t)return null;const c=getComputedStyle(t);'
+                   'const w=getComputedStyle(document.querySelector(".cttabs"));'
+                   'return {r:c.borderRadius,bb:c.borderBottomWidth,bg:c.backgroundColor,wbg:w.backgroundColor,wd:w.display,'
+                   'rows:new Set([...document.querySelectorAll(".cttab")].map(x=>Math.round(x.getBoundingClientRect().y))).size,'
+                   'n:document.querySelectorAll(".cttab").length};})()')
+    print("cttab",ct)
+    chk(ct is not None,"шартнома вкладкалари топилмади")
+    chk(ct["wd"]=="flex" and ct["wbg"]=="rgba(0, 0, 0, 0)","шартнома панели ҳали қора блок")
+    chk(ct["r"]=="0px" and ct["bb"]=="2px","шартнома вкладкаси чизиқли кўринишда эмас")
+    chk(ct["rows"]<=2,f'{ct["n"]} та вкладка {ct["rows"]} қаторга ёйилиб кетди')
+    h=pg.evaluate('Math.round(document.querySelector(".cttabs").getBoundingClientRect().height)')
+    print("vkladka balandligi",h)
+    chk(h<120,f"вкладкалар қатори ҳали баланд: {h}px")
+
+    # 8. Чек лист карточкалари ҳам шиша, матн ўқилади
+    pg.evaluate(f'go({{view:"firm",firmId:"{fid}",tab:"check"}})'); pg.wait_for_timeout(1100)
+    ck=pg.evaluate('(()=>{const e=document.querySelector(".ckcard");if(!e)return null;const c=getComputedStyle(e);'
+                   'const a=document.querySelector(".ckcard.ckauto");'
+                   'return {bf:c.backdropFilter||c.webkitBackdropFilter,bg:c.backgroundColor,'
+                   'auto:a?getComputedStyle(a).backgroundColor:null,col:c.color};})()')
+    print("ckcard",ck)
+    if ck:
+        chk("blur" in (ck["bf"] or ""),"чек лист карточкасида шиша йўқ")
+        chk(ck["bg"].startswith("rgba(255, 255, 255"),"кундузгида чек лист карточкаси оқ эмас: "+str(ck["bg"]))
+        if ck["auto"]:
+            chk(not ck["auto"].startswith("rgb(66, 36, 18"),"автомат чек лист ҳали қора: "+ck["auto"])
+
+    # 9. Кодда қаттиқ ёзилган қора панель қолмаганини текшириш
+    dark=pg.evaluate('[...document.querySelectorAll(".cttabs,.ckpanel,.dstrip,.ckhead,.dpanel,.lstats")]'
+                     '.map(e=>getComputedStyle(e).backgroundColor).filter(c=>/^rgb\\(1?[0-9], /.test(c))')
+    print("qolgan qora",dark)
+    chk(not dark,"ҳали қаттиқ қора фонли панель бор: "+str(dark))
+
     _v=pg.evaluate('APP_VER'); _n=int("".join(ch for ch in _v.split("в")[-1] if ch.isdigit()) or 0)
     print("VER",_v)
     chk(_n>=78,f"версия в78 ёки ундан юқори бўлиши керак, ҳозир: {_v}")
