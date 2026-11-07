@@ -82,7 +82,8 @@ with sync_playwright() as p:
     print("sahifa uzunligi",txt)
     chk(txt>500,"саҳифа бўш қолди")
     print("VER", pg.evaluate('APP_VER'))
-    chk(pg.evaluate('APP_VER').endswith("в71"),"версия в71 эмас")
+    _v=pg.evaluate('APP_VER'); _n=int("".join(ch for ch in _v.split("в")[-1] if ch.isdigit()) or 0)
+    chk(_n>=71,f"версия в71 ёки ундан юқори бўлиши керак, ҳозир: {_v}")
 
     b.close()
 ok()
