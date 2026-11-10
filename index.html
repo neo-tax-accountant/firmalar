@@ -92,6 +92,11 @@ button{cursor:pointer}
 /* в77: юқори қатор — глобал қидирув, сана-соат, назорат маркази */
 .appbar{display:flex;gap:10px;align-items:center;padding:10px clamp(16px,3vw,36px);border-bottom:1px solid var(--line);
  background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);position:sticky;top:var(--tb,0px);z-index:44;min-width:0}
+/* в83: график ва импорт жадвалидаги таҳрир майдонлари */
+.crtab td input,[data-cri]{border:1px solid var(--line);background:var(--panel);border-radius:var(--r-s);padding:5px 8px;font:inherit;font-size:13px;color:var(--ink);width:100%;min-width:0;box-sizing:border-box}
+.crtab td input.r,input[data-cri].r{text-align:right;font-family:var(--f-mono)}
+.crtab td input:focus-visible,[data-cri]:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.crtab td input[type=checkbox]{width:auto}
 .absp{flex:1}
 .sronly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .main :is(h1,h2,h3,input,select,textarea,button,a,summary){scroll-margin-top:calc(var(--tb,0px) + 68px)}
@@ -1840,7 +1845,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="07.11.2026 · в82";
+const APP_VER="10.11.2026 · в83";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -7811,7 +7816,7 @@ function fxFcEvents(c){ const ev=[...(c.payments||[]).map(p=>({d:p.date,a:num(p.
 function fxItems(f){ const items=[];
   firmFC(f.id).forEach(c=>{ if(!c.currency||c.currency==="UZS") return; const exp=c.dir==="exp"; items.push({t:`${exp?"Экспорт":"Импорт"} контракти № ${c.number||""} — ${(exp?c.buyer?.name:c.seller?.name)||""}`,cur:c.currency,asset:exp,acc:exp?"4010":"6010",ev:fxFcEvents(c)}); });
   firmLoans(f.id).forEach(L=>{ if(!L.currency||L.currency==="UZS") return; const asset=L.dir==="out"; items.push({t:`Займ № ${L.number||""} — ${L.person||""}`,cur:L.currency,asset,acc:asset?"5810":"6820",ev:[{d:L.date,a:numL(L.amount)},...(L.repays||[]).map(r=>({d:r.date,a:-numL(r.sum)}))]}); });
-  firmCredits(f.id).forEach(C=>{ if(!C.currency||C.currency==="UZS") return; const c=crCalc(C); items.push({t:`${C.kind||"Кредит"} — ${C.bank||""} № ${C.number||""}`,cur:C.currency,asset:false,acc:"6810",ev:[{d:C.date,a:c.P},...c.rows.map(x=>x.pre?{d:x.date,a:-num(x.sum)}:{d:x.date,a:-(num(x.prin))+(num(x.capI))})]}); });
+  firmCredits(f.id).forEach(C=>{ if(!C.currency||C.currency==="UZS") return; const c=crCalc(C); items.push({t:`${C.kind||"Кредит"} — ${C.bank||""} № ${C.number||""}`,cur:C.currency,asset:crAsset(C),acc:crAsset(C)?({dep:"5890",empLoan:"4720",escrow:"5530"}[crKind(C)]||"5890"):"6810",ev:[{d:C.date,a:c.P},...c.rows.map(x=>x.pre?{d:x.date,a:-num(x.sum)}:{d:x.date,a:-(num(x.prin))+(num(x.capI))})]}); });
   return items; }
 function fxCalc(it,ym){ const s=ym+"-01", e=ymEnd(ym), pe=isoAdd(s,-1); const ev=it.ev.filter(x=>x.d&&x.a);
   const B0=ev.filter(x=>x.d<=pe).reduce((a,x)=>a+x.a,0), mv=ev.filter(x=>x.d>=s&&x.d<=e); const B1=B0+mv.reduce((a,x)=>a+x.a,0);
@@ -9793,6 +9798,391 @@ const SEC_SHORT={av:"Асосий воситалар",orders:"Қарор-буй�
     }).join("");
   };
 }
+/* ====================== в83: Кредитлар — турлар, вкладкалар, график, Claude ======================
+   Мавжуд crCalc математикаси ўзгармади — устига «ўраш» усули билан қават қўшилди.
+   Эски ёзувлар (kind=матн) ўзи янги турга кўчади, маълумот йўқолмайди. */
+
+/* 1. Молиявий инвестиция объектлари реестри.
+      side:"debt" — биз тўлаймиз, side:"asset" — бизга тўлашади / пулимиз туради */
+const CR_T={
+  bank   :{t:"Банк кредити",              side:"debt", c:"#818cf8", f:["purpose","collateral"]},
+  auto   :{t:"Авто кредит",               side:"debt", c:"#22d3ee", f:["vhMark","vhNo","vhVin","vhYear","down","kasko","kaskoExp","collateral"]},
+  turn   :{t:"Айланма маблағни тўлдириш", side:"debt", c:"#34d399", f:["purpose","limit","payFreq","collateral"]},
+  invest :{t:"Инвестиция / асосий восита",side:"debt", c:"#a78bfa", f:["project","object","subsidy","collateral"]},
+  mort   :{t:"Ипотека",                   side:"debt", c:"#f472b6", f:["objAddr","cadastre","insur","insurExp"]},
+  micro  :{t:"Микроқарз",                 side:"debt", c:"#fbbf24", f:["org","guarantor","purpose"]},
+  leasing:{t:"Лизинг",                    side:"debt", c:"#38bdf8", f:["leaseObj","residual","buyout","down"]},
+  over   :{t:"Овердрафт / кредит линияси",side:"debt", c:"#fb7185", f:["limit","validTill","payFreq","purpose"]},
+  founder:{t:"Таъсисчидан қарз",          side:"debt", c:"#c084fc", f:["person","noInt","purpose"]},
+  goods  :{t:"Товар кредити",             side:"debt", c:"#f59e0b", f:["supplier","goods","defer"]},
+  dep    :{t:"Омонат (депозит)",          side:"asset",c:"#10b981", f:["depType","topUp","partWd","payFreq"]},
+  empLoan:{t:"Ходимга берилган қарз",     side:"asset",c:"#60a5fa", f:["person","empPos","noInt"]},
+  escrow :{t:"Эскроу",                    side:"asset",c:"#94a3b8", f:["agent","cond","validTill"]},
+  other  :{t:"Бошқа",                     side:"debt", c:"#9ca3af", f:["purpose","collateral"]},
+};
+const CR_TK=Object.keys(CR_T);
+/* қўшимча майдонлар таърифи */
+const CR_F={
+  purpose  :{t:"Мақсади",                 cls:"wide2"},
+  collateral:{t:"Таъминот / гаров",       cls:"wide2"},
+  vhMark   :{t:"Транспорт воситаси (русум, модел) *"},
+  vhNo     :{t:"Давлат рақами"},
+  vhVin    :{t:"Кузов / VIN рақами"},
+  vhYear   :{t:"Ишлаб чиқарилган йили",   type:"number", ex:'min="1950" max="2100"'},
+  down     :{t:"Бошланғич тўлов",         ex:'inputmode="decimal"'},
+  kasko    :{t:"КАСКО полиси №"},
+  kaskoExp :{t:"КАСКО амал муддати",      type:"date"},
+  limit    :{t:"Лимит суммаси",           ex:'inputmode="decimal"'},
+  payFreq  :{t:"Фоиз тўлаш даврийлиги",   opts:[["month","Ойлик"],["quarter","Чораклик"],["half","Ярим йиллик"],["year","Йиллик"],["end","Муддат охирида"]]},
+  project  :{t:"Лойиҳа номи",             cls:"wide2"},
+  object   :{t:"Объект / асосий восита",  cls:"wide2"},
+  subsidy  :{t:"Имтиёз / субсидия",       cls:"wide2"},
+  objAddr  :{t:"Объект манзили",          cls:"wide2"},
+  cadastre :{t:"Кадастр рақами"},
+  insur    :{t:"Суғурта полиси №"},
+  insurExp :{t:"Суғурта муддати",         type:"date"},
+  org      :{t:"Микромолия ташкилоти",    cls:"wide2"},
+  guarantor:{t:"Кафил"},
+  leaseObj :{t:"Лизинг предмети",         cls:"wide2"},
+  residual :{t:"Қолдиқ (сотиб олиш) қиймати", ex:'inputmode="decimal"'},
+  buyout   :{t:"Сотиб олиш шарти",        opts:[["yes","Муддат охирида сотиб олинади"],["no","Қайтарилади"],["opt","Танлов ҳуқуқи"]]},
+  validTill:{t:"Амал қилиш муддати",      type:"date"},
+  person   :{t:"Жисмоний шахс (Ф.И.Ш.)",  cls:"wide2"},
+  empPos   :{t:"Лавозими"},
+  noInt    :{t:"Фоизсизми",               opts:[["","Фоизли"],["1","Фоизсиз"]]},
+  supplier :{t:"Етказиб берувчи",         cls:"wide2"},
+  goods    :{t:"Товар / хизмат",          cls:"wide2"},
+  defer    :{t:"Тўлов кечиктириш, кун",   type:"number", ex:'min="0" max="3650"'},
+  depType  :{t:"Омонат тури",             opts:[["term","Муддатли"],["demand","Талаб қилиб олингунча"],["saving","Жамғарма"]]},
+  topUp    :{t:"Тўлдириш мумкинми",       opts:[["","Йўқ"],["1","Ҳа"]]},
+  partWd   :{t:"Қисман ечиш мумкинми",    opts:[["","Йўқ"],["1","Ҳа"]]},
+  agent    :{t:"Эскроу агенти (банк)",    cls:"wide2"},
+  cond     :{t:"Очиш шарти",              cls:"wide2"},
+};
+/* эски ёзувни янги турга кўчириш (маълумот ўзгармайди, фақат калит аниқланади) */
+const CR_OLD={"Банк кредити":"bank","Авто кредит":"auto","Ипотека":"mort","Микроқарз":"micro","Лизинг":"leasing","Овердрафт / кредит линияси":"over","Бошқа":"other"};
+function crKind(C){
+  const k=C&&C.tkind; if(k&&CR_T[k]) return k;
+  const lbl=String(C&&C.kind||"").trim(); if(CR_OLD[lbl]) return CR_OLD[lbl];
+  const hit=CR_TK.find(x=>CR_T[x].t===lbl); return hit||"bank";
+}
+const crT=C=>CR_T[crKind(C)];
+const crAsset=C=>crT(C).side==="asset";
+/* йўналишга қараб атамалар */
+function crWord(C){
+  return crAsset(C)
+    ? {main:"Жойлаштирилган сумма",pay:"Тушум",bal:"Қолдиқ сумма",int:"Жами фоиз (даромад)",party:"Банк / қарздор",who:"Кимга берилди",act:"Фоиз тушади"}
+    : {main:"Кредит суммаси",pay:"Тўлов",bal:"Қолдиқ асосий қарз",int:"Жами фоиз (харажат)",party:"Банк / кредитор",who:"Кимдан олинди",act:"Тўлов"};
+}
+
+/* 2. Қўлда киритилган / Claude ўқиган тўлов графиги.
+      C.schedMode="manual" ва C.sched=[{date,prin,int,pay}] бўлса, ҳисоблаш ўрнига шу олинади. */
+function crSchedNorm(rows){
+  return (rows||[]).map(x=>({date:String(x.date||"").slice(0,10),prin:numL(x.prin),int:numL(x.int),
+      pay:numL(x.pay)||numL(x.prin)+numL(x.int)}))
+    .filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.date))
+    .sort((a,b)=>a.date.localeCompare(b.date));
+}
+function crCalcManual(C){
+  const P=numL(C.amount), rows=crSchedNorm(C.sched);
+  const out={rows:[],P,n:rows.length,g:0,totI:0,totPay:0,totPrin:0,fee:0,cap:0,pay0:0,totPre:0,manual:true};
+  out.fee=C.feeType==="sum"?numL(C.fee):P*numL(C.fee)/100;
+  let bal=P||rows.reduce((s,x)=>s+x.prin,0), prev=C.date||rows[0]?.date;
+  rows.forEach((x,idx)=>{
+    const open=bal, prin=Math.min(x.prin,Math.max(0,bal+0.005)); bal=Math.max(0,bal-prin);
+    out.rows.push({k:idx+1,date:x.date,days:(dnum(x.date)-dnum(prev))||0,open,I:x.int,capI:0,
+      prin,pay:x.pay,bal,grace:x.prin<0.005&&x.int>0.005,segs:[],paid:C.paid?.[x.date]||""});
+    out.totI+=x.int; out.totPrin+=prin; out.totPay+=x.pay; prev=x.date;
+  });
+  out.P=P||out.totPrin;
+  out.pay0=(out.rows.find(x=>x.pay>0.005)||{}).pay||0;
+  return out;
+}
+const crCalcBase=crCalc;          /* формула бўйича ҳисоблаш — ўзгармади */
+crCalc=function(C){               /* қўлда график бўлса, ўшани олади */
+  if(C&&C.schedMode==="manual"&&(C.sched||[]).length) return crCalcManual(C);
+  return crCalcBase(C);
+};
+/* ҳисобланган графикни қўлда таҳрирлаш учун нусхалаш */
+function crSchedFromCalc(C){
+  const c=crCalcBase(C);
+  return c.rows.filter(x=>!x.pre).map(x=>({date:x.date,prin:+(x.prin||0).toFixed(2),int:+((x.I||0)+(x.capI||0)).toFixed(2),pay:+(x.pay||0).toFixed(2)}));
+}
+
+/* 3. Формада турга мос майдонлар. Қўшимча майдонлар «x_» префикси билан сақланади. */
+function crExtraHTML(d){
+  const k=crKind(d), T=CR_T[k], side=T.side==="asset"?"актив":"мажбурият";
+  const one=key=>{ const F=CR_F[key]; if(!F) return "";
+    const id="cr_x_"+key, nm="x_"+key, val=d["x_"+key]??"";
+    const inner=F.opts
+      ? `<select id="${id}" name="${nm}">${F.opts.map(([v,t])=>`<option value="${esc(v)}" ${String(val)===v?"selected":""}>${esc(t)}</option>`).join("")}</select>`
+      : `<input id="${id}" name="${nm}" type="${F.type||"text"}" value="${esc(val)}" ${F.ex||""}>`;
+    return `<div class="field ${F.cls||""}"><label for="${id}">${esc(F.t)}</label>${inner}</div>`; };
+  return `<div class="label">${esc(T.t)} — қўшимча маълумотлар <span class="hint">(${side})</span></div>
+  <div class="lgrid">${T.f.map(one).join("")}</div>`;
+}
+function crKindSelHTML(d){
+  const k=crKind(d);
+  const grp=(ttl,side)=>`<optgroup label="${ttl}">${CR_TK.filter(x=>CR_T[x].side===side&&x!=="other").map(x=>`<option value="${x}" ${k===x?"selected":""}>${esc(CR_T[x].t)}</option>`).join("")}</optgroup>`;
+  return `<div class="field wide2"><label for="cr_tkind">Молиявий объект тури</label>
+    <select id="cr_tkind" name="tkind">${grp("Мажбурият — биз тўлаймиз","debt")}${grp("Актив — бизга тўлашади","asset")}<option value="other" ${k==="other"?"selected":""}>Бошқа</option></select></div>`;
+}
+{ const _form=crForm;
+  crForm=function(f,d){
+    let h=_form(f,d);
+    h=h.replace(/<div class="field"><label for="cr_kind">[\s\S]*?<\/select><\/div>/, crKindSelHTML(d));
+    const w=crWord(d);
+    h=h.replace('>Кредит суммаси *<', ">"+esc(w.main)+" *<");
+    h=h.replace('<div class="lprev" id="crPrev">', crExtraHTML(d)+'<div class="lprev" id="crPrev">');
+    return h;
+  };
+}
+{ const _save=crSave;
+  crSave=function(form){ const d=V.crEdit; if(d){ const k=crKind(d); d.tkind=k; d.kind=CR_T[k].t; } return _save(form); };
+}
+
+/* 4. Вкладкага тегишли файллар. Ягона C.files рўйхатида сақланади, ҳар бирида bkt белгиси.
+      Индекслар ўзгармайди — мавжуд ўчириш/чоп этиш/Claude ишловчилари ўз ҳолича ишлайди. */
+const CR_BKT={main:"Шартнома ва илова ҳужжатлар",sched:"Банк графиги, тўлов топшириқномалари",docs:"Гаров, суғурта, қўшимча битимлар"};
+function crAtt(C,bkt,hint){
+  const all=C.files||[], ak="recs|"+C.id;
+  const as=V.attSel&&V.attSel.k===ak?V.attSel.idx:[];
+  const mine=all.map((fl,i)=>({fl,i})).filter(({fl})=>(fl.bkt||"main")===bkt);
+  const row=({fl,i})=>`<span class="trfile"><input type="checkbox" class="attcb" data-attk="${esc(ak)}" data-i="${i}" ${as.includes(i)?"checked":""} aria-label="Чоп этиш учун белгилаш"><a href="${esc(ctFileUrl(fl.file))}" target="_blank" rel="noopener">${/\.xlsx?$|\.csv$/i.test(fl.name||"")?"📊":/\.(jpe?g|png)$/i.test(fl.name||"")?"🖼":"📄"} ${esc(fl.name||"файл")}</a><span class="hint">${fl.at?fmtStamp(fl.at):""}${fl.by?" · "+esc(nameOf(fl.by)):""}</span>${attAiLine("recs",C.id,i,fl)}<button type="button" class="linkbtn danger" data-attdel="recs|${esc(C.id)}|${i}" aria-label="Олиб ташлаш">✕</button></span>`;
+  return `<div class="card attbox"><div class="label" style="padding:12px 16px 0">${GH(CR_BKT[bkt]||"Бириктирилган файллар","pdf",30)}</div>
+  ${hint?`<p class="hint" style="padding:4px 16px 0">${esc(hint)}</p>`:""}
+  <div class="attl">${mine.map(row).join("")||`<span class="hint">Файл бириктирилмаган</span>`}</div>
+  <div style="padding:0 16px 14px;display:flex;gap:8px;flex-wrap:wrap">
+    ${mine.length?`<button type="button" class="btn sm" data-act="attPrint" data-k="${esc(ak)}">🖨 ${as.length?`Белгиланганларни чоп этиш (${as.length})`:`Ҳаммасини чоп этиш (${mine.length})`}</button>`:""}
+    <label class="btn sm ctup">${LPLUS}Файл бириктириш (PDF, Excel, скан)<input type="file" data-attach="recs|${esc(C.id)}|${bkt}" accept="${ATT_ACCEPT}" multiple hidden></label></div></div>`;
+}
+
+/* 5. Активлар учун ҳолат матни */
+{ const _st=crState;
+  crState=function(C,c){ const s=_st(C,c); if(C&&crAsset(C)&&s&&s.t){ s.t=s.t.replace("тўлов ўтказиб юборилган","тушум кечиккан").replace("Тўлиқ тўланган","Тўлиқ қайтган").replace(/ тўлов$/," тушум"); } return s; };
+}
+
+/* 6. Шартнома ичи: 3 вкладка — Асосий / Сўндириш графиги / Бошқа ҳужжатлар */
+const crDetailBase=crDetail;
+const CR_TABS=[["main","Асосий"],["sched","Сўндириш графиги"],["docs","Бошқа ҳужжатлар"]];
+function crTabsHTML(C,c){
+  const tab=V.crTab||"main", T=crT(C), fl=C.files||[];
+  const n={main:fl.filter(x=>(x.bkt||"main")==="main").length,sched:c.rows.filter(x=>!x.pre).length,docs:fl.filter(x=>x.bkt==="docs").length};
+  return `<div class="cttabs">${CR_TABS.map(([k,t])=>`<button type="button" class="cttab ${tab===k?"on":""}" data-crtab="${k}" style="--c:${T.c};--cl:${T.c}" aria-pressed="${tab===k}"><b>${t}</b>${n[k]?`<i>${n[k]}</i>`:""}</button>`).join("")}</div>`;
+}
+function crSchedView(f,C,c){
+  const td=localToday(), w=crWord(C), ed=V.crSchedEdit;
+  if(ed){
+    const tot=ed.reduce((a,x)=>({p:a.p+numL(x.prin),i:a.i+numL(x.int),t:a.t+(numL(x.pay)||numL(x.prin)+numL(x.int))}),{p:0,i:0,t:0});
+    const diff=numL(C.amount)-tot.p;
+    return `<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Графикни қўлда таҳрирлаш","accountant",30)}</div>
+    ${V.crSchedAi?`<p class="ndok" style="margin:8px 16px 0">✦ Claude ${ed.length} та қатор ўқиди. Банк графиги билан солиштириб, «Сақлаш» ни босинг.</p>`:""}
+    <div class="tablewrap"><table class="sched crtab"><thead><tr><th>№</th><th>Сана</th><th class="r">Асосий қарз</th><th class="r">Фоиз</th><th class="r">Жами ${w.pay.toLowerCase()}</th><th></th></tr></thead><tbody>
+    ${ed.map((x,i)=>`<tr class="norow"><td class="num">${i+1}</td><td><input type="date" data-crs="${i}|date" value="${esc(x.date||"")}" aria-label="Сана"></td><td><input class="r" data-crs="${i}|prin" value="${esc(x.prin??"")}" inputmode="decimal" aria-label="Асосий қарз"></td><td><input class="r" data-crs="${i}|int" value="${esc(x.int??"")}" inputmode="decimal" aria-label="Фоиз"></td><td><input class="r" data-crs="${i}|pay" value="${esc(x.pay??"")}" inputmode="decimal" aria-label="Жами"></td><td><button type="button" class="linkbtn danger" data-cra="schedDel" data-i="${i}" aria-label="Қаторни ўчириш">✕</button></td></tr>`).join("")}
+    </tbody><tfoot><tr><td colspan="2">Жами</td><td class="num r" id="crsP">${m2(tot.p)}</td><td class="num r" id="crsI">${m2(tot.i)}</td><td class="num r" id="crsT">${m2(tot.t)}</td><td></td></tr></tfoot></table></div>
+    <p class="hint" id="crsDiff" style="padding:6px 16px 0">${Math.abs(diff)>0.5?`⚠ Асосий қарз жами шартнома суммасидан ${m2(Math.abs(diff))} га ${diff>0?"кам":"кўп"}.`:"Асосий қарз жами шартнома суммасига тенг."}</p>
+    <div class="actions" style="padding:10px 16px 14px"><button type="button" class="btn primary" data-cra="schedSave">Сақлаш</button><button type="button" class="btn" data-cra="schedAdd">${LPLUS}Қатор қўшиш</button><button type="button" class="btn ghost" data-cra="schedCancel">Бекор қилиш</button></div></div>`;
+  }
+  const body=c.rows.map(x=>x.pre?`<tr class="norow crpre"><td></td><td class="num">${fmtDate(x.date)}</td><td colspan="4"><b>Муддатидан олдин тўлов</b> · ${x.mode==="term"?"муддат қисқаради":"ойлик тўлов камаяди"}${x.note?" · "+esc(x.note):""}</td><td class="num r"><b>${m2(x.sum)}</b></td><td class="num r">${m2(x.bal)}</td><td></td></tr>`
+    :`<tr class="norow ${x.grace?"crgr":""} ${x.date.slice(0,7)===td.slice(0,7)?"cur":""}"><td class="num">${x.k}</td><td class="num ${!x.paid&&x.date<td&&x.pay>0.005?"neg":""}">${fmtDate(x.date)}</td><td class="num r">${x.days}</td><td class="num r">${m2(x.open)}</td><td class="num r">${m2(x.prin)}${x.grace?` <span class="hint">имтиёз</span>`:""}</td><td class="num r" title="${esc((x.segs||[]).map(s=>`${fmtDate(s.from)}–${fmtDate(s.to)}: ${m2(s.bal)} × ${s.days} кун`).join("\n"))}">${m2(x.I)}${x.capI?`<div class="hint">+${m2(x.capI)} қарзга қўшилди</div>`:""}</td><td class="num r"><b>${m2(x.pay)}</b></td><td class="num r">${m2(x.bal)}</td><td><label class="checkline" style="margin:0"><input type="checkbox" class="crpaid" data-d="${x.date}" ${x.paid?"checked":""}> ${x.paid?fmtDate(x.paid):""}</label></td></tr>`).join("");
+  const nAi=(C.files||[]).filter(z=>attReadable(z)).length;
+  return `<div class="card"><div class="toolbar" style="padding:12px 16px 0"><div class="label">${GH("Сўндириш графиги","accountant",30)} <span class="lpill ${c.manual?"act":"off"}">${c.manual?"қўлда / банк графиги":"формула бўйича"}</span></div>
+    <div class="actions"><button type="button" class="btn sm" data-cra="schedEdit">Қўлда таҳрирлаш</button>${aiOn()?`<button type="button" class="btn sm" data-cra="schedAi" title="${nAi?"Бириктирилган PDF'дан графикни ўқийди":"Аввал шу вкладкага банк графиги PDF'ини бириктиринг"}">✦ Claude PDF'дан ўқисин</button>`:""}${c.manual?`<button type="button" class="btn sm ghost" data-cra="schedCalc">Формулага қайтариш</button>`:""}<button type="button" class="btn sm" data-act="crXlsx">${DL_ICON}Excel</button><button type="button" class="btn sm" data-act="crPrint">${PRINT_ICON}Чоп этиш</button></div></div>
+  ${c.rows.length?`<div class="tablewrap"><table class="sched crtab"><thead><tr><th>№</th><th>${w.pay} санаси</th><th class="r">Кун</th><th class="r">Давр бошидаги қолдиқ</th><th class="r">Асосий қарз</th><th class="r">Фоиз</th><th class="r">Жами ${w.pay.toLowerCase()}</th><th class="r">Қолдиқ</th><th>${crAsset(C)?"Тушди":"Тўланди"}</th></tr></thead><tbody>${body}</tbody>
+  <tfoot><tr><td colspan="4">Жами</td><td class="num r">${m2(c.totPrin+(c.totPre||0))}</td><td class="num r">${m2(c.totI)}</td><td class="num r">${m2(c.totPay+(c.totPre||0))}</td><td colspan="2"></td></tr></tfoot></table></div>`
+  :`<div class="empty"><b>График ҳали йўқ</b>Сумма, ставка ва муддатни киритинг — график ўзи тузилади. Ёки банк графиги PDF'ини пастга бириктириб, Claude'га ўқитинг ёхуд «Қўлда таҳрирлаш» орқали киритинг.</div>`}
+  <p class="hint" style="padding:8px 16px 12px">${c.manual?"График қўлда киритилган ёки банк ҳужжатидан ўқилган — ҳисоб-китоб шу қаторлар бўйича юритилади.":"График шартнома шартлари бўйича ҳисобланган. Банк графиги бир неча сўмга фарқ қилса — «Қўлда таҳрирлаш» ёки Claude орқали банк графигини киритинг, у асос бўлади."}</p></div>`;
+}
+crDetail=function(f,C){
+  if(V.crTabFor!==C.id){ V.crTabFor=C.id; V.crTab="main"; V.crSchedEdit=null; V.crSchedAi=false; }
+  const c=crCalc(C), st=crState(C,c), cu=curName(C.currency), nx=crNext(c), bal=crBalToday(c), w=crWord(C), T=crT(C), tab=V.crTab||"main";
+  const fxs=x=>C.currency&&C.currency!=="UZS"&&num(C.fx)>0?`<div class="hint">≈ ${m0(x*num(C.fx))} сўм</div>`:"";
+  const optT=(key,v)=>{ const F=CR_F[key]; if(!F||v==null||v==="") return ""; if(F.opts){ const o=F.opts.find(z=>z[0]===String(v)); return o?o[1]:String(v); } return F.type==="date"?fmtDate(v):(["down","limit","residual"].includes(key)&&numL(v)>0?m0(numL(v)):String(v)); };
+  const info=[["Тури",T.t+(T.side==="asset"?" (актив)":"")],[w.party,C.bank],["Шартнома №",C.number],["Сана",fmtDate(C.date)],["Сумма",m2(c.P)+" "+cu],["Ставка",String(numL(C.rate)).replace(".",",")+"% йиллик"],["Муддат",(c.manual?c.n:C.term||"")+" ой"],
+    ...(c.manual?[["График","қўлда / банк графиги бўйича"]]:[["Тўлов усули",C.method==="diff"?"Дифференциал":"Аннуитет"],["Фоиз ҳисоби",C.basis==="month"?"ставка / 12 (ойлик)":"ҳақиқий кунлар / 365"],["Имтиёзли давр",num(C.grace)?C.grace+" ой — "+(C.graceType==="cap"?"фоиз асосий қарзга қўшилади":"фақат фоиз тўланади"):"йўқ"]]),
+    ["Комиссия",c.fee?m2(c.fee)+" "+cu:""],["Мақсади",C.purpose],["Гаров",C.collateral],["Изоҳ",C.note]].filter(x=>x[1]);
+  const extra=T.f.filter(k=>k!=="purpose"&&k!=="collateral").map(k=>[CR_F[k].t.replace(/ \*$/,""),optT(k,C["x_"+k])]).filter(x=>x[1]);
+  const head=`<button type="button" class="back" data-act="crBack">← Кредитлар</button>
+  <div class="toolbar"><div class="lhead"><h2>${esc(T.t)}: ${esc(C.bank||"")}${C.number?" № "+esc(C.number):""}</h2><span class="lpill ${st.cls}">${st.t}</span>${didChip(C)}</div>
+    <div class="actions"><button type="button" class="btn" data-act="crEditOpen">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="crDel">Ўчириш</button></div></div>
+  ${crTabsHTML(C,c)}`;
+  if(tab==="sched") return head+crSchedView(f,C,c)+crAtt(C,"sched","Банк берган тўлов графиги ёки тўлов ҳужжатлари. Claude графикни шу файлдан ўқийди.");
+  if(tab==="docs") return head+crAtt(C,"docs","Гаров ва кафиллик шартномалари, суғурта полиси, қўшимча битимлар, банк хатлари.")+histBox(C);
+  return head+`<div class="lstats">
+    <div class="lstat" style="--c:${T.c};--cl:${T.c}"><span class="k">${w.main}</span><span class="v">${m0(c.P)}</span><span class="s">${esc(cu)} · ${esc(String(numL(C.rate)).replace(".",","))}% · ${esc(String(c.manual?c.n:C.term||""))} ой</span></div>
+    <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">Кейинги ${w.pay.toLowerCase()}</span><span class="v">${nx?m2(nx.pay):"—"}</span><span class="s">${nx?fmtDate(nx.date)+" · асосий "+m0(nx.prin)+" + фоиз "+m0(nx.I):""}</span></div>
+    <div class="lstat" style="--c:#f472b6;--cl:#fbcfe8"><span class="k">${w.bal}</span><span class="v">${m0(bal)}</span><span class="s">бугунги ҳолатга, ${esc(cu)}</span>${fxs(bal)}</div>
+    <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">${w.int}</span><span class="v">${m2(c.totI)}</span><span class="s">${crAsset(C)?"кутилаётган даромад":"ортиқча тўлов"}${c.fee?" (+ комиссия "+m0(c.fee)+")":""}</span>${fxs(c.totI)}</div>
+  </div>
+  <div class="lcols"><div class="card"><div class="label" style="padding:12px 16px 0">${GH("Шартнома маълумотлари","loans",30)}</div><div class="reqs">${info.map(([a,b])=>kv(a,b||"")).join("")}</div>
+      ${extra.length?`<div class="label" style="padding:10px 16px 0">${esc(T.t)} — қўшимча</div><div class="reqs">${extra.map(([a,b])=>kv(a,b)).join("")}</div>`:""}</div>
+    ${c.manual?`<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Муддатидан олдин тўлов","cash",30)}</div><p class="hint" style="padding:6px 16px 14px">График қўлда юритиляпти — муддатидан олдин тўловни «Сўндириш графиги» вкладкасида қаторларни ўзгартириб киритинг.</p></div>`
+    :`<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Муддатидан олдин тўлов","cash",30)}</div>
+      ${(C.prepays||[]).length?`<div class="tablewrap"><table class="sched"><tbody>${C.prepays.map((p,i)=>`<tr class="norow"><td class="num">${fmtDate(p.date)}</td><td class="num r"><b>${m2(numL(p.sum))}</b></td><td>${p.mode==="term"?"муддат қисқаради":"тўлов камаяди"}</td><td><button type="button" class="linkbtn danger" data-act="crPreDel" data-i="${i}">✕</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="hint" style="padding:6px 16px 0">Киритилмаган.</p>`}
+      <form id="crPreForm" class="repform" novalidate><div class="field"><label for="cp_date">Сана</label><input id="cp_date" name="date" type="date" value="${localToday()}"></div><div class="field"><label for="cp_sum">Сумма, ${esc(cu)}</label><input id="cp_sum" name="sum" inputmode="decimal"></div><div class="field"><label for="cp_mode">Кейин</label><select id="cp_mode" name="mode"><option value="pay">ойлик тўлов камайсин</option><option value="term">муддат қисқарсин</option></select></div><button type="submit" class="btn primary">${LPLUS}Қўшиш</button></form></div>`}</div>
+  ${crAtt(C,"main","Кредит (омонат, қарз) шартномасининг ўзи ва иловалари.")}`;
+};
+
+/* 7. Claude: кредит шартномаси ва тўлов графигини ўқиш */
+AI_SPEC.credit={tool:"save_credit",sec:"loans",max:14000,
+  desc:"Save the data of a loan / credit / leasing / deposit / escrow agreement and its repayment schedule.",
+  prompt:"This is a financing document of a company in Uzbekistan: a bank credit agreement (кредит шартномаси / кредитный договор), car loan, mortgage, microloan, leasing, overdraft / credit line, loan from a founder, trade credit, bank deposit (омонат / депозит), loan given to an employee, escrow agreement — or a repayment schedule (тўлов графиги / график погашения) attached to such an agreement. Determine the kind. If the document contains a repayment schedule table, return EVERY row of it in `schedule` (date, principal part, interest part, total payment) exactly as printed, in chronological order; do not calculate rows yourself. If there is no schedule table, omit `schedule`.",
+  props:{
+    kind:{type:"string",enum:CR_TK,description:"bank=ordinary bank credit, auto=car loan, turn=working capital replenishment, invest=investment / fixed asset credit, mort=mortgage, micro=microloan, leasing, over=overdraft or credit line, founder=loan received from founder, goods=trade (commodity) credit, dep=bank deposit placed by our company, empLoan=loan given by our company to an employee, escrow, other"},
+    lender:AI_S("The other party: bank / lender / lessor / borrower name as printed"),
+    number:AI_S("Agreement number"),date:AI_S("Agreement date"),
+    amount:AI_N("Principal amount"),currency:{type:"string",enum:["UZS","USD","EUR","RUB","CNY"]},
+    rate:AI_N("Annual interest rate, percent"),term_months:AI_N("Term in months"),
+    first_payment:AI_S("Date of the first scheduled payment"),
+    method:{type:"string",enum:["annuity","diff"],description:"annuity = equal payments, diff = equal principal parts"},
+    grace_months:AI_N("Grace period in months, if any"),
+    fee_pct:AI_N("One-time commission, percent of amount"),fee_sum:AI_N("One-time commission as a fixed sum"),
+    purpose:AI_S("Purpose of the credit, short"),collateral:AI_S("Collateral / pledge / guarantee, short"),
+    vehicle:{type:"object",properties:{mark:AI_S("Make and model"),plate:AI_S("State plate number"),vin:AI_S("VIN or body number"),year:AI_N("Year of manufacture")}},
+    down_payment:AI_N("Down payment / first instalment"),
+    insurance_no:AI_S("Insurance (KASKO or property) policy number"),insurance_exp:AI_S("Insurance expiry date"),
+    limit:AI_N("Credit line / overdraft limit"),valid_till:AI_S("Validity date of the line / escrow / deposit"),
+    person:AI_S("Individual counterparty full name (founder or employee)"),
+    object:AI_S("Financed object: property address, leased asset, project or goods, short"),cadastre:AI_S("Cadastral number"),
+    schedule:{type:"array",items:{type:"object",properties:{date:AI_S("Payment date"),principal:AI_N("Principal part"),interest:AI_N("Interest part"),total:AI_N("Total payment")},required:["date"]}}
+  }};
+function crFromAi(x){
+  const d={}, S_=v=>v==null?"":String(v).trim(), N_=v=>v==null||v===""||isNaN(+v)?"":String(+v);
+  const iso=v=>{ const s=S_(v); if(/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0,10); const m=s.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/); return m?`${m[3]}-${p2(+m[2])}-${p2(+m[1])}`:""; };
+  const k=CR_T[x.kind]?x.kind:"bank"; d.tkind=k; d.kind=CR_T[k].t;
+  const put=(key,v)=>{ if(v!=="") d[key]=v; };
+  put("bank",S_(x.lender)||S_(x.person)); put("number",S_(x.number)); put("date",iso(x.date));
+  put("amount",N_(x.amount)); if(x.currency) d.currency=x.currency; put("rate",N_(x.rate));
+  if(x.term_months>0) d.term=String(Math.round(x.term_months)); put("firstPay",iso(x.first_payment));
+  if(x.method==="diff"||x.method==="annuity") d.method=x.method; if(x.grace_months>0) d.grace=String(Math.round(x.grace_months));
+  if(x.fee_pct>0){ d.fee=N_(x.fee_pct); d.feeType="pct"; } else if(x.fee_sum>0){ d.fee=N_(x.fee_sum); d.feeType="sum"; }
+  put("purpose",S_(x.purpose)); put("collateral",S_(x.collateral));
+  const v=x.vehicle||{}; put("x_vhMark",S_(v.mark)); put("x_vhNo",S_(v.plate)); put("x_vhVin",S_(v.vin)); put("x_vhYear",N_(v.year));
+  put("x_down",N_(x.down_payment)); put("x_limit",N_(x.limit)); put("x_validTill",iso(x.valid_till)); put("x_person",S_(x.person));
+  if(k==="auto"){ put("x_kasko",S_(x.insurance_no)); put("x_kaskoExp",iso(x.insurance_exp)); } else { put("x_insur",S_(x.insurance_no)); put("x_insurExp",iso(x.insurance_exp)); }
+  const ob=S_(x.object), obK={mort:"x_objAddr",leasing:"x_leaseObj",goods:"x_goods",invest:"x_object"}[k];
+  if(ob){ if(obK) d[obK]=ob; else if(!d.purpose) d.purpose=ob; }
+  put("x_cadastre",S_(x.cadastre));
+  const sc=crSchedNorm((x.schedule||[]).map(r=>({date:iso(r.date),prin:r.principal,int:r.interest,pay:r.total})));
+  if(sc.length) d.sched=sc;
+  return d;
+}
+/* мавжуд шартнома учун: бириктирилган PDF'дан графикни ўқиш (сақламасдан, таҳрир ойнасига) */
+async function crSchedAi(C){
+  if(!aiOn()){ toast("Claude API калити уланмаган — «Claude AI» бўлимида киритинг"); return; }
+  const fl=C.files||[]; const pick=fl.filter(z=>z.bkt==="sched"&&attReadable(z)).concat(fl.filter(z=>z.bkt!=="sched"&&attReadable(z)));
+  if(!pick.length){ toast("Аввал шу вкладкага банк графиги PDF'ини бириктиринг"); return; }
+  const f=firm(C.firmId); taskStart("✦ Claude графикни ўқимоқда",pick.length,{stoppable:true}); let got=null;
+  try{ for(let i=0;i<pick.length&&!got;i++){ if(taskStopped()) break; taskStep(i,pick[i].name||"файл");
+      const file=await aiFileOf(null,pick[i].file,pick[i].name||"grafik.pdf"); const r=await aiDoc(file,f,AI_SPEC.credit,file.name);
+      const d=crFromAi(r.x); if((d.sched||[]).length) got=d.sched; } }
+  catch(er){ taskEnd(); toast(explain(er)); return; }
+  taskEnd();
+  if(!got){ toast("Claude бириктирилган файллардан график жадвалини топмади — қўлда киритишингиз мумкин"); return; }
+  V.crSchedEdit=got.map(x=>({date:x.date,prin:String(x.prin),int:String(x.int),pay:String(x.pay)})); V.crSchedAi=true; V.crTab="sched"; render();
+}
+
+/* 8. Оммавий юклаш: бир марта LD_MAX (250) тагача PDF */
+async function crReadFiles(files){
+  const f=firm(V.firmId); if(!f) return;
+  const list=[...files].filter(x=>/\.(pdf|jpe?g|png)$/i.test(x.name)||x.type==="application/pdf"||/^image\/(jpeg|png)$/.test(x.type));
+  if(!list.length){ toast("Фақат PDF ёки расм (JPG, PNG) файллар юкланади"); return; }
+  if(list.length>LD_MAX){ toast(`Бир марта ${LD_MAX} тагача файл — ${list.length} та танланди. Қисмларга бўлиб юкланг.`); return; }
+  V.crImport={items:list.map(x=>({id:uid(),file:x,fname:x.name,status:aiOn()?"wait":"manual",d:{...crNew(f),bank:x.name.replace(/\.[a-z0-9]+$/i,"").slice(0,80)},err:""})),saving:false};
+  V.crId=null; V.crEdit=null; render(); window.scrollTo(0,0);
+  if(!aiOn()){ toast("Claude уланмаган — файллар шартномага бириктирилади, маълумотни қўлда тўлдирасиз"); return; }
+  const L=V.crImport.items; taskStart("✦ Claude кредит ҳужжатларини ўқимоқда",L.length,{stoppable:true});
+  for(let i=0;i<L.length;i++){ if(taskStopped()||!V.crImport) break; const it=L[i]; taskStep(i,it.fname); it.status="read"; render();
+    try{ const r=await aiDoc(it.file,f,AI_SPEC.credit,it.fname); const d=crFromAi(r.x); it.d={...crNew(f),...d,ai:{usd:r.usd,model:r.model,at:Date.now()}}; if(d.sched) it.d.schedMode="manual"; it.status="ok"; }
+    catch(er){ it.status="err"; it.err=explain(er); if(er instanceof AuthErr||/калит|лимит|маблағ/i.test(it.err)){ L.slice(i+1).forEach(z=>{ z.status="manual"; }); render(); break; } }
+    render(); }
+  taskEnd(); if(V.crImport){ V.crImport.items.forEach(z=>{ if(z.status==="wait") z.status="manual"; }); render(); }
+}
+async function crImportSave(){
+  const f=firm(V.firmId), im=V.crImport; if(!f||!im||im.saving) return; im.saving=true; render();
+  const L=im.items.filter(x=>x.status!=="saved"); taskStart("Кредит шартномалари сақланмоқда",L.length,{stoppable:true}); let ok=0;
+  for(let i=0;i<L.length;i++){ if(taskStopped()) break; const it=L[i]; taskStep(i,it.fname);
+    try{ const C={...it.d,id:uid(),createdAt:Date.now()}; if(!C.tkind){ C.tkind=crKind(C); } C.kind=CR_T[crKind(C)].t;
+      const file=await driveUpload(it.file,`${safeName(f.name||"")} — ${C.kind} ${C.number||""} — ${it.fname}`.slice(0,180),attLoc("recs",C));
+      C.files=[{file,name:it.fname,at:Date.now(),by:ME.email,bkt:"main",...(it.status==="ok"?{ai:1}:{})}];
+      await putItem("recs",C,`${C.kind} PDF'дан қўшилди: ${C.bank||it.fname}${C.number?" № "+C.number:""}`); it.status="saved"; ok++; }
+    catch(er){ it.status="err"; it.err=explain(er); if(er instanceof AuthErr) break; } }
+  taskEnd(); im.saving=false; const left=im.items.filter(x=>x.status!=="saved");
+  if(!left.length) V.crImport=null; else im.items=left;
+  toast(ok+" та шартнома сақланди"+(left.length?`, ${left.length} таси қолди`:"")); render();
+}
+function crImportView(f){
+  const im=V.crImport, st={wait:["off","навбатда"],read:["act","ўқилмоқда…"],ok:["ok","✦ ўқилди"],manual:["soon","қўлда тўлдирилади"],err:["bad","хато"],saved:["ok","сақланди"]};
+  const busy=im.items.some(x=>x.status==="read"||x.status==="wait");
+  return `<div class="toolbar"><div class="lhead"><h2>PDF'дан юкланган ҳужжатлар — ${im.items.length} та</h2></div>
+    <div class="actions"><button type="button" class="btn primary" data-cra="impSave" ${busy||im.saving?"disabled":""}>Ҳаммасини сақлаш (${im.items.length})</button><button type="button" class="btn ghost" data-cra="impCancel">Бекор қилиш</button></div></div>
+  <p class="hint">Claude ўқиган маълумотни текширинг. Сақлангандан кейин ҳар бир шартномани очиб, исталган майдон ва графикни қўлда таҳрирлаш мумкин. Файл шартноманинг «Асосий» вкладкасига бириктирилади.</p>
+  <div class="card"><div class="tablewrap"><table class="ltable"><thead><tr><th>Файл</th><th>Ҳолат</th><th>Тури</th><th>Банк / томон</th><th>№</th><th>Сана</th><th class="r">Сумма</th><th class="r">Ставка</th><th class="r">Муддат</th><th class="r">График</th><th></th></tr></thead><tbody>
+  ${im.items.map(it=>{ const d=it.d, s=st[it.status]||st.wait; return `<tr class="norow"><td>📄 ${esc(it.fname)}</td><td><span class="lpill ${s[0]}">${s[1]}</span>${it.err?`<div class="hint">${esc(it.err)}</div>`:""}</td>
+    <td><select data-cri="${it.id}|tkind" aria-label="Тури">${CR_TK.map(k=>`<option value="${k}" ${crKind(d)===k?"selected":""}>${esc(CR_T[k].t)}</option>`).join("")}</select></td>
+    <td><input data-cri="${it.id}|bank" value="${esc(d.bank||"")}" aria-label="Банк"></td><td><input data-cri="${it.id}|number" value="${esc(d.number||"")}" size="8" aria-label="Рақам"></td>
+    <td><input type="date" data-cri="${it.id}|date" value="${esc(d.date||"")}" aria-label="Сана"></td><td><input class="r" data-cri="${it.id}|amount" value="${esc(d.amount||"")}" size="12" inputmode="decimal" aria-label="Сумма"></td>
+    <td><input class="r" data-cri="${it.id}|rate" value="${esc(d.rate||"")}" size="4" inputmode="decimal" aria-label="Ставка"></td><td><input class="r" data-cri="${it.id}|term" value="${esc(d.term||"")}" size="3" inputmode="numeric" aria-label="Муддат"></td>
+    <td class="num r">${(d.sched||[]).length?(d.sched.length+" қатор"):"формула"}</td><td><button type="button" class="linkbtn danger" data-cra="impDel" data-id="${it.id}" aria-label="Рўйхатдан олиб ташлаш">✕</button></td></tr>`; }).join("")}
+  </tbody></table></div></div>`;
+}
+
+/* 9. Рўйхат: мажбурият ва активлар алоҳида ҳисобланади */
+const vCreditsBase=vCredits;
+vCredits=function(f){
+  if(V.crEdit) return crForm(f,V.crEdit);
+  if(V.crId){ const C=S.recs.find(x=>x.id===V.crId&&x.type==="credit"); if(C) return crDetail(f,C); }
+  if(V.crImport) return crImportView(f);
+  const all=firmCredits(f.id).map(C=>({C,c:crCalc(C)})); const q=qv("crQ"), side=V.crSide||"";
+  const list=all.filter(({C})=>(!side||crT(C).side===side)&&qhit(q,[C.bank,C.number,C.kind,C.purpose,C.x_person,C.x_vhNo,C.x_vhMark,docCode(C)]));
+  const sum=sd=>{ const o={}; all.filter(({C})=>crT(C).side===sd).forEach(({C,c})=>{ const k=curName(C.currency); o[k]=(o[k]||0)+crBalToday(c); }); return Object.entries(o).map(([k,v])=>m0(v)+" "+k).join("<br>")||"0"; };
+  const nD=all.filter(({C})=>!crAsset(C)).length, nA=all.length-nD;
+  const nextAll=all.map(({C,c})=>({C,x:crNext(c)})).filter(o=>o.x).sort((a,b)=>a.x.date.localeCompare(b.x.date));
+  const chip=(v,t,n)=>`<button type="button" class="chip" data-cra="side" data-v="${v}" aria-pressed="${side===v}">${t} <span class="cn">${n}</span></button>`;
+  return `<div class="toolbar"><span class="hint">Кредит, лизинг, омонат, қарз ва эскроу шартномалари. Маълумотни қўлда киритинг ёки PDF юкланг — Claude шартнома ва графикни ўзи ўқийди.</span>
+    <div class="actions"><label class="btn ctup">${LPLUS}PDF юклаш (${LD_MAX} тагача)<input type="file" id="crFiles" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple hidden></label><button type="button" class="btn primary" data-act="crNew">${LPLUS}Қўлда қўшиш</button></div></div>
+  ${all.length?`<div class="lstats"><div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Шартномалар</span><span class="v">${all.length} та</span><span class="s">${all.filter(o=>crState(o.C,o.c).cls!=="ok").length} таси амалда</span></div>
+    <div class="lstat" style="--c:#f472b6;--cl:#fbcfe8"><span class="k">Мажбурият қолдиғи</span><span class="v">${sum("debt")}</span><span class="s">${nD} та · биз тўлаймиз</span></div>
+    <div class="lstat" style="--c:#10b981;--cl:#a7f3d0"><span class="k">Актив қолдиғи</span><span class="v">${sum("asset")}</span><span class="s">${nA} та · омонат, берилган қарз, эскроу</span></div>
+    <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">Яқин сана</span><span class="v">${nextAll[0]?m2(nextAll[0].x.pay):"—"}</span><span class="s">${nextAll[0]?fmtDate(nextAll[0].x.date)+" · "+esc(nextAll[0].C.bank||"")+(crAsset(nextAll[0].C)?" (тушум)":""):""}</span></div></div>
+  <div class="ctfilters"><div class="chips">${chip("","Ҳаммаси",all.length)}${chip("debt","Мажбуриятлар",nD)}${chip("asset","Активлар",nA)}</div>${fq("crQ","Қидириш: банк, №, шахс, авто рақами…")}${fclear(["crQ"])}</div>
+  <div class="card">${colTable("credits",list,x=>`data-credit="${esc(x.C.id)}" tabindex="0"`)}</div>`
+  :`<div class="card empty"><b>Ҳали ҳеч нарса киритилмаган</b>Шартнома PDF'ларини «PDF юклаш» орқали юкланг (бир марта ${LD_MAX} тагача) ёки «Қўлда қўшиш» ни босинг: банк кредити, авто кредит, лизинг, омонат, таъсисчидан қарз ва бошқалар.</div>`}`;
+};
+
+/* 10. Ҳодисалар */
+document.addEventListener("click",async e=>{
+  const tb=e.target.closest("[data-crtab]"); if(tb){ e.preventDefault(); e.stopPropagation(); V.crTab=tb.dataset.crtab; V.crSchedEdit=null; V.crSchedAi=false; return render(); }
+  const b=e.target.closest("[data-cra]"); if(!b) return; e.preventDefault(); e.stopPropagation();
+  const a=b.dataset.cra, C=V.crId?S.recs.find(x=>x.id===V.crId&&x.type==="credit"):null;
+  if(a==="side"){ V.crSide=b.dataset.v||""; return render(); }
+  if(a==="impCancel"){ V.crImport=null; return render(); }
+  if(a==="impDel"){ if(V.crImport){ V.crImport.items=V.crImport.items.filter(x=>x.id!==b.dataset.id); if(!V.crImport.items.length) V.crImport=null; } return render(); }
+  if(a==="impSave") return crImportSave();
+  if(!C) return;
+  if(a==="schedEdit"){ const src=(C.schedMode==="manual"&&(C.sched||[]).length)?crSchedNorm(C.sched):crSchedFromCalc(C); V.crSchedEdit=src.map(x=>({date:x.date,prin:String(x.prin),int:String(x.int),pay:String(x.pay)})); V.crSchedAi=false; return render(); }
+  if(a==="schedAdd"){ const L=V.crSchedEdit||(V.crSchedEdit=[]); const last=L[L.length-1]; L.push({date:last&&last.date?addMonthsISO(last.date,1):localToday(),prin:"",int:"",pay:""}); return render(); }
+  if(a==="schedDel"){ if(V.crSchedEdit){ V.crSchedEdit.splice(+b.dataset.i,1); } return render(); }
+  if(a==="schedCancel"){ V.crSchedEdit=null; V.crSchedAi=false; return render(); }
+  if(a==="schedSave"){ const rows=crSchedNorm(V.crSchedEdit); if(!rows.length){ toast("Камида битта қаторда сана бўлиши керак"); return; }
+    try{ await attPut("recs",C.id,o=>{ o.sched=rows; o.schedMode="manual"; },`Тўлов графиги ${V.crSchedAi?"Claude ўқиганидан":"қўлда"} сақланди (${rows.length} қатор)`); V.crSchedEdit=null; V.crSchedAi=false; toast("График сақланди"); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="schedCalc"){ try{ await attPut("recs",C.id,o=>{ o.schedMode="calc"; },"Тўлов графиги формула бўйича ҳисоблашга қайтарилди"); toast("График формула бўйича ҳисобланади. Қўлда киритилгани сақлаб қўйилди."); }catch(er){ toast(explain(er)); } return render(); }
+  if(a==="schedAi") return crSchedAi(C);
+},true);
+document.addEventListener("input",e=>{
+  const t=e.target; if(!t||!t.dataset) return;
+  if(t.dataset.crs&&V.crSchedEdit){ const [i,k]=t.dataset.crs.split("|"); const r=V.crSchedEdit[+i]; if(!r) return; r[k]=t.value;
+    if(k==="prin"||k==="int"){ r.pay=String(+(numL(r.prin)+numL(r.int)).toFixed(2)); const p=document.querySelector(`[data-crs="${i}|pay"]`); if(p) p.value=r.pay; }
+    const L=V.crSchedEdit, tot=L.reduce((a,x)=>({p:a.p+numL(x.prin),i:a.i+numL(x.int),t:a.t+(numL(x.pay)||numL(x.prin)+numL(x.int))}),{p:0,i:0,t:0});
+    const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; }; set("crsP",m2(tot.p)); set("crsI",m2(tot.i)); set("crsT",m2(tot.t)); return; }
+  if(t.dataset.cri&&V.crImport){ const [id,k]=t.dataset.cri.split("|"); const it=V.crImport.items.find(x=>x.id===id); if(!it) return; it.d[k]=t.value; if(k==="tkind"){ it.d.kind=CR_T[t.value]?.t||it.d.kind; } }
+},true);
+document.addEventListener("change",e=>{
+  const t=e.target; if(!t) return;
+  if(t.id==="crFiles"){ const fs=[...t.files]; t.value=""; if(fs.length) crReadFiles(fs); return; }
+  if(t.id==="cr_tkind"&&V.crEdit){ V.crEdit.tkind=t.value; V.crEdit.kind=CR_T[t.value]?.t||V.crEdit.kind; render(); }
+},true);
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
@@ -10743,8 +11133,8 @@ document.addEventListener("change",async e=>{
   if(el.id==="leMore"&&V.leEdit){ const fs=[...el.files]; el.value=""; if(!fs.length) return; const d=V.leEdit; const first=!(d.pending||[]).length&&!(d.files||[]).length; d.pending=(d.pending||[]).concat(fs.map(x=>({file:x,name:x.name}))); render(); if(first&&!d.lessorName){ const rf=fs.find(x=>/\.pdf$/i.test(x.name)||aiCanRead(x)); if(rf) await leReadFile(rf); } return; }
   if(el.id==="ordPending"&&V.draft){ const fs=[...el.files]; el.value=""; if(!V.ordPend||V.ordPend.id!==V.draft.id) V.ordPend={id:V.draft.id,files:[]}; fs.forEach(x=>{ if(!V.ordPend.files.some(y=>y.name===x.name&&y.size===x.size)) V.ordPend.files.push(x); }); return render(); }
   if(el.id==="restoreFile"){ const fl=el.files[0]; el.value=""; if(!fl) return; uiPanelClose(); toast("Архив ўқилмоқда…"); try{ const R=await restoreRead(fl); return go({view:"restore",restore:R}); }catch(er){ toast("Архивни ўқиб бўлмади: "+(er?.message||"хато")); } return; }
-  if(el.dataset.attach){ const [kind,id]=el.dataset.attach.split("|"); const fs=[...el.files]; el.value=""; if(!fs.length) return; const f=firm(V.firmId)||firm(V.draft?.firmId); let ok=0;
-    for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); if((o0?.files||[]).some(x=>x.file?.id===file.id)){ toast(fl.name+": бу файл аллақачон бириктирилган"); continue; } await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
+  if(el.dataset.attach){ const [kind,id,bkt]=el.dataset.attach.split("|"); const fs=[...el.files]; el.value=""; if(!fs.length) return; const f=firm(V.firmId)||firm(V.draft?.firmId); let ok=0;
+    for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); if((o0?.files||[]).some(x=>x.file?.id===file.id)){ toast(fl.name+": бу файл аллақачон бириктирилган"); continue; } await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email,...(bkt?{bkt}:{})}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
     if(ok) toast(ok+" та файл бириктирилди"); if(ok&&kind!=="emp"&&aiAuto(true)) setTimeout(()=>attAiRecord(kind,id),50); if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
   if((el.id==="ccFiles"||el.id==="ccMore")&&V.firmId){ const fs=[...el.files]; el.value=""; if(fs.length) ccReadFiles(fs,el.id==="ccMore"); return; }
   if(el.id==="ccFile"&&V.ccEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; const d=V.ccEdit; d.pending=fl; d.pendingName=fl.name; toast("Чек ўқилмоқда…");
