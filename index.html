@@ -97,6 +97,7 @@ button{cursor:pointer}
 .crtab td input.r,input[data-cri].r{text-align:right;font-family:var(--f-mono)}
 .crtab td input:focus-visible,[data-cri]:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
 .crtab td input[type=checkbox]{width:auto}
+.xlsprev{max-height:460px;overflow:auto;margin:4px 12px 8px}.xlsprev td{white-space:nowrap;font-size:12px;padding:4px 8px}.xlsprev tr.xh td{font-weight:600;background:var(--glass,rgba(127,127,127,.08))}
 .absp{flex:1}
 .sronly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .main :is(h1,h2,h3,input,select,textarea,button,a,summary){scroll-margin-top:calc(var(--tb,0px) + 68px)}
@@ -1845,7 +1846,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="10.11.2026 · в83";
+const APP_VER="10.11.2026 · в84";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -6452,7 +6453,7 @@ const loanUzs=(L,x)=>!L.currency||L.currency==="UZS"?x:(num(L.fx)>0?x*num(L.fx):
 DOC_PFX.credit="БК"; DOC_NAME.credit="Кредит шартномаси";
 const CR_KINDS=["Банк кредити","Авто кредит","Ипотека","Микроқарз","Лизинг","Овердрафт / кредит линияси","Бошқа"];
 const firmCredits=fid=>S.recs.filter(r=>r.type==="credit"&&r.firmId===fid).sort((a,b)=>(a.date||"").localeCompare(b.date||""));
-function crNew(f){ return {id:uid(),type:"credit",firmId:f.id,kind:"Банк кредити",bank:"",number:"",date:localToday(),amount:"",currency:"UZS",fx:"",rate:"",term:"36",firstPay:"",method:"annuity",basis:"days",grace:"0",graceType:"interest",fee:"",feeType:"pct",purpose:"",collateral:"",note:"",prepays:[],paid:{},createdAt:Date.now()}; }
+function crNew(f){ return {id:uid(),type:"credit",firmId:f.id,kind:"Банк кредити",bank:"",number:"",date:localToday(),amount:"",currency:"UZS",fx:"",rate:"",term:"36",firstPay:"",method:"annuity",basis:"days",bizDay:"1",grace:"0",graceType:"interest",fee:"",feeType:"pct",purpose:"",collateral:"",note:"",prepays:[],paid:{},createdAt:Date.now()}; }
 const addMonthsISO=(iso,k,day)=>{ const y=+iso.slice(0,4), m=+iso.slice(5,7)-1+k; const Y=y+Math.floor(m/12), M=((m%12)+12)%12; const d=Math.min(day||+iso.slice(8,10),lastDay(Y,M+1)); return `${Y}-${p2(M+1)}-${p2(d)}`; };
 function crCalc(C){ const P=numL(C.amount), r=numL(C.rate)/100, n=Math.max(1,parseInt(C.term)||1), g=Math.min(n-1,Math.max(0,parseInt(C.grace)||0)); const out={rows:[],P,n,g,totI:0,totPay:0,totPrin:0,fee:0,cap:0,pay0:0};
   if(!P||!C.date) return out; const i=r/12; const first=C.firstPay||addMonthsISO(C.date,1); const day=+first.slice(8,10);
@@ -6460,10 +6461,10 @@ function crCalc(C){ const P=numL(C.amount), r=numL(C.rate)/100, n=Math.max(1,par
   out.fee=C.feeType==="sum"?numL(C.fee):P*numL(C.fee)/100;
   let bal=P, prev=C.date, A=null, fixP=null, k=0, recalc=true;
   const annuity=(b,m)=>i>0?b*i/(1-Math.pow(1+i,-m)):b/m;
-  while(k<n&&bal>0.005&&k<600){ k++; const due=k===1?first:addMonthsISO(first,k-1,day);
+  while(k<n&&bal>0.005&&k<600){ k++; const due=crBiz(C,k===1?first:addMonthsISO(first,k-1,day));
     // фоиз: даврдаги муддатидан олдин тўловлар билан
     let I=0, cur=prev; const segs=[]; let preSum=0;
-    pre.filter(x=>x.d>prev&&x.d<=due).forEach(x=>{ const days=dnum(x.d)-dnum(cur); const ii=C.basis==="month"?0:bal*r*days/365; I+=ii; segs.push({from:cur,to:x.d,days,bal,I:ii}); const s=Math.min(x.s,bal); bal-=s; preSum+=s; out.rows.push({pre:true,date:x.d,sum:s,mode:x.mode,note:x.note,bal}); cur=x.d; if(x.mode==="pay") recalc=true; });
+    pre.filter(x=>(k===1?x.d>=prev:x.d>prev)&&x.d<=due).forEach(x=>{ const days=dnum(x.d)-dnum(cur); const ii=C.basis==="month"?0:bal*r*days/365; I+=ii; segs.push({from:cur,to:x.d,days,bal,I:ii}); const s=Math.min(x.s,bal); bal-=s; preSum+=s; out.rows.push({pre:true,date:x.d,sum:s,mode:x.mode,note:x.note,bal}); cur=x.d; if(x.mode==="pay") recalc=true; });
     const days=dnum(due)-dnum(cur); const ii=C.basis==="month"?(preSum?bal*r*days/365:bal*i):bal*r*days/365; I+=ii; segs.push({from:cur,to:due,days,bal,I:ii});
     if(C.basis==="month"&&preSum) I=segs.reduce((s,x)=>s+(x.bal*r*x.days/365),0);
     const open=bal+preSum; let prin=0, pay=0, capI=0;
@@ -8095,6 +8096,7 @@ async function pvRender(el){ if(el.dataset.pvs) return; el.setAttribute("data-pv
   try{ let bytes=PV_CACHE[key], isImg=false; const nm=String(s.file?.name||s.ref?.name||"");
     if(!bytes){ const blob=s.file||await driveFetch(s.ref); isImg=/^image\//.test(blob.type||"")||/\.(jpe?g|png)$/i.test(nm); bytes=new Uint8Array(await blob.arrayBuffer()); PV_CACHE[key]=bytes; PV_CACHE[key+"#img"]=isImg; } else isImg=!!PV_CACHE[key+"#img"];
     if(isImg){ const u=URL.createObjectURL(new Blob([bytes])); el.innerHTML=`<img src="${u}" class="pvimg" alt="${esc(nm)}">`; return; }
+    if(isXlsName(nm)){ await ensureXlsx(); const wb=XLSX.read(bytes.slice(),{type:"array"}); if(!el.isConnected) return; el.innerHTML=xlsPrevHTML(wb,nm); return; }
     await ensurePdfjs(); const doc=await pdfjsLib.getDocument({data:bytes.slice()}).promise; el.innerHTML=`<div class="pvbar"><span>${esc(nm)}</span><span>${doc.numPages} бет</span></div>`;
     const W=Math.max(320,Math.min(900,(el.clientWidth||800)-24)); const k=Math.min(2,window.devicePixelRatio||1);
     for(let p=1;p<=Math.min(doc.numPages,40);p++){ const pg=await doc.getPage(p); const v0=pg.getViewport({scale:1}); const vp=pg.getViewport({scale:W/v0.width*k}); const cv=document.createElement("canvas"); cv.width=Math.round(vp.width); cv.height=Math.round(vp.height); cv.className="pvpage"; cv.style.width=W+"px"; await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise; if(!el.isConnected) return; el.appendChild(cv); } }
@@ -9934,6 +9936,7 @@ function crKindSelHTML(d){
     const w=crWord(d);
     h=h.replace('>Кредит суммаси *<', ">"+esc(w.main)+" *<");
     h=h.replace('<div class="lprev" id="crPrev">', crExtraHTML(d)+'<div class="lprev" id="crPrev">');
+    h=h.replace(/(<select id="cr_basis" name="basis">[\s\S]*?<\/select><\/div>)/, `$1<div class="field"><label for="cr_bizDay">Тўлов куни дам олишга тўғри келса</label><select id="cr_bizDay" name="bizDay"><option value="1" ${d.bizDay?"selected":""}>кейинги иш кунига ўтади</option><option value="" ${d.bizDay?"":"selected"}>аниқ санада қолади</option></select></div>`);
     return h;
   };
 }
@@ -9952,6 +9955,7 @@ function crAtt(C,bkt,hint){
   return `<div class="card attbox"><div class="label" style="padding:12px 16px 0">${GH(CR_BKT[bkt]||"Бириктирилган файллар","pdf",30)}</div>
   ${hint?`<p class="hint" style="padding:4px 16px 0">${esc(hint)}</p>`:""}
   <div class="attl">${mine.map(row).join("")||`<span class="hint">Файл бириктирилмаган</span>`}</div>
+  ${mine.filter(({fl})=>fl.file&&(attReadable(fl)||isXlsName(fl.name))).map(({fl,i})=>pvBox("cr-"+C.id+"-"+(fl.file.id||i),{ref:fl.file},"margin:8px 12px 12px")).join("")}
   <div style="padding:0 16px 14px;display:flex;gap:8px;flex-wrap:wrap">
     ${mine.length?`<button type="button" class="btn sm" data-act="attPrint" data-k="${esc(ak)}">🖨 ${as.length?`Белгиланганларни чоп этиш (${as.length})`:`Ҳаммасини чоп этиш (${mine.length})`}</button>`:""}
     <label class="btn sm ctup">${LPLUS}Файл бириктириш (PDF, Excel, скан)<input type="file" data-attach="recs|${esc(C.id)}|${bkt}" accept="${ATT_ACCEPT}" multiple hidden></label></div></div>`;
@@ -9976,7 +9980,8 @@ function crSchedView(f,C,c){
     const tot=ed.reduce((a,x)=>({p:a.p+numL(x.prin),i:a.i+numL(x.int),t:a.t+(numL(x.pay)||numL(x.prin)+numL(x.int))}),{p:0,i:0,t:0});
     const diff=numL(C.amount)-tot.p;
     return `<div class="card"><div class="label" style="padding:12px 16px 0">${GH("Графикни қўлда таҳрирлаш","accountant",30)}</div>
-    ${V.crSchedAi?`<p class="ndok" style="margin:8px 16px 0">✦ Claude ${ed.length} та қатор ўқиди. Банк графиги билан солиштириб, «Сақлаш» ни босинг.</p>`:""}
+    ${V.crSchedAi?`<p class="ndok" style="margin:8px 16px 0">${V.crSchedAi==="excel"?"📊 Excel файлдан":"✦ Claude PDF'дан"} ${ed.length} та қатор ўқилди. Банк графиги билан солиштириб, «Сақлаш» ни босинг.</p>`:""}
+    ${V.crSchedChk?(()=>{ const k=V.crSchedChk, L=[["Асосий қарз",k.prin,tot.p],["Фоиз",k.int,tot.i],["Жами тўлов",k.pay,tot.t]].filter(x=>x[1]); const bad=L.some(x=>Math.abs(x[1]-x[2])>0.5); return L.length?`<div class="tablewrap" style="margin:8px 16px 0"><table class="sched"><thead><tr><th>Файлдаги жами қатор билан солиштириш</th><th class="r">Файлда</th><th class="r">Жадвалда</th><th class="r">Фарқ</th></tr></thead><tbody>${L.map(([t,a,b])=>`<tr class="norow"><td>${t}</td><td class="num r">${m2(a)}</td><td class="num r">${m2(b)}</td><td class="num r ${Math.abs(a-b)>0.5?"neg":""}">${m2(b-a)}</td></tr>`).join("")}</tbody></table><p class="hint" style="padding:4px 0">${bad?"⚠ Фарқ бор — қаторларни текширинг.":"✓ Барча қаторлар файлдаги жами билан тенг."}</p></div>`:""; })():""}
     <div class="tablewrap"><table class="sched crtab"><thead><tr><th>№</th><th>Сана</th><th class="r">Асосий қарз</th><th class="r">Фоиз</th><th class="r">Жами ${w.pay.toLowerCase()}</th><th></th></tr></thead><tbody>
     ${ed.map((x,i)=>`<tr class="norow"><td class="num">${i+1}</td><td><input type="date" data-crs="${i}|date" value="${esc(x.date||"")}" aria-label="Сана"></td><td><input class="r" data-crs="${i}|prin" value="${esc(x.prin??"")}" inputmode="decimal" aria-label="Асосий қарз"></td><td><input class="r" data-crs="${i}|int" value="${esc(x.int??"")}" inputmode="decimal" aria-label="Фоиз"></td><td><input class="r" data-crs="${i}|pay" value="${esc(x.pay??"")}" inputmode="decimal" aria-label="Жами"></td><td><button type="button" class="linkbtn danger" data-cra="schedDel" data-i="${i}" aria-label="Қаторни ўчириш">✕</button></td></tr>`).join("")}
     </tbody><tfoot><tr><td colspan="2">Жами</td><td class="num r" id="crsP">${m2(tot.p)}</td><td class="num r" id="crsI">${m2(tot.i)}</td><td class="num r" id="crsT">${m2(tot.t)}</td><td></td></tr></tfoot></table></div>
@@ -9985,16 +9990,16 @@ function crSchedView(f,C,c){
   }
   const body=c.rows.map(x=>x.pre?`<tr class="norow crpre"><td></td><td class="num">${fmtDate(x.date)}</td><td colspan="4"><b>Муддатидан олдин тўлов</b> · ${x.mode==="term"?"муддат қисқаради":"ойлик тўлов камаяди"}${x.note?" · "+esc(x.note):""}</td><td class="num r"><b>${m2(x.sum)}</b></td><td class="num r">${m2(x.bal)}</td><td></td></tr>`
     :`<tr class="norow ${x.grace?"crgr":""} ${x.date.slice(0,7)===td.slice(0,7)?"cur":""}"><td class="num">${x.k}</td><td class="num ${!x.paid&&x.date<td&&x.pay>0.005?"neg":""}">${fmtDate(x.date)}</td><td class="num r">${x.days}</td><td class="num r">${m2(x.open)}</td><td class="num r">${m2(x.prin)}${x.grace?` <span class="hint">имтиёз</span>`:""}</td><td class="num r" title="${esc((x.segs||[]).map(s=>`${fmtDate(s.from)}–${fmtDate(s.to)}: ${m2(s.bal)} × ${s.days} кун`).join("\n"))}">${m2(x.I)}${x.capI?`<div class="hint">+${m2(x.capI)} қарзга қўшилди</div>`:""}</td><td class="num r"><b>${m2(x.pay)}</b></td><td class="num r">${m2(x.bal)}</td><td><label class="checkline" style="margin:0"><input type="checkbox" class="crpaid" data-d="${x.date}" ${x.paid?"checked":""}> ${x.paid?fmtDate(x.paid):""}</label></td></tr>`).join("");
-  const nAi=(C.files||[]).filter(z=>attReadable(z)).length;
+  const nAi=(C.files||[]).filter(z=>attReadable(z)||isXlsName(z.name)).length;
   return `<div class="card"><div class="toolbar" style="padding:12px 16px 0"><div class="label">${GH("Сўндириш графиги","accountant",30)} <span class="lpill ${c.manual?"act":"off"}">${c.manual?"қўлда / банк графиги":"формула бўйича"}</span></div>
-    <div class="actions"><button type="button" class="btn sm" data-cra="schedEdit">Қўлда таҳрирлаш</button>${aiOn()?`<button type="button" class="btn sm" data-cra="schedAi" title="${nAi?"Бириктирилган PDF'дан графикни ўқийди":"Аввал шу вкладкага банк графиги PDF'ини бириктиринг"}">✦ Claude PDF'дан ўқисин</button>`:""}${c.manual?`<button type="button" class="btn sm ghost" data-cra="schedCalc">Формулага қайтариш</button>`:""}<button type="button" class="btn sm" data-act="crXlsx">${DL_ICON}Excel</button><button type="button" class="btn sm" data-act="crPrint">${PRINT_ICON}Чоп этиш</button></div></div>
+    <div class="actions"><button type="button" class="btn sm" data-cra="schedEdit">Қўлда таҳрирлаш</button><button type="button" class="btn sm" data-cra="schedAi" title="${nAi?"Бириктирилган файлдан графикни ўқийди":"Аввал пастга банк графигини (Excel ёки PDF) бириктиринг"}">${aiOn()?"✦ ":"📊 "}Файлдан ўқиш (Excel / PDF)</button>${c.manual?`<button type="button" class="btn sm ghost" data-cra="schedCalc">Формулага қайтариш</button>`:""}<button type="button" class="btn sm" data-act="crXlsx">${DL_ICON}Excel</button><button type="button" class="btn sm" data-act="crPrint">${PRINT_ICON}Чоп этиш</button></div></div>
   ${c.rows.length?`<div class="tablewrap"><table class="sched crtab"><thead><tr><th>№</th><th>${w.pay} санаси</th><th class="r">Кун</th><th class="r">Давр бошидаги қолдиқ</th><th class="r">Асосий қарз</th><th class="r">Фоиз</th><th class="r">Жами ${w.pay.toLowerCase()}</th><th class="r">Қолдиқ</th><th>${crAsset(C)?"Тушди":"Тўланди"}</th></tr></thead><tbody>${body}</tbody>
   <tfoot><tr><td colspan="4">Жами</td><td class="num r">${m2(c.totPrin+(c.totPre||0))}</td><td class="num r">${m2(c.totI)}</td><td class="num r">${m2(c.totPay+(c.totPre||0))}</td><td colspan="2"></td></tr></tfoot></table></div>`
   :`<div class="empty"><b>График ҳали йўқ</b>Сумма, ставка ва муддатни киритинг — график ўзи тузилади. Ёки банк графиги PDF'ини пастга бириктириб, Claude'га ўқитинг ёхуд «Қўлда таҳрирлаш» орқали киритинг.</div>`}
   <p class="hint" style="padding:8px 16px 12px">${c.manual?"График қўлда киритилган ёки банк ҳужжатидан ўқилган — ҳисоб-китоб шу қаторлар бўйича юритилади.":"График шартнома шартлари бўйича ҳисобланган. Банк графиги бир неча сўмга фарқ қилса — «Қўлда таҳрирлаш» ёки Claude орқали банк графигини киритинг, у асос бўлади."}</p></div>`;
 }
 crDetail=function(f,C){
-  if(V.crTabFor!==C.id){ V.crTabFor=C.id; V.crTab="main"; V.crSchedEdit=null; V.crSchedAi=false; }
+  if(V.crTabFor!==C.id){ V.crTabFor=C.id; V.crTab="main"; V.crSchedEdit=null; V.crSchedAi=false; V.crSchedChk=null; }
   const c=crCalc(C), st=crState(C,c), cu=curName(C.currency), nx=crNext(c), bal=crBalToday(c), w=crWord(C), T=crT(C), tab=V.crTab||"main";
   const fxs=x=>C.currency&&C.currency!=="UZS"&&num(C.fx)>0?`<div class="hint">≈ ${m0(x*num(C.fx))} сўм</div>`:"";
   const optT=(key,v)=>{ const F=CR_F[key]; if(!F||v==null||v==="") return ""; if(F.opts){ const o=F.opts.find(z=>z[0]===String(v)); return o?o[1]:String(v); } return F.type==="date"?fmtDate(v):(["down","limit","residual"].includes(key)&&numL(v)>0?m0(numL(v)):String(v)); };
@@ -10006,7 +10011,7 @@ crDetail=function(f,C){
   <div class="toolbar"><div class="lhead"><h2>${esc(T.t)}: ${esc(C.bank||"")}${C.number?" № "+esc(C.number):""}</h2><span class="lpill ${st.cls}">${st.t}</span>${didChip(C)}</div>
     <div class="actions"><button type="button" class="btn" data-act="crEditOpen">Таҳрирлаш</button><button type="button" class="btn ghost danger" data-act="crDel">Ўчириш</button></div></div>
   ${crTabsHTML(C,c)}`;
-  if(tab==="sched") return head+crSchedView(f,C,c)+crAtt(C,"sched","Банк берган тўлов графиги ёки тўлов ҳужжатлари. Claude графикни шу файлдан ўқийди.");
+  if(tab==="sched") return head+crSchedView(f,C,c)+crAtt(C,"sched","Банк берган тўлов графигини (Excel ёки PDF) шу ерга бириктиринг — дастур уни ўзи ўқиб, жадвалга тўлдиради. Excel калитсиз ўқилади, PDF/скан — Claude орқали.");
   if(tab==="docs") return head+crAtt(C,"docs","Гаров ва кафиллик шартномалари, суғурта полиси, қўшимча битимлар, банк хатлари.")+histBox(C);
   return head+`<div class="lstats">
     <div class="lstat" style="--c:${T.c};--cl:${T.c}"><span class="k">${w.main}</span><span class="v">${m0(c.P)}</span><span class="s">${esc(cu)} · ${esc(String(numL(C.rate)).replace(".",","))}% · ${esc(String(c.manual?c.n:C.term||""))} ой</span></div>
@@ -10026,7 +10031,7 @@ crDetail=function(f,C){
 /* 7. Claude: кредит шартномаси ва тўлов графигини ўқиш */
 AI_SPEC.credit={tool:"save_credit",sec:"loans",max:14000,
   desc:"Save the data of a loan / credit / leasing / deposit / escrow agreement and its repayment schedule.",
-  prompt:"This is a financing document of a company in Uzbekistan: a bank credit agreement (кредит шартномаси / кредитный договор), car loan, mortgage, microloan, leasing, overdraft / credit line, loan from a founder, trade credit, bank deposit (омонат / депозит), loan given to an employee, escrow agreement — or a repayment schedule (тўлов графиги / график погашения) attached to such an agreement. Determine the kind. If the document contains a repayment schedule table, return EVERY row of it in `schedule` (date, principal part, interest part, total payment) exactly as printed, in chronological order; do not calculate rows yourself. If there is no schedule table, omit `schedule`.",
+  prompt:"This is a financing document of a company in Uzbekistan: a bank credit agreement (кредит шартномаси / кредитный договор), car loan, mortgage, microloan, leasing, overdraft / credit line, loan from a founder, trade credit, bank deposit (омонат / депозит), loan given to an employee, escrow agreement — or a repayment schedule (тўлов графиги / график погашения) attached to such an agreement. Determine the kind. If the document contains a repayment schedule table, return EVERY row of it in `schedule` (date, principal part, interest part, total payment) exactly as printed, in chronological order, including a principal repayment on the disbursement day if printed; do not calculate rows yourself. Do not include the totals line in `schedule`; put the printed totals line (Итого / Жами) into `schedule_totals`. If there is no schedule table, omit `schedule`.",
   props:{
     kind:{type:"string",enum:CR_TK,description:"bank=ordinary bank credit, auto=car loan, turn=working capital replenishment, invest=investment / fixed asset credit, mort=mortgage, micro=microloan, leasing, over=overdraft or credit line, founder=loan received from founder, goods=trade (commodity) credit, dep=bank deposit placed by our company, empLoan=loan given by our company to an employee, escrow, other"},
     lender:AI_S("The other party: bank / lender / lessor / borrower name as printed"),
@@ -10044,7 +10049,8 @@ AI_SPEC.credit={tool:"save_credit",sec:"loans",max:14000,
     limit:AI_N("Credit line / overdraft limit"),valid_till:AI_S("Validity date of the line / escrow / deposit"),
     person:AI_S("Individual counterparty full name (founder or employee)"),
     object:AI_S("Financed object: property address, leased asset, project or goods, short"),cadastre:AI_S("Cadastral number"),
-    schedule:{type:"array",items:{type:"object",properties:{date:AI_S("Payment date"),principal:AI_N("Principal part"),interest:AI_N("Interest part"),total:AI_N("Total payment")},required:["date"]}}
+    schedule:{type:"array",items:{type:"object",properties:{date:AI_S("Payment date"),principal:AI_N("Principal part"),interest:AI_N("Interest part"),total:AI_N("Total payment")},required:["date"]}},
+    schedule_totals:{type:"object",description:"Totals line printed under the schedule table",properties:{principal:AI_N("Total principal"),interest:AI_N("Total interest"),total:AI_N("Total of payments")}}
   }};
 function crFromAi(x){
   const d={}, S_=v=>v==null?"":String(v).trim(), N_=v=>v==null||v===""||isNaN(+v)?"":String(+v);
@@ -10065,21 +10071,91 @@ function crFromAi(x){
   put("x_cadastre",S_(x.cadastre));
   const sc=crSchedNorm((x.schedule||[]).map(r=>({date:iso(r.date),prin:r.principal,int:r.interest,pay:r.total})));
   if(sc.length) d.sched=sc;
+  const tt=x.schedule_totals; if(sc.length&&tt&&(tt.principal||tt.interest||tt.total)) d.schedTot={prin:+tt.principal||0,int:+tt.interest||0,pay:+tt.total||0};
   return d;
 }
-/* мавжуд шартнома учун: бириктирилган PDF'дан графикни ўқиш (сақламасдан, таҳрир ойнасига) */
-async function crSchedAi(C){
-  if(!aiOn()){ toast("Claude API калити уланмаган — «Claude AI» бўлимида киритинг"); return; }
-  const fl=C.files||[]; const pick=fl.filter(z=>z.bkt==="sched"&&attReadable(z)).concat(fl.filter(z=>z.bkt!=="sched"&&attReadable(z)));
-  if(!pick.length){ toast("Аввал шу вкладкага банк графиги PDF'ини бириктиринг"); return; }
-  const f=firm(C.firmId); taskStart("✦ Claude графикни ўқимоқда",pick.length,{stoppable:true}); let got=null;
-  try{ for(let i=0;i<pick.length&&!got;i++){ if(taskStopped()) break; taskStep(i,pick[i].name||"файл");
-      const file=await aiFileOf(null,pick[i].file,pick[i].name||"grafik.pdf"); const r=await aiDoc(file,f,AI_SPEC.credit,file.name);
-      const d=crFromAi(r.x); if((d.sched||[]).length) got=d.sched; } }
+/* ===== в84: Кредит графиги — Excel/PDF файлдан ўқиш, ҳужжатларни очиқ кўрсатиш, иш кунига ўтказиш ===== */
+const XLSX_URL="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+async function ensureXlsx(){ if(!window.XLSX) await loadScript(XLSX_URL); return window.XLSX; }
+const isXlsName=n=>/\.(xlsx|xlsm|xls|csv)$/i.test(String(n||""));
+/* 1. Тўлов санаси шанба/якшанбага тўғри келса — кейинги иш куни */
+function crBizShift(iso){ if(!/^\d{4}-\d{2}-\d{2}$/.test(String(iso||""))) return iso; const d=new Date(iso+"T12:00:00Z"); while(d.getUTCDay()===0||d.getUTCDay()===6) d.setUTCDate(d.getUTCDate()+1); return d.toISOString().slice(0,10); }
+const crBiz=(C,iso)=>C&&C.bizDay?crBizShift(iso):iso;
+/* 2. Excel ячейкаси → ISO сана */
+function xlsDate(v){
+  if(v instanceof Date&&!isNaN(v)) return `${v.getFullYear()}-${p2(v.getMonth()+1)}-${p2(v.getDate())}`;
+  if(typeof v==="number"&&v>20000&&v<80000){ const d=new Date(Math.round((v-25569)*864e5)); return d.toISOString().slice(0,10); }
+  const s=String(v??"").trim(); let m=s.match(/^(\d{4})-(\d{2})-(\d{2})/); if(m) return m[0];
+  m=s.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})/); if(m){ const y=m[3].length===2?"20"+m[3]:m[3]; return `${y}-${p2(+m[2])}-${p2(+m[1])}`; }
+  return "";
+}
+const xlsNum=v=>typeof v==="number"?v:numL(v);
+/* 3. Варақдан тўлов графигини топиш: сарлавҳа бўйича устунлар */
+function crSchedFromAoa(aoa){
+  const low=v=>String(v??"").toLowerCase().replace(/\s+/g," ").trim();
+  let best=null;
+  for(let h=0;h<Math.min(aoa.length,40);h++){
+    const row=aoa[h]||[]; const nx=aoa[h+1]||[];
+    const head=row.map((v,j)=>low(v)+" "+(xlsDate(nx[j])?"":low(nx[j])));
+    const col={date:-1,prin:-1,int:-1,pay:-1};
+    head.forEach((t,j)=>{ if(!t.trim()) return;
+      if(/шартнома|договор|фирма|наименов|^№|^n$/.test(t.trim())) return;
+      if(col.date<0&&/сана|дата|date|муддат/.test(t)&&!/фоиз|процент|қолди[қғ]|остат/.test(t)){ col.date=j; return; }
+      if(/қолди[қғ]|колди[кг]|остат|balance|ўзлаштир|освоен|олинди|выдач|выдан|просроч|муддати ўтган/.test(t)) return;
+      if(col.int<0&&/фоиз|процент|interest|%/.test(t)){ col.int=j; return; }
+      if(col.pay<0&&/жами|итого|всего|total|умумий тўлов/.test(t)){ col.pay=j; return; }
+      if(col.prin<0&&/асосий|основн|principal|погашен|қарз|долг/.test(t)){ col.prin=j; return; }
+    });
+    if(col.date<0&&(col.prin>=0||col.pay>=0)){ /* сана устунида сарлавҳа йўқ (банк графикларида кўп учрайди) — пастдаги қаторлардан топамиз */
+      const cnt={}; for(let r=h+1;r<Math.min(aoa.length,h+12);r++) (aoa[r]||[]).forEach((v,j)=>{ if(![col.prin,col.int,col.pay].includes(j)&&xlsDate(v)) cnt[j]=(cnt[j]||0)+1; });
+      const j=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0]; if(j!=null&&cnt[j]>=2) col.date=+j; }
+    if(col.date<0||(col.prin<0&&col.pay<0)) continue;
+    const rows=[]; let tot=null;
+    for(let r=h+1;r<aoa.length;r++){ const R=aoa[r]||[]; const d=xlsDate(R[col.date]);
+      const pr=col.prin>=0?xlsNum(R[col.prin]):0, it=col.int>=0?xlsNum(R[col.int]):0, py=col.pay>=0?xlsNum(R[col.pay]):0;
+      if(d){ if(pr||it||py) rows.push({date:d,prin:pr,int:it,pay:py||(pr+it)}); continue; }
+      if(rows.length&&(pr||it||py)&&!tot){ tot={prin:pr,int:it,pay:py}; }
+    }
+    if(rows.length&&(!best||rows.length>best.rows.length)) best={rows,tot};
+  }
+  return best;
+}
+async function crSchedFromXlsx(blob){
+  await ensureXlsx(); const wb=XLSX.read(new Uint8Array(await blob.arrayBuffer()),{type:"array"});
+  let best=null; wb.SheetNames.forEach(n=>{ const aoa=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:""}); const r=crSchedFromAoa(aoa); if(r&&(!best||r.rows.length>best.rows.length)) best=r; });
+  return best;
+}
+/* 4. Excel'ни дастур ичида жадвал қилиб кўрсатиш */
+function xlsPrevHTML(wb,nm){
+  const sh=wb.SheetNames.slice(0,6);
+  return `<div class="pvbar"><span>${esc(nm)}</span><span>${wb.SheetNames.length} варақ</span></div>`+sh.map(n=>{
+    const aoa=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:false,defval:""}).filter(r=>r.some(v=>v!==""));
+    const w=Math.min(20,Math.max(0,...aoa.map(r=>r.length)));
+    const body=aoa.slice(0,400).map((r,i)=>`<tr${i===0?' class="xh"':""}>${Array.from({length:w},(_,j)=>{ const v=r[j]??""; return `<td class="${/^-?[\d\s\u00a0.,]+$/.test(String(v))?"num r":""}">${esc(String(v))}</td>`; }).join("")}</tr>`).join("");
+    return `<div class="label" style="padding:8px 12px 0">${esc(n)}</div><div class="tablewrap xlsprev"><table class="sched">${body}</table></div>${aoa.length>400?`<p class="hint" style="padding:4px 12px">… яна ${aoa.length-400} қатор (файлни очиб кўринг)</p>`:""}`;
+  }).join("");
+}
+/* 5. График файлини ўқиш: Excel — дастурнинг ўзи, PDF/скан — Claude */
+async function crSchedAi(C,auto){
+  const fl=C.files||[]; const by=(a,b)=>(b.at||0)-(a.at||0);
+  const sch=fl.filter(z=>z.bkt==="sched").sort(by), oth=fl.filter(z=>z.bkt!=="sched").sort(by);
+  const okF=z=>isXlsName(z.name)||attReadable(z);
+  let order=(auto?sch.slice(0,1):sch).filter(okF); if(!auto&&!order.length) order=oth.filter(okF);
+  order.sort((a,b)=>(isXlsName(b.name)?1:0)-(isXlsName(a.name)?1:0));
+  if(!order.length){ if(!auto) toast("Аввал шу вкладкага банк графигини (Excel ёки PDF) бириктиринг"); return; }
+  const f=firm(C.firmId); let got=null, tot=null, src="";
+  taskStart("График файлдан ўқилмоқда",order.length,{stoppable:true});
+  try{ for(let i=0;i<order.length&&!got;i++){ if(taskStopped()) break; const z=order[i]; taskStep(i,z.name||"файл");
+      if(isXlsName(z.name)){ const b=await driveFetch(z.file); const r=await crSchedFromXlsx(b); if(r&&r.rows.length){ got=crSchedNorm(r.rows); tot=r.tot; src="excel"; } continue; }
+      if(!aiOn()){ if(!auto) toast("PDF/скан графикни ўқиш учун Claude API калити керак — «Claude AI» бўлимида киритинг. Excel файлни калитсиз ўқийман."); continue; }
+      const file=await aiFileOf(null,z.file,z.name||"grafik.pdf"); const r=await aiDoc(file,f,AI_SPEC.credit,file.name);
+      const d=crFromAi(r.x); if((d.sched||[]).length){ got=d.sched; tot=d.schedTot||null; src="claude"; } } }
   catch(er){ taskEnd(); toast(explain(er)); return; }
   taskEnd();
-  if(!got){ toast("Claude бириктирилган файллардан график жадвалини топмади — қўлда киритишингиз мумкин"); return; }
-  V.crSchedEdit=got.map(x=>({date:x.date,prin:String(x.prin),int:String(x.int),pay:String(x.pay)})); V.crSchedAi=true; V.crTab="sched"; render();
+  if(!got){ if(!auto||aiOn()||order.some(z=>isXlsName(z.name))) toast("Файлдан тўлов графиги жадвали топилмади — «Қўлда таҳрирлаш» орқали киритишингиз мумкин"); return; }
+  V.crSchedEdit=got.map(x=>({date:x.date,prin:String(+x.prin.toFixed(2)),int:String(+x.int.toFixed(2)),pay:String(+x.pay.toFixed(2))}));
+  V.crSchedAi=src; V.crSchedChk=tot; V.crTab="sched"; V.crId=C.id; render();
+  toast(`${got.length} та қатор ўқилди — текшириб, «Сақлаш» ни босинг`);
 }
 
 /* 8. Оммавий юклаш: бир марта LD_MAX (250) тагача PDF */
@@ -10152,7 +10228,7 @@ vCredits=function(f){
 
 /* 10. Ҳодисалар */
 document.addEventListener("click",async e=>{
-  const tb=e.target.closest("[data-crtab]"); if(tb){ e.preventDefault(); e.stopPropagation(); V.crTab=tb.dataset.crtab; V.crSchedEdit=null; V.crSchedAi=false; return render(); }
+  const tb=e.target.closest("[data-crtab]"); if(tb){ e.preventDefault(); e.stopPropagation(); V.crTab=tb.dataset.crtab; V.crSchedEdit=null; V.crSchedAi=false; V.crSchedChk=null; return render(); }
   const b=e.target.closest("[data-cra]"); if(!b) return; e.preventDefault(); e.stopPropagation();
   const a=b.dataset.cra, C=V.crId?S.recs.find(x=>x.id===V.crId&&x.type==="credit"):null;
   if(a==="side"){ V.crSide=b.dataset.v||""; return render(); }
@@ -10160,12 +10236,12 @@ document.addEventListener("click",async e=>{
   if(a==="impDel"){ if(V.crImport){ V.crImport.items=V.crImport.items.filter(x=>x.id!==b.dataset.id); if(!V.crImport.items.length) V.crImport=null; } return render(); }
   if(a==="impSave") return crImportSave();
   if(!C) return;
-  if(a==="schedEdit"){ const src=(C.schedMode==="manual"&&(C.sched||[]).length)?crSchedNorm(C.sched):crSchedFromCalc(C); V.crSchedEdit=src.map(x=>({date:x.date,prin:String(x.prin),int:String(x.int),pay:String(x.pay)})); V.crSchedAi=false; return render(); }
+  if(a==="schedEdit"){ const src=(C.schedMode==="manual"&&(C.sched||[]).length)?crSchedNorm(C.sched):crSchedFromCalc(C); V.crSchedEdit=src.map(x=>({date:x.date,prin:String(x.prin),int:String(x.int),pay:String(x.pay)})); V.crSchedAi=false; V.crSchedChk=null; return render(); }
   if(a==="schedAdd"){ const L=V.crSchedEdit||(V.crSchedEdit=[]); const last=L[L.length-1]; L.push({date:last&&last.date?addMonthsISO(last.date,1):localToday(),prin:"",int:"",pay:""}); return render(); }
   if(a==="schedDel"){ if(V.crSchedEdit){ V.crSchedEdit.splice(+b.dataset.i,1); } return render(); }
-  if(a==="schedCancel"){ V.crSchedEdit=null; V.crSchedAi=false; return render(); }
+  if(a==="schedCancel"){ V.crSchedEdit=null; V.crSchedAi=false; V.crSchedChk=null; return render(); }
   if(a==="schedSave"){ const rows=crSchedNorm(V.crSchedEdit); if(!rows.length){ toast("Камида битта қаторда сана бўлиши керак"); return; }
-    try{ await attPut("recs",C.id,o=>{ o.sched=rows; o.schedMode="manual"; },`Тўлов графиги ${V.crSchedAi?"Claude ўқиганидан":"қўлда"} сақланди (${rows.length} қатор)`); V.crSchedEdit=null; V.crSchedAi=false; toast("График сақланди"); }catch(er){ toast(explain(er)); } return render(); }
+    try{ await attPut("recs",C.id,o=>{ o.sched=rows; o.schedMode="manual"; },`Тўлов графиги ${V.crSchedAi==="excel"?"Excel файлдан":V.crSchedAi?"Claude ўқиганидан":"қўлда"} сақланди (${rows.length} қатор)`); V.crSchedEdit=null; V.crSchedAi=false; V.crSchedChk=null; toast("График сақланди"); }catch(er){ toast(explain(er)); } return render(); }
   if(a==="schedCalc"){ try{ await attPut("recs",C.id,o=>{ o.schedMode="calc"; },"Тўлов графиги формула бўйича ҳисоблашга қайтарилди"); toast("График формула бўйича ҳисобланади. Қўлда киритилгани сақлаб қўйилди."); }catch(er){ toast(explain(er)); } return render(); }
   if(a==="schedAi") return crSchedAi(C);
 },true);
@@ -11135,7 +11211,7 @@ document.addEventListener("change",async e=>{
   if(el.id==="restoreFile"){ const fl=el.files[0]; el.value=""; if(!fl) return; uiPanelClose(); toast("Архив ўқилмоқда…"); try{ const R=await restoreRead(fl); return go({view:"restore",restore:R}); }catch(er){ toast("Архивни ўқиб бўлмади: "+(er?.message||"хато")); } return; }
   if(el.dataset.attach){ const [kind,id,bkt]=el.dataset.attach.split("|"); const fs=[...el.files]; el.value=""; if(!fs.length) return; const f=firm(V.firmId)||firm(V.draft?.firmId); let ok=0;
     for(const fl of fs){ try{ toast(`Юкланмоқда ${ok+1}/${fs.length}…`); const o0=attList(kind).find(x=>x.id===id)||ROWS[kind]?.[id]?.obj; const file=await driveUpload(fl,`${safeName(f?.name||"")} — ${docTitle(kind,o0||{})} — ${fl.name}`.slice(0,180),attLoc(kind,o0||{firmId:V.firmId})); if((o0?.files||[]).some(x=>x.file?.id===file.id)){ toast(fl.name+": бу файл аллақачон бириктирилган"); continue; } await attPut(kind,id,o=>{ (o.files=o.files||[]).push({file,name:fl.name,at:Date.now(),by:ME.email,...(bkt?{bkt}:{})}); },`Файл бириктирилди: ${fl.name}`); ok++; }catch(er){ toast(fl.name+": "+explain(er)); } }
-    if(ok) toast(ok+" та файл бириктирилди"); if(ok&&kind!=="emp"&&aiAuto(true)) setTimeout(()=>attAiRecord(kind,id),50); if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
+    if(ok) toast(ok+" та файл бириктирилди"); if(ok&&kind==="recs"&&bkt==="sched"){ const C0=S.recs.find(x=>x.id===id&&x.type==="credit"); if(C0) setTimeout(()=>crSchedAi(S.recs.find(x=>x.id===id)||C0,true),50); } else if(ok&&kind!=="emp"&&aiAuto(true)) setTimeout(()=>attAiRecord(kind,id),50); if(V.view==="order"){ const o=S.orders.find(x=>x.id===V.draft?.id); if(o) V.draft=JSON.parse(JSON.stringify(o)); } return render(); }
   if((el.id==="ccFiles"||el.id==="ccMore")&&V.firmId){ const fs=[...el.files]; el.value=""; if(fs.length) ccReadFiles(fs,el.id==="ccMore"); return; }
   if(el.id==="ccFile"&&V.ccEdit){ const fl=el.files[0]; el.value=""; if(!fl) return; const d=V.ccEdit; d.pending=fl; d.pendingName=fl.name; toast("Чек ўқилмоқда…");
     try{ const f=firm(V.firmId); const r=(await ccReadAny(fl,f))[0]; if(r){ d.pending=r.file; let p=r.d; const cfg=aiCfg(); if(cfg.key&&cfg.mode!=="manual"&&(cfg.mode==="always"||ccWeak(p))){ toast("✦ Claude ўқимоқда…"); try{ const a=await aiReadReceipt(r.file,f,fl.name); p=aiMerge(p,a.list[0]); d.ai={m:a.model,usd:Math.round(a.usd*1e6)/1e6}; ["date","time","amount","vat","vatRate","seller","sellerInn","purpose"].forEach(k=>{ if(p[k]) d[k]=""; }); }catch(e){ toast("Claude: "+e.message); } } let n=0; ["date","time","amount","vat","vatRate","seller","sellerInn","checkNo","rrn","auth","terminal","fiscal","currency","kind","cat","purpose"].forEach(k=>{ if(p[k]&&(!d[k]||(k==="currency"&&d[k]==="UZS")||(k==="kind"&&d[k]==="buy")||(k==="date"&&d.isNew&&d[k]===localToday()))){ d[k]=p[k]; n++; } }); if(d.cardI===""){ d.cardI=ccCardIdx(f,p); } toast(n?n+" та маълумот чекдан олинди":"Чекдан маълумот топилмади — қўлда киритинг"); } }catch(e){ toast("Файлни ўқиб бўлмади"); }
