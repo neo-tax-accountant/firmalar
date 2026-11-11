@@ -8,7 +8,7 @@ with sync_playwright() as p:
     pg.set_input_files('#bkFiles',FIX+'bank.xlsx'); pg.wait_for_timeout(1500)
     print('ai imp', G('JSON.stringify(V.bkImp.items.map(i=>[i.status,i.msg,i.acc,i.r&&i.r.src,i.chk&&i.chk.ok]))'), G('__n'))
     pg.click('[data-bk="impsave"]'); pg.wait_for_timeout(1000)
-    print('accs', G('[...document.querySelectorAll(".bkacc")].map(x=>x.innerText.replace(/\\s+/g," "))'))
+    print('accs', G('[...document.querySelectorAll(".bktab")].map(x=>x.innerText.replace(/\\s+/g," "))'))
     pg.screenshot(path=OUT+'b1.png',full_page=True)
     G('go({tab:"contracts",ctDir:"act",actEdit:null})'); pg.wait_for_timeout(300)
     pg.click('[data-act2="new|in"]'); pg.wait_for_timeout(300)
