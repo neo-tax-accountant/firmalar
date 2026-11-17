@@ -1,0 +1,81 @@
+# в89 — «Кадр ўзгариши» буйруғи (1С «Кадровый перевод» шаклида)
+import os, json
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"harness.py")).read())
+def chk(c,msg):
+    if not c: errs.append(msg)
+with sync_playwright() as p:
+    b,pg=page(p,1500,1000); G=pg.evaluate
+    pg.on('dialog', lambda d: d.accept())
+    E=G('firmEmps("namuna01").filter(e=>e.status!=="fired").map(e=>({id:e.id,fio:e.fio,pos:e.position,dept:e.dept,sal:e.salary,rate:e.rate}))'); print(E)
+    e1,e2=E[0],E[1]
+    # штатга янги лавозим (бўш ўрин билан)
+    G('''(async()=>{ await putItem("emp",{id:"tpos1",firmId:"namuna01",type:"pos",dept:"Савдо",position:"Катта сотувчи",units:"2",salary:"6000000"},false); })()'''); pg.wait_for_timeout(400)
+    chk(G('TEMPLATES.some(t=>t.id==="k-move")&&TEMPLATES.some(t=>t.id==="k-salary")&&TEMPLATES.some(t=>t.id==="k-change")'),"шаблонлар рўйхати нотўғри (учаласи туриши керак)")
+    G('go({view:"tpl",firmId:"namuna01"})'); pg.wait_for_timeout(300)
+    chk(G('!!document.querySelector("[data-tpl=k-change]")&&!!document.querySelector("[data-tpl=k-move]")&&!!document.querySelector("[data-tpl=k-salary]")'),"шаблон танлашда учаласи кўринмади")
+    # 1. Форма: ҳозирги маълумотлар карточкадан
+    G(f'V.firmId="namuna01"; go({{view:"order",draft:hrOrderDraft("k-change","{e1["id"]}")}})'); pg.wait_for_timeout(500)
+    chk(G('document.querySelectorAll(".kcrow").length')>=7 and e1["pos"] in G('document.querySelector(".kcgrid").innerText'),"форма ёки ҳозирги маълумотлар чиқмади")
+    chk("ўзгаришни танланг" in G('document.querySelector("#sheetWrap").innerText'),"ўзгариш танланмаганда огоҳлантириш йўқ")
+    # 2. Ўтказиш + ставка
+    pg.check('[data-kc="mv"]'); pg.wait_for_timeout(300)
+    pg.fill('input[name="n_dept"]',"Савдо"); pg.fill('input[name="n_pos"]',"Катта сотувчи"); pg.select_option('select[name="n_rate"]',"0,5"); pg.wait_for_timeout(300)
+    t=G('document.querySelector("#sheetWrap").innerText'); print(t[:600])
+    chk("Катта сотувчи лавозимига ўтказилсин" in t and "ставка — 0,5" in t,"ўтказиш ва ставка матнга тушмади")
+    chk(G('V.draft.values.subject')=="Бошқа ишга ўтказиш ва меҳнат шартларини ўзгартириш тўғрисида","мавзу (ўтказиш+шартлар) нотўғри")
+    chk("Штатда бўш ўрин бор" in G('document.querySelector("#kcVac").innerText'),"бўш ўрин назорати кўринмади")
+    pg.fill('input[name="n_pos"]',"Йўқ лавозим"); pg.wait_for_timeout(300)
+    chk("штат жадвалида йўқ" in G('document.querySelector("#kcVac").innerText'),"штатда йўқ лавозим огоҳлантирилмади")
+    pg.fill('input[name="n_pos"]',"Катта сотувчи"); pg.wait_for_timeout(200)
+    # 3. Ҳисоблашлар: маош + устама %
+    pg.check('[data-kc="ac"]'); pg.wait_for_timeout(300)
+    pg.fill('[data-kca="0|amt"]',"7000000"); pg.click('[data-kcadd="1"]'); pg.wait_for_timeout(300)
+    pg.select_option('[data-kca="1|kind"]',"Устама (%)"); pg.wait_for_timeout(300); pg.fill('[data-kca="1|amt"]',"20"); pg.wait_for_timeout(300)
+    t=G('document.querySelector("#sheetWrap").innerText')
+    chk("7 000 000" in t.replace(" "," ") and "20 %" in t and "Устама (%)" in t,"ҳисоблашлар жадвали матнга тушмади")
+    # қўшимча келишув
+    a=G('kcAgreements(V.draft,"uz")'); r=G('kcAgreements(V.draft,"ru")')
+    chk("ҚЎШИМЧА КЕЛИШУВ" in a and "Катта сотувчи" in a and "ДОПОЛНИТЕЛЬНОЕ СОГЛАШЕНИЕ" in r and "0,5" in r,"қўшимча келишув нотўғри")
+    chk(G('!!document.querySelector("[data-kcagr=uz]")&&!!document.querySelector("[data-kcagr=ru]")'),"қўшимча келишув тугмалари йўқ")
+    # 4. Имзолаш → карточка
+    pg.click('[data-set="signed"]'); pg.wait_for_timeout(2500)
+    c=G(f'(()=>{{const e=S.emp.find(x=>x.id==="{e1["id"]}"); return [e.position,e.dept,e.rate,e.salary,JSON.stringify(e.allow||[]),(e.hist||[]).slice(-1)[0]?.t]}})()'); print(c)
+    chk(c[0]=="Катта сотувчи" and c[1]=="Савдо" and c[2]=="0,5" and c[3]=="7000000","имзолангандан кейин карточка янгиланмади")
+    chk('"Устама (%)"' in c[4] and '"20"' in c[4] and "Кадр ўзгариши" in (c[5] or "") and "бандлик" not in (c[5] or ""),"устама ёки тарих нотўғри ёзилди")
+    chk("[ўзгариш санаси]" not in t,"ўзгариш санаси ўзи тўлдирилмади")
+    chk("undefined" not in G('kcAgreements(S.orders.filter(o=>o.tplId==="k-change").slice(-1)[0],"uz")+sheetHTML(S.orders.filter(o=>o.tplId==="k-change").slice(-1)[0])'),"ҳужжатда «undefined» чиқмоқда")
+    o=G('S.orders.filter(o=>o.tplId==="k-change").map(o=>[o.title,o.status,ordSeries(o)])'); print(o)
+    chk(o and o[-1]==["Бошқа ишга ўтказиш ва меҳнат шартларини ўзгартириш тўғрисида","signed","КБ"],"буйруқ сақланмади ёки сарлавҳа/серия нотўғри")
+    # 5. Фақат маош ва фақат ставка — мавзу
+    G(f'go({{view:"order",draft:hrOrderDraft("k-change","{e2["id"]}")}})'); pg.wait_for_timeout(400)
+    pg.check('[data-kc="ac"]'); pg.wait_for_timeout(300); pg.fill('[data-kca="0|amt"]',"5500000"); pg.wait_for_timeout(300)
+    chk(G('V.draft.values.subject')=="Лавозим маошини ўзгартириш тўғрисида","фақат маош — мавзу нотўғри")
+    pg.uncheck('[data-kc="ac"]'); pg.wait_for_timeout(300); pg.check('[data-kc="mv"]'); pg.wait_for_timeout(300); pg.select_option('select[name="n_sched"]',"6 кунлик, ҳафтасига 40 соат"); pg.wait_for_timeout(300)
+    chk(G('V.draft.values.subject')=="Меҳнат шартларини ўзгартириш тўғрисида" and "иш тартиби — 6 кунлик" in G('document.querySelector("#sheetWrap").innerText'),"фақат иш тартиби — мавзу/матн нотўғри")
+    # 6. Бир нечта ходим
+    G(f'''(()=>{{ const o=hrOrderDraft("k-change","{e1["id"]}"); go({{view:"order",draft:o}}); }})()'''); pg.wait_for_timeout(300)
+    pg.check('#grpToggle'); pg.wait_for_timeout(300)
+    G(f'''(()=>{{ const o=V.draft; const rows=[grpRowFrom(o,S.emp.find(x=>x.id==="{e1["id"]}")),grpRowFrom(o,S.emp.find(x=>x.id==="{e2["id"]}"))]; rows[0].n_sal="8 000 000"; rows[1].n_pos="Катта сотувчи"; rows[1].n_dept="Савдо"; grpSetRows(o,rows); render(); }})()'''); pg.wait_for_timeout(400)
+    t=G('document.querySelector("#sheetWrap").innerText')
+    chk("Янги лавозим" in t and "8 000 000" in t.replace(" "," ") and not G('!!document.querySelector(".kced")'),"гуруҳ режимида жадвал чиқмади")
+    chk(G('V.draft.values.subject')=="Ходимларни бошқа ишга ўтказиш ва иш ҳақини ўзгартириш тўғрисида","гуруҳ мавзуси нотўғри")
+    chk(G('kcAgreements(V.draft,"uz").split("ҚЎШИМЧА КЕЛИШУВ").length-1')==2,"гуруҳда ҳар бир ходимга қўшимча келишув чиқмади")
+    pg.click('[data-set="signed"]'); pg.wait_for_timeout(3000)
+    c1=G(f'S.emp.find(x=>x.id==="{e1["id"]}").salary'); c2=G(f'S.emp.find(x=>x.id==="{e2["id"]}").position')
+    print("grp",c1,c2); chk(c1=="8000000" and c2=="Катта сотувчи","гуруҳ буйруғи карточкаларни янгиламади")
+    # 7. Ходим карточкаси: тугма ва янги майдонлар
+    G(f'go({{view:"firm",firmId:"namuna01",tab:"staff",hrSub:null,empId:"{e1["id"]}"}})'); pg.wait_for_timeout(500)
+    chk(G('!!document.querySelector("[data-hrorder=k-change]")'),"ходим карточкасида «Кадр ўзгариши» тугмаси йўқ")
+    chk("Устама (%): 20 %" in G('document.body.innerText'),"карточкада устамалар кўринмади")
+    G('go({view:"firm",firmId:"namuna01",tab:"staff",empId:null,empEdit:JSON.parse(JSON.stringify(firmEmps("namuna01")[0]))})'); pg.wait_for_timeout(400)
+    chk(G('!!document.querySelector("#ef_branch")&&!!document.querySelector("#ef_emptype")'),"ходим формасида «Алоҳида бўлинма» / «Бандлик тури» йўқ")
+    # 8. Эски шаблонлар ишлайди
+    G(f'go({{view:"order",empEdit:null,draft:hrOrderDraft("k-move","{e2["id"]}")}})'); pg.wait_for_timeout(400)
+    chk("лавозимига ойлик лавозим маоши" in G('document.querySelector("#sheetWrap").innerText'),"эски «Бошқа ишга ўтказиш» шаблони бузилди")
+    for t in ("contracts","overview","orders","staff"):
+        G(f'go({{view:"firm",firmId:"namuna01",tab:"{t}",empId:null,empEdit:null}})'); pg.wait_for_timeout(500)
+        chk(G('document.body.innerText.length')>400,f"«{t}» бўлими бўш")
+    _v=G('APP_VER'); _n=int("".join(ch for ch in _v.split("в")[-1] if ch.isdigit()) or 0)
+    print("VER",_v); chk(_n>=89,f"версия в89 ёки юқори бўлиши керак: {_v}")
+    b.close()
+ok()
