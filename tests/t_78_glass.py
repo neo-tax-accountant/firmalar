@@ -35,7 +35,7 @@ with sync_playwright() as p:
                    'const ch=f.querySelector(".chip"),se=f.querySelector(".gsel");'
                    'return {disp:c.display,al:c.alignItems,bf:c.backdropFilter||c.webkitBackdropFilter,'
                    'chh:ch?Math.round(ch.getBoundingClientRect().height):0,seh:se?Math.round(se.getBoundingClientRect().height):0,'
-                   'rows:new Set([...f.children].map(x=>Math.round(x.getBoundingClientRect().y))).size};})()')
+                   'rows:(()=>{ const ys=[...f.children].map(x=>x.getBoundingClientRect().y).sort((a,b)=>a-b); let n=ys.length?1:0; for(let i=1;i<ys.length;i++) if(ys[i]-ys[i-1]>10) n++; return n; })()};})()')
     print("filtrlar",fl)
     chk(fl is not None,"фильтрлар қатори топилмади")
     chk(fl["disp"]=="flex" and fl["al"]=="center","фильтрлар бир қаторга тизилмаган")
