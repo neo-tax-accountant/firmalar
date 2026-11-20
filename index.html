@@ -1855,7 +1855,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="20.11.2026 · в90";
+const APP_VER="20.11.2026 · в91";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -10998,7 +10998,7 @@ function hrNizomView(f){
     <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Синов муддати</span><span class="v">${esc(v.probation)}</span><span class="s">раҳбарлар: ${esc(v.probMgr)}</span></div>
     <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">Тасдиқлаш</span><span class="v">${o?(o.status==="signed"?"имзоланган":"черновик"):"буйруқ йўқ"}</span><span class="s">${o?`№ ${esc(o.values?.number||"")} ${fmtDate(o.values?.date)}`:"буйруқ тузинг"}</span></div></div>
     <div class="card"><div class="label">Белгиланган параметрлар</div><p>${[["micro","Микрофирма"],["union","Касаба уюшмаси"],["collective","Жамоа шартномаси"],["partTime","Тўлиқсиз иш вақти"],["overtime","Иш вақтидан ташқари иш"],["weekendWork","Дам олиш кунида иш"],["night","Тунги иш"],["vacSplit","Таътилни бўлиш"],["vacComp","Таътил компенсацияси"],["trips","Хизмат сафарлари"],["liability","Тўлиқ моддий жавобгарлик"],["pdConsent","Шахсий маълумотлар розилиги"]].map(([k,t])=>`<span class="lpill ${on(k)?"ok":"off"}">${on(k)?"✓":"—"} ${t}</span>`).join(" ")}</p>
-    <p class="hint">Кейинги версияда кадрлар бўлими (буйруқлар рўйхати, бошланғич қийматлар ва текширувлар) шу параметрларга мувофиқ шаклланади.</p></div>`:"";
+    <p class="hint">Кадрлар бўлими шу параметрлар бўйича ишлайди: буйруқлар рўйхати (сафар, мукофот), янги ходим ва буйруқдаги бошланғич қийматлар (синов, таътил кунлари, иш тартиби, шартнома тури), буйруқлардаги Меҳнат кодекси текширувлари.</p></div>`:"";
   return `<div class="toolbar"><span class="hint">Кадрлар низоми Меҳнат кодекси асосида тузилади: параметрларни белгиланг — низом матни ўзи шаклланади, «Қарор ва буйруқлар»да тасдиқлаш буйруғи тайёрланади. Низом «Ҳисоб сиёсати» бўлимида ҳам кўринади.</span><div class="actions"><button type="button" class="btn primary" data-act="hrPolNew">${LPLUS}${L.length?"Янги йил / таҳрир учун низом":"Кадрлар низомини яратиш"}</button></div></div>
   ${sum}<div class="card">${L.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>Йил</th><th>Амал қилиш</th><th>Тасдиқлаш буйруғи</th><th>Ҳолати</th><th>Файл</th></tr></thead><tbody>${L.map(p=>{ const o=p.orderId&&S.orders.find(x=>x.id===p.orderId); return `<tr data-pol="${esc(p.id)}" tabindex="0"><td class="num"><b>${esc(p.year)}</b></td><td class="num">${fmtDate(p.startDate)} дан</td><td>${o?`№ ${esc(o.values?.number||"")} ${fmtDate(o.values?.date)}`:`<span class="hint">йўқ</span>`}</td><td>${o?pill(o.status):`<span class="lpill off">буйруқсиз</span>`}</td><td>${(p.files||[]).length?`📎 ${p.files.length}`:""}</td></tr>`; }).join("")}</tbody></table></div>`:`<div class="empty"><b>Кадрлар низоми ҳали тузилмаган</b>«Кадрлар низомини яратиш» тугмасини босинг: Меҳнат кодекси асосидаги тайёр шаблон очилади, керакли параметрларни белгилаб сақланг.</div>`}</div>`; }
 { const _vs=vStaff; vStaff=function(f){
@@ -11008,6 +11008,128 @@ function hrNizomView(f){
     return _vs(f); }; }
 document.addEventListener("click",e=>{ const b=e.target.closest('[data-act="hrPolNew"]'); if(!b) return; e.stopPropagation(); e.preventDefault(); const f=firm(V.firmId); if(f) go({polEdit:polNew(f,"hr"),polId:null}); },true);
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-hrsub]"); if(b&&(V.polEdit||V.polId)){ V.polEdit=null; V.polId=null; } },true);
+
+/* ================= в91: КАДРЛАР БЎЛИМИ КАДРЛАР НИЗОМИГА БЎЙСУНАДИ ================= */
+/* Амалдаги низом: жорий йилдан кечроқ бошланмаганларнинг энг охиргиси */
+function hrPolRec(fid){ const L=firmPol(fid,"hr"); if(!L.length) return null; const td=localToday(); return L.find(p=>!p.startDate||p.startDate<=td)||L[L.length-1]; }
+function hrPol(fid){ const p=hrPolRec(fid); return p?polVals(p):null; }
+const hrOn=(v,k)=>!!v&&!!String(v[k]||"").trim()&&v[k]!=="0";
+const HR_MGR_RE=/директор|раҳбар|бошқарувчи|ўринбосар|заместител|бош бухгалтер|главный бухгалтер|бўлинма бошлиғи|филиал бошлиғи/i;
+const HR_DIR_RE=/^(бош |генерал |ижрочи )?директор|^раҳбар|бошқарувчи|руководител/i;
+const HR_DEP_RE=/ўринбосар|заместител|бош бухгалтер|главный бухгалтер|бўлинма бошлиғи|филиал бошлиғи/i;
+const hrMonths=x=>{ const m=/(\d+)\s*ой/.exec(String(x||"")); return m?+m[1]:0; };
+function hrAddMonths(d,n){ const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(d||"")); if(!m) return null; const t=new Date(Date.UTC(+m[1],+m[2]-1+n,+m[3])); return Math.round(t.getTime()/DAY); }
+function hrYears(a,b){ const x=dnum(a), y=dnum(b); return x!=null&&y!=null&&y>=x?(y-x)/365.25:null; }
+
+/* --- 1. МК 170-моддаси: бўшатиш буйруғида аниқ модда ва банд --- */
+const HR_GROUND_ART=[[/тугатилиш/,"1"],[/қисқари|штат/,"2"],[/малака/,"3"],[/мунтазам/,"4"],[/қўпол/,"5"]];
+function hrFireArticle(tpl,v){ const r=String(v.reason||(tpl&&tpl.fixed&&tpl.fixed.reason)||""), g=String(v.ground||"");
+  if(tpl&&tpl.id==="k-fire-own"||/ходимнинг ташаббус/.test(r)) return "160-моддаси";
+  if(tpl&&tpl.id==="k-fire-agree"||/келишув/.test(r)) return "157-моддаси";
+  if(/муддати тугаш/.test(r)) return "158-моддаси";
+  if(/иш берувчи/.test(r)){ const b=HR_GROUND_ART.find(([re])=>re.test(g)); return b?`161-моддаси иккинчи қисмининг ${b[1]}-банди`:"161-моддаси"; }
+  return ""; }
+TEMPLATES.filter(t=>t.hr==="fire").forEach(t=>{
+  t.body=t.body.replace("Меҳнат кодексига[[ ({{article}})]] мувофиқ","Меҳнат кодекси[[нинг {{article}}]]га мувофиқ");
+  if(t.id==="k-fire") t.body=t.body.replace("<p>Ўзбекистон Республикаси Меҳнат кодексига мувофиқ</p>","<p>Ўзбекистон Республикаси Меҳнат кодекси[[нинг {{article}}]]га мувофиқ</p>");
+  t.fields.forEach(x=>{ if(x[0]==="article") x[1]="Меҳнат кодекси моддаси (бўш қолса — асосдан ўзи қўйилади)"; }); });
+HR_GROUP.fire.pre=(g,v)=>`<p>Ўзбекистон Республикаси Меҳнат кодекси${v.article?"нинг "+g("article"):""}га мувофиқ${v.agrDate?` ва тарафлар ўртасида ${g("agrDate")} да тузилган ёзма келишувга асосан`:""}</p>`;
+{ const _fb=fillBody; fillBody=function(tpl,values,f,clean){
+    if(tpl&&tpl.hr==="fire"&&values&&!String(values.article||"").trim()){ const a=hrFireArticle(tpl,values); if(a) values={...values,article:a}; }
+    return _fb(tpl,values,f,clean); }; }
+
+/* --- 2. Низомга кўра буйруқ турлари --- */
+function hrHidden(fid){ const v=hrPol(fid); if(!v) return []; const h=[];
+  if(!hrOn(v,"trips")) h.push(["k-trip","хизмат сафари"]);
+  if(/қўлланилмайди/.test(v.bonus||"")) h.push(["k-bonus","мукофот"]);
+  return h; }
+function hrStripTpl(html,fid){ const H=hrHidden(fid); if(!H.length) return html;
+  H.forEach(([id])=>{ html=html.replace(new RegExp(`<button type="button" class="tpl[^"]*" data-tpl="${id}">[\\s\\S]*?</button>`,"g"),"").replace(new RegExp(`<button type="button" class="btn" data-hrorder="${id}">[^<]*</button>`,"g"),""); });
+  return html; }
+const hrHidNote=fid=>{ const H=hrHidden(fid); return H.length?`<p class="hint">Кадрлар низомига кўра кўрсатилмайди: ${H.map(x=>x[1]).join(", ")}. Ўзгартириш: Кадрлар → Кадрлар низоми.</p>`:""; };
+{ const _vt=vTpl; vTpl=function(){ const h=_vt(); return V.firmId?hrStripTpl(h,V.firmId)+hrHidNote(V.firmId):h; }; }
+{ const _vs=vStaff; vStaff=function(f){ let h=_vs(f); if(!f) return h; const n=h.length; h=hrStripTpl(h,f.id);
+    if(h.length!==n&&V.hrSub==="orders") h=h.replace('<div class="card">',hrHidNote(f.id)+'<div class="card">'); return h; }; }
+
+/* --- 3. Бошланғич қийматлар --- */
+["k-hire","k-hire-perm"].forEach(id=>{ const t=TEMPLATES.find(x=>x.id===id); const fp=t&&t.fields.find(x=>x[0]==="probation"); if(fp&&!fp[3].includes("6 ой")) fp[3].push("4 ой","5 ой","6 ой"); });
+function hrPolDefaults(tpl,values,f){ const v=f&&hrPol(f.id); if(!v||!tpl) return;
+  const fp=tpl.fields.find(x=>x[0]==="probation");
+  if(fp&&(!values.probation||values.probation===fp[3][0])){ const src=HR_MGR_RE.test(values.pos||"")?v.probMgr:v.probation; const n=hrMonths(src); values.probation=/белгиланмайди/.test(src||"")||!n?"белгиланмасин":n+" ой"; }
+  const fc=tpl.fields.find(x=>x[0]==="ctype"); if(fc&&!values.emp&&!(tpl.fixed&&tpl.fixed.ctype)) values.ctype=/^муддатли/.test(v.ctype||"")?"муайян муддатга":"номуайян муддатга"; }
+TEMPLATES.filter(t=>t.hr).forEach(t=>{ const _i=t.init; t.init=function(values,f){ if(_i) _i.call(this,values,f); hrPolDefaults(t,values,f); }; });
+const HR_EMP_DEF=new WeakSet();
+{ const _ef=empForm; empForm=function(f,e){
+    if(f&&e&&!HR_EMP_DEF.has(e)&&!S.emp.some(x=>x.id===e.id)){ HR_EMP_DEF.add(e); const v=hrPol(f.id);
+      if(v){ e.vacDays=String(Math.max(21,num(v.vacDays)||21));
+        e.schedule=/6 кунлик/.test(v.week)?"6 кунлик, ҳафтасига 40 соат":/сменали/.test(v.week)?"сменали":"5 кунлик, ҳафтасига 40 соат";
+        e.contractType=/^муддатли/.test(v.ctype||"")?"муайян":"номуайян"; } }
+    return _ef(f,e); }; }
+
+/* --- 4. Меҳнат кодекси ва низом бўйича текширувлар --- */
+function hrChecksOne(tpl,v,e,P,law,add){
+  const nm=e&&e.fio?e.fio+": ":""; const H=tpl.hr;
+  if(H==="hire"){ const n=hrMonths(v.probation), mgr=HR_MGR_RE.test(v.pos||e?.position||"");
+    if(n){ const st=v.start||e?.hireDate;
+      if(e?.birth&&st&&hrYears(e.birth,st)!=null&&hrYears(e.birth,st)<18) add("bad",`${nm}18 ёшга тўлмаган шахсга дастлабки синов белгиланмайди (МК 129-моддаси).`);
+      if(/муайян/.test(v.ctype||"")&&v.cend&&st&&dnum(v.cend)!=null&&dnum(v.cend)<hrAddMonths(st,6)) add("bad",`${nm}6 ойгача муддатли шартнома тузилаётган ходимга синов белгиланмайди (МК 129-моддаси).`);
+      if(n>(mgr?6:3)) add("bad",`${nm}синов муддати ${mgr?"раҳбар, ўринбосар ва бош бухгалтер учун 6":"3"} ойдан ошмаслиги керак (МК 130-моддаси).`);
+      else if(!law){ const lim=mgr?P.probMgr:P.probation; if(/белгиланмайди/.test(lim||"")) add("soon",`${nm}Кадрлар низомида ${mgr?"раҳбарлар":"ходимлар"} учун синов белгиланмайди деб кўрсатилган.`); else if(n>hrMonths(lim)) add("soon",`${nm}Кадрлар низомида синов муддати — ${lim}.`); }
+      add("info","Синов белгиланмайдиган шахслар: ҳомиладор аёллар, 3 ёшгача боласи бор аёллар, 18 ёшгача шахслар, битирувчилар (1 йил ичида) ва б. (МК 129-моддаси).") }
+    if(/муайян/.test(v.ctype||"")){ if(!v.cend) add("bad",`${nm}муддатли меҳнат шартномасининг тугаш санаси кўрсатилмаган.`); add("info","Муддатли шартнома фақат МК 112–113-моддаларидаги асосларда тузилади; асос шартномада кўрсатилади."); }
+    add("info","Буйруқ ходимга иш бошланган кундан эътиборан 3 кун ичида имзо қўйдириб эълон қилинади (МК 127-моддаси)."); }
+  if(H==="vac"){ const kind=String(v.vkind||(tpl.fixed&&tpl.fixed.vkind)||""), d=num(v.days);
+    if(/йиллик/.test(kind)){
+      if(e&&e.vacDays&&num(e.vacDays)<21) add("bad",`${nm}ходим карточкасида йиллик таътил ${num(e.vacDays)} кун — камида 21 календарь кун бўлиши керак (МК 217-моддаси).`);
+      const full=Math.max(21,num(e?.vacDays)||num(P.vacDays)||21);
+      if(d&&d<full){ if(!law&&!hrOn(P,"vacSplit")) add("soon",`${nm}таътил ${d} кун (тўлиқ таътил — ${full} кун). Кадрлар низомида таътилни қисмларга бўлиш назарда тутилмаган.`);
+        else if(d<14) add("soon",`${nm}таътил қисмларга бўлинганда ҳеч бўлмаганда бир қисми 14 календарь кундан кам бўлмаслиги керак (МК 231-моддаси).`); }
+      if(e?.hireDate&&v.from&&dnum(v.from)!=null&&dnum(v.from)<hrAddMonths(e.hireDate,6)) add("soon",`${nm}биринчи иш йили учун таътил 6 ой ишлагандан кейин берилади; ундан олдин — тарафлар келишуви ёки МК 227-моддасидаги шахсларга.`); }
+    if(/ҳақ сақланмайдиган/.test(kind)&&e&&v.from){ const f0=dnum(v.from); const used=(e.vacs||[]).filter(x=>/ҳақ сақланмайдиган/.test(x.kind||"")&&dnum(x.from)!=null&&dnum(x.from)>f0-365&&dnum(x.from)<f0).reduce((s,x)=>s+num(x.days||vDays(x.from,x.to)),0);
+      const tot=used+(d||num(vDays(v.from,v.to))); if(tot>92) add("bad",`${nm}12 ойлик даврда ҳақ сақланмайдиган таътил жами ${tot} кун бўлади — 3 ойдан ошмаслиги керак (МК 241-моддаси; 242-моддадаги мажбурий ҳоллар бундан мустасно).`); }
+    if(v.from&&v.date&&dnum(v.from)<dnum(v.date)) add("soon",`${nm}буйруқ санаси таътил бошланганидан кейин. Таътил пули таътил бошланишидан олдинги охирги иш кунидан кечиктирмай тўланади (МК 233-моддаси).`); }
+  if(H==="fire"){ const r=String(v.reason||(tpl.fixed&&tpl.fixed.reason)||""), g=String(v.ground||""), end=dnum(v.end);
+    if(/ходимнинг ташаббус/.test(r)&&v.appDate&&end!=null){ const pos=v.pos||e?.position||""; const dep=HR_DEP_RE.test(pos), dir=!dep&&HR_DIR_RE.test(pos);
+      const lim=dir?hrAddMonths(v.appDate,2):dep?hrAddMonths(v.appDate,1):dnum(v.appDate)+(hrOn(P,"micro")?7:14); const txt=dir?"2 ой (МК 489-моддаси)":dep?"1 ой (МК 489-моддаси)":hrOn(P,"micro")?"7 календарь кун (МК 506-моддаси)":"14 календарь кун (МК 160-моддаси)";
+      if(end<lim) add("soon",`${nm}аризадан бўшатишгача огоҳлантириш муддати — ${txt}. Ундан олдин бўшатиш фақат тарафлар келишуви билан мумкин.`); }
+    if(/иш берувчи/.test(r)){ const b=(HR_GROUND_ART.find(([re])=>re.test(g))||[])[1];
+      if(!b) add("soon","Иш берувчи ташаббусида аниқ асос (МК 161-моддаси иккинчи қисмининг банди) кўрсатилиши шарт — «Иш берувчининг ташаббуси билан…» шаблонидан фойдаланинг (МК 170-моддаси).");
+      const minN=b==="1"||b==="2"?["m",2,"камида 2 ой"]:b==="3"?["d",14,"камида 2 ҳафта"]:b?["d",3,"камида 3 кун"]:null;
+      if(minN){ if(!v.notice) add("soon",`${nm}ходим ёзма огоҳлантирилган сана киритилмаган — ${minN[2]} олдин (МК 165-моддаси).`);
+        else if(end!=null&&end<(minN[0]==="m"?hrAddMonths(v.notice,minN[1]):dnum(v.notice)+minN[1])) add("bad",`${nm}огоҳлантиришдан бўшатишгача ${minN[2]} ўтиши керак (МК 165-моддаси).`); }
+      if(b==="2"||b==="3") add("info","Бўшатишдан олдин ходимни бошқа ишга ўтказиш имконияти кўриб чиқилади (МК 161-моддаси учинчи қисми).");
+      if(b==="4"||b==="5") add("info","Ходимдан ёзма тушунтириш олинган бўлиши, жазо қилмиш аниқланганидан 1 ойдан, содир этилганидан 6 ойдан кечиктирмай қўлланилиши шарт (МК 313–314-моддалари).");
+      if(b&&+b<=3&&!String(v.sev||"").trim()){ const y=e?.hireDate&&v.end?hrYears(e.hireDate,v.end):null; const pc=y==null?null:y<3?50:y<5?75:y<10?100:y<15?150:200;
+        add("soon",`${nm}ишдан бўшатиш нафақаси тўланади (МК 173-моддаси)${pc?`: иш стажи ${y.toFixed(1).replace(".",",")} йил — ўртача ойлик иш ҳақининг ${pc}%`:""}${/оширилган/.test(P.sevPay||"")?"; Кадрлар низомига кўра оширилган миқдорда":""}.`); }
+      if(hrOn(P,"union")) add("info","Касаба уюшмаси қўмитасининг розилиги олинади (МК 164-моддаси).");
+      if(e?.birth&&v.end&&hrYears(e.birth,v.end)<18) add("bad",`${nm}18 ёшга тўлмаган ходимни иш берувчи ташаббуси билан бўшатишда МКнинг махсус кафолатлари қўлланилади — ҳуқуқшунос билан текширинг.`); }
+    add("info",`Буйруқда асос: Меҳнат кодекси ${v.article||hrFireArticle(tpl,v)||"моддаси кўрсатилиши шарт"} (МК 170-моддаси). Ҳисоб-китоб охирги иш кунида (МК 172-моддаси).`); }
+  if(H==="bonus"&&!law&&/қўлланилмайди/.test(P.bonus||"")) add("soon","Кадрлар низомида мукофот тизими қўлланилмайди деб белгиланган.");
+  if(H==="trip"&&!law&&!hrOn(P,"trips")) add("soon","Кадрлар низомида хизмат сафарлари назарда тутилмаган.");
+}
+function hrChecks(o){ const tpl=TEMPLATES.find(t=>t.id===o.tplId); if(!tpl||!tpl.hr) return [];
+  const P0=hrPol(o.firmId), law=!P0, P=P0||POL_DEF.hr; const out=[], seen=new Set(); const add=(l,t)=>{ if(!seen.has(t)){ seen.add(t); out.push({l,t}); } };
+  const v=o.values||{};
+  if(v.group==="1"&&grpOk(tpl)) grpRows(v).filter(r=>r.emp).forEach(r=>hrChecksOne(tpl,{...v,...r},S.emp.find(x=>x.id===r.emp),P,law,add));
+  else hrChecksOne(tpl,v,v.emp&&S.emp.find(x=>x.id===v.emp),P,law,add);
+  if(law&&out.length) add("info","Фирмада Кадрлар низоми тузилмаган — фақат Меҳнат кодекси нормалари текширилди.");
+  return out; }
+function hrChecksHTML(o){ const L=hrChecks(o); if(!L.length) return "";
+  const w=L.filter(x=>x.l!=="info"), i=L.filter(x=>x.l==="info");
+  return `${w.length?`<div class="vpwarn"><b>Меҳнат кодекси ва Кадрлар низоми бўйича огоҳлантириш</b><ul>${w.map(x=>`<li class="${x.l}">${esc(x.t)}</li>`).join("")}</ul></div>`:""}${i.length?`<div class="note-box"><ul>${i.map(x=>`<li>${esc(x.t)}</li>`).join("")}</ul></div>`:""}`; }
+{ const _vo3=vOrder; vOrder=function(){ const h=_vo3(); const o=V.draft; const tpl=o&&TEMPLATES.find(t=>t.id===o.tplId); if(!tpl||!tpl.hr) return h;
+    const i=h.indexOf('<div class="statusbar">'); if(i<0) return h; return h.slice(0,i)+`<div id="hrWarn">${hrChecksHTML(o)}</div>`+h.slice(i); }; }
+["input","change"].forEach(ev=>document.addEventListener(ev,e=>{ if(!e.target.closest||!e.target.closest("#orderForm")) return; setTimeout(()=>{ const el=document.getElementById("hrWarn"); if(el&&V.draft) el.innerHTML=hrChecksHTML(V.draft); },0); }));
+
+/* --- 5. Назорат: огоҳлантиришлар ва ички аудит --- */
+function hrPolState(f){ const p=hrPolRec(f.id); const o=p&&p.orderId&&S.orders.find(x=>x.id===p.orderId); return {p,o,ok:!!(o&&o.status==="signed")}; }
+{ const _ha=hrAlerts; hrAlerts=function(f){ const out=_ha(f); if(!firmEmps(f.id).some(e=>e.status!=="fired")) return out; const s=hrPolState(f);
+    if(!s.p) out.push({lvl:"info",tab:"staff",t:"Кадрлар низоми тузилмаган — Кадрлар → Кадрлар низоми"});
+    else if(!s.ok) out.push({lvl:"soon",tab:"staff",t:`Кадрлар низоми (${s.p.year}) тасдиқлаш буйруғи ${s.o?"имзоланмаган":"тузилмаган"}`});
+    return out; }; }
+{ const _ac=auditChecks; auditChecks=function(f){ const out=_ac(f); if(!firmEmps(f.id).some(e=>e.status!=="fired")) return out; const s=hrPolState(f);
+    const it={g:"Кадр",t:"Кадрлар низоми тузилган ва тасдиқланган",st:s.ok?"ok":"bad",d:!s.p?"Низом тузилмаган":!s.o?"Тасдиқлаш буйруғи йўқ":!s.ok?"Буйруқ имзоланмаган":"",tab:"staff"};
+    let j=-1; out.forEach((x,i)=>{ if(x.g==="Кадр") j=i; }); out.splice(j<0?out.length:j+1,0,it); return out; }; }
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
