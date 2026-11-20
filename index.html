@@ -1855,7 +1855,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="20.11.2026 · в91";
+const APP_VER="20.11.2026 · в92";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -11130,6 +11130,244 @@ function hrPolState(f){ const p=hrPolRec(f.id); const o=p&&p.orderId&&S.orders.f
 { const _ac=auditChecks; auditChecks=function(f){ const out=_ac(f); if(!firmEmps(f.id).some(e=>e.status!=="fired")) return out; const s=hrPolState(f);
     const it={g:"Кадр",t:"Кадрлар низоми тузилган ва тасдиқланган",st:s.ok?"ok":"bad",d:!s.p?"Низом тузилмаган":!s.o?"Тасдиқлаш буйруғи йўқ":!s.ok?"Буйруқ имзоланмаган":"",tab:"staff"};
     let j=-1; out.forEach((x,i)=>{ if(x.g==="Кадр") j=i; }); out.splice(j<0?out.length:j+1,0,it); return out; }; }
+
+/* ================= в92: ИНТИЗОМ, МОДДИЙ ЖАВОБГАРЛИК, ОГОҲЛАНТИРИШ, ИМТҚ, БЎШАТИШ УСТАСИ, НИЗОМНИ НУСХАЛАШ ================= */
+const HRD_W=(clean,s,miss)=>{ s=String(s??"").trim(); return s?(clean?esc(s):`<span class="fill">${esc(s)}</span>`):(clean?"__________":`<span class="fill miss">[${esc(miss||"киритинг")}]</span>`); };
+const HRD_OL=(clean,txt,miss)=>{ const L=ofLines(txt); return L.length?`<ol>${L.map(x=>`<li>${HRD_W(clean,x.replace(/[;.]\s*$/,""))}</li>`).join("")}</ol>`:`<p>${HRD_W(clean,"",miss)}</p>`; };
+const HRD_GOT=`<p class="fam">Ҳужжатни олдим: ______________ {{fio}} &nbsp; «___» __________ 20___ й.</p>`;
+const HRD_DIR=(v,f)=>[{t:f?.directorTitle||"Раҳбар",n:f?.director||"",role:"sign",seal:true}];
+const HR_GROUNDS=["штатлар (ходимлар сони) қисқариши муносабати билан","ходимнинг малакаси бажараётган ишига етарли бўлмаганлиги сабабли","ходим ўз меҳнат вазифаларини мунтазам равишда бузганлиги сабабли","ходим ўз меҳнат вазифаларини бир марта қўпол равишда бузганлиги сабабли","ташкилот тугатилиши муносабати билан"];
+const HR_PEN_BASIS=["ходимнинг ёзма тушунтириши","ёзма тушунтириш беришдан бош тортганлик тўғрисидаги далолатнома","хизмат текшируви натижалари тўғрисидаги далолатнома"];
+const HR_TPL92=[
+  { id:"k-disc-req", hr:"disc", series:"ТЛ", docTitle:"ТАЛАБНОМА", tag:"Кадр · тушунтириш талабномаси", title:"Ёзма тушунтириш тақдим этиш тўғрисида", desc:"Интизомий жазо қўлланилгунига қадар ходимдан ёзма тушунтириш талаб қилиш (МК 313-м.).",
+    fields:[["emp","Ходим","emp"],["number","Талабнома рақами","text"],["date","Сана","date"],["actDate","Қилмиш содир этилган сана","date"],["act","Қилмиш тавсифи (нима содир этилди)","textarea"],["term","Тушунтириш бериш муддати","select",["2 иш куни ичида","3 иш куни ичида","5 иш куни ичида"]]],
+    signers:HRD_DIR,
+    body:`<p>{{pos}} {{fio}}га</p>
+<p>{{actDate}} да Сиз томонидан қуйидаги ҳолат содир этилган: {{act}}.</p>
+<p>Ўзбекистон Республикаси Меҳнат кодексининг 313-моддасига мувофиқ, мазкур талабнома топширилган кундан эътиборан {{term}} юқоридаги ҳолат юзасидан ёзма тушунтириш тақдим этишингизни талаб қиламан.</p>
+<p>Ёзма тушунтириш тақдим этилмаган тақдирда, бу ҳақда гувоҳлар иштирокида далолатнома тузилади. Тушунтириш беришни рад этиш интизомий жазо чораси қўлланилишига монелик қилмайди (МК 313-моддаси).</p>${HRD_GOT}` },
+  { id:"k-disc-act", hr:"disc", series:"ДЛ", docTitle:"ДАЛОЛАТНОМА", tag:"Кадр · бош тортиш далолатномаси", title:"Ёзма тушунтириш беришдан бош тортганлик тўғрисида", desc:"Ходим тушунтириш бермаса, гувоҳлар иштирокида тузилади (МК 313-м.).",
+    fields:[["emp","Ходим","emp"],["number","Далолатнома рақами","text"],["date","Сана","date"],["reqRef","Талабнома № ва санаси","text"],["m1","Тузувчи (Ф.И.О., лавозими)","text","@director"],["m2","Гувоҳ (Ф.И.О., лавозими)","text"],["m3","Гувоҳ (Ф.И.О., лавозими)","text"]],
+    signers:v=>[{t:"Тузувчи",n:v.m1||""},{t:"Гувоҳ",n:v.m2||""},{t:"Гувоҳ",n:v.m3||""}],
+    body:`<p>Биз, қуйида имзо қўйганлар: {{m1}}, {{m2}} ва {{m3}} ушбу далолатномани шу ҳақда туздикки, {{pos}} {{fio}}га [[{{reqRef}} даги ]]ёзма тушунтириш тақдим этиш тўғрисидаги талабнома топширилган, бироқ ходим белгиланган муддатда ёзма тушунтириш тақдим этмади (тақдим этишдан бош тортди).</p>
+<p>Далолатнома Ўзбекистон Республикаси Меҳнат кодексининг 313-моддасига мувофиқ тузилди.</p>
+<p class="fam">Далолатнома билан танишдим: ______________ {{fio}} &nbsp; «___» __________ 20___ й. &nbsp; (танишишдан бош тортди: ______________)</p>` },
+  { id:"k-disc-inv", hr:"disc", tag:"Кадр · хизмат текшируви", title:"Хизмат текширувини ўтказиш тўғрисида", desc:"Комиссия тузиш, текширув муддати — 15 иш кунигача (МК 302–310-м.).",
+    fields:[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["reason","Текширув асоси (билдирги, мурожаат, ҳолат)","textarea"],["comm","Комиссия таркиби — камида 3 нафар, биринчиси раис (ҳар бири янги қатордан)","textarea"],["until","Текширувни тугаллаш санаси","date"]],
+    init(values,f){ const v=f&&hrPol(f.id); if(!values.comm) values.comm=String((v||POL_DEF.hr).commission||"").split(/\s*,\s*/).filter(Boolean).join("\n"); },
+    render(v,f,clean,get){ return `<p>Ўзбекистон Республикаси Меҳнат кодексининг 302–310-моддаларига мувофиқ</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>${get("pos")} ${get("fio")}га нисбатан қуйидаги ҳолат юзасидан хизмат текшируви ўтказилсин: ${get("reason")}.</li>
+<li>Хизмат текширувини ўтказиш учун қуйидаги таркибда комиссия тузилсин (биринчиси — комиссия раиси):${HRD_OL(clean,v.comm,"комиссия аъзолари")}</li>
+<li>Комиссия хизмат текширувини ${get("until")} гача, ўн беш иш кунидан кечиктирмай якунласин ва натижалари бўйича далолатнома тузсин (МК 308, 310-моддалари).</li>
+<li>Ходимдан ёзма тушунтириш талаб қилинсин (МК 313-моддаси). Ходим комиссия аъзоларини рад этиш ҳуқуқи билан таништирилсин (МК 306–307-моддалари).</li>
+<li>Буйруқ ижросини назорат қилишни ўз зиммамда қолдираман.</li>
+</ol>${HR_FAM.replace(/\{\{fio\}\}/g,get("fio"))}`; } },
+  { id:"k-disc-pen", hr:"disc", tag:"Кадр · интизомий жазо", title:"Интизомий жазо чорасини қўллаш тўғрисида", desc:"Ҳайфсан ёки жарима (МК 312–315-м.).",
+    fields:[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["kind","Жазо чораси","select",["ҳайфсан","жарима"]],["fine","Жарима миқдори, сўм (жарима бўлса)","text"],["actDate","Қилмиш содир этилган сана","date"],["foundDate","Қилмиш аниқланган сана","date"],["act","Қилмиш тавсифи","textarea"],["basis","Асос ҳужжат","select",HR_PEN_BASIS],["basisRef","Асос ҳужжат № ва санаси","text"]],
+    render(v,f,clean,get){ const fine=v.kind==="жарима"; return `<p>Ўзбекистон Республикаси Меҳнат кодексининг 312–314-моддаларига мувофиқ</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>${get("pos")} ${get("fio")}га ${get("actDate")} да ${get("act")} учун <b>${fine?`${HRD_W(clean,v.fine?GM(v.fine):"","миқдор")} сўм миқдорида жарима`:"ҳайфсан"}</b> интизомий жазо чораси қўллансин.</li>
+${fine?`<li>Бухгалтерияга жарима суммасини ходимнинг иш ҳақидан МК 269–270-моддаларида белгиланган чегарада ушлаб қолиш топширилсин.</li>`:""}
+<li>Буйруқ ходимга қабул қилинган кундан эътиборан уч иш куни ичида жазонинг сабаблари кўрсатилган ҳолда имзо қўйдириб эълон қилинсин (МК 313-моддаси).</li>
+<li>Интизомий жазо қўлланилган кундан эътиборан бир йил давомида амал қилади (МК 315-моддаси).</li>
+</ol>
+<p>Асос: ${get("basis")}${v.basisRef?" ("+get("basisRef")+")":""}.</p>${HR_FAM.replace(/\{\{fio\}\}/g,get("fio"))}`; } },
+  { id:"k-disc-lift", hr:"disc", tag:"Кадр · жазони олиб ташлаш", title:"Интизомий жазони муддатидан олдин олиб ташлаш тўғрисида", desc:"Бир йил ўтмасдан жазони олиб ташлаш (МК 315-м.).",
+    fields:[["emp","Ходим","emp"],["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["penRef","Жазо қўлланган буйруқ № ва санаси","text"],["reason","Асос","select",["ходимнинг намунали меҳнати ва меҳнат интизомини бузмаганлиги учун","бевосита раҳбарнинг илтимосномасига кўра","меҳнат жамоасининг илтимосига кўра"]]],
+    init(values){ if(values.emp&&!values.penRef){ const o=hrPenOrders(values.emp)[0]; if(o) values.penRef=`№ ${o.values?.number||""} ${fmtDate(o.values?.date)}`; } },
+    body:`<p>Ўзбекистон Республикаси Меҳнат кодексининг 315-моддасига мувофиқ</p>
+<div class="order">БУЮРАМАН:</div>
+<ol>
+<li>{{pos}} {{fio}}га {{penRef}} даги буйруқ билан қўлланилган интизомий жазо {{reason}} муддатидан олдин олиб ташлансин.</li>
+</ol>${HR_FAM}` },
+  { id:"k-liab", hr:"liab", series:"МЖ", noSubj:true, docTitle:"ТЎЛИҚ ИНДИВИДУАЛ МОДДИЙ ЖАВОБГАРЛИК ТЎҒРИСИДА ШАРТНОМА", tag:"Кадр · моддий жавобгарлик", title:"Тўлиқ индивидуал моддий жавобгарлик тўғрисида шартнома", desc:"Пул ёки товар қимматликлари билан ишловчи ходим билан (МК 343-м.).",
+    fields:[["emp","Ходим","emp"],["number","Шартнома рақами","text"],["date","Сана","date"],["objects","Ишониб топшириладиган қимматликлар (касса, омбор, товарлар ва б.)","textarea"]],
+    signers:(v,f)=>[{t:"Иш берувчи: "+(f?.directorTitle||"Раҳбар"),n:f?.director||"",role:"sign",seal:true},{t:"Ходим",n:v.fio||""}],
+    render(v,f,clean,get){ return `<p>${HRD_W(clean,f?.name)} (бундан буён матнда Иш берувчи деб юритилади) номидан ${HRD_W(clean,f?.director)} бир томондан, ва ${get("pos")} ${get("fio")} (бундан буён матнда Ходим деб юритилади) иккинчи томондан, Ўзбекистон Республикаси Меҳнат кодексининг 343-моддасига мувофиқ мазкур шартномани қуйидагилар ҳақида туздилар:</p>
+<p><b>1. Шартнома предмети</b></p><p>1.1. Ходим Иш берувчи томонидан ўзига ишониб топширилган қуйидаги моддий бойликларнинг бутлиги таъминланмаганлиги учун тўлиқ индивидуал моддий жавобгарликни ўз зиммасига олади:</p>${HRD_OL(clean,v.objects,"қимматликлар")}
+<p><b>2. Ходимнинг мажбуриятлари</b></p><ol><li>Ишониб топширилган қимматликларга эҳтиёткорлик билан муносабатда бўлиш ва зарарнинг олдини олиш чораларини кўриш.</li><li>Қимматликларнинг бутлигига хавф туғдирувчи ҳар қандай ҳолат ҳақида Иш берувчини дарҳол хабардор қилиш.</li><li>Қимматликларнинг ҳаракати бўйича ҳисобни юритиш ва белгиланган тартибда ҳисоботлар тақдим этиш.</li><li>Инвентаризация ва текширувларда иштирок этиш.</li></ol>
+<p><b>3. Иш берувчининг мажбуриятлари</b></p><ol><li>Ходимга иш учун ва қимматликларнинг бутлигини таъминлаш учун зарур шарт-шароитлар яратиш.</li><li>Ходимни моддий жавобгарлик тўғрисидаги қонунчилик ҳамда қимматликларни сақлаш ва ҳисобга олиш тартиби билан таништириш.</li><li>Инвентаризацияни белгиланган тартибда ўтказиш.</li></ol>
+<p><b>4. Зарарни аниқлаш ва қоплаш</b></p><p>4.1. Зарарнинг миқдори ва келиб чиқиш сабаби Иш берувчи томонидан аниқланади; Ходимдан ёзма тушунтириш талаб қилинади (МК 344-моддаси).</p><p>4.2. Зарар МК 345–347-моддаларида белгиланган тартибда қопланади. Ходим зарар ўзининг айби билан етказилмаганлигини исботласа, моддий жавобгарликдан озод қилинади.</p>
+<p><b>5. Амал қилиш муддати</b></p><p>5.1. Шартнома имзоланган кундан эътиборан кучга киради ва Ходим ишониб топширилган қимматликлар билан ишлаган бутун давр мобайнида амал қилади.</p><p>5.2. Шартнома бир хил кучга эга икки нусхада тузилди: бир нусхаси Иш берувчида, иккинчиси Ходимда сақланади.</p>`; } },
+  { id:"k-fire-notice", hr:"fnotice", series:"ОГ", docTitle:"ОГОҲЛАНТИРИШ", tag:"Кадр · огоҳлантириш", title:"Меҳнат шартномаси бекор қилиниши ҳақида огоҳлантириш", desc:"Иш берувчи ташаббуси билан бўшатишдан олдин (МК 165-м.).", fixed:{reason:"иш берувчининг ташаббусига кўра"},
+    fields:[["emp","Ходим","emp"],["number","Огоҳлантириш рақами","text"],["date","Сана","date"],["ground","Асос (сабаб)","select",HR_GROUNDS],["end","Бўшатиш санаси","date"],["offer","Таклиф этиладиган бошқа иш (бўлса)","text"]],
+    signers:HRD_DIR,
+    body:`<p>{{pos}} {{fio}}га</p>
+<p>Ўзбекистон Республикаси Меҳнат кодексининг 165-моддасига мувофиқ, Сизни у билан тузилган меҳнат шартномаси иш берувчининг ташаббусига кўра — {{ground}} — МК {{article}} асосида {{end}} дан бекор қилиниши ҳақида огоҳлантирамиз.</p>
+[[<p>Сизга қуйидаги бошқа иш таклиф этилади: {{offer}}. Розилигингизни ёзма равишда билдиришингиз мумкин.</p>]]
+<p>Ишдан бўшатилганда Сизга Меҳнат кодексида назарда тутилган кафолат ва компенсациялар, шу жумладан тегишли ҳолларда ишдан бўшатиш нафақаси (МК 173-моддаси) тўланади.</p>
+<p class="fam">Огоҳлантиришни олдим: ______________ {{fio}} &nbsp; «___» __________ 20___ й.</p>` },
+];
+HR_TPL92.forEach(t=>{ if(!TEMPLATES.some(x=>x.id===t.id)){ TEMPLATES.push(t); HR_TEMPLATES.push(t); } });
+const hrPenOrders=empId=>S.orders.filter(o=>o.tplId==="k-disc-pen"&&o.status==="signed"&&o.values?.emp===empId).sort((a,b)=>String(b.values?.date||"").localeCompare(String(a.values?.date||"")));
+{ const _fb2=fillBody; fillBody=function(tpl,values,f,clean){
+    if(tpl&&tpl.hr==="fnotice"&&values&&!String(values.article||"").trim()){ const a=hrFireArticle(tpl,values); if(a) values={...values,article:a}; }
+    return _fb2(tpl,values,f,clean); }; }
+
+/* --- ИМТҚ: низом параметрларидан --- */
+const IMTQ_TPL={ id:"k-imtq", tag:"Ички ҳужжат", title:"Ички меҳнат тартиби қоидаларини тасдиқлаш тўғрисида", desc:"ИМТҚ Кадрлар низоми параметрларидан ўзи тузилади (МК 296-м.).",
+  fields:[["number","Буйруқ рақами","text"],["date","Буйруқ санаси","date"],["startDate","Амал қилиш бошланиш санаси","date"],["responsible","Масъул шахс","text","@director"],["extra","Қўшимча қоидалар (ҳар бири янги қатордан, ихтиёрий)","textarea"]],
+  render(v,f,clean,get){ const P=(f&&hrPol(f.id))||POL_DEF.hr; const W=s=>HRD_W(clean,s); const on=k=>hrOn(P,k);
+    const sec=(n,t,items)=>`<p style="text-align:center;margin-top:12px"><b>${n}. ${t}</b></p><ol>${items.filter(Boolean).map(x=>`<li>${x}</li>`).join("")}</ol>`;
+    const vd=Math.max(21,num(P.vacDays)||21), nE=on("micro")?"етти":"ўн тўрт";
+    return `<p>Ўзбекистон Республикаси Меҳнат кодексининг 296-моддасига мувофиқ, Жамиятда меҳнат интизомини мустаҳкамлаш ва иш вақтидан самарали фойдаланиш мақсадида</p>
+<div class="order">БУЮРАМАН:</div>
+<ol><li>Ички меҳнат тартиби қоидалари (илова қилинади) тасдиқлансин ва ${get("startDate")} дан бошлаб амалга киритилсин.</li><li>Барча ходимлар Қоидалар билан имзо қўйдириб таништирилсин; янги ишга қабул қилинаётганлар меҳнат шартномаси имзолангунига қадар таништирилсин (МК 123-моддаси).</li><li>Қоидаларга риоя этилишини назорат қилиш ${get("responsible")} зиммасига юклансин.</li></ol>
+<p>Илова: Ички меҳнат тартиби қоидалари.</p>
+<div style="page-break-before:always;break-before:page;margin-top:28px"><p style="text-align:right">Раҳбарнинг ${get("date")} даги ${get("number")}-сонли буйруғига илова</p>
+<p style="text-align:center"><b>${HRD_W(clean,f?.name)}<br>ИЧКИ МЕҲНАТ ТАРТИБИ ҚОИДАЛАРИ</b></p>
+${sec(1,"Умумий қоидалар",["Ушбу Қоидалар Меҳнат кодекси асосида ишлаб чиқилган бўлиб, ходимларни ишга қабул қилиш ва бўшатиш, тарафларнинг асосий ҳуқуқ ва мажбуриятлари, иш вақти ва дам олиш вақти, рағбатлантириш ва интизомий жавобгарлик тартибини белгилайди (МК 296-моддаси).","Қоидалар Жамиятнинг барча ходимларига, шу жумладан ўриндошлик асосида ишловчиларга татбиқ этилади.","Қоидалар Кадрлар низоми билан биргаликда қўлланилади."])}
+${sec(2,"Ишга қабул қилиш ва ишдан бўшатиш",["Ишга қабул қилиш ёзма меҳнат шартномаси ва раҳбар буйруғи билан расмийлаштирилади; буйруқ ходимга уч кун ичида имзо қўйдириб эълон қилинади (МК 106, 127-моддалари).",`Дастлабки синов: оддий ходимлар учун — ${W(P.probation)}, раҳбарлар учун — ${W(P.probMgr)} (МК 129–130-моддалари).`,`Ходим меҳнат шартномасини ${nE} календарь кун олдин ёзма огоҳлантириб бекор қилиши мумкин (МК ${on("micro")?"506":"160"}-моддаси); раҳбар ўринбосарлари ва бош бухгалтер — бир ой, раҳбар — икки ой олдин (МК 489-моддаси).`,"Ишдан бўшатиш куни ходим билан тўлиқ ҳисоб-китоб қилинади (МК 172-моддаси)."])}
+${sec(3,"Ходимнинг асосий ҳуқуқ ва мажбуриятлари",["Ходим меҳнат шартномасида шартлашилган ишни олиш, хавфсиз меҳнат шароитлари, ўз вақтида ва тўлиқ иш ҳақи, дам олиш ва меҳнат ҳуқуқларини ҳимоя қилиш ҳуқуқига эга.","Ходим ўз меҳнат мажбуриятларини виждонан бажариши, ушбу Қоидаларга ва меҳнат интизомига риоя этиши, иш вақтидан унумли фойдаланиши, Жамият мулкини авайлаб асраши, меҳнатни муҳофаза қилиш ва ёнғин хавфсизлиги талабларига риоя этиши, тижорат сирини сақлаши шарт.","Ишга келмаслик ёки кечикиш сабаби ҳақида ходим бевосита раҳбарини имкон қадар тезроқ хабардор қилади ва сабабни тасдиқловчи ҳужжат тақдим этади."])}
+${sec(4,"Иш берувчининг асосий ҳуқуқ ва мажбуриятлари",["Иш берувчи ходимдан меҳнат мажбуриятларини виждонан бажаришни талаб қилиш, уни рағбатлантириш ва Меҳнат кодексида белгиланган тартибда интизомий жавобгарликка тортиш ҳуқуқига эга.","Иш берувчи ходимни шартлашилган иш билан таъминлаши, хавфсиз меҳнат шароитларини яратиши, иш ҳақини ўз вақтида тўлаши, ходимни ички ҳужжатлар билан таништириши ва шахсга доир маълумотларини ҳимоя қилиши шарт."])}
+${sec(5,"Иш вақти",[`Ҳафталик иш вақти 40 соатдан ошмайди: ${W(P.week)} (МК 182-моддаси).`,`Иш куни ${W(P.hours)} давом этади.`,"Ишланмайдиган байрам кунлари арафасида иш куни бир соатга қисқартирилади (МК 187-моддаси).",on("overtime")?"Иш вақтидан ташқари иш раҳбар буйруғи билан, МКда белгиланган чегарада (сурункасига икки кунда тўрт соатгача) амалга оширилади ва ошириб тўланади (МК 190, 262-моддалари).":"",on("weekendWork")?"Дам олиш ва байрам кунлари ишга жалб қилиш раҳбарнинг ёзма буйруғи билан амалга оширилади ва камида икки ҳисса тўланади ёки бошқа дам олиш куни берилади (МК 263-моддаси).":"",on("night")?"22:00 дан 06:00 гача бўлган тунги вақтдаги иш камида бир ярим баравар тўланади (МК 264-моддаси).":"","Иш вақтининг ҳисоби табелда (1С дастурида) юритилади (МК 200-моддаси)."])}
+${sec(6,"Дам олиш вақти",[`Дам олиш ва овқатланиш учун танаффус — ${W(P.lunch)}; танаффус иш вақтига киритилмайди (МК 204-моддаси).`,`Ҳафталик дам олиш кунлари: ${/6 кунлик/.test(P.week||"")?"якшанба":/5 кунлик/.test(P.week||"")?"шанба ва якшанба":"сменалар жадвали бўйича"}. Ишланмайдиган байрам кунлари — МК 208-моддасига мувофиқ.`,`Ҳар йилги асосий меҳнат таътили ${vd} календарь кун; таътиллар графиги асосида берилади, ходим камида ${Math.max(15,num(P.vacNotice)||15)} кун олдин хабардор қилинади (МК 217, 228-моддалари).`])}
+${sec(7,"Иш ҳақи",[`Иш ҳақи ҳар ярим ойда камида бир марта тўланади: ${W(P.payDays)} (МК 253-моддаси).`,`Тўлов шакли: ${W(P.payForm)}.`])}
+${sec(8,"Рағбатлантириш",["Меҳнат мажбуриятларини намунали бажарганлик, иш унумдорлигини оширганлик ва бошқа ютуқлар учун қуйидаги рағбатлантириш чоралари қўлланилади: миннатдорчилик эълон қилиш, мукофот бериш, қимматбаҳо совға билан тақдирлаш, фахрий ёрлиқ билан тақдирлаш (МК 299-моддаси).",/қўлланилмайди/.test(P.bonus||"")?"":`Мукофотлар ${W(P.bonus)} тўланади.`,"Рағбатлантириш раҳбар буйруғи билан эълон қилинади."])}
+${sec(9,"Меҳнат интизоми ва жавобгарлик",[`Меҳнат интизомини бузганлик учун қуйидаги интизомий жазо чоралари қўлланилади: ҳайфсан; жарима — ${W(P.fineMax)}; меҳнат шартномасини бекор қилиш (МК 312-моддаси).`,/50/.test(P.fineMax||"")?"Ўртача ойлик иш ҳақининг 50 фоизигача жарима қуйидаги ҳолларда қўлланилади: узрли сабабсиз бутун иш куни (сменаси) давомида ишга келмаслик; иш жойида алкоголь, гиёҳвандлик ёки токсик моддалар таъсирида бўлиш; тижорат сирини ошкор этиш; Жамият мулкини ўғирлаш ёки қасддан нобуд қилиш.":"","Интизомий жазо қўлланилгунига қадар ходимдан ёзма тушунтириш талаб қилинади; ҳар бир қилмиш учун фақат битта жазо қўлланилади (МК 313-моддаси).","Жазо қилмиш аниқланганидан бир ойдан, содир этилганидан олти ойдан кечиктирмай қўлланилади (МК 314-моддаси); бир йил ичида янги жазо қўлланилмаса, ходим жазоланмаган ҳисобланади (МК 315-моддаси)."])}
+${sec(10,"Якуний қоидалар",["Қоидаларга ўзгартиришлар раҳбар буйруғи билан киритилади.",...ofLines(v.extra).map(x=>W(x))])}</div>`; } };
+if(!TEMPLATES.some(t=>t.id==="k-imtq")) TEMPLATES.push(IMTQ_TPL);
+
+/* --- низомга кўра кўрсатиш --- */
+{ const _hh=hrHidden; hrHidden=function(fid){ const h=_hh(fid); const v=hrPol(fid); if(!v) return h;
+    if(!hrOn(v,"liability")) h.push(["k-liab","моддий жавобгарлик шартномаси"]);
+    if(hrOn(v,"micro")&&/505/.test(v.internalDocs||"")) h.push(["k-imtq","ИМТҚ (ички ҳужжатлардан воз кечилган)"]);
+    return h; }; }
+
+/* --- текширувлар --- */
+{ const _ck=hrChecksOne; hrChecksOne=function(tpl,v,e,P,law,add){ _ck(tpl,v,e,P,law,add); const nm=e&&e.fio?e.fio+": ":""; const id=tpl.id;
+    if(id==="k-disc-pen"){ const d=dnum(v.date);
+      if(v.foundDate&&d!=null&&d>hrAddMonths(v.foundDate,1)) add("bad",`${nm}қилмиш аниқланганидан бир ойдан ортиқ вақт ўтган — жазо қўллаш муддати ўтган (МК 314-моддаси; касаллик ва таътил даврлари ҳисобга олинмайди).`);
+      if(v.actDate&&d!=null&&d>hrAddMonths(v.actDate,/хизмат текшируви/.test(v.basis||"")?24:6)) add("bad",`${nm}қилмиш содир этилганидан ${/хизмат текшируви/.test(v.basis||"")?"икки йил":"олти ой"}дан ортиқ вақт ўтган (МК 314-моддаси).`);
+      if(!v.foundDate) add("soon","Қилмиш аниқланган санани киритинг — бир ойлик муддат шундан ҳисобланади (МК 314-моддаси).");
+      if(v.kind==="жарима"){ const fn=num(String(v.fine||"").replace(/\s/g,"")), sal=num(e?.salary), pc=/50/.test(P.fineMax||"")?50:30;
+        if(!fn) add("bad","Жарима миқдори кўрсатилмаган.");
+        else if(sal&&fn>sal*pc/100) add("bad",`${nm}жарима ${m0(fn)} сўм — ўртача ойлик иш ҳақининг ${pc}% идан (${m0(sal*pc/100)} сўм) ошмаслиги керак (МК 312-моддаси${pc===50?", ИМТҚ":""}).`);
+        if(!law&&pc===50) add("info","50% гача жарима фақат ИМТҚда назарда тутилган ҳолларда қўлланилади."); }
+      if(e&&!S.orders.some(o=>(o.tplId==="k-disc-req"||o.tplId==="k-disc-act"||o.tplId==="k-disc-inv")&&o.values?.emp===e.id)) add("soon",`${nm}ёзма тушунтириш талаб қилинганлиги (талабнома ёки далолатнома) дастурда топилмади — жазодан олдин мажбурий (МК 313-моддаси).`);
+      if(e&&hrPenOrders(e.id).some(o=>dnum(o.values?.date)>tdNum()-365&&o.id!==V.draft?.id)) add("info",`${nm}ходимда бир йил ичида қўлланилган амалдаги интизомий жазо бор — такрорий бузиш МК 161-моддаси иккинчи қисмининг 4-бандига асос бўлиши мумкин.`); }
+    if(id==="k-disc-inv"){ const n=ofLines(v.comm).length; if(n<3) add("bad",`Комиссия камида уч нафар аъзодан иборат бўлиши керак (МК 304-моддаси) — ҳозир ${n} нафар.`);
+      if(v.date&&v.until&&dnum(v.until)>dnum(v.date)+21) add("soon","Хизмат текшируви ўн беш иш кунидан ошмаслиги керак (МК 308-моддаси).");
+      add("info","Текширув вақтида ходимни ишдан четлаштириш — МК 309-моддасидаги тартибда, алоҳида буйруқ билан."); }
+    if(id==="k-disc-lift"&&e){ const o=hrPenOrders(e.id)[0]; if(!o) add("soon",`${nm}имзоланган интизомий жазо буйруғи топилмади.`); else if(dnum(o.values?.date)<=tdNum()-365) add("info",`${nm}жазо қўлланганидан бир йил ўтган — жазо ўз-ўзидан тугаган, буйруқ шарт эмас (МК 315-моддаси).`); }
+    if(id==="k-liab"){ if(e?.birth&&hrYears(e.birth,v.date||localToday())<18) add("bad",`${nm}тўлиқ моддий жавобгарлик шартномаси фақат 18 ёшга тўлган ходим билан тузилади (МК 343-моддаси).`);
+      if(!law&&!hrOn(P,"liability")) add("soon","Кадрлар низомида тўлиқ моддий жавобгарлик шартномалари назарда тутилмаган.");
+      else if(!law&&e?.position){ const ws=String(P.liabPos||"").toLowerCase().split(/[,;]\s*/).map(x=>x.trim()).filter(Boolean); if(ws.length&&!ws.some(w=>String(e.position).toLowerCase().includes(w)||w.includes(String(e.position).toLowerCase()))) add("soon",`${nm}«${e.position}» лавозими Кадрлар низомидаги рўйхатда йўқ (${P.liabPos}). Шартнома фақат пул ёки товар қимматликларига бевосита хизмат кўрсатувчи ходим билан тузилади.`); } }
+    if(id==="k-fire-notice"){ const b=(HR_GROUND_ART.find(([re])=>re.test(v.ground||""))||[])[1]; const m=b==="1"||b==="2"?["m",2,"камида 2 ой"]:b==="3"?["d",14,"камида 2 ҳафта"]:["d",3,"камида 3 кун"];
+      if(v.date&&v.end&&dnum(v.end)<(m[0]==="m"?hrAddMonths(v.date,m[1]):dnum(v.date)+m[1])) add("bad",`${nm}огоҳлантиришдан бўшатишгача ${m[2]} бўлиши керак (МК 165-моддаси).`);
+      if(b==="2"||b==="3") add("info","Огоҳлантиришда мавжуд бўш иш ўринларини таклиф этиш тавсия этилади (МК 161-моддаси учинчи қисми).");
+      add("info","Огоҳлантиришни ходимга имзо қўйдириб топширинг; рад этса — гувоҳлар иштирокида далолатнома тузинг."); }
+  }; }
+
+/* --- имзоланганда ходим карточкасига тарих --- */
+{ const _ap=hrApplyOne; hrApplyOne=async function(o,quiet){ const tpl=TEMPLATES.find(t=>t.id===o.tplId); const v=o.values||{};
+    if(!tpl||!["disc","liab","fnotice"].includes(tpl.hr)||!v.emp) return _ap(o,quiet);
+    for(let attempt=0;attempt<2;attempt++){ const e0=S.emp.find(x=>x.id===v.emp); if(!e0) return; const e=JSON.parse(JSON.stringify(e0)); if(e.appliedOrders?.includes(o.id)) return;
+      e.appliedOrders=(e.appliedOrders||[]).concat([o.id]).slice(-50); e.hist=e.hist||[]; const ord=`№ ${v.number||"—"} ${fmtDate(v.date)}`;
+      const T={ "k-disc-req":`Ёзма тушунтириш талаб қилинди (талабнома ${ord})`, "k-disc-act":`Тушунтириш беришдан бош тортганлик тўғрисида далолатнома (${ord})`, "k-disc-inv":`Хизмат текшируви тайинланди (буйруқ ${ord})`,
+        "k-disc-pen":`Интизомий жазо: ${v.kind==="жарима"?"жарима "+m0(num(String(v.fine||"").replace(/\s/g,"")))+" сўм":"ҳайфсан"} (буйруқ ${ord}) — бир йил амал қилади`, "k-disc-lift":`Интизомий жазо муддатидан олдин олиб ташланди (буйруқ ${ord})`,
+        "k-liab":`Тўлиқ моддий жавобгарлик шартномаси тузилди (${ord})`, "k-fire-notice":`Меҳнат шартномаси ${fmtDate(v.end)} дан бекор қилиниши ҳақида огоҳлантирилди (${ord})` }[tpl.id]||tpl.title;
+      e.hist.push({d:v.date||localToday(),t:T}); if(tpl.id==="k-liab") e.liabContract=ord;
+      try{ await putItem("emp",e,`${tpl.title}: ${ord} имзоланди, карточкага ёзилди`); if(!quiet) toast("Ходим карточкасига ёзилди"); return true; }
+      catch(err){ if(err instanceof ConflictErr&&attempt===0){ await ensureEmp(true); continue; } toast("Карточкани янгилаб бўлмади: "+explain(err)); return; } } }; }
+
+/* --- БЎШАТИШ УСТАСИ --- */
+const FW_G=[
+  {k:"agree",t:"Тарафларнинг келишувига кўра",art:"157-модда",tpl:"k-fire-agree",d0:"Келишув санаси",docs:["тарафларнинг ёзма келишуви"]},
+  {k:"own",t:"Ходимнинг ташаббусига кўра (ўз хоҳиши)",art:"160-модда",tpl:"k-fire-own",d0:"Ходим аризасининг санаси",docs:["ходимнинг ёзма аризаси"]},
+  {k:"term",t:"Муддатли шартнома муддати тугаши",art:"158-модда",tpl:"k-fire",reason:"меҳнат шартномаси муддати тугаши муносабати билан",d0:"Огоҳлантирилган сана",n:["d",3,"камида 3 календарь кун"],docs:["муддатли меҳнат шартномаси","ёзма огоҳлантириш"]},
+  {k:"b1",t:"Ташкилот тугатилиши",art:"161-м. 2-қ. 1-б.",tpl:"k-fire-emp",g:4,d0:"Огоҳлантирилган сана",n:["m",2,"камида 2 ой"],sev:1,docs:["таъсисчи (иштирокчилар) қарори","ёзма огоҳлантириш"]},
+  {k:"b2",t:"Ходимлар сони ёки штатнинг қисқариши",art:"161-м. 2-қ. 2-б.",tpl:"k-fire-emp",g:0,d0:"Огоҳлантирилган сана",n:["m",2,"камида 2 ой"],sev:1,docs:["штат жадвалини ўзгартириш буйруғи","ёзма огоҳлантириш","бўш иш ўрни таклифи (бўлса)"]},
+  {k:"b3",t:"Малака етарли бўлмаганлиги",art:"161-м. 2-қ. 3-б.",tpl:"k-fire-emp",g:1,d0:"Огоҳлантирилган сана",n:["d",14,"камида 2 ҳафта"],sev:1,docs:["малакани баҳолаш (аттестация) натижалари","ёзма огоҳлантириш","бошқа иш таклифи (бўлса)"]},
+  {k:"b4",t:"Меҳнат мажбуриятларини мунтазам бузиш",art:"161-м. 2-қ. 4-б.",tpl:"k-fire-emp",g:2,d0:"Огоҳлантирилган сана",n:["d",3,"камида 3 кун"],disc:1,docs:["аввал қўлланилган интизомий жазо буйруғи","ёзма тушунтириш ёки бош тортиш далолатномаси","ёзма огоҳлантириш"]},
+  {k:"b5",t:"Меҳнат мажбуриятларини бир марта қўпол бузиш",art:"161-м. 2-қ. 5-б.",tpl:"k-fire-emp",g:3,d0:"Огоҳлантирилган сана",n:["d",3,"камида 3 кун"],disc:1,docs:["қўпол бузиш ҳақидаги далолатнома ёки хизмат текшируви далолатномаси","ёзма тушунтириш ёки бош тортиш далолатномаси","ёзма огоҳлантириш"]},
+];
+function fwCalc(f,W){ const e=S.emp.find(x=>x.id===W.emp), G=FW_G.find(x=>x.k===W.g), P=hrPol(f.id)||POL_DEF.hr; if(!e||!G) return null; const pos=e.position||"";
+  let n=G.n; if(G.k==="own"){ const dep=HR_DEP_RE.test(pos), dir=!dep&&HR_DIR_RE.test(pos); n=dir?["m",2,"2 ой (МК 489-м.)"]:dep?["m",1,"1 ой (МК 489-м.)"]:hrOn(P,"micro")?["d",7,"7 календарь кун (МК 506-м.)"]:["d",14,"14 календарь кун (МК 160-м.)"]; }
+  const earliest=n&&W.d0?(n[0]==="m"?hrAddMonths(W.d0,n[1]):dnum(W.d0)+n[1]):null;
+  const y=e.hireDate&&W.end?hrYears(e.hireDate,W.end):null; const pc=G.sev&&y!=null?(y<3?50:y<5?75:y<10?100:y<15?150:200):null;
+  const vb=typeof empVacBalance==="function"?empVacBalance(e):null;
+  return {e,G,P,n,earliest,y,pc,comp:vb?Math.max(0,Math.round(vb.bal)):null}; }
+const fwDate=d=>{ if(d==null) return ""; const t=new Date(d*DAY); return t.getUTCFullYear()+"-"+String(t.getUTCMonth()+1).padStart(2,"0")+"-"+String(t.getUTCDate()).padStart(2,"0"); };
+function fwView(f){ const W=V.hrFireWiz; const emps=firmEmps(f.id).filter(e=>e.status!=="fired"); const C=fwCalc(f,W);
+  const late=C&&C.earliest!=null&&W.end&&dnum(W.end)<C.earliest;
+  return `<button type="button" class="back" data-act="fwClose">← Кадр буйруқлари</button>
+  <div class="head"><div><h1>Бўшатиш устаси</h1><div class="sub">Асосни танланг — модда, огоҳлантириш муддати, нафақа ва керакли ҳужжатлар Меҳнат кодекси бўйича ҳисобланади.</div></div></div>
+  <div class="card lform"><div class="lgrid">
+    <div class="field wide"><label>Ходим</label><select data-fw="emp"><option value="">— ходимни танланг —</option>${emps.map(e=>`<option value="${esc(e.id)}" ${W.emp===e.id?"selected":""}>${esc(e.fio)} — ${esc(e.position||"")}</option>`).join("")}</select></div>
+    <div class="field wide"><label>Асос</label><div class="chips">${FW_G.map(g=>`<button type="button" class="chip" data-fwg="${g.k}" aria-pressed="${W.g===g.k}">${esc(g.t)} <span style="opacity:.7;font-size:.9em">${esc(g.art)}</span></button>`).join("")}</div></div>
+    ${C?`<div class="field"><label>${esc(C.G.d0)}</label><input type="date" data-fw="d0" value="${esc(W.d0||"")}"></div><div class="field"><label>Бўшатиш санаси (охирги иш куни)</label><input type="date" data-fw="end" value="${esc(W.end||"")}"></div>`:""}
+  </div></div>
+  ${!C?`<div class="empty"><b>Ходим ва асосни танланг</b>Шундан кейин муддатлар ва ҳужжатлар рўйхати чиқади.</div>`:`
+  <div class="lstats">
+    <div class="lstat" style="--c:#a78bfa;--cl:#ddd6fe"><span class="k">Модда (МК 170-м.)</span><span class="v">${esc(C.G.art)}</span><span class="s">буйруқда кўрсатилади</span></div>
+    <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Огоҳлантириш</span><span class="v">${C.n?esc(C.n[2]):"талаб этилмайди"}</span><span class="s">${C.earliest!=null?"энг эрта бўшатиш: "+fmtDate(fwDate(C.earliest)):C.n?"санани киритинг":"келишувга кўра"}</span></div>
+    <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Бўшатиш нафақаси</span><span class="v">${C.G.sev?(C.pc?C.pc+"%":"тўланади"):C.G.k==="agree"?"келишувга кўра":"йўқ"}</span><span class="s">${C.G.sev?(C.y!=null?"стаж "+C.y.toFixed(1).replace(".",",")+" йил · МК 173-м.":"бўшатиш санасини киритинг"):""}${C.G.sev&&/оширилган/.test(C.P.sevPay||"")?" · низомда оширилган":""}</span></div>
+    <div class="lstat" style="--c:#fbbf24;--cl:#fde68a"><span class="k">Фойдаланилмаган таътил</span><span class="v">${C.comp!=null?C.comp+" кун":"—"}</span><span class="s">компенсация (МК 234-м.)</span></div></div>
+  ${late?`<div class="vpwarn"><b>Огоҳлантириш муддати етарли эмас</b><ul><li>Бўшатиш санаси ${fmtDate(fwDate(C.earliest))} дан олдин бўлмаслиги керак${C.G.k==="own"?" (тарафлар келишуви бўлмаса)":""}.</li></ul></div>`:""}
+  <div class="card"><div class="label">Керакли ҳужжатлар</div><ul>${C.G.docs.map(d=>`<li>${esc(d)}</li>`).join("")}${hrOn(C.P,"union")&&/^b/.test(C.G.k)?"<li>касаба уюшмаси қўмитасининг розилиги (МК 164-м.)</li>":""}<li>бўшатиш буйруғи (модда ва банд билан)</li><li>охирги иш кунида тўлиқ ҳисоб-китоб (МК 172-м.)</li><li>электрон меҳнат дафтарчасига ёзув (my.mehnat.uz)</li></ul>
+    ${C.G.disc?`<p class="hint">Интизомий асосда жазо муддатлари (1 ой / 6 ой, МК 314-м.) ва ёзма тушунтириш (МК 313-м.) шарт.</p>`:""}
+    <div class="actions">${C.G.disc?`<button type="button" class="btn" data-act="fwDoc" data-v="k-disc-req">Тушунтириш талабномаси</button>`:""}${C.G.n&&C.G.k!=="own"?`<button type="button" class="btn" data-act="fwDoc" data-v="k-fire-notice">Огоҳлантириш тузиш</button>`:""}<button type="button" class="btn primary" data-act="fwDoc" data-v="order">Бўшатиш буйруғини тузиш</button></div></div>`}`; }
+function fwDraft(f,kind){ const W=V.hrFireWiz, C=fwCalc(f,W); if(!C) return null; const G=C.G;
+  if(kind==="k-disc-req") return hrOrderDraft("k-disc-req",W.emp);
+  if(kind==="k-fire-notice"){ const d=hrOrderDraft("k-fire-notice",W.emp); if(G.g!=null) d.values.ground=HR_GROUNDS[G.g]; if(W.end) d.values.end=W.end; if(W.d0) d.values.date=W.d0; return d; }
+  const d=hrOrderDraft(G.tpl,W.emp); const v=d.values; if(W.end) v.end=W.end;
+  if(G.k==="agree"&&W.d0) v.agrDate=W.d0; if(G.k==="own"&&W.d0) v.appDate=W.d0; if(G.reason) v.reason=G.reason;
+  if(G.g!=null){ v.ground=HR_GROUNDS[G.g]; if(W.d0) v.notice=W.d0; } return d; }
+{ const _vs92=vStaff; vStaff=function(f){
+    if(f&&V.hrFireWiz&&EMP_LOADED) return fwView(f);
+    if(f&&V.hrPolCopy&&V.hrSub==="nizom"&&EMP_LOADED) return hpcView(f);
+    let h=_vs92(f);
+    if(f&&V.hrSub==="orders"&&!V.empId&&!V.empEdit) h=h.replace('<div class="actions">','<div class="actions"><button type="button" class="btn primary" data-act="fwOpen">Бўшатиш устаси</button>');
+    if(f&&V.hrSub==="nizom"&&!V.polEdit&&!V.polId&&hrPolRec(f.id)){ const imtq=!hrHidden(f.id).some(x=>x[0]==="k-imtq");
+      h=h.replace('<div class="actions"><button type="button" class="btn primary" data-act="hrPolNew">',`<div class="actions"><button type="button" class="btn" data-act="hrPolCopy">Бошқа фирмаларга нусхалаш</button>${imtq?`<button type="button" class="btn" data-act="hrImtq">ИМТҚ тузиш</button>`:""}<button type="button" class="btn primary" data-act="hrPolNew">`); }
+    return h; }; }
+
+/* --- НИЗОМНИ БОШҚА ФИРМАЛАРГА НУСХАЛАШ --- */
+function hpcView(f){ const C=V.hrPolCopy, src=hrPolRec(f.id); const L=S.firms.filter(x=>x.id!==f.id).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
+  const n=Object.keys(C.sel||{}).filter(k=>C.sel[k]).length;
+  return `<button type="button" class="back" data-act="hpcClose">← Кадрлар низоми</button>
+  <div class="head"><div><h1>Кадрлар низомини нусхалаш</h1><div class="sub">«${esc(f.name)}» низоми (${esc(src?.year||"")} йил) танланган фирмаларга янги низом сифатида кўчирилади. Масъул шахслар ҳар бир фирманинг ўз раҳбарига алмаштирилади.</div></div></div>
+  <div class="note-box">Нусхалангандан кейин ҳар бир фирмада «Микрофирма», «Касаба уюшмаси» ва «Жамоа шартномаси» белгиларини текшириб чиқинг — улар фирмага қараб фарқ қилади. Шу йил учун низоми бор фирмалар ўтказиб юборилади.</div>
+  <div class="toolbar"><div class="actions"><button type="button" class="btn ghost" data-act="hpcAll">Низоми йўқларни белгилаш</button><button type="button" class="btn ghost" data-act="hpcNone">Белгини олиш</button></div>
+  <label class="checkline"><input type="checkbox" id="hpcOrd" ${C.order!==false?"checked":""}> Тасдиқлаш буйруғи черновигини ҳам тузиш</label></div>
+  <div class="card"><div class="tablewrap"><table class="ltable"><thead><tr><th></th><th>Фирма</th><th>СТИР</th><th>Раҳбар</th><th>Кадрлар низоми</th></tr></thead><tbody>${L.length?L.map(x=>{ const p=firmPol(x.id,"hr"); const same=src&&p.some(q=>String(q.year)===String(src.year));
+    return `<tr><td><input type="checkbox" data-hpc="${esc(x.id)}" ${C.sel?.[x.id]?"checked":""} ${same?"disabled":""}></td><td>${esc(x.name||"")}</td><td class="num">${esc(x.inn||"")}</td><td>${esc(x.director||"")}</td><td>${p.length?`<span class="lpill ${same?"ok":"soon"}">${esc(p.map(q=>q.year).join(", "))}</span>`:`<span class="lpill off">йўқ</span>`}</td></tr>`; }).join(""):`<tr><td colspan="5"><div class="empty"><b>Бошқа фирма йўқ</b></div></td></tr>`}</tbody></table></div></div>
+  <div class="actions" style="margin-top:12px"><button type="button" class="btn primary" data-act="hpcRun" ${n?"":"disabled"}>Нусхалаш (${n})</button></div>`; }
+async function hpcRun(f){ const C=V.hrPolCopy, src=hrPolRec(f.id); if(!src) return; const ids=Object.keys(C.sel||{}).filter(k=>C.sel[k]); if(!ids.length) return;
+  let ok=0, skip=0; const stopTask=typeof taskStart==="function"; if(stopTask) taskStart("Кадрлар низоми нусхаланмоқда",ids.length);
+  try{ for(let i=0;i<ids.length;i++){ const t=firm(ids[i]); if(!t) continue; if(stopTask) taskStep(i,t.name||"");
+      if(firmPol(t.id,"hr").some(q=>String(q.year)===String(src.year))){ skip++; continue; }
+      const vals=JSON.parse(JSON.stringify(src.values||{}));
+      ["respHr","mehnatResp"].forEach(k=>{ if(!vals[k]||String(vals[k]).trim()===String(f.director||"").trim()) vals[k]=t.director||""; });
+      const rec={...polNew(t,"hr"),values:vals,year:String(src.year),startDate:src.startDate,extra:src.extra||"",files:[],copiedFrom:f.id};
+      let s=await putItem("recs",rec,`Кадрлар низоми ${rec.year} «${f.name}» фирмасидан нусхаланди`); if(C.order!==false) await polOrderSync(s); ok++; } }
+  catch(err){ toast(explain(err)); }
+  finally{ if(stopTask) taskEnd(); }
+  toast(`Нусхаланди: ${ok} та фирма${skip?`, ўтказиб юборилди: ${skip}`:""}`); go({hrPolCopy:null}); }
+
+/* --- ҳодисалар --- */
+document.addEventListener("click",async e=>{ const b=e.target.closest('[data-act="fwOpen"],[data-act="fwClose"],[data-act="fwDoc"],[data-fwg],[data-act="hrPolCopy"],[data-act="hpcClose"],[data-act="hpcAll"],[data-act="hpcNone"],[data-act="hpcRun"],[data-act="hrImtq"]'); if(!b) return;
+  e.stopPropagation(); e.preventDefault(); const f=firm(V.firmId); if(!f) return; const a=b.dataset.act;
+  if(a==="fwOpen"){ await ensureEmp(); return go({hrFireWiz:{emp:V.empId||"",g:"",d0:"",end:""}}); }
+  if(a==="fwClose") return go({hrFireWiz:null});
+  if(b.dataset.fwg){ V.hrFireWiz.g=b.dataset.fwg; return render(); }
+  if(a==="fwDoc"){ const d=fwDraft(f,b.dataset.v); if(d) return go({view:"order",editSigned:null,draft:d,hrFireWiz:null}); return; }
+  if(a==="hrPolCopy") return go({hrPolCopy:{sel:{},order:true}});
+  if(a==="hpcClose") return go({hrPolCopy:null});
+  if(a==="hpcAll"){ const src=hrPolRec(f.id); V.hrPolCopy.sel={}; S.firms.filter(x=>x.id!==f.id&&!firmPol(x.id,"hr").length).forEach(x=>V.hrPolCopy.sel[x.id]=true); return render(); }
+  if(a==="hpcNone"){ V.hrPolCopy.sel={}; return render(); }
+  if(a==="hpcRun"){ b.disabled=true; return hpcRun(f); }
+  if(a==="hrImtq"){ await ensureEmp(); return go({view:"order",editSigned:null,draft:hrOrderDraft("k-imtq",null)}); }
+},true);
+document.addEventListener("change",e=>{ const t=e.target;
+  if(t.dataset&&t.dataset.fw&&V.hrFireWiz){ V.hrFireWiz[t.dataset.fw]=t.value; return render(); }
+  if(t.dataset&&t.dataset.hpc&&V.hrPolCopy){ V.hrPolCopy.sel[t.dataset.hpc]=t.checked; return render(); }
+  if(t.id==="hpcOrd"&&V.hrPolCopy){ V.hrPolCopy.order=t.checked; } },true);
+document.addEventListener("click",e=>{ if(e.target.closest&&e.target.closest("[data-hrsub],[data-tab]")){ V.hrFireWiz=null; V.hrPolCopy=null; } },true);
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
