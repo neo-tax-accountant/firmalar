@@ -1855,7 +1855,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="21.11.2026 · в93";
+const APP_VER="21.11.2026 · в94";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -11458,6 +11458,110 @@ document.addEventListener("click",async e=>{ const lb=e.target.closest&&e.target
 /* PDF буйруқ: кириллча номни лотинча Ф.И.О. билан ҳам топиш */
 const fioN=s=>uzLatUp(s).toLowerCase().replace(/[^a-z0-9]/g,"");
 { const _ox=ordxFromAi; ordxFromAi=function(f,x){ const r=_ox(f,x); if(r&&!r.emp&&r.fio){ const n=fioN(r.fio); const e=n.length>5&&firmEmps(f.id).find(z=>{ const m=fioN(z.fio); return m&&(m===n||m.startsWith(n.slice(0,12))||n.startsWith(m.slice(0,12))); }); if(e) r.emp=e.id; } return r; }; }
+
+/* ================= в94: 250 тагача меҳнат дафтарчаси кўчирмасини бирдан юклаш ================= */
+const MBB_MAX=250;
+async function mbPool(items,n,fn){ let i=0; const run=async()=>{ while(i<items.length){ if(taskStopped()) return; const k=i++; await fn(items[k],k); } }; await Promise.all(Array.from({length:Math.min(n,items.length)},run)); }
+function mbbPosLabel(p){ return [p.branch,p.dept,p.position].map(x=>String(x||"").trim()).filter(Boolean).join(" / "); }
+function mbbRowFromRead(f,file,r,err){ const P=firmPos(f.id); const row={id:uid(),file,name:file.name,r:r||null,err:err?String(err.message||err):"",fio:r?uzLatUp(r.fio):"",pinfl:r?String(r.pinfl||""):"",rate:"1",sel:false,status:"",posId:"",hireDate:"",fired:false,fireDate:"",srcPos:"",ex:""};
+  if(row.err||(!row.fio&&!row.pinfl)){ row.status="err"; if(!row.err) row.err="Ходим маълумотлари топилмади"; return row; }
+  const ex=row.pinfl&&firmEmps(f.id).find(e=>e.pinfl===row.pinfl); const mine=(r.hist||[]).filter(h=>mbMatch(f,h)).pop();
+  if(mine){ row.hireDate=mine.from||""; row.srcPos=[mine.pos,mine.dept&&!/^umumiy$/i.test(mine.dept)?mine.dept:""].filter(Boolean).join(" · "); if(mine.to){ row.fired=true; row.fireDate=mine.to; } }
+  const hit=P.length&&mine?wsMatch(P,{dept:mine.dept&&!/^umumiy$/i.test(mine.dept)?mine.dept:"",position:mine.pos}):null; if(hit) row.posId=hit.id;
+  if(ex){ row.ex=ex.id; row.status="exist"; row.sel=true; }
+  else if(row.fired){ row.status="fired"; row.sel=false; }
+  else { row.status=mine?"new":"nofirm"; row.sel=true; if(!row.hireDate) row.hireDate=localToday(); }
+  return row; }
+function mbbMarkDups(rows){ const seen={}; rows.forEach(x=>{ if(x.status==="err"||!x.pinfl) return; if(seen[x.pinfl]){ x.status="dup"; x.sel=false; } else seen[x.pinfl]=1; }); }
+async function mbBulkImport(files,force){ const f=firm(V.firmId); if(!f) return; await ensureEmp();
+  let L=[...files].filter(x=>/\.pdf$/i.test(x.name)||x.type==="application/pdf"); if(L.length>MBB_MAX){ toast(`Бир йўла ${MBB_MAX} тагача — биринчи ${MBB_MAX} таси олинди`); L=L.slice(0,MBB_MAX); }
+  if(!L.length){ toast("PDF файл танланмади"); return; }
+  if(force&&!aiOn()){ toast("Claude калити уланмаган — кўчирмаларни дастурнинг ўзи ўқийди"); force=false; }
+  if(force&&L.length>10&&!confirm(`${L.length} та кўчирма Claude'га юборилади. Тахминий харажат: ${aiCents(L.length*0.012)}–${aiCents(L.length*0.03)}. Давом этилсинми?`)) return;
+  const rows=new Array(L.length); taskStart(force?"✦ Claude меҳнат дафтарчаларини ўқимоқда":"Меҳнат дафтарчалари ўқилмоқда",L.length,{stoppable:true}); let done=0;
+  try{ await mbPool(L,3,async(file,k)=>{ let r=null, err=null; try{ r=force?await mbAiRead(file):await mbRead(file); }catch(e){ err=e; if(e instanceof AuthErr) TP.task&&(TP.task.stopped=true); }
+      rows[k]=mbbRowFromRead(f,file,r,err); done++; taskStep(done,file.name); }); }
+  finally{ taskEnd(); }
+  const R=rows.filter(Boolean); L.forEach((file,k)=>{ if(!rows[k]) R.push({id:uid(),file,name:file.name,r:null,err:"Тўхтатилди — ўқилмади",fio:"",pinfl:"",rate:"1",sel:false,status:"err",posId:""}); });
+  mbbMarkDups(R); V.mbBulk={rows:R,order:true}; go({mbBulk:V.mbBulk,empEdit:null,empId:null,hrSub:"list"}); toast(`${R.length} та кўчирма ўқилди — текшириб «Сақлаш»ни босинг`); }
+const MBB_ST={new:["Янги","ok"],nofirm:["Янги · фирма кўчирмада йўқ","soon"],exist:["Бор — тўлдирилади","act"],fired:["Бўшаган","off"],dup:["Такрор файл","bad"],err:["Хато","bad"]};
+function mbbFree(f,rows,row){ const p=firmPos(f.id).find(x=>x.id===row.posId); if(!p) return null; let fr=wsFree(f.id,p,row.ex||"");
+  rows.forEach(x=>{ if(x!==row&&x.sel&&!x.ex&&!x.fired&&x.posId&&(()=>{ const q=firmPos(f.id).find(y=>y.id===x.posId); return q&&posKey(q.dept,q.position)===posKey(p.dept,p.position)&&wsK(q.branch)===wsK(p.branch); })()) fr-=uN(x.rate||1)||1; });
+  return Math.round(fr*100)/100; }
+function mbbView(f){ const B=V.mbBulk, R=B.rows, P=firmPos(f.id); const nSel=R.filter(x=>x.sel).length;
+  const cnt=k=>R.filter(x=>x.status===k).length; const newAct=R.filter(x=>x.sel&&!x.ex&&!x.fired).length;
+  const posOpts=(row)=>`<select data-mbb="${row.id}|posId" ${row.status==="err"?"disabled":""}><option value="">— штатдан танланмаган —</option>${P.map(p=>`<option value="${esc(p.id)}" ${p.id===row.posId?"selected":""}>${esc(mbbPosLabel(p))}</option>`).join("")}</select>`;
+  return `<button type="button" class="back" data-act="mbbClose">← Ходимлар</button>
+  <div class="head"><div><h1>Меҳнат дафтарчаларидан ходимлар</h1><div class="sub">${R.length} та кўчирма ўқилди. Белгиланганлар сақланади; ҳар бир ходимга ўз PDF кўчирмаси бириктирилади.</div></div></div>
+  <div class="lstats">
+    <div class="lstat" style="--c:#34d399;--cl:#a7f3d0"><span class="k">Янги ходим</span><span class="v">${cnt("new")+cnt("nofirm")}</span><span class="s">${cnt("nofirm")?cnt("nofirm")+" тасида фирма кўчирмада йўқ":"кўчирмада шу фирма бор"}</span></div>
+    <div class="lstat" style="--c:#22d3ee;--cl:#a5f3fc"><span class="k">Бор ходим</span><span class="v">${cnt("exist")}</span><span class="s">бўш майдонлари тўлдирилади</span></div>
+    <div class="lstat" style="--c:#a78bfa;--cl:#ddd6fe"><span class="k">Бўшаган</span><span class="v">${cnt("fired")}</span><span class="s">белгиланса «бўшаган» ҳолатида қўшилади</span></div>
+    <div class="lstat" style="--c:#f87171;--cl:#fecaca"><span class="k">Хато / такрор</span><span class="v">${cnt("err")+cnt("dup")}</span><span class="s">сақланмайди</span></div></div>
+  ${P.length?"":`<div class="vpwarn"><b>Штат жадвали тузилмаган</b><ul><li>Лавозимлар кўчирмадагидек ёзилади. Иш жойини штатдан танлаш учун аввал «Штат жадвали»ни тузинг.</li></ul></div>`}
+  <div class="toolbar"><div class="actions"><button type="button" class="btn ghost" data-act="mbbAll">Барчасини белгилаш</button><button type="button" class="btn ghost" data-act="mbbNone">Белгини олиш</button></div>
+  <label class="checkline"><input type="checkbox" id="mbbOrd" ${B.order!==false?"checked":""}> Янги ишлаётган ходимлар учун гуруҳли ишга қабул буйруғи черновигини тузиш${newAct?` (${newAct} та)`:""}</label></div>
+  <div class="card"><div class="tablewrap"><table class="ltable"><thead><tr><th></th><th>№</th><th>Ҳолати</th><th>Ф.И.О.</th><th>ЖШШИР</th><th>Қабул санаси</th><th>Кўчирмада</th><th>Иш жойи (штатдан)</th><th>Ставка</th></tr></thead><tbody>
+  ${R.map((x,i)=>{ const st=MBB_ST[x.status]||["",""]; const bad=x.status==="err"||x.status==="dup"; const fr=x.posId&&!x.ex&&!x.fired&&!bad?mbbFree(f,R,x):null;
+    return `<tr class="${x.sel?"":"off"}"><td><input type="checkbox" data-mbb="${x.id}|sel" ${x.sel?"checked":""} ${bad?"disabled":""} aria-label="Белгилаш"></td><td class="num">${i+1}</td><td><span class="lpill ${st[1]}">${st[0]}</span>${x.err?`<div class="hint err">${esc(x.err)}</div>`:""}</td>
+      <td>${bad&&!x.fio?`<span class="hint">${esc(x.name)}</span>`:`<input data-mbb="${x.id}|fio" value="${esc(x.fio)}" style="min-width:170px;width:100%">`}<div class="hint">${esc(x.name)}</div></td>
+      <td class="num">${esc(x.pinfl||"")}</td>
+      <td>${bad?"":`<input type="date" data-mbb="${x.id}|hireDate" value="${esc(x.hireDate||"")}">`}${x.fired?`<div class="hint">бўшаган: ${fmtDate(x.fireDate)}</div>`:""}</td>
+      <td>${esc(x.srcPos||"")}</td>
+      <td>${bad||x.ex?(x.ex?`<span class="hint">карточкадагича қолади</span>`:""):posOpts(x)}${fr!=null?`<div class="hint ${fr<0?"err":""}">${fr<0?"⚠ бўш ставка етарли эмас":"бўш: "+String(fr).replace(".",",")}</div>`:""}</td>
+      <td>${bad||x.ex?"":`<select data-mbb="${x.id}|rate">${WS_RATES.map(r=>`<option ${r===x.rate?"selected":""}>${r}</option>`).join("")}</select>`}</td></tr>`; }).join("")}
+  </tbody></table></div></div>
+  <div class="actions" style="margin-top:12px"><button type="button" class="btn primary" data-act="mbbSave" ${nSel?"":"disabled"}>Сақлаш (${nSel})</button><button type="button" class="btn ghost" data-act="mbbClose">Бекор қилиш</button></div>`; }
+async function mbbSave(f){ const B=V.mbBulk; const L=B.rows.filter(x=>x.sel&&x.status!=="err"&&x.status!=="dup"); if(!L.length) return;
+  const pol=hrPol(f.id); const P=firmPos(f.id); let tabN=firmEmps(f.id).length; let nNew=0,nUpd=0,nErr=0,nFile=0; const errs=[], newActive=[];
+  taskStart("Ходимлар сақланмоқда",L.length,{stoppable:true});
+  try{ for(let i=0;i<L.length;i++){ if(taskStopped()) break; const x=L[i], r=x.r||{}; taskStep(i,x.fio||x.name);
+      try{ const fileRec=async rec=>{ try{ const ref=await driveUpload(x.file,`${safeName(f.name)} — меҳнат дафтарчаси — ${rec.fio||""}.pdf`.slice(0,180),attLoc("emp",rec)); nFile++; return [{file:ref,name:"Меҳнат дафтарчасидан кўчирма"+(r.docNo?" № "+r.docNo:"")+".pdf",at:Date.now(),by:ME.email}]; }catch(er){ if(er instanceof AuthErr) throw er; return []; } };
+        if(x.ex){ const e0=S.emp.find(e=>e.id===x.ex); if(!e0) throw new Error("ходим топилмади"); const files=await fileRec(e0);
+          await attPut("emp",x.ex,e=>{ const set=(k,v)=>{ if(v&&!String(e[k]||"").trim()) e[k]=v; }; e.fio=uzLatUp(e.fio||x.fio); set("pinfl",x.pinfl); set("passport",r.passport); set("birth",r.birth); set("gender",r.gender); set("inn",r.inn); if(e.pinfl) e.inps=e.pinfl;
+            if((r.hist||[]).length) e.workHist=r.hist; if((r.self||[]).length) e.selfEmp=r.self; e.mbDoc={no:r.docNo||"",date:r.docDate||""}; e.files=(e.files||[]).concat(files); },`Ходим меҳнат дафтарчасидан тўлдирилди: ${uzLatUp(x.fio)}`); nUpd++; }
+        else { const p=P.find(q=>q.id===x.posId); const mine=(r.hist||[]).filter(h=>mbMatch(f,h)).pop();
+          const d={id:uid(),firmId:f.id,type:"emp",status:x.fired?"fired":"active",hireDate:x.hireDate||localToday(),rate:x.rate||"1",
+            vacDays:String(Math.max(21,num(pol?.vacDays)||21)),contractType:/^муддатли/.test(pol?.ctype||"")?"муайян":"номуайян",
+            schedule:pol?(/6 кунлик/.test(pol.week)?"6 кунлик, ҳафтасига 40 соат":/сменали/.test(pol.week)?"сменали":"5 кунлик, ҳафтасига 40 соат"):"5 кунлик, ҳафтасига 40 соат",
+            tab:String(++tabN).padStart(3,"0"),fio:uzLatUp(x.fio),pinfl:x.pinfl,inps:x.pinfl||"",passport:r.passport||"",birth:r.birth||"",gender:r.gender||"",inn:r.inn||"",
+            branch:p?String(p.branch||""):"",dept:p?String(p.dept||""):(mine&&mine.dept&&!/^umumiy$/i.test(mine.dept)?mine.dept:""),position:p?p.position:(mine?.pos||""),salary:p&&num(p.salary)?String(num(p.salary)):"",
+            workHist:r.hist||[],selfEmp:r.self||[],mbDoc:{no:r.docNo||"",date:r.docDate||""},vacs:[],hist:[],createdAt:Date.now()};
+          if(x.fired) d.fireDate=x.fireDate; if(!d.position) d.position="—";
+          d.files=await fileRec(d); const s=await putItem("emp",d,`Ходим меҳнат дафтарчасидан қўшилди: ${d.fio}`); nNew++; if(!x.fired) newActive.push(s||d); } }
+      catch(er){ if(er instanceof AuthErr){ errs.push("Google сеанси тугади — қайта киринг"); nErr++; break; } nErr++; errs.push(`${x.fio||x.name}: ${explain(er)}`); } } }
+  finally{ taskEnd(); }
+  let ordMsg="";
+  if(B.order!==false&&newActive.length){ try{ const tpl=TEMPLATES.find(t=>t.id==="k-hire-perm"); const o={id:uid(),firmId:f.id,tplId:tpl.id,title:tpl.title,status:"draft",values:{group:"1",date:localToday()},createdAt:Date.now()};
+      tpl.fields.forEach(([k,,,opt])=>{ if(o.values[k]==null) o.values[k]=Array.isArray(opt)?opt[0]:""; }); if(tpl.fixed) Object.assign(o.values,tpl.fixed);
+      o.values.number=ordNextNo(o); const rows=newActive.map(e=>grpRowFrom(o,S.emp.find(z=>z.id===e.id)||e)); grpSetRows(o,rows);
+      const so=await putItem("orders",o,`Гуруҳли ишга қабул буйруғи черновиги (${newActive.length} та ходим, меҳнат дафтарчаларидан)`); ordMsg=` · қабул буйруғи № ${so?.values?.number||o.values.number} (черновик)`; }
+    catch(er){ errs.push("Буйруқ тузилмади: "+explain(er)); } }
+  V.mbBulkLast={nNew,nUpd,nErr,nFile,errs};
+  toast(`Қўшилди: ${nNew}, тўлдирилди: ${nUpd}${nErr?`, хато: ${nErr}`:""}${ordMsg}`);
+  go({mbBulk:null,hrSub:"list"}); }
+/* ходимлар рўйхатида охирги юклаш натижаси (хатолар) */
+{ const _vs94=vStaff; vStaff=function(f){
+    if(f&&V.mbBulk&&EMP_LOADED) return mbbView(f);
+    let h=_vs94(f); if(!f) return h;
+    h=h.replace('<input type="file" id="mbFile" accept="application/pdf,.pdf" hidden>','<input type="file" id="mbFile" accept="application/pdf,.pdf" multiple hidden>').replace('title="my.mehnat.uz сайтидан олинган меҳнат дафтарчаси кўчирмаси (PDF) орқали ходимни тўлдириб яратиш"','title="my.mehnat.uz кўчирмалари (PDF): битта ёки бир йўла 250 тагача"');
+    const Ls=V.mbBulkLast; if(Ls&&Ls.errs.length&&(!V.hrSub||V.hrSub==="list")&&!V.empEdit&&!V.empId) h=h.replace('<div class="toolbar">',`<div class="vpwarn"><b>Меҳнат дафтарчаларини юклашда хатолар (${Ls.errs.length})</b><ul>${Ls.errs.slice(0,20).map(t=>`<li>${esc(t)}</li>`).join("")}</ul><button type="button" class="btn sm ghost" data-act="mbbHideErr">Ёпиш</button></div><div class="toolbar">`);
+    return h; }; }
+document.addEventListener("change",async e=>{ const el=e.target;
+  if(el.id==="mbFile"&&el.files&&el.files.length>1){ e.stopImmediatePropagation(); const fs=[...el.files]; el.value=""; const force=!!V.mbAi; V.mbAi=false; await mbBulkImport(fs,force); return; }
+  if(el.id==="mbbOrd"&&V.mbBulk){ V.mbBulk.order=el.checked; return; }
+  const k=el.dataset&&el.dataset.mbb; if(!k||!V.mbBulk) return; const [id,fld]=k.split("|"); const x=V.mbBulk.rows.find(r=>r.id===id); if(!x) return;
+  if(fld==="sel") x.sel=el.checked; else if(fld==="fio"){ x.fio=uzLatUp(el.value); } else x[fld]=el.value;
+  rerenderForm(); },true);
+document.addEventListener("click",async e=>{ const b=e.target.closest&&e.target.closest('[data-act="mbbClose"],[data-act="mbbAll"],[data-act="mbbNone"],[data-act="mbbSave"],[data-act="mbbHideErr"]'); if(!b) return;
+  e.stopPropagation(); e.preventDefault(); const a=b.dataset.act; const f=firm(V.firmId); if(!f) return;
+  if(a==="mbbClose") return go({mbBulk:null});
+  if(a==="mbbHideErr"){ V.mbBulkLast=null; return render(); }
+  if(a==="mbbAll"){ V.mbBulk.rows.forEach(x=>{ if(x.status!=="err"&&x.status!=="dup") x.sel=true; }); return rerenderForm(); }
+  if(a==="mbbNone"){ V.mbBulk.rows.forEach(x=>x.sel=false); return rerenderForm(); }
+  if(a==="mbbSave"){ b.disabled=true; return mbbSave(f); }
+},true);
+document.addEventListener("click",e=>{ if(e.target.closest&&e.target.closest("[data-hrsub],[data-tab]")&&V.mbBulk&&!confirm("Ўқилган кўчирмалар сақланмаган. Чиқиб кетилсинми?")){ e.stopImmediatePropagation(); e.preventDefault(); } else if(e.target.closest&&e.target.closest("[data-hrsub],[data-tab]")) V.mbBulk=null; },true);
 
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
