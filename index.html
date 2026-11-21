@@ -1855,7 +1855,7 @@ async function poll(){
 }
 setInterval(poll, 20000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) poll(); });
-const APP_VER="20.11.2026 · в92";
+const APP_VER="21.11.2026 · в93";
 function setSync(){ const el=$("#syncLine"); if(el) el.textContent = (LAST_SYNC ? "Янгиланди: "+fmtStamp(LAST_SYNC).slice(11)+" · " : "")+"Версия "+APP_VER; }
 
 /* ---------- view state ---------- */
@@ -3798,7 +3798,7 @@ function empTableHTML(f){
   const q=(V.eQ||"").trim().toLowerCase(), st=V.eSt||"work";
   let list=firmEmps(f.id);
   if(st==="work") list=list.filter(e=>e.status!=="fired"); else if(st==="vac") list=list.filter(e=>empStatus(e).k==="vac"); else if(st==="fired") list=list.filter(e=>e.status==="fired");
-  if(q) list=list.filter(e=>[e.fio,e.position,e.dept,e.tab,e.pinfl,e.phone,e.phone2,digits(e.phone),digits(e.phone2),digits(e.card)].some(x=>String(x||"").toLowerCase().includes(q)));
+  if(q) list=list.filter(e=>[e.fio,e.position,e.dept,e.tab,e.pinfl,e.phone,e.phone2,digits(e.phone),digits(e.phone2),digits(e.card)].some(x=>qhit(q,[x])));
   if(V.eD) list=list.filter(e=>(e.dept||"")===V.eD);
   if(!list.length) return `<div class="empty"><b>${firmEmps(f.id).length?"Ходим топилмади":"Ҳали ходим киритилмаган"}</b>${firmEmps(f.id).length?"Филтрни ўзгартиринг.":"«Ходим қўшиш» ёки «1С / Excel'дан юклаш» тугмасини босинг."}</div>`;
   return colTable("emp",list,e=>`data-emp="${esc(e.id)}" tabindex="0"`);
@@ -3867,7 +3867,7 @@ function shtatView(f){
   const unplanned=[...new Set(emps.map(e=>key(e.dept,e.position)))].filter(k=>!posAll.some(p=>key(p.dept,p.position)===k));
   let tu=0,to=0,tf=0;
   const rows=pos.map(p=>{ const k=key(p.dept,p.position), u=num(p.units)||0, o=occ[k]||0, fund=u*num(p.salary); tu+=u; to+=o; tf+=fund;
-    return `<tr data-pos="${esc(p.id)}" tabindex="0"><td>${esc(p.dept||"")}</td><td><b>${esc(p.position||"")}</b></td><td class="num r">${u}</td><td class="num r">${o}</td><td class="num r ${u-o>0?"vac":u-o<0?"neg":""}">${Math.round((u-o)*100)/100}</td><td class="num r">${m0(num(p.salary))}</td><td class="num r">${m0(fund)}</td></tr>`; }).join("");
+    return `<tr data-pos="${esc(p.id)}" tabindex="0"><td>${p.branch?`<span class="hint">${esc(p.branch)}</span><br>`:""}${esc(p.dept||"")}</td><td><b>${esc(p.position||"")}</b></td><td class="num r">${u}</td><td class="num r">${o}</td><td class="num r ${u-o>0?"vac":u-o<0?"neg":""}">${Math.round((u-o)*100)/100}</td><td class="num r">${m0(num(p.salary))}</td><td class="num r">${m0(fund)}</td></tr>`; }).join("");
   return `<div class="toolbar"><span class="hint">Штат жадвали: лавозимлар, штат бирликлари ва маошлар. Банд ўринлар ходимлар рўйхатидан ўзи ҳисобланади.</span>${deptOpts(posAll).length>1?fsel("sD",deptOpts(posAll),"Барча бўлимлар"):""}<div class="actions">${posAll.length?`<button type="button" class="btn" data-tpl="k-staff">Тасдиқлаш буйруғи</button><button type="button" class="btn" data-tpl="k-staffsal">Маошларни ўзгартириш буйруғи</button>`:""}${posDupBtn(f)}<button type="button" class="btn" data-act="newPos">${LPLUS}Лавозим қўшиш</button>${unplanned.length?`<button type="button" class="btn" data-act="posFromEmp">Ходимлардан тузиш (${unplanned.length})</button>`:""}${posAll.length?`<button type="button" class="btn" data-act="shtatPrint">${PRINT_ICON}Чоп этиш</button>`:""}</div></div>
   <div class="card">${pos.length?`<div class="tablewrap"><table class="ltable"><thead><tr><th>Бўлим</th><th>Лавозим</th><th class="r">Штат бирлиги</th><th class="r">Банд</th><th class="r">Бўш</th><th class="r">Лавозим маоши</th><th class="r">Ойлик фонд</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="2">Жами</td><td class="num r">${tu}</td><td class="num r">${to}</td><td class="num r">${Math.round((tu-to)*100)/100}</td><td></td><td class="num r">${m0(tf)}</td></tr></tfoot></table></div>`:`<div class="empty"><b>Штат жадвали бўш</b>${emps.length?"«Ходимлардан тузиш» тугмаси ҳозирги ходимлар асосида лавозимларни ўзи яратади.":"Аввал лавозим қўшинг."}</div>`}</div>
   ${unplanned.length&&pos.length?`<p class="hint">Штат жадвалида йўқ лавозимдаги ходимлар бор: ${esc(unplanned.map(k=>k.split("|")[1]).join(", "))}.</p>`:""}`;
@@ -3887,7 +3887,7 @@ function shtatSheet(f){
     <p style="text-align:right">ТАСДИҚЛАЙМАН<br>${esc(f.directorTitle||"Директор")} __________ ${esc(f.director||"")}<br>«___» __________ ${new Date().getFullYear()} й.</p>
     <h2>ШТАТ ЖАДВАЛИ</h2><div class="meta"><span>${fmtDate(localToday())} ҳолатига</span></div>
     <table class="btab"><thead><tr><th>№</th><th>Бўлим</th><th>Лавозим</th><th>Штат бирлиги</th><th>Лавозим маоши, сўм</th><th>Ойлик фонд, сўм</th></tr></thead><tbody>
-    ${pos.map((p,i)=>{ const u=num(p.units), fd=u*num(p.salary); tu+=u; tf+=fd; return `<tr><td>${i+1}</td><td>${esc(p.dept||"")}</td><td>${esc(p.position||"")}</td><td class="r">${u}</td><td class="r">${m0(num(p.salary))}</td><td class="r">${m0(fd)}</td></tr>`; }).join("")}</tbody>
+    ${pos.map((p,i)=>{ const u=num(p.units), fd=u*num(p.salary); tu+=u; tf+=fd; return `<tr><td>${i+1}</td><td>${p.branch?esc(p.branch)+" / ":""}${esc(p.dept||"")}</td><td>${esc(p.position||"")}</td><td class="r">${u}</td><td class="r">${m0(num(p.salary))}</td><td class="r">${m0(fd)}</td></tr>`; }).join("")}</tbody>
     <tfoot><tr><td colspan="3">Жами</td><td class="r">${tu}</td><td></td><td class="r">${m0(tf)}</td></tr></tfoot></table>
     <div class="sign"><span>Бош бухгалтер</span><span class="ln"></span><span class="nm">${esc(f.chiefAccountant||"")}</span></div></div>`;
 }
@@ -4026,7 +4026,7 @@ function hrImportRows(){
 }
 function hrImportView(f){
   const I=V.hrImport; const list=hrImportRows(); const ex=firmEmps(f.id);
-  const dup=o=>ex.find(e=>(o.pinfl&&e.pinfl===o.pinfl)||(e.fio||"").toLowerCase()===o.fio.toLowerCase());
+  const dup=o=>ex.find(e=>(o.pinfl&&e.pinfl===o.pinfl)||uzLatUp(e.fio)===uzLatUp(o.fio));
   const newN=list.filter(o=>!dup(o)).length;
   return `<button type="button" class="back" data-act="hrImpCancel">← Ходимлар</button>
   <div class="head"><div><h1 style="font-size:22px">Ходимларни юклаш: ${esc(I.fname)}</h1><div class="sub">Устунларни текширинг: дастур ўзи мослаштирди, нотўғри бўлса тузатинг. ${list.length} та қатор, шундан янги ходим ${newN} та, аллақачон бор ${list.length-newN} та (улар ўтказиб юборилади).</div></div>
@@ -4053,7 +4053,7 @@ async function hrXlsx(f){
 
 /* ---------- Умумий фильтр ёрдамчилари ---------- */
 const qv=key=>String(V[key]||"").trim().toLowerCase();
-const qhit=(q,arr)=>!q||arr.some(x=>String(x??"").toLowerCase().includes(q));
+const QCYR=/[а-яёўқғҳ]/i; const qhit=(q,arr)=>!q||arr.some(x=>{ const s=String(x??"").toLowerCase(); if(s.includes(q)) return true; return !!s&&QCYR.test(q)!==QCYR.test(s)&&typeof uzLatUp==="function"&&uzLatUp(s).toLowerCase().includes(uzLatUp(q).toLowerCase()); });
 const fq=(key,ph)=>`<input type="search" class="ctsearch fq" data-fq="${key}" id="fq_${key}" placeholder="${esc(ph)}" value="${esc(V[key]||"")}" autocomplete="off">`;
 const fchips=(key,opts,def="all")=>`<div class="chips">${opts.map(([k,t,n])=>`<button type="button" class="chip" data-ctf="${key}" data-v="${k}" aria-pressed="${(V[key]||def)===k}">${t}${n!=null?` <i class="cn">${n}</i>`:""}</button>`).join("")}</div>`;
 const fsel=(key,opts,all)=>`<select class="gsel" data-fs="${key}" id="fs_${key}" aria-label="${esc(all)}"><option value="">${esc(all)}</option>${opts.map(([k,t])=>`<option value="${esc(k)}" ${String(V[key]||"")===String(k)?"selected":""}>${esc(t)}</option>`).join("")}</select>`;
@@ -7324,7 +7324,7 @@ function ofListDoc(f,o){ const facs=!!f.facsAuto&&fHasMarks(f.id);
 function empListDoc(f){ const L=firmEmps(f.id).filter(e=>e.status!=="fired").sort((a,b)=>(a.dept||"").localeCompare(b.dept||"")||(a.fio||"").localeCompare(b.fio||"")); const fot=L.reduce((s,e)=>s+num(e.salary),0);
   return ofListDoc(f,{title:"ХОДИМЛАР РЎЙХАТИ",sub:`${fmtDate(localToday())} й. ҳолатига · ${L.length} нафар`,body:`<table class="regtab"><thead><tr><th>№</th><th>Таб. №</th><th>Ф.И.О.</th><th>Бўлим</th><th>Лавозим</th><th>Ставка</th><th>Маош, сўм</th><th>Қабул санаси</th><th>Телефон</th></tr></thead><tbody>${L.map((e,i)=>`<tr><td>${i+1}</td><td>${esc(e.tab||"")}</td><td>${esc(e.fio||"")}</td><td>${esc(e.dept||"")}</td><td>${esc(e.position||"")}</td><td class="r">${esc(e.rate||"")}</td><td class="r">${e.salary?m0(num(e.salary)):""}</td><td>${fmtDate(e.hireDate)}</td><td class="nw">${esc(e.phone||"")}</td></tr>`).join("")}</tbody><tfoot><tr><td colspan="6">Жами</td><td class="r">${m0(fot)}</td><td colspan="2"></td></tr></tfoot></table>`}); }
 function shtatDoc(f){ const pos=firmPos(f.id); let tu=0,tf=0;
-  const rows=pos.map((p,i)=>{ const u=num(p.units)||0, fund=u*num(p.salary); tu+=u; tf+=fund; return `<tr><td>${i+1}</td><td>${esc(p.dept||"")}</td><td>${esc(p.position||"")}</td><td class="r">${u}</td><td class="r">${m0(num(p.salary))}</td><td class="r">${m0(fund)}</td></tr>`; }).join("");
+  const rows=pos.map((p,i)=>{ const u=num(p.units)||0, fund=u*num(p.salary); tu+=u; tf+=fund; return `<tr><td>${i+1}</td><td>${p.branch?esc(p.branch)+" / ":""}${esc(p.dept||"")}</td><td>${esc(p.position||"")}</td><td class="r">${u}</td><td class="r">${m0(num(p.salary))}</td><td class="r">${m0(fund)}</td></tr>`; }).join("");
   const ap=firmOrders(f.id).find(o=>o.tplId==="k-staff"&&o.status==="signed");
   return ofListDoc(f,{approve:true,apprText:ap?`Буйруқ № ${esc(ap.values?.number||"")} ${fmtDate(ap.values?.date)}`:"",title:"ШТАТ ЖАДВАЛИ",sub:`${new Date().getFullYear()} йил учун`,body:`<table class="regtab"><thead><tr><th>№</th><th>Таркибий бўлинма</th><th>Лавозим</th><th>Штат бирлиги</th><th>Лавозим маоши, сўм</th><th>Ойлик фонд, сўм</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="3">Жами</td><td class="r">${tu}</td><td></td><td class="r">${m0(tf)}</td></tr></tfoot></table>`,signers:[{t:"Бош бухгалтер",n:f.chiefAccountant||"",role:"chief"}]}); }
 function vacDoc(f){ const L=firmEmps(f.id).filter(e=>e.status!=="fired").map(e=>({e,vb:empVacBalance(e)})).sort((a,b)=>(a.e.fio||"").localeCompare(b.e.fio||""));
@@ -10591,7 +10591,7 @@ const posFundTxt=r=>{ const u=uN(r.units), s=num(r.salary); return u&&s?`${Strin
 posForm=function(f,p){ const isNew=!S.pos.some(x=>x.id===p.id); const R=posRowsOf(p); const ex=firmPos(f.id).filter(x=>x.id!==p.id);
   const inp=(i,k,l,extra="")=>`<div class="field"><label for="pr_${i}_${k}">${l}</label><input id="pr_${i}_${k}" data-pr="${i}|${k}" value="${esc(R[i][k]??"")}" ${extra}></div>`;
   const row=(r,i)=>{ const dh=posDupHTML(ex,r,i);
-    return `<div class="posrow ${R.length>1?"multi":""}">${R.length>1?`<span class="lst-n">${i+1}</span>`:""}<div class="lgrid">${inp(i,"dept","Бўлим",'list="posDeptL"')}${inp(i,"position","Лавозим *",'list="posNameL"')}
+    return `<div class="posrow ${R.length>1?"multi":""}">${R.length>1?`<span class="lst-n">${i+1}</span>`:""}<div class="lgrid">${inp(i,"branch","Алоҳида бўлинма (бўлса)",'list="posBrL" placeholder="бош офис — бўш қолдиринг"')}${inp(i,"dept","Бўлим",'list="posDeptL"')}${inp(i,"position","Лавозим *",'list="posNameL"')}
       <div class="field"><label for="pr_${i}_units">Штат бирлиги (сони) *</label><div class="stepper"><button type="button" class="btn sm" data-prstep="${i}|-1" aria-label="Камайтириш">−</button><input id="pr_${i}_units" data-pr="${i}|units" inputmode="decimal" value="${esc(r.units??"1")}"><button type="button" class="btn sm" data-prstep="${i}|1" aria-label="Кўпайтириш">+</button></div></div>
       ${inp(i,"salary","Лавозим маоши, сўм",'inputmode="decimal"')}</div>
       <div class="hint posfund" id="prf_${i}">${posFundTxt(r)}</div>
@@ -10603,20 +10603,20 @@ posForm=function(f,p){ const isNew=!S.pos.some(x=>x.id===p.id); const R=posRowsO
     <p class="hint">Бир хил лавозимни бир марта ёзиб, сонини киритинг (масалан, «Сотувчи» — 5). Ярим ставка учун 0,5 киритиш мумкин.</p>
     ${R.map(row).join("")}
     ${isNew?`<button type="button" class="btn addrow" data-act="prAdd">＋ Яна лавозим қўшиш</button>`:""}
-    <datalist id="posNameL">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist><datalist id="posDeptL">${depts.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
+    <datalist id="posNameL">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist><datalist id="posDeptL">${depts.map(n=>`<option value="${esc(n)}">`).join("")}</datalist><datalist id="posBrL">${[...new Set(firmPos(f.id).map(x=>x.branch).concat(firmEmps(f.id).map(x=>x.branch)).filter(Boolean))].map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
     <p class="err" id="posErr"></p>
     <div class="actions"><button type="submit" class="btn primary">Сақлаш</button><button type="button" class="btn ghost" data-act="hrBack">Бекор қилиш</button>${isNew?"":`<button type="button" class="btn ghost danger" data-act="delPos">Ўчириш</button>`}</div></form>`; };
 async function posSave(f,p){ const isNew=!S.pos.some(x=>x.id===p.id); const R=posRowsOf(p).map(r=>({...r,dept:String(r.dept||"").trim(),position:String(r.position||"").trim()}));
   if(R.some(r=>!r.position)) return "Лавозим номини киритинг.";
   if(R.some(r=>!(uN(r.units)>0))) return "Штат бирлиги (сони) 0 дан катта бўлиши керак.";
   /* бир формадаги бир хил қаторларни (маоши бир хил) қўшиш */
-  const M=[]; R.forEach(r=>{ const u=uN(r.units), s=num(r.salary); const m=M.find(x=>posKey(x.dept,x.position)===posKey(r.dept,r.position)&&x.s===s); if(m) m.u+=u; else M.push({...r,u,s}); });
+  const M=[]; R.forEach(r=>{ const u=uN(r.units), s=num(r.salary); const m=M.find(x=>posKey(x.dept,x.position)===posKey(r.dept,r.position)&&x.s===s&&String(x.branch||"").trim()===String(r.branch||"").trim()); if(m) m.u+=u; else M.push({...r,u,s}); });
   const ex=firmPos(f.id).filter(x=>x.id!==p.id); let n=0, merged=0;
   for(const r of M){ const d=posDupOf(ex,{...r,salary:r.s}); const act=r.dupAct||(d&&(num(d.salary)===r.s||!r.s)?"merge":"sep");
     if(d&&act==="merge"){ const nu=Math.round((uN(d.units||1)+r.u)*100)/100; await putItem("emp",{...d,units:String(nu),salary:d.salary||String(r.s||"")},`Штат жадвали: ${d.position} — ${d.units} → ${nu} бирлик`); merged++;
       if(!isNew) await delItem("emp",p.id,`Штат жадвали: ${p.position} «${d.position}» билан бирлаштирилди`); continue; }
     const o=isNew&&n>0||isNew&&M.length>1?{id:uid(),firmId:f.id,type:"pos"}:{...p}; delete o.rows;
-    Object.assign(o,{firmId:f.id,type:"pos",dept:r.dept,position:r.position,units:String(Math.round(r.u*100)/100),salary:r.s?String(r.s):""});
+    Object.assign(o,{firmId:f.id,type:"pos",branch:String(r.branch||"").trim(),dept:r.dept,position:r.position,units:String(Math.round(r.u*100)/100),salary:r.s?String(r.s):""});
     await putItem("emp",o,`Штат жадвали: ${o.position} (${o.units} бирлик)`); n++; }
   toast(merged&&n?`${n} та лавозим қўшилди, ${merged} таси мавжудига бирлаштирилди`:merged?`Мавжуд лавозимга бирлаштирилди (сони оширилди)`:n>1?`${n} та лавозим сақланди`:"Сақланди"); return ""; }
 function posDupGroups(f){ const G={}; firmPos(f.id).forEach(x=>{ const k=posKey(x.dept,x.position)+"|"+num(x.salary); (G[k]=G[k]||[]).push(x); }); return Object.values(G).filter(g=>g.length>1); }
@@ -11369,6 +11369,96 @@ document.addEventListener("change",e=>{ const t=e.target;
   if(t.id==="hpcOrd"&&V.hrPolCopy){ V.hrPolCopy.order=t.checked; } },true);
 document.addEventListener("click",e=>{ if(e.target.closest&&e.target.closest("[data-hrsub],[data-tab]")){ V.hrFireWiz=null; V.hrPolCopy=null; } },true);
 
+/* ================= в93: my.mehnat + Claude, иш жойи штатдан, Ф.И.О. катта лотин ҳарфларида, ИНПС = ЖШШИР ================= */
+const UZ_LAT={а:"A",б:"B",в:"V",г:"G",д:"D",ё:"YO",ж:"J",з:"Z",и:"I",й:"Y",к:"K",л:"L",м:"M",н:"N",о:"O",п:"P",р:"R",с:"S",т:"T",у:"U",ф:"F",х:"X",ч:"CH",ш:"SH",щ:"SH",ъ:"’",ь:"",ы:"I",э:"E",ю:"YU",я:"YA",ў:"O‘",қ:"Q",ғ:"G‘",ҳ:"H"};
+function uzLatUp(s){ s=String(s||"").replace(/\s+/g," ").trim(); if(!s) return ""; const VW="аеёиоуэюяўы"; let out="";
+  for(let i=0;i<s.length;i++){ const ch=s[i], lo=ch.toLowerCase(), pr=(s[i-1]||"").toLowerCase();
+    if(lo==="е"){ out+=(!pr||/[\s\-]/.test(pr)||VW.includes(pr)||pr==="ъ"||pr==="ь")?"YE":"E"; continue; }
+    if(lo==="ц"){ out+=VW.includes(pr)?"TS":"S"; continue; }
+    out+=UZ_LAT[lo]!==undefined?UZ_LAT[lo]:ch; }
+  return out.toUpperCase().replace(/([OG])['`ʻʼ’‘]/g,"$1‘"); }
+
+/* --- 1. Claude билан ўқиш --- */
+AI_SPEC.mb.prompt+=" Return fio converted to Uzbek Latin script in UPPERCASE, exactly as in a passport (e.g. KARIMOV ALISHER VALIYEVICH, TOSHMATOVA DILNOZA SHUXRAT QIZI). All dates as YYYY-MM-DD. List every labor record (меҳнат фаолияти) in chronological order; leave 'to' empty for the current job. Do not invent data that is not in the document.";
+AI_SPEC.mb.props.gender=AI_S("эркак or аёл — from the patronymic (o‘g‘li / qizi) if present");
+async function mbAiRead(file){ const x=(await aiDoc(file,firm(V.firmId),AI_SPEC.mb,file.name)).x||{};
+  const iso=d=>{ const m=/(\d{2})\.(\d{2})\.(\d{4})/.exec(d||""); return m?`${m[3]}-${m[2]}-${m[1]}`:String(d||"").slice(0,10); };
+  return {fio:uzLatUp(x.fio||""),pinfl:String(x.pinfl||"").replace(/\D/g,""),passport:String(x.passport||"").replace(/\s/g,"").toUpperCase(),birth:iso(x.birth_date),gender:/аёл|female|ayol/i.test(x.gender||"")?"аёл":/эркак|male|erkak/i.test(x.gender||"")?"эркак":"",
+    inn:String(x.inn||"").replace(/\D/g,""),docNo:String(x.doc_number||""),docDate:iso(x.doc_date),hist:(x.records||[]).map(h=>({from:iso(h.from),to:iso(h.to),cur:!h.to,pos:h.position||"",dept:h.department||"",org:h.organization||""})),self:[]}; }
+{ const _mr=mbRead; mbRead=async function(file){
+    if(V.mbAi){ V.mbAi=false; if(aiOn()){ toast("✦ Claude меҳнат дафтарчасини ўқимоқда…"); return mbAiRead(file); } toast("Claude калити уланмаган — кўчирмани дастурнинг ўзи ўқийди"); }
+    const r=await _mr(file); if(r) r.fio=uzLatUp(r.fio); return r; }; }
+
+/* --- 2. Ходим формаси: Ф.И.О., ИНПС, иш жойи штатдан --- */
+const WS_RATES=["1","0,75","0,5","0,25"];
+const wsK=s=>String(s||"").trim().toLowerCase();
+function wsFree(fid,p,empId){ const k=posKey(p.dept,p.position); const units=firmPos(fid).filter(x=>posKey(x.dept,x.position)===k&&wsK(x.branch)===wsK(p.branch)).reduce((s,x)=>s+(uN(x.units||1)||0),0);
+  const occ=firmEmps(fid).filter(e=>e.status!=="fired"&&e.id!==empId&&posKey(e.dept,e.position)===k&&wsK(e.branch)===wsK(p.branch)).reduce((s,e)=>s+(uN(e.rate||1)||1),0);
+  return Math.round((units-occ)*100)/100; }
+function wsMatch(P,e){ const n=latNorm(e.position); if(!n) return null;
+  return P.find(p=>posKey(p.dept,p.position)===posKey(e.dept,e.position))||P.find(p=>latNorm(p.position)===n)||P.find(p=>{ const m=latNorm(p.position); return m&&m.length>3&&(m.includes(n)||n.includes(m)); })||null; }
+const WS_MATCHED=new WeakSet();
+function wsField(html,k,repl){ const re=new RegExp(`<div class="field[^"]*"><label for="ef_${k}">[^<]*</label>(?:<input id="ef_${k}"[^>]*>|<select id="ef_${k}"[\\s\\S]*?</select>)</div>`); return html.replace(re,repl); }
+function wsSel(k,l,opts,cur,ph){ cur=cur==null?"":String(cur); const has=opts.some(o=>o.v===cur);
+  return `<div class="field"><label for="ef_${k}">${l}</label><select id="ef_${k}" name="${k}" data-ws="${k}">${!has&&!cur&&ph?`<option value="" selected>${esc(ph)}</option>`:""}${!has&&cur?`<option value="${esc(cur)}" selected>${esc(cur)} — штатда йўқ</option>`:""}${opts.map(o=>`<option value="${esc(o.v)}" ${o.v===cur?"selected":""}>${esc(o.t)}</option>`).join("")}</select></div>`; }
+{ const _ef93=empForm; empForm=function(f,e){
+    if(!f||!e) return _ef93(f,e);
+    if(e.fio) e.fio=uzLatUp(e.fio); if(e.pinfl) e.inps=e.pinfl;
+    const P=firmPos(f.id);
+    if(P.length&&V.mbFile&&V.mbFile.empId===e.id&&!WS_MATCHED.has(e)){ WS_MATCHED.add(e); const hit=wsMatch(P,e); if(hit){ e.branch=hit.branch||""; e.dept=hit.dept||""; e.position=hit.position; if(!num(e.salary)&&num(hit.salary)) e.salary=String(num(hit.salary)); } }
+    let h=_ef93(f,e);
+    h=h.replace('<input id="ef_inps"','<input id="ef_inps" readonly title="ЖШШИР билан бир хил тўлдирилади"').replace('>ИНПС (жамғариб бориладиган пенсия) рақами<','>ИНПС рақами (= ЖШШИР)<').replace('<input id="ef_fio"','<input id="ef_fio" autocapitalize="characters" placeholder="KARIMOV ALISHER VALIYEVICH"');
+    if(V.mbFile&&V.mbFile.empId===e.id&&aiOn()) h=h.replace("</h2>",`</h2><div class="note-box">Кўчирма маълумотлари нотўғри ёки тўлиқ ўқилмаган бўлса: <button type="button" class="btn sm" data-act="mbAiRe">✦ Claude билан қайта ўқиш</button></div>`);
+    if(!P.length) return wsField(h,"branch",m=>`<div class="field wide"><p class="hint">Иш жойини штатдан танлаш учун аввал «Штат жадвали»ни тузинг — ҳозир майдонлар қўлда тўлдирилади.</p></div>`+m);
+    const brs=[...new Set(P.map(p=>String(p.branch||"").trim()).filter(Boolean))];
+    const inBr=p=>!brs.length||wsK(p.branch)===wsK(e.branch);
+    const depts=[...new Set(P.filter(inBr).map(p=>String(p.dept||"").trim()))];
+    const poss=P.filter(p=>inBr(p)&&wsK(p.dept)===wsK(e.dept));
+    const cur=poss.find(p=>wsK(p.position)===wsK(e.position)); const free=cur?wsFree(f.id,cur,e.id):null;
+    const rates=free!=null&&free>0?WS_RATES.filter(r=>uN(r)<=free+1e-9):WS_RATES;
+    if(brs.length) h=wsField(h,"branch",wsSel("branch","Алоҳида бўлинма (филиал)",[{v:"",t:"— асосий (бош офис) —"},...brs.map(b=>({v:b,t:b}))],e.branch||""));
+    h=wsField(h,"dept",wsSel("dept","Бўлим",depts.map(d=>({v:d,t:d||"— бўлимсиз —"})),e.dept,"— бўлимни танланг —"));
+    h=wsField(h,"position",wsSel("position","Лавозим *",poss.map(p=>({v:p.position,t:`${p.position} — бўш: ${String(wsFree(f.id,p,e.id)).replace(".",",")}`})),e.position,poss.length?"— лавозимни танланг —":"— бу бўлимда штат лавозими йўқ —"));
+    h=wsField(h,"rate",m=>wsSel("rate","Ставка",rates.map(r=>({v:r,t:r})),e.rate||"1")+`<div class="field wide2"><div class="hint">${cur?(free>0?`Штат бўйича бўш ставка: <b>${String(free).replace(".",",")}</b>${num(cur.salary)?` · маош ${m0(num(cur.salary))} сўм`:""}`:`<span class="err">⚠ «${esc(cur.position)}» лавозимида бўш ставка йўқ (штат: ${String(uN(cur.units||1)).replace(".",",")}).</span>`):e.position?kcVacancy(f.id,e.dept,e.position,e.rate,e.id):"Бўлим ва лавозимни штат жадвалидан танланг — маош ўзи тушади."}</div></div>`);
+    return h; }; }
+document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.closest("#empForm")||!V.empEdit) return; const d=V.empEdit;
+  if(t.id==="ef_fio"){ d.fio=uzLatUp(t.value); t.value=d.fio; return; }
+  if(!t.dataset.ws) return; const f=firm(V.firmId); if(!f) return; d[t.name]=t.value; const P=firmPos(f.id);
+  const brs=[...new Set(P.map(p=>String(p.branch||"").trim()).filter(Boolean))], inBr=p=>!brs.length||wsK(p.branch)===wsK(d.branch);
+  if(t.name==="branch"){ if(!P.some(p=>inBr(p)&&wsK(p.dept)===wsK(d.dept))) d.dept=""; }
+  if(t.name==="branch"||t.name==="dept"){ const ps=P.filter(p=>inBr(p)&&wsK(p.dept)===wsK(d.dept)); if(!ps.some(p=>wsK(p.position)===wsK(d.position))) d.position=ps.length===1?ps[0].position:""; }
+  const p=P.find(x=>inBr(x)&&wsK(x.dept)===wsK(d.dept)&&wsK(x.position)===wsK(d.position));
+  if(p&&t.name!=="rate"){ if(num(p.salary)) d.salary=String(num(p.salary)); const fr=wsFree(f.id,p,d.id); if(fr>0&&uN(d.rate||1)>fr+1e-9) d.rate=WS_RATES.find(r=>uN(r)<=fr+1e-9)||d.rate; }
+  setTimeout(rerenderForm,0); },true);
+document.addEventListener("input",e=>{ const t=e.target; if(t.id!=="ef_pinfl"||!V.empEdit) return; const v=String(t.value||"").replace(/\D/g,""); V.empEdit.inps=v; const el=document.getElementById("ef_inps"); if(el) el.value=v; },true);
+document.addEventListener("submit",e=>{ if(e.target.id!=="empForm"||!V.empEdit) return; const d=V.empEdit; d.fio=uzLatUp(d.fio); if(d.pinfl) d.inps=String(d.pinfl).replace(/\D/g,""); },true);
+
+/* --- 3. Тугмалар: Claude билан юклаш, оммавий лотинчага ўтказиш --- */
+const hrLatNeed=fid=>firmEmps(fid).filter(e=>(e.fio&&e.fio!==uzLatUp(e.fio))||(e.pinfl&&e.inps!==e.pinfl));
+{ const _vs93=vStaff; vStaff=function(f){ let h=_vs93(f); if(!f) return h;
+    if(aiOn()) h=h.replace('<label class="btn ctup" title="my.mehnat.uz',`<button type="button" class="btn" data-act="mbAi" title="Кўчирмани Claude ўқийди: скан, сифатсиз ёки нотўғри ўқилган PDF учун">✦ Меҳнат дафтарчаси (Claude)</button><label class="btn ctup" title="my.mehnat.uz`);
+    const n=hrLatNeed(f.id).length; if(n&&(!V.hrSub||V.hrSub==="list")&&!V.empEdit&&!V.empId) h=h.replace('<button type="button" class="btn primary" data-act="newEmp">',`<button type="button" class="btn" data-act="hrLatAll" title="Ф.И.О. катта лотин ҳарфларига, ИНПС ЖШШИР билан бир хил қилинади">Ф.И.О.ни лотинчага ўтказиш (${n})</button><button type="button" class="btn primary" data-act="newEmp">`);
+    return h; }; }
+document.addEventListener("click",async e=>{ const lb=e.target.closest&&e.target.closest("label"); if(lb&&lb.querySelector("#mbFile")&&e.target.id!=="mbFile") V.mbAi=false;
+  const b=e.target.closest&&e.target.closest('[data-act="mbAi"],[data-act="mbAiRe"],[data-act="hrLatAll"]'); if(!b) return; e.stopPropagation(); e.preventDefault(); const a=b.dataset.act; const f=firm(V.firmId); if(!f) return;
+  if(a==="mbAi"){ V.mbAi=true; const el=document.getElementById("mbFile"); if(el) el.click(); return; }
+  if(a==="mbAiRe"){ const M=V.mbFile, d=V.empEdit; if(!M||!d) return; b.disabled=true; b.textContent="✦ ўқилмоқда…";
+    try{ const r=await mbAiRead(M.file); ["fio","pinfl","passport","birth","gender","inn"].forEach(k=>{ if(r[k]) d[k]=r[k]; }); if(r.pinfl) d.inps=r.pinfl; if(r.hist.length) d.workHist=r.hist; d.mbDoc={no:r.docNo||d.mbDoc?.no||"",date:r.docDate||d.mbDoc?.date||""};
+      const mine=r.hist.filter(h=>mbMatch(f,h)).pop(); if(mine&&!S.emp.some(x=>x.id===d.id)){ if(mine.from) d.hireDate=mine.from; if(mine.pos){ d.position=mine.pos; d.dept=mine.dept&&!/^umumiy$/i.test(mine.dept)?mine.dept:""; WS_MATCHED.delete(d); } }
+      V.mbMsg="✦ Claude кўчирмани қайта ўқиди — маълумотларни текшириб «Сақлаш»ни босинг."; toast("Claude ўқиди — текширинг"); }
+    catch(er){ toast("Claude: "+explain(er)); }
+    return rerenderForm(); }
+  if(a==="hrLatAll"){ const L=hrLatNeed(f.id); if(!L.length) return; if(!confirm(`${L.length} та ходимнинг Ф.И.О.си катта лотин ҳарфларига ўтказилади ва ИНПС ЖШШИР билан бир хил қилинади. Давом этилсинми?`)) return;
+    b.disabled=true; taskStart("Ф.И.О. лотинчага ўтказилмоқда",L.length); let n=0;
+    try{ for(let i=0;i<L.length;i++){ taskStep(i,L[i].fio||""); await attPut("emp",L[i].id,x=>{ x.fio=uzLatUp(x.fio); if(x.pinfl) x.inps=x.pinfl; },`Ходим: Ф.И.О. лотинчага ўтказилди (${uzLatUp(L[i].fio)})`); n++; } }
+    catch(er){ toast(explain(er)); } finally{ taskEnd(); }
+    toast(`${n} та ходим янгиланди`); return render(); }
+},true);
+
+/* PDF буйруқ: кириллча номни лотинча Ф.И.О. билан ҳам топиш */
+const fioN=s=>uzLatUp(s).toLowerCase().replace(/[^a-z0-9]/g,"");
+{ const _ox=ordxFromAi; ordxFromAi=function(f,x){ const r=_ox(f,x); if(r&&!r.emp&&r.fio){ const n=fioN(r.fio); const e=n.length>5&&firmEmps(f.id).find(z=>{ const m=fioN(z.fio); return m&&(m===n||m.startsWith(n.slice(0,12))||n.startsWith(m.slice(0,12))); }); if(e) r.emp=e.id; } return r; }; }
+
 function vFirm(){
   const f=firm(V.firmId); if(!f){ V.view="home"; return vHome(); }
   const os=firmOrders(f.id);
@@ -12058,8 +12148,8 @@ document.addEventListener("click", async e=>{
   if(a==="delPos"){ const p=V.posEdit; if(!p) return; try{ await delItem("emp",p.id,`Штат жадвалидан ўчирилди: ${p.position}`); }catch(err){ toast(explain(err)); return; } toast("Лавозим ўчирилди"); return go({posEdit:null}); }
   if(a==="shtatPrint"){ const f=firm(V.firmId); if(!f) return; $("#printArea").innerHTML=shtatSheet(f); window.print(); return; }
   if(a==="hrImpCancel") return go({hrImport:null});
-  if(a==="hrImpSave"){ const f=firm(V.firmId); if(!f||!V.hrImport) return; const ex=firmEmps(f.id); const list=hrImportRows().filter(o=>!ex.find(e=>(o.pinfl&&e.pinfl===o.pinfl)||(e.fio||"").toLowerCase()===o.fio.toLowerCase()));
-    t.disabled=true; let n=0; for(const o of list){ t.textContent=`Сақланмоқда… ${n}/${list.length}`; try{ await putItem("emp",{id:uid(),firmId:f.id,type:"emp",status:"active",rate:"1",vacDays:"21",contractType:"номуайян",vacs:[],hist:[],...o,createdAt:Date.now()},`Ходим 1С/Excel'дан юкланди: ${o.fio}`); n++; }catch(err){ toast(explain(err)); if(err instanceof AuthErr) break; } }
+  if(a==="hrImpSave"){ const f=firm(V.firmId); if(!f||!V.hrImport) return; const ex=firmEmps(f.id); const list=hrImportRows().filter(o=>!ex.find(e=>(o.pinfl&&e.pinfl===o.pinfl)||uzLatUp(e.fio)===uzLatUp(o.fio)));
+    t.disabled=true; let n=0; for(const o of list){ t.textContent=`Сақланмоқда… ${n}/${list.length}`; try{ await putItem("emp",{id:uid(),firmId:f.id,type:"emp",status:"active",rate:"1",vacDays:"21",contractType:"номуайян",vacs:[],hist:[],...o,fio:uzLatUp(o.fio),...(o.pinfl?{inps:o.pinfl}:{}),createdAt:Date.now()},`Ходим 1С/Excel'дан юкланди: ${o.fio}`); n++; }catch(err){ toast(explain(err)); if(err instanceof AuthErr) break; } }
     toast(n+" та ходим қўшилди"); return go({hrImport:null,hrSub:"list"}); }
   if(a==="rateAll"){ if(DEMO){ toast("Демо режимда рейтинг янгиланмайди"); return; } t.disabled=true; t.textContent="Текширилмоқда…"; try{ await refreshRatings(); }catch(e){ toast(e.message||String(e)); } return render(); }
   if(a==="rateOne"){ const f=firm(V.firmId); if(!f) return; if(!/^\d{9}$/.test(String(f.inn||"").trim())){ toast("Аввал фирманинг 9 рақамли СТИРини киритинг"); return; }
